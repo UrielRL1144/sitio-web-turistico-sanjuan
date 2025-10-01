@@ -175,7 +175,7 @@ const RatingStatsDialog = ({ placeId, placeName, stats, variant = "default", the
   placeName: string;
   stats: any;
   variant?: "default" | "primary" | "secondary";
-  theme?: "default" | "nature" | "beach" | "cultural";
+theme?: "default" | "nature" | "waterfall" | "cultural" | "history" | "bridge" | "viewpoint" | "trail" | "montain" | "river" | "path";
 }) => {
   if (!stats) return null;
 
@@ -188,13 +188,41 @@ const RatingStatsDialog = ({ placeId, placeName, stats, variant = "default", the
       primary: "bg-gradient-to-r from-green-500 to-emerald-600 text-white shadow-md hover:from-green-600 hover:to-emerald-700",
       secondary: "bg-green-200 text-green-800 hover:bg-green-300"
     },
-    beach: {
+    waterfall: {
       primary: "bg-gradient-to-r from-blue-500 to-cyan-600 text-white shadow-md hover:from-blue-600 hover:to-cyan-700",
       secondary: "bg-blue-200 text-blue-800 hover:bg-blue-300"
     },
     cultural: {
       primary: "bg-gradient-to-r from-amber-500 to-orange-600 text-white shadow-md hover:from-amber-600 hover:to-orange-700",
       secondary: "bg-amber-200 text-amber-800 hover:bg-amber-300"
+    },
+    history: {
+      primary: "bg-gradient-to-r from-purple-500 to-pink-600 text-white shadow-md hover:from-purple-600 hover:to-pink-700",
+      secondary: "bg-purple-200 text-purple-800 hover:bg-purple-300"
+    },
+    bridge: {
+      primary: "bg-gradient-to-r from-gray-700 to-gray-900 text-white shadow-md hover:from-gray-800 hover:to-black",
+      secondary: "bg-gray-200 text-gray-800 hover:bg-gray-300"
+    },
+    viewpoint: {
+      primary: "bg-gradient-to-r from-yellow-500 to-red-600 text-white shadow-md hover:from-yellow-600 hover:to-red-700",
+      secondary: "bg-yellow-200 text-yellow-800 hover:bg-yellow-300"
+    },
+    trail: {
+      primary: "bg-gradient-to-r from-teal-500 to-cyan-600 text-white shadow-md hover:from-teal-600 hover:to-cyan-700",
+      secondary: "bg-teal-200 text-teal-800 hover:bg-teal-300"
+    },
+    montain: {
+      primary: "bg-gradient-to-r from-gray-600 to-gray-800 text-white shadow-md hover:from-gray-700 hover:to-black",
+      secondary: "bg-gray-200 text-gray-800 hover:bg-gray-300"
+    },
+    river: {
+      primary: "bg-gradient-to-r from-blue-600 to-blue-800 text-white shadow-md hover:from-blue-700 hover:to-black",
+      secondary: "bg-blue-200 text-blue-800 hover:bg-blue-300"
+    },
+    path: {
+      primary: "bg-gradient-to-r from-teal-500 to-cyan-600 text-white shadow-md hover:from-teal-600 hover:to-cyan-700",
+      secondary: "bg-teal-200 text-teal-800 hover:bg-teal-300"
     }
   };
 
@@ -316,7 +344,7 @@ const ImageModal = ({
 
 // Componente de invitación para valoraciones
 const RatingInvitationBanner = ({ theme, onLoginRedirect }: { 
-  theme: 'default' | 'nature' | 'beach' | 'cultural'; 
+  theme: 'default' | 'nature' | 'waterfall' | 'cultural' | 'history' | 'bridge' | 'viewpoint' | 'trail' | 'montain' | 'river' | 'path'; 
   onLoginRedirect: () => void;
 }) => {
   const themeClasses = {
@@ -330,7 +358,7 @@ const RatingInvitationBanner = ({ theme, onLoginRedirect }: {
       border: 'border-green-200/30',
       button: 'bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700'
     },
-    beach: {
+    waterfall: {
       bg: 'bg-gradient-to-r from-blue-100/80 via-cyan-100/80 to-sky-100/80',
       border: 'border-blue-200/30',
       button: 'bg-gradient-to-r from-blue-500 to-cyan-600 hover:from-blue-600 hover:to-cyan-700'
@@ -339,6 +367,41 @@ const RatingInvitationBanner = ({ theme, onLoginRedirect }: {
       bg: 'bg-gradient-to-r from-amber-100/80 via-orange-100/80 to-red-100/80',
       border: 'border-amber-200/30',
       button: 'bg-gradient-to-r from-amber-500 to-orange-600 hover:from-amber-600 hover:to-orange-700'
+    },
+    history: {
+      bg: 'bg-gradient-to-r from-purple-100/80 via-pink-100/80 to-red-100/80',
+      border: 'border-purple-200/30',
+      button: 'bg-gradient-to-r from-purple-500 to-pink-600 hover:from-purple-600 hover:to-pink-700'
+    },
+    bridge: {
+      bg: 'bg-gradient-to-r from-gray-100/80 via-gray-200/80 to-gray-300/80',
+      border: 'border-gray-200/30',
+      button: 'bg-gradient-to-r from-gray-700 to-gray-900 hover:from-gray-800 hover:to-black'
+    },
+    viewpoint: {
+      bg: 'bg-gradient-to-r from-yellow-100/80 via-orange-100/80 to-red-100/80',
+      border: 'border-yellow-200/30',
+      button: 'bg-gradient-to-r from-yellow-500 to-red-600 hover:from-yellow-600 hover:to-red-700'  
+    },
+    trail: {
+      bg: 'bg-gradient-to-r from-teal-100/80 via-cyan-100/80 to-sky-100/80',
+      border: 'border-teal-200/30',
+      button: 'bg-gradient-to-r from-teal-500 to-cyan-600 hover:from-teal-600 hover:to-cyan-700'
+    },
+    montain: {
+      bg: 'bg-gradient-to-r from-gray-100/80 via-gray-200/80 to-gray-300/80',
+      border: 'border-gray-200/30',
+      button: 'bg-gradient-to-r from-gray-600 to-gray-800 hover:from-gray-700 hover:to-black'
+    },
+    river: {
+      bg: 'bg-gradient-to-r from-blue-100/80 via-blue-200/80 to-blue-300/80',
+      border: 'border-blue-200/30',
+      button: 'bg-gradient-to-r from-blue-600 to-blue-800 hover:from-blue-700 hover:to-black'
+    },
+    path: {
+      bg: 'bg-gradient-to-r from-teal-100/80 via-cyan-100/80 to-sky-100/80',
+      border: 'border-teal-200/30',
+      button: 'bg-gradient-to-r from-teal-500 to-cyan-600 hover:from-teal-600 hover:to-cyan-700'
     }
   };
 
@@ -392,7 +455,7 @@ const Places = () => {
   const [userRatings, setUserRatings] = useState<Record<string, number>>({});
   const [ratingStats, setRatingStats] = useState<Record<string, any>>({});
   const [selectedImage, setSelectedImage] = useState<{ src: string; alt: string } | null>(null);
-  const [theme, setTheme] = useState<'default' | 'nature' | 'beach' | 'cultural'>('default');
+  const [theme, setTheme] = useState<'default' | 'nature' | 'waterfall' | 'cultural' | 'history' | 'bridge' | 'viewpoint' | 'trail' | 'montain' | 'river' | 'path'>('default');
 
   const handleLoginRedirect = () => {
     navigate('/login');
@@ -404,10 +467,24 @@ const Places = () => {
       const categories = places.map(p => p.category?.toLowerCase());
       if (categories.some(cat => cat?.includes('naturaleza') || cat?.includes('nature'))) {
         setTheme('nature');
-      } else if (categories.some(cat => cat?.includes('playa') || cat?.includes('beach'))) {
-        setTheme('beach');
+      } else if (categories.some(cat => cat?.includes('cascada') || cat?.includes('waterfall'))) {
+        setTheme('waterfall');
       } else if (categories.some(cat => cat?.includes('cultura') || cat?.includes('cultural'))) {
         setTheme('cultural');
+      } else if (categories.some(cat => cat?.includes('historia') || cat?.includes('history'))) {
+        setTheme('history');
+      } else if (categories.some(cat => cat?.includes('puente') || cat?.includes('bridge'))) {
+        setTheme('bridge');
+      } else if (categories.some(cat => cat?.includes('mirador') || cat?.includes('viewpoint'))) {
+        setTheme('viewpoint');
+      } else if (categories.some(cat => cat?.includes('sendero') || cat?.includes('trail'))) {
+        setTheme('trail');
+      } else if (categories.some(cat => cat?.includes('ruta') || cat?.includes('path'))) {
+        setTheme('path');
+      } else if (categories.some(cat => cat?.includes('montaña') || cat?.includes('montain'))) {
+        setTheme('montain');
+      } else if (categories.some(cat => cat?.includes('río') || cat?.includes('river'))) {
+        setTheme('river');
       } else {
         setTheme('default');
       }
@@ -427,7 +504,7 @@ const Places = () => {
       alert: 'bg-green-50 text-green-800 border-green-200',
       button: 'bg-gradient-to-r from-green-500 to-emerald-600 text-white hover:from-green-600 hover:to-emerald-700'
     },
-    beach: {
+    waterfall: {
       bg: 'bg-blue-50',
       text: 'text-blue-900',
       alert: 'bg-blue-50 text-blue-800 border-blue-200',
@@ -438,6 +515,48 @@ const Places = () => {
       text: 'text-amber-900',
       alert: 'bg-amber-50 text-amber-800 border-amber-200',
       button: 'bg-gradient-to-r from-amber-500 to-orange-600 text-white hover:from-amber-600 hover:to-orange-700'
+    },
+    path: {
+      bg: 'bg-teal-50',
+      text: 'text-teal-900',
+      alert: 'bg-teal-50 text-teal-800 border-teal-200',
+      button: 'bg-gradient-to-r from-teal-500 to-cyan-600 text-white hover:from-teal-600 hover:to-cyan-700'
+    },
+    history: {
+      bg: 'bg-purple-50',
+      text: 'text-purple-900',
+      alert: 'bg-purple-50 text-purple-800 border-purple-200',
+      button: 'bg-gradient-to-r from-purple-500 to-pink-600 text-white hover:from-purple-600 hover:to-pink-700'
+    },
+    bridge: {
+      bg: 'bg-gray-50',
+      text: 'text-gray-900',
+      alert: 'bg-gray-50 text-gray-800 border-gray-200',
+      button: 'bg-gradient-to-r from-gray-700 to-gray-900 text-white hover:from-gray-800 hover:to-black'
+    },
+    viewpoint: {
+      bg: 'bg-yellow-50',
+      text: 'text-yellow-900',
+      alert: 'bg-yellow-50 text-yellow-800 border-yellow-200',
+      button: 'bg-gradient-to-r from-yellow-500 to-red-600 text-white hover:from-yellow-600 hover:to-red-700'
+    },
+    trail: {
+      bg: 'bg-teal-50',
+      text: 'text-teal-900',
+      alert: 'bg-teal-50 text-teal-800 border-teal-200',
+      button: 'bg-gradient-to-r from-teal-500 to-cyan-600 text-white hover:from-teal-600 hover:to-cyan-700'
+    },
+    montain: {
+      bg: 'bg-gray-50', 
+      text: 'text-gray-900',
+      alert: 'bg-gray-50 text-gray-800 border-gray-200',
+      button: 'bg-gradient-to-r from-gray-600 to-gray-800 text-white hover:from-gray-700 hover:to-black'
+    },
+    river: {
+      bg: 'bg-blue-50',
+      text: 'text-blue-900',
+      alert: 'bg-blue-50 text-blue-800 border-blue-200',
+      button: 'bg-gradient-to-r from-blue-600 to-blue-800 text-white hover:from-blue-700 hover:to-black'
     }
   };
 
@@ -527,10 +646,22 @@ const Places = () => {
       return 'bg-green-500 text-white';
     if (categoryLower.includes('cultura') || categoryLower.includes('culture')) 
       return 'bg-amber-500 text-white';  
-    if (categoryLower.includes('playa') || categoryLower.includes('beach')) 
+    if (categoryLower.includes('cascada') || categoryLower.includes('waterfall')) 
       return 'bg-blue-500 text-white';
     if (categoryLower.includes('historia') || categoryLower.includes('history')) 
       return 'bg-purple-500 text-white';
+    if (categoryLower.includes('puente') || categoryLower.includes('bridge')) 
+      return 'bg-red-700 text-white';
+    if (categoryLower.includes('mirador') || categoryLower.includes('viewpoint')) 
+      return 'bg-yellow-500 text-white';
+    if (categoryLower.includes('sendero') || categoryLower.includes('trail')) 
+      return 'bg-teal-500 text-white';
+    if (categoryLower.includes('montaña') || categoryLower.includes('montain')) 
+      return 'bg-gray-600 text-white';
+    if (categoryLower.includes('río') || categoryLower.includes('river')) 
+      return 'bg-blue-600 text-white';
+    if (categoryLower.includes('ruta') || categoryLower.includes('path'))
+      return 'bg-teal-500 text-white';
     return 'bg-gray-500 text-white';
   };
 
@@ -812,8 +943,15 @@ return (
                         "w-full shadow-md hover:shadow-lg transition-all duration-300",
                         theme === 'default' && "bg-gradient-to-r from-blue-500 to-indigo-600 text-white hover:from-blue-600 hover:to-indigo-700",
                         theme === 'nature' && "bg-gradient-to-r from-green-500 to-emerald-600 text-white hover:from-green-600 hover:to-emerald-700",
-                        theme === 'beach' && "bg-gradient-to-r from-blue-500 to-cyan-600 text-white hover:from-blue-600 hover:to-cyan-700",
-                        theme === 'cultural' && "bg-gradient-to-r from-amber-500 to-orange-600 text-white hover:from-amber-600 hover:to-orange-700"
+                        theme === 'waterfall' && "bg-gradient-to-r from-blue-500 to-cyan-600 text-white hover:from-blue-600 hover:to-cyan-700",
+                        theme === 'cultural' && "bg-gradient-to-r from-amber-500 to-orange-600 text-white hover:from-amber-600 hover:to-orange-700",
+                        theme === 'history' && "bg-gradient-to-r from-purple-500 to-pink-600 text-white hover:from-purple-600 hover:to-pink-700",
+                        theme === 'bridge' && "bg-gradient-to-r from-gray-700 to-gray-900 text-white hover:from-gray-800 hover:to-black",
+                        theme === 'viewpoint' && "bg-gradient-to-r from-yellow-500 to-red-600 text-white hover:from-yellow-600 hover:to-red-700",
+                        theme === 'trail' && "bg-gradient-to-r from-teal-500 to-cyan-600 text-white hover:from-teal-600 hover:to-cyan-700",
+                        theme === 'montain' && "bg-gradient-to-r from-gray-600 to-gray-800 text-white hover:from-gray-700 hover:to-black",
+                        theme === 'river' && "bg-gradient-to-r from-blue-600 to-blue-800 text-white hover:from-blue-700 hover:to-black",
+                        theme === 'path' && "bg-gradient-to-r from-teal-500 to-cyan-600 text-white hover:from-teal-600 hover:to-cyan-700"
                       )}
                     >
                       Ver Detalles
