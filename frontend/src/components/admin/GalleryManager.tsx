@@ -1,0 +1,474 @@
+// components/admin/GalleryManager.tsx
+import { useState, useEffect, useRef } from 'react';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import { Card, CardContent } from '@/components/ui/card';
+import { Badge } from '@/components/ui/badge';
+import { Label } from '@/components/ui/label';
+import { 
+  Loader2, 
+  Upload, 
+  X, 
+  Star, 
+  Trash2, 
+  Image as ImageIcon,
+  Plus,
+  Grid3X3
+} from 'lucide-react';
+import { useToast } from '@/hooks/use-toast';
+import { cn } from '@/lib/utils';
+import { motion, AnimatePresence } from 'framer-motion';
+
+interface GalleryImage {
+  id: string;
+  url_foto: string;
+  descripcion: string;
+  es_principal: boolean;
+  orden: number;
+  creado_en: string;
+}
+
+interface GalleryManagerProps {
+  placeId: string;
+  placeName: string;
+  isOpen: boolean;
+  onClose: () => void;
+  onGalleryUpdate?: () => void;
+}
+
+// Función para construir URLs de imágenes
+const buildImageUrl = (imagePath: string | null | undefined): string => {
+  if (!imagePath) return '/placeholder.svg';
+  
+  if (imagePath.startsWith('http')) {
+    return imagePath;
+  }
+  
+  const backendUrl = import.meta.env.VITE_API_URL || 'http://localhost:4000';
+  const normalizedPath = imagePath.startsWith('/') ? imagePath : `/${imagePath}`;
+  
+  return `${backendUrl}${normalizedPath}`;
+};
+
+export const GalleryManager = ({ 
+  placeId, 
+  placeName, 
+  isOpen, 
+  onClose,
+  onGalleryUpdate 
+}: GalleryManagerProps) => {
+  const [images, setImages] = useState<GalleryImage[]>([]);
+  const [loading, setLoading] = useState(false);
+  const [uploading, setUploading] = useState(false);
+  const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
+  const fileInputRef = useRef<HTMLInputElement>(null);
+  const { toast } = useToast();
+
+  // Cargar galería cuando se abre el diálogo
+  useEffect(() => {
+    if (isOpen && placeId) {
+      loadGallery();
+    }
+  }, [isOpen, placeId]);
+
+  const loadGallery = async () => {
+    try {
+      setLoading(true);
+      const response = await fetch(`/api/lugares/${placeId}/galeria`);
+      
+      if (!response.ok) {
+        throw new Error('Error al cargar la galería');
+      }
+      
+      const data = await response.json();
+      setImages(data.imagenes || []);
+    } catch (error) {
+      console.error('Error loading gallery:', error);
+      toast({
+        title: '❌ Error',
+        description: 'No se pudo cargar la galería de imágenes',
+        variant: 'destructive',
+      });
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleFileSelect = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const files = Array.from(event.target.files || []);
+    
+    // Validar archivos
+    const validFiles = files.filter(file => {
+      const allowedTypes = ['image/jpeg', 'image/png', 'image/webp', 'image/jpg'];
+      const maxSize = 5 * 1024 * 1024; // 5MB
+      
+      if (!allowedTypes.includes(file.type)) {
+        toast({
+          title: 'Tipo de archivo no válido',
+          description: `${file.name} no es una imagen válida (JPEG, PNG, WebP)`,
+          variant: 'destructive',
+        });
+        return false;
+      }
+      
+      if (file.size > maxSize) {
+        toast({
+          title: 'Archivo muy grande',
+          description: `${file.name} excede el tamaño máximo de 5MB`,
+          variant: 'destructive',
+        });
+        return false;
+      }
+      
+      return true;
+    });
+    
+    setSelectedFiles(prev => [...prev, ...validFiles]);
+    event.target.value = ''; // Reset input
+  };
+
+  const removeSelectedFile = (index: number) => {
+    setSelectedFiles(prev => prev.filter((_, i) => i !== index));
+  };
+
+  const uploadImages = async () => {
+    if (selectedFiles.length === 0) return;
+
+    try {
+      setUploading(true);
+      const formData = new FormData();
+      
+      selectedFiles.forEach(file => {
+        formData.append('imagenes', file);
+      });
+
+      const response = await fetch(`/api/lugares/${placeId}/imagenes`, {
+        method: 'POST',
+        body: formData,
+      });
+
+      if (!response.ok) {
+        throw new Error('Error al subir imágenes');
+      }
+
+      const result = await response.json();
+      
+      toast({
+        title: '✅ Éxito',
+        description: `${selectedFiles.length} imágenes agregadas a la galería`,
+      });
+
+      setSelectedFiles([]);
+      await loadGallery();
+      onGalleryUpdate?.();
+
+    } catch (error) {
+      console.error('Error uploading images:', error);
+      toast({
+        title: '❌ Error',
+        description: 'No se pudieron subir las imágenes',
+        variant: 'destructive',
+      });
+    } finally {
+      setUploading(false);
+    }
+  };
+
+  const setAsMainImage = async (imageId: string) => {
+    try {
+      const response = await fetch(`/api/lugares/${placeId}/galeria/${imageId}/principal`, {
+        method: 'PUT',
+      });
+
+      if (!response.ok) {
+        throw new Error('Error al establecer imagen principal');
+      }
+
+      toast({
+        title: '✅ Éxito',
+        description: 'Imagen establecida como principal',
+      });
+
+      await loadGallery();
+      onGalleryUpdate?.();
+
+    } catch (error) {
+      console.error('Error setting main image:', error);
+      toast({
+        title: '❌ Error',
+        description: 'No se pudo establecer como imagen principal',
+        variant: 'destructive',
+      });
+    }
+  };
+
+  const deleteImage = async (imageId: string) => {
+    // No permitir eliminar la imagen principal si es la única
+    const imageToDelete = images.find(img => img.id === imageId);
+    const mainImages = images.filter(img => img.es_principal);
+    
+    if (imageToDelete?.es_principal && mainImages.length === 1) {
+      toast({
+        title: '❌ Error',
+        description: 'No se puede eliminar la única imagen principal',
+        variant: 'destructive',
+      });
+      return;
+    }
+
+    try {
+      const response = await fetch(`/api/lugares/${placeId}/galeria/${imageId}`, {
+        method: 'DELETE',
+      });
+
+      if (!response.ok) {
+        throw new Error('Error al eliminar imagen');
+      }
+
+      toast({
+        title: '✅ Éxito',
+        description: 'Imagen eliminada de la galería',
+      });
+
+      await loadGallery();
+      onGalleryUpdate?.();
+
+    } catch (error) {
+      console.error('Error deleting image:', error);
+      toast({
+        title: '❌ Error',
+        description: 'No se pudo eliminar la imagen',
+        variant: 'destructive',
+      });
+    }
+  };
+
+  const handleDragStart = (e: React.DragEvent, imageId: string) => {
+    e.dataTransfer.setData('imageId', imageId);
+  };
+
+  const handleDragOver = (e: React.DragEvent) => {
+    e.preventDefault();
+  };
+
+  const handleDrop = async (e: React.DragEvent, targetIndex: number) => {
+    e.preventDefault();
+    const sourceImageId = e.dataTransfer.getData('imageId');
+    
+    // Aquí podrías implementar reordenamiento si tu API lo soporta
+    console.log('Mover imagen', sourceImageId, 'a posición', targetIndex);
+  };
+
+  return (
+    <Dialog open={isOpen} onOpenChange={onClose}>
+      <DialogContent className="max-w-4xl max-h-[90vh] overflow-hidden bg-slate-900/95 backdrop-blur-sm border border-slate-700 shadow-xl text-white">
+        <DialogHeader className="pb-4 border-b border-slate-700">
+          <DialogTitle className="flex items-center gap-2 text-xl">
+            <Grid3X3 className="h-5 w-5" />
+            Galería de Imágenes - {placeName}
+          </DialogTitle>
+        </DialogHeader>
+
+        <div className="flex flex-col h-[calc(90vh-100px)]">
+          {/* Sección de Subida */}
+          <Card className="mb-6 bg-slate-800/50 border-slate-600">
+            <CardContent className="p-4">
+              <div className="space-y-4">
+                <div>
+                  <Label className="text-sm font-medium">Agregar Imágenes a la Galería</Label>
+                  <p className="text-sm text-slate-400 mt-1">
+                    Puedes seleccionar múltiples imágenes (JPEG, PNG, WebP, máximo 5MB cada una)
+                  </p>
+                </div>
+
+                {/* Archivos seleccionados */}
+                {selectedFiles.length > 0 && (
+                  <div className="space-y-2">
+                    <Label className="text-sm">Imágenes a subir ({selectedFiles.length})</Label>
+                    <div className="grid grid-cols-2 md:grid-cols-4 gap-2 max-h-32 overflow-y-auto">
+                      {selectedFiles.map((file, index) => (
+                        <div
+                          key={index}
+                          className="relative group bg-slate-700 rounded-md p-2"
+                        >
+                          <img
+                            src={URL.createObjectURL(file)}
+                            alt={file.name}
+                            className="w-full h-16 object-cover rounded"
+                          />
+                          <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity rounded flex items-center justify-center">
+                            <Button
+                              variant="ghost"
+                              size="sm"
+                              onClick={() => removeSelectedFile(index)}
+                              className="h-8 w-8 p-0 text-white hover:bg-red-500"
+                            >
+                              <X className="h-4 w-4" />
+                            </Button>
+                          </div>
+                          <p className="text-xs text-slate-300 truncate mt-1">
+                            {file.name}
+                          </p>
+                        </div>
+                      ))}
+                    </div>
+                    
+                    <Button
+                      onClick={uploadImages}
+                      disabled={uploading}
+                      className="w-full bg-green-600 hover:bg-green-700 text-white"
+                    >
+                      {uploading ? (
+                        <>
+                          <Loader2 className="h-4 w-4 animate-spin mr-2" />
+                          Subiendo...
+                        </>
+                      ) : (
+                        <>
+                          <Upload className="h-4 w-4 mr-2" />
+                          Subir {selectedFiles.length} Imágenes
+                        </>
+                      )}
+                    </Button>
+                  </div>
+                )}
+
+                {/* Área de drop */}
+                <div
+                  className={cn(
+                    "border-2 border-dashed rounded-lg p-6 text-center cursor-pointer transition-colors",
+                    selectedFiles.length === 0 
+                      ? "border-slate-500 hover:border-slate-400 bg-slate-800/30 hover:bg-slate-800/50" 
+                      : "border-slate-600 bg-slate-800/20"
+                  )}
+                  onClick={() => fileInputRef.current?.click()}
+                  onDragOver={(e) => e.preventDefault()}
+                  onDrop={(e) => {
+                    e.preventDefault();
+                    const files = Array.from(e.dataTransfer.files);
+                    setSelectedFiles(prev => [...prev, ...files]);
+                  }}
+                >
+                  <Upload className="h-8 w-8 mx-auto text-slate-400 mb-2" />
+                  <p className="text-sm text-slate-300 mb-1">
+                    Arrastra imágenes aquí o haz clic para seleccionar
+                  </p>
+                  <p className="text-xs text-slate-500">
+                    Formatos: JPEG, PNG, WebP • Máximo 5MB por imagen
+                  </p>
+                </div>
+
+                <Input
+                  ref={fileInputRef}
+                  type="file"
+                  multiple
+                  accept="image/jpeg,image/png,image/webp,image/jpg"
+                  onChange={handleFileSelect}
+                  className="hidden"
+                />
+              </div>
+            </CardContent>
+          </Card>
+
+          {/* Galería de Imágenes */}
+          <div className="flex-1 overflow-hidden">
+            <div className="flex items-center justify-between mb-4">
+              <Label className="text-sm font-medium">
+                Galería Actual ({images.length} imágenes)
+              </Label>
+              
+              {loading && (
+                <div className="flex items-center gap-2 text-sm text-slate-400">
+                  <Loader2 className="h-3 w-3 animate-spin" />
+                  Cargando...
+                </div>
+              )}
+            </div>
+
+            {images.length === 0 && !loading ? (
+              <div className="text-center py-12 text-slate-500">
+                <ImageIcon className="h-12 w-12 mx-auto mb-4 opacity-50" />
+                <p className="text-sm">No hay imágenes en la galería</p>
+                <p className="text-xs mt-1">Agrega imágenes usando el formulario de arriba</p>
+              </div>
+            ) : (
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 max-h-96 overflow-y-auto pr-2">
+                <AnimatePresence>
+                  {images.map((image, index) => (
+                    <motion.div
+                      key={image.id}
+                      initial={{ opacity: 0, scale: 0.9 }}
+                      animate={{ opacity: 1, scale: 1 }}
+                      exit={{ opacity: 0, scale: 0.9 }}
+                      className="relative group bg-slate-800 rounded-lg overflow-hidden border border-slate-700"
+                      draggable
+                      onDragStart={(e) => handleDragStart(e, image.id)}
+                      onDragOver={handleDragOver}
+                      onDrop={(e) => handleDrop(e, index)}
+                    >
+                      {/* Imagen */}
+                      <img
+                        src={buildImageUrl(image.url_foto)}
+                        alt={image.descripcion}
+                        className="w-full h-32 object-cover"
+                      />
+
+                      {/* Overlay con acciones */}
+                      <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity flex flex-col justify-between p-2">
+                        {/* Badge de imagen principal */}
+                        {image.es_principal && (
+                          <div className="flex justify-start">
+                            <Badge className="bg-amber-500 text-white text-xs">
+                              <Star className="h-3 w-3 mr-1 fill-current" />
+                              Principal
+                            </Badge>
+                          </div>
+                        )}
+
+                        {/* Acciones */}
+                        <div className="flex justify-center gap-1">
+                          {!image.es_principal && (
+                            <Button
+                              size="sm"
+                              onClick={() => setAsMainImage(image.id)}
+                              className="h-7 px-2 text-xs bg-amber-600 hover:bg-amber-700 text-white"
+                            >
+                              <Star className="h-3 w-3 mr-1" />
+                              Principal
+                            </Button>
+                          )}
+                          
+                          {/* No permitir eliminar si es la única imagen principal */}
+                          {!(image.es_principal && images.filter(img => img.es_principal).length === 1) && (
+                            <Button
+                              size="sm"
+                              onClick={() => deleteImage(image.id)}
+                              className="h-7 px-2 text-xs bg-red-600 hover:bg-red-700 text-white"
+                            >
+                              <Trash2 className="h-3 w-3" />
+                            </Button>
+                          )}
+                        </div>
+                      </div>
+
+                      {/* Info siempre visible */}
+                      <div className="absolute bottom-0 left-0 right-0 bg-black/70 p-2">
+                        <p className="text-xs text-white truncate">
+                          Orden: {image.orden}
+                        </p>
+                        {image.es_principal && (
+                          <Star className="h-3 w-3 text-amber-400 absolute top-2 right-2" />
+                        )}
+                      </div>
+                    </motion.div>
+                  ))}
+                </AnimatePresence>
+              </div>
+            )}
+          </div>
+        </div>
+      </DialogContent>
+    </Dialog>
+  );
+};

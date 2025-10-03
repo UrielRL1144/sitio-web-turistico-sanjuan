@@ -3,6 +3,8 @@ import { useState, useEffect, useRef } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
+import { GalleryManager } from '@/components/admin/GalleryManager';
+import { Grid3X3 } from 'lucide-react'; // Agregar este icono
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import {
@@ -120,14 +122,17 @@ const AdminRating = ({ rating, totalRatings }: { rating: number | null; totalRat
 };
 
 // Componente de Card Mejorada para Lugares
+// Componente de Card Mejorada para Lugares - VERSIÓN CORREGIDA
 const PlaceCard = ({ 
   place, 
   onEdit, 
-  onDelete 
+  onDelete,
+  onManageGallery  // ← Agrega esta prop
 }: { 
   place: Place;
   onEdit: (place: Place) => void;
   onDelete: (place: Place) => void;
+  onManageGallery: (place: Place) => void;  // ← Agrega esta prop
 }) => {
   const [imageLoaded, setImageLoaded] = useState(false);
 
@@ -214,10 +219,14 @@ const PlaceCard = ({
                     <MoreVertical className="h-4 w-4" />
                   </Button>
                 </DropdownMenuTrigger>
-                <DropdownMenuContent align="end" className="w-40 bg-white/90 backdrop-blur-sm border border-white/20 shadow-lg">
+                <DropdownMenuContent align="end" className="w-48 bg-white/90 backdrop-blur-sm border border-white/20 shadow-lg">
                   <DropdownMenuItem onClick={() => onEdit(place)}>
                     <Edit className="h-4 w-4 mr-2" />
-                    Editar
+                    Editar Lugar
+                  </DropdownMenuItem>
+                  <DropdownMenuItem onClick={() => onManageGallery(place)}> {/* ← CORREGIDO */}
+                    <Grid3X3 className="h-4 w-4 mr-2" />
+                    Gestionar Galería
                   </DropdownMenuItem>
                   <DropdownMenuItem 
                     onClick={() => onDelete(place)}
@@ -307,7 +316,8 @@ export const AdminPlaces = () => {
     clearError
   } = useAdminPlaces();
 
-  
+  const [galleryManagerOpen, setGalleryManagerOpen] = useState(false);
+  const [selectedPlaceForGallery, setSelectedPlaceForGallery] = useState<Place | null>(null);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
   const [editingPlace, setEditingPlace] = useState<Place | null>(null);
@@ -521,6 +531,28 @@ const handleEdit = (place: Place) => {
     }
   };
 
+   // NUEVAS FUNCIONES PARA GALLERY MANAGER
+// NUEVAS FUNCIONES PARA GALLERY MANAGER - VERIFICA QUE ESTÉN ASÍ
+const openGalleryManager = (place: Place) => {
+  console.log('🔧 Abriendo GalleryManager para:', place.name);
+  setSelectedPlaceForGallery(place);
+  setGalleryManagerOpen(true);
+};
+
+const closeGalleryManager = () => {
+  console.log('🔧 Cerrando GalleryManager');
+  setGalleryManagerOpen(false);
+  setSelectedPlaceForGallery(null);
+};
+
+const handleGalleryUpdate = () => {
+  console.log('🔄 Actualizando galería, recargando datos...');
+  refetch(); // Recargar la lista de lugares para reflejar cambios
+  toast({
+    title: '✅ Galería actualizada',
+    description: 'Los cambios en la galería se han guardado correctamente',
+  });
+};
   const openDeleteDialog = (place: Place) => {
     setEditingPlace(place);
     setIsDeleteDialogOpen(true);
@@ -996,25 +1028,26 @@ const handleEdit = (place: Place) => {
       )}
 
       {/* Contenido Principal */}
-      <AnimatePresence mode="wait">
-        {viewMode === 'grid' ? (
-          <motion.div
-            key="grid-view"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
-          >
-            {filteredPlaces.map((place) => (
-              <PlaceCard
-                key={place.id}
-                place={place}
-                onEdit={handleEdit}
-                onDelete={openDeleteDialog}
-              />
-            ))}
-          </motion.div>
-        ) : (
+<AnimatePresence mode="wait">
+  {viewMode === 'grid' ? (
+    <motion.div
+      key="grid-view"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
+    >
+      {filteredPlaces.map((place) => (
+        <PlaceCard
+          key={place.id}
+          place={place}
+          onEdit={handleEdit}
+          onDelete={openDeleteDialog}
+          onManageGallery={openGalleryManager} 
+        />
+      ))}
+    </motion.div>
+  ) : (
           <motion.div
             key="table-view"
             initial={{ opacity: 0 }}
@@ -1028,82 +1061,91 @@ const handleEdit = (place: Place) => {
               </CardHeader>
               <CardContent className="p-0">
                 <Table>
-                  <TableHeader className="bg-blue-50/50">
-                    <TableRow>
-                      <TableHead className="text-blue-900 font-semibold">Lugar</TableHead>
-                      <TableHead className="text-blue-900 font-semibold">Categoría</TableHead>
-                      <TableHead className="text-blue-900 font-semibold">Ubicación</TableHead>
-                      <TableHead className="text-blue-900 font-semibold">Calificación</TableHead>
-                      <TableHead className="text-blue-900 font-semibold text-right">Acciones</TableHead>
-                    </TableRow>
-                  </TableHeader>
-                  <TableBody>
-                    {filteredPlaces.map((place) => (
-                      <TableRow key={place.id} className="hover:bg-blue-50/30 transition-colors">
-                        <TableCell>
-                          <div className="flex items-center gap-3">
-                            <div className="w-10 h-10 rounded-md overflow-hidden bg-gradient-to-br from-blue-100 to-indigo-100">
-                              {place.image_url ? (
-                                <img
-                                  src={buildImageUrl(place.image_url)}
-                                  alt={place.name}
-                                  className="w-full h-full object-cover"
-                                />
-                              ) : (
-                                <div className="w-full h-full flex items-center justify-center">
-                                  <MapPin className="h-5 w-5 text-blue-400" />
-                                </div>
-                              )}
-                            </div>
-                            <div>
-                              <div className="font-medium text-gray-900">{place.name}</div>
-                              <div className="text-sm text-gray-500 line-clamp-1">
-                                {place.description || 'Sin descripción'}
-                              </div>
-                            </div>
-                          </div>
-                        </TableCell>
-                        <TableCell>
-                          <Badge variant="secondary" className="bg-blue-100 text-blue-800 border-blue-200">
-                            {place.category || 'Sin categoría'}
-                          </Badge>
-                        </TableCell>
-                        <TableCell>
-                          <div className="flex items-center gap-2 text-sm">
-                            <MapPin className="h-3 w-3 text-blue-500" />
-                            {place.location || 'No especificada'}
-                          </div>
-                        </TableCell>
-                        <TableCell>
-                          <AdminRating 
-                            rating={place.average_rating} 
-                            totalRatings={place.total_ratings} 
-                          />
-                        </TableCell>
-                        <TableCell>
-                          <div className="flex justify-end gap-2">
-                            <Button
-                              variant="ghost"
-                              size="sm"
-                              onClick={() => handleEdit(place)}
-                              className="text-blue-600 hover:text-blue-800 hover:bg-blue-100"
-                            >
-                              <Edit className="h-4 w-4" />
-                            </Button>
-                            <Button
-                              variant="ghost"
-                              size="sm"
-                              onClick={() => openDeleteDialog(place)}
-                              className="text-red-600 hover:text-red-800 hover:bg-red-100"
-                            >
-                              <Trash2 className="h-4 w-4" />
-                            </Button>
-                          </div>
-                        </TableCell>
-                      </TableRow>
-                    ))}
-                  </TableBody>
-                </Table>
+  <TableHeader className="bg-blue-50/50">
+    <TableRow>
+      <TableHead className="text-blue-900 font-semibold">Lugar</TableHead>
+      <TableHead className="text-blue-900 font-semibold">Categoría</TableHead>
+      <TableHead className="text-blue-900 font-semibold">Ubicación</TableHead>
+      <TableHead className="text-blue-900 font-semibold">Calificación</TableHead>
+      <TableHead className="text-blue-900 font-semibold text-right">Acciones</TableHead>
+    </TableRow>
+  </TableHeader>
+  <TableBody>
+    {filteredPlaces.map((place) => (
+      <TableRow key={place.id} className="hover:bg-blue-50/30 transition-colors">
+        {/* ✅ COLUMNA NOMBRE */}
+        <TableCell>
+          <div className="flex items-center gap-3">
+            {place.image_url && (
+              <img 
+                src={buildImageUrl(place.image_url)} 
+                alt={place.name}
+                className="w-10 h-10 object-cover rounded"
+              />
+            )}
+            <div>
+              <div className="font-medium">{place.name}</div>
+              <div className="text-sm text-muted-foreground line-clamp-1">
+                {place.description}
+              </div>
+            </div>
+          </div>
+        </TableCell>
+        
+        {/* ✅ COLUMNA CATEGORÍA */}
+        <TableCell>
+          <Badge variant="secondary">{place.category || 'Sin categoría'}</Badge>
+        </TableCell>
+        
+        {/* ✅ COLUMNA UBICACIÓN */}
+        <TableCell className="max-w-[200px]">
+          <div className="flex items-center gap-1 text-sm">
+            <MapPin className="h-3 w-3" />
+            <span className="truncate">{place.location || 'Sin ubicación'}</span>
+          </div>
+        </TableCell>
+        
+        {/* ✅ COLUMNA CALIFICACIÓN */}
+        <TableCell>
+          <AdminRating 
+            rating={place.average_rating} 
+            totalRatings={place.total_ratings} 
+          />
+        </TableCell>
+        
+        {/* ✅ COLUMNA ACCIONES */}
+        <TableCell>
+          <div className="flex justify-end gap-2">
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={() => handleEdit(place)}
+              className="text-blue-600 hover:text-blue-800 hover:bg-blue-100"
+            >
+              <Edit className="h-4 w-4" />
+            </Button>
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={() => openGalleryManager(place)}
+              className="text-green-600 hover:text-green-800 hover:bg-green-100"
+            >
+              <Grid3X3 className="h-4 w-4" />
+            </Button>
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={() => openDeleteDialog(place)}
+              className="text-red-600 hover:text-red-800 hover:bg-red-100"
+            >
+              <Trash2 className="h-4 w-4" />
+            </Button>
+          </div>
+        </TableCell>
+      </TableRow>
+    ))}
+  </TableBody>
+</Table>
 
                 {filteredPlaces.length === 0 && !loading && (
                   <div className="text-center py-12 text-muted-foreground">
@@ -1146,6 +1188,21 @@ const handleEdit = (place: Place) => {
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>
+
+{/* Gallery Manager Dialog - VERSIÓN MEJORADA */}
+{selectedPlaceForGallery && (
+  <GalleryManager
+    key={selectedPlaceForGallery.id} // ← Agrega key para forzar re-render
+    placeId={selectedPlaceForGallery.id}
+    placeName={selectedPlaceForGallery.name}
+    isOpen={galleryManagerOpen}
+    onClose={closeGalleryManager}
+    onGalleryUpdate={handleGalleryUpdate}
+  />
+)}
+
     </div>
+
+    
   );
 };

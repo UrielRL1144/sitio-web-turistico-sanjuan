@@ -25,9 +25,10 @@ app.use(passport.initialize());
 app.use(middlewareIpNavegador);
 
 // Servir archivos estáticos
-app.use('/images', express.static(path.join(__dirname, '../images')));
-app.use('/pdfs', express.static(path.join(__dirname, '../pdfs')));
-app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+// Servir archivos estáticos desde la carpeta uploads
+app.use('/uploads', express.static(path.join(__dirname, '../uploads')));
+app.use('/images', express.static(path.join(__dirname, '../uploads/images')));
+app.use('/pdfs', express.static(path.join(__dirname, '../uploads/pdfs')));
 
 // Rutas públicas
 app.use('/api/auth', autenticacionRoutes);
