@@ -76,4 +76,23 @@ router.put('/:id/galeria/:imagenId/principal',
   lugarController.establecerImagenPrincipal
 );
 
+// Actualizar descripción de imagen
+router.put('/:id/galeria/:imagenId/descripcion', 
+  autenticarAdmin, 
+  lugarController.actualizarDescripcionImagen
+);
+
+// Eliminar imagen principal (con reemplazo)
+router.delete('/:id/imagen-principal', 
+  autenticarAdmin, 
+  lugarController.eliminarImagenPrincipal
+);
+
+// Reemplazar imagen principal (admin)
+router.put('/:id/imagen-principal', 
+  autenticarAdmin,
+  uploadImage.single('file'), // ✅ Cambiado de 'imagen' a 'file'
+  validacion.validarArchivoImagen,
+  lugarController.reemplazarImagenPrincipal
+);
 export default router;

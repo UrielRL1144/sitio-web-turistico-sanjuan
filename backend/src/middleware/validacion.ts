@@ -1,19 +1,44 @@
+// middleware/validacion.ts
 import { Request, Response, NextFunction } from 'express';
+import fs from 'fs';
+
 
 export const validacion = {
   // Validar archivos de imagen
-  validarArchivoImagen: (req: Request, res: Response, next: NextFunction) => {
-    if (!req.file) {
-      return res.status(400).json({ error: 'Archivo es requerido' });
-    }
+validarArchivoImagen: (req: Request, res: Response, next: NextFunction) => {
+  console.log('🔍 [VALIDACIÓN] Validando archivo...');
+  console.log('🔍 [VALIDACIÓN] req.file:', req.file);
+  
+  if (!req.file) {
+    console.error('❌ [VALIDACIÓN] No se recibió archivo');
+    return res.status(400).json({ error: 'Archivo es requerido' });
+  }
 
-    const tiposPermitidos = ['image/jpeg', 'image/png', 'image/webp'];
-    if (!tiposPermitidos.includes(req.file.mimetype)) {
-      return res.status(400).json({ error: 'Tipo de archivo no permitido. Use JPEG, PNG o WebP' });
+  const tiposPermitidos = ['image/jpeg', 'image/png', 'image/webp', 'image/jpg'];
+  
+  console.log('🔍 [VALIDACIÓN] MIME type recibido:', req.file.mimetype);
+  
+  if (!tiposPermitidos.includes(req.file.mimetype)) {
+    console.error('❌ [VALIDACIÓN] Tipo MIME no permitido:', req.file.mimetype);
+    
+    // Eliminar el archivo subido
+    if (req.file.path) {
+      try {
+        fs.unlinkSync(req.file.path);
+      } catch (error) {
+        console.error('Error eliminando archivo inválido:', error);
+      }
     }
+    
+    return res.status(400).json({ 
+      error: 'Tipo de archivo no permitido. Use JPEG, PNG o WebP',
+      tipo_recibido: req.file.mimetype
+    });
+  }
 
-    next();
-  },
+  console.log('✅ [VALIDACIÓN] Archivo válido');
+  next();
+},
 
   // Validar archivos PDF
   validarArchivoPDF: (req: Request, res: Response, next: NextFunction) => {

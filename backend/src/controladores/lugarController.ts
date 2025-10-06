@@ -186,7 +186,9 @@ export const lugarController = {
       res.status(500).json({ error: 'Error al obtener categorías' });
     }
   },
-  async subirImagenLugar(req: Request, res: Response) {
+
+// Subir imagen principal - VERSIÓN SIMPLIFICADA CON TRIGGERS
+async subirImagenLugar(req: Request, res: Response) {
   try {
     const { id } = req.params;
     
@@ -201,51 +203,81 @@ export const lugarController = {
     );
 
     if (lugarResult.rows.length === 0) {
-      // Eliminar el archivo subido si el lugar no existe
-      if (req.file.path) {
-        fs.unlinkSync(req.file.path);
-      }
+      if (req.file.path) fs.unlinkSync(req.file.path);
       return res.status(404).json({ error: 'Lugar no encontrado' });
     }
 
     const rutaImagen = `/uploads/images/lugares/${req.file.filename}`;
 
-    // Actualizar la foto principal en la tabla lugares
-    await pool.query(
-      'UPDATE lugares SET foto_principal_url = $1 WHERE id = $2',
-      [rutaImagen, id]
+    // SIMPLIFICADO: Solo insertar/actualizar en fotos_lugares
+    // Los triggers se encargarán del resto automáticamente
+    
+    // Verificar si ya existe una imagen principal
+    const imagenPrincipalExistente = await pool.query(
+      'SELECT id FROM fotos_lugares WHERE lugar_id = $1 AND es_principal = true',
+      [id]
     );
 
-    // También insertar en fotos_lugares como principal
-    await pool.query(
-      `INSERT INTO fotos_lugares (lugar_id, url_foto, es_principal, descripcion, orden, 
-       ruta_almacenamiento, tamaño_archivo, tipo_archivo)
-       VALUES ($1, $2, $3, $4, $5, $6, $7, $8)`,
-      [
-        id,
-        rutaImagen,
-        true,
-        'Imagen principal del lugar',
-        1,
-        req.file.path,
-        req.file.size,
-        req.file.mimetype
-      ]
-    );
+    let result;
+    
+    if (imagenPrincipalExistente.rows.length > 0) {
+      // Actualizar la imagen principal existente
+      const imagenId = imagenPrincipalExistente.rows[0].id;
+      
+      // Eliminar archivo anterior si existe
+      const imagenAnterior = await pool.query(
+        'SELECT ruta_almacenamiento FROM fotos_lugares WHERE id = $1',
+        [imagenId]
+      );
+      
+      if (imagenAnterior.rows[0]?.ruta_almacenamiento && 
+          fs.existsSync(imagenAnterior.rows[0].ruta_almacenamiento)) {
+        fs.unlinkSync(imagenAnterior.rows[0].ruta_almacenamiento);
+      }
+
+      result = await pool.query(
+        `UPDATE fotos_lugares 
+         SET url_foto = $1, ruta_almacenamiento = $2, tamaño_archivo = $3, 
+             tipo_archivo = $4, actualizado_en = NOW()
+         WHERE id = $5
+         RETURNING id`,
+        [rutaImagen, req.file.path, req.file.size, req.file.mimetype, imagenId]
+      );
+    } else {
+      // Insertar nueva imagen principal
+      result = await pool.query(
+        `INSERT INTO fotos_lugares (lugar_id, url_foto, es_principal, descripcion, orden, 
+         ruta_almacenamiento, tamaño_archivo, tipo_archivo)
+         VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
+         RETURNING id`,
+        [
+          id,
+          rutaImagen,
+          true,
+          'Imagen principal del lugar',
+          1,
+          req.file.path,
+          req.file.size,
+          req.file.mimetype
+        ]
+      );
+    }
 
     res.json({
       mensaje: 'Imagen subida exitosamente',
       url_imagen: rutaImagen,
+      es_principal: true,
+      imagen_id: result.rows[0].id,
       archivo: {
         nombre: req.file.filename,
         tamaño: req.file.size,
         tipo: req.file.mimetype
       }
     });
+
   } catch (error) {
     console.error('Error subiendo imagen:', error);
     
-    // Eliminar archivo en caso de error
     if (req.file?.path) {
       try {
         fs.unlinkSync(req.file.path);
@@ -407,17 +439,40 @@ async obtenerGaleriaLugar(req: Request, res: Response) {
   try {
     const { id } = req.params;
 
+    console.log('📸 Obteniendo galería para lugar:', id);
+
+    // Verificar que el lugar existe
+    const lugarExists = await pool.query(
+      'SELECT id, nombre FROM lugares WHERE id = $1',
+      [id]
+    );
+
+    if (lugarExists.rows.length === 0) {
+      return res.status(404).json({ error: 'Lugar no encontrado' });
+    }
+
+    const lugar = lugarExists.rows[0];
+
+    // Obtener imágenes de la galería
     const result = await pool.query(
-      `SELECT id, url_foto, descripcion, es_principal, orden, 
-              ancho_imagen, alto_imagen, tamaño_archivo, tipo_archivo, creado_en
+      `SELECT 
+        id, 
+        url_foto, 
+        descripcion, 
+        es_principal, 
+        orden, 
+        creado_en
        FROM fotos_lugares 
        WHERE lugar_id = $1 
        ORDER BY es_principal DESC, orden ASC`,
       [id]
     );
 
+    console.log(`🖼️ Encontradas ${result.rows.length} imágenes para ${lugar.nombre}`);
+
     res.json({
       lugar_id: id,
+      lugar_nombre: lugar.nombre,
       imagenes: result.rows,
       total: result.rows.length
     });
@@ -472,6 +527,79 @@ async establecerImagenPrincipal(req: Request, res: Response) {
   try {
     const { id, imagenId } = req.params;
 
+    // Iniciar transacción para asegurar consistencia
+    const client = await pool.connect();
+    
+    try {
+      await client.query('BEGIN');
+
+      // 1. Verificar que la imagen pertenece al lugar
+      const imagenResult = await client.query(
+        'SELECT * FROM fotos_lugares WHERE id = $1 AND lugar_id = $2',
+        [imagenId, id]
+      );
+
+      if (imagenResult.rows.length === 0) {
+        await client.query('ROLLBACK');
+        return res.status(404).json({ error: 'Imagen no encontrada o no pertenece al lugar' });
+      }
+
+      // 2. Actualizar todas las imágenes del lugar a no principales
+      await client.query(
+        'UPDATE fotos_lugares SET es_principal = false WHERE lugar_id = $1',
+        [id]
+      );
+
+      // 3. Establecer la imagen seleccionada como principal
+      await client.query(
+        'UPDATE fotos_lugares SET es_principal = true WHERE id = $1',
+        [imagenId]
+      );
+
+      // 4. Obtener la URL de la nueva imagen principal
+      const nuevaPrincipalResult = await client.query(
+        'SELECT url_foto FROM fotos_lugares WHERE id = $1',
+        [imagenId]
+      );
+
+      const nuevaUrl = nuevaPrincipalResult.rows[0].url_foto;
+
+      // 5. Actualizar también la foto_principal_url en la tabla lugares
+      await client.query(
+        'UPDATE lugares SET foto_principal_url = $1 WHERE id = $2',
+        [nuevaUrl, id]
+      );
+
+      await client.query('COMMIT');
+
+      res.json({ 
+        mensaje: 'Imagen establecida como principal exitosamente',
+        nueva_imagen_principal: nuevaUrl
+      });
+
+    } catch (error) {
+      await client.query('ROLLBACK');
+      throw error;
+    } finally {
+      client.release();
+    }
+
+  } catch (error) {
+    console.error('Error estableciendo imagen principal:', error);
+    res.status(500).json({ error: 'Error al establecer imagen principal' });
+  }
+},
+
+// Actualizar descripción de imagen
+async actualizarDescripcionImagen(req: Request, res: Response) {
+  try {
+    const { id, imagenId } = req.params;
+    const { descripcion } = req.body;
+
+    if (!descripcion || descripcion.trim().length === 0) {
+      return res.status(400).json({ error: 'La descripción es requerida' });
+    }
+
     // Verificar que la imagen pertenece al lugar
     const imagenResult = await pool.query(
       'SELECT * FROM fotos_lugares WHERE id = $1 AND lugar_id = $2',
@@ -479,32 +607,266 @@ async establecerImagenPrincipal(req: Request, res: Response) {
     );
 
     if (imagenResult.rows.length === 0) {
-      return res.status(404).json({ error: 'Imagen no encontrada o no pertenece al lugar' });
+      return res.status(404).json({ error: 'Imagen no encontrada' });
     }
 
-    // Actualizar todas las imágenes del lugar a no principales
+    // Actualizar descripción
     await pool.query(
-      'UPDATE fotos_lugares SET es_principal = false WHERE lugar_id = $1',
+      'UPDATE fotos_lugares SET descripcion = $1 WHERE id = $2',
+      [descripcion.trim(), imagenId]
+    );
+
+    res.json({ 
+      mensaje: 'Descripción actualizada exitosamente',
+      imagen: {
+        id: imagenId,
+        descripcion: descripcion.trim()
+      }
+    });
+  } catch (error) {
+    console.error('Error actualizando descripción:', error);
+    res.status(500).json({ error: 'Error al actualizar descripción' });
+  }
+},
+
+// Eliminar imagen principal (con lógica de reemplazo)
+async eliminarImagenPrincipal(req: Request, res: Response) {
+  try {
+    const { id } = req.params;
+
+    // Obtener la imagen principal actual
+    const imagenPrincipalResult = await pool.query(
+      'SELECT * FROM fotos_lugares WHERE lugar_id = $1 AND es_principal = true',
       [id]
     );
 
-    // Establecer la imagen seleccionada como principal
-    await pool.query(
-      'UPDATE fotos_lugares SET es_principal = true WHERE id = $1',
-      [imagenId]
+    if (imagenPrincipalResult.rows.length === 0) {
+      return res.status(404).json({ error: 'No se encontró imagen principal' });
+    }
+
+    const imagenPrincipal = imagenPrincipalResult.rows[0];
+
+    // Buscar una imagen alternativa para establecer como principal
+    const imagenesAlternativas = await pool.query(
+      'SELECT * FROM fotos_lugares WHERE lugar_id = $1 AND es_principal = false ORDER BY orden ASC LIMIT 1',
+      [id]
     );
 
-    // Actualizar también la foto_principal_url en la tabla lugares
-    const imagen = imagenResult.rows[0];
+    let nuevaImagenPrincipal = null;
+
+    if (imagenesAlternativas.rows.length > 0) {
+      // Establecer la primera imagen alternativa como principal
+      nuevaImagenPrincipal = imagenesAlternativas.rows[0];
+      
+      await pool.query(
+        'UPDATE fotos_lugares SET es_principal = true WHERE id = $1',
+        [nuevaImagenPrincipal.id]
+      );
+
+      // Actualizar la foto_principal_url en la tabla lugares
+      await pool.query(
+        'UPDATE lugares SET foto_principal_url = $1 WHERE id = $2',
+        [nuevaImagenPrincipal.url_foto, id]
+      );
+    } else {
+      // No hay imágenes alternativas, dejar sin imagen principal
+      await pool.query(
+        'UPDATE lugares SET foto_principal_url = NULL WHERE id = $1',
+        [id]
+      );
+    }
+
+    // Eliminar el archivo físico de la imagen principal
+    if (imagenPrincipal.ruta_almacenamiento && fs.existsSync(imagenPrincipal.ruta_almacenamiento)) {
+      fs.unlinkSync(imagenPrincipal.ruta_almacenamiento);
+    }
+
+    // Eliminar de la base de datos
     await pool.query(
-      'UPDATE lugares SET foto_principal_url = $1 WHERE id = $2',
-      [imagen.url_foto, id]
+      'DELETE FROM fotos_lugares WHERE id = $1',
+      [imagenPrincipal.id]
     );
 
-    res.json({ mensaje: 'Imagen establecida como principal exitosamente' });
+    res.json({
+      mensaje: 'Imagen principal eliminada exitosamente',
+      nueva_imagen_principal: nuevaImagenPrincipal ? {
+        id: nuevaImagenPrincipal.id,
+        url_foto: nuevaImagenPrincipal.url_foto
+      } : null
+    });
   } catch (error) {
-    console.error('Error estableciendo imagen principal:', error);
-    res.status(500).json({ error: 'Error al establecer imagen principal' });
+    console.error('Error eliminando imagen principal:', error);
+    res.status(500).json({ error: 'Error al eliminar imagen principal' });
+  }
+},
+
+// Reemplazar imagen principal - VERSIÓN OPTIMIZADA CON TRIGGERS
+async reemplazarImagenPrincipal(req: Request, res: Response) {
+  const client = await pool.connect();
+  
+  try {
+    const { id } = req.params;
+    
+    console.log('🔄 Reemplazando imagen principal para lugar:', id);
+    console.log('📁 Archivo recibido:', req.file ? {
+      name: req.file.filename,
+      size: req.file.size,
+      type: req.file.mimetype,
+      path: req.file.path,
+      fieldname: req.file.fieldname 
+    } : 'No file');
+
+    if (!req.file) {
+      console.error('❌ No se recibió archivo en la request');
+      return res.status(400).json({ error: 'Archivo es requerido' });
+    }
+
+    await client.query('BEGIN');
+
+    // 1. Verificar que el lugar existe
+    const lugarResult = await client.query(
+      'SELECT id, nombre FROM lugares WHERE id = $1',
+      [id]
+    );
+
+    if (lugarResult.rows.length === 0) {
+      // Eliminar el archivo subido si el lugar no existe
+      if (req.file.path) {
+        fs.unlinkSync(req.file.path);
+      }
+      await client.query('ROLLBACK');
+      return res.status(404).json({ error: 'Lugar no encontrado' });
+    }
+
+    const lugar = lugarResult.rows[0];
+    const rutaImagen = `/uploads/images/lugares/${req.file.filename}`;
+    
+    console.log('📍 Lugar encontrado:', lugar.nombre);
+    console.log('🖼️ Ruta de imagen:', rutaImagen);
+
+    // 2. Obtener la imagen principal actual (si existe)
+    const imagenPrincipalActual = await client.query(
+      'SELECT id, ruta_almacenamiento FROM fotos_lugares WHERE lugar_id = $1 AND es_principal = true',
+      [id]
+    );
+
+    let imagenActualId: string | null = null;
+
+    if (imagenPrincipalActual.rows.length > 0) {
+      const imagenActual = imagenPrincipalActual.rows[0];
+      imagenActualId = imagenActual.id;
+      
+      console.log('📸 Imagen principal actual encontrada:', imagenActualId);
+
+      // 3. Eliminar archivo físico anterior
+      if (imagenActual.ruta_almacenamiento && fs.existsSync(imagenActual.ruta_almacenamiento)) {
+        console.log('🗑️ Eliminando archivo anterior:', imagenActual.ruta_almacenamiento);
+        fs.unlinkSync(imagenActual.ruta_almacenamiento);
+      }
+
+      // 4. Actualizar la imagen existente
+      // Los triggers se encargarán de mantener la consistencia automáticamente
+      await client.query(
+        `UPDATE fotos_lugares 
+         SET url_foto = $1, 
+             ruta_almacenamiento = $2, 
+             tamaño_archivo = $3, 
+             tipo_archivo = $4,
+             descripcion = $5,
+             actualizado_en = NOW()
+         WHERE id = $6`,
+        [
+          rutaImagen, 
+          req.file.path, 
+          req.file.size, 
+          req.file.mimetype,
+          'Imagen principal del lugar',
+          imagenActualId
+        ]
+      );
+      
+      console.log('✅ Imagen principal actualizada en base de datos');
+
+    } else {
+      // 5. Si no existe imagen principal, crear una nueva
+      console.log('➕ No hay imagen principal existente, creando nueva...');
+      
+      const result = await client.query(
+        `INSERT INTO fotos_lugares 
+         (lugar_id, url_foto, es_principal, descripcion, orden, 
+          ruta_almacenamiento, tamaño_archivo, tipo_archivo)
+         VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
+         RETURNING id`,
+        [
+          id,
+          rutaImagen,
+          true, // Los triggers se encargarán de sincronizar con la tabla lugares
+          'Imagen principal del lugar',
+          1,
+          req.file.path,
+          req.file.size,
+          req.file.mimetype
+        ]
+      );
+      
+      imagenActualId = result.rows[0].id;
+      console.log('✅ Nueva imagen principal creada con ID:', imagenActualId);
+    }
+
+    // 6. Verificar que la sincronización fue exitosa
+    const lugarActualizado = await client.query(
+      'SELECT foto_principal_url FROM lugares WHERE id = $1',
+      [id]
+    );
+
+    const fotoPrincipalUrl = lugarActualizado.rows[0]?.foto_principal_url;
+    
+    console.log('🔍 Verificando sincronización - foto_principal_url:', fotoPrincipalUrl);
+
+    if (fotoPrincipalUrl !== rutaImagen) {
+      console.warn('⚠️ Los triggers no sincronizaron automáticamente, forzando actualización...');
+      
+      // Forzar actualización si los triggers no funcionaron
+      await client.query(
+        'UPDATE lugares SET foto_principal_url = $1 WHERE id = $2',
+        [rutaImagen, id]
+      );
+    }
+
+    await client.query('COMMIT');
+    console.log('✅ Transacción completada exitosamente');
+
+    res.json({
+      mensaje: 'Imagen principal reemplazada exitosamente',
+      url_imagen: rutaImagen,
+      imagen_id: imagenActualId,
+      archivo: {
+        nombre: req.file.filename,
+        tamaño: req.file.size,
+        tipo: req.file.mimetype
+      }
+    });
+
+  } catch (error) {
+    await client.query('ROLLBACK');
+    console.error('❌ Error en reemplazarImagenPrincipal:', error);
+    
+    // Eliminar archivo en caso de error
+    if (req.file?.path) {
+      try {
+        fs.unlinkSync(req.file.path);
+        console.log('🗑️ Archivo temporal eliminado debido a error');
+      } catch (unlinkError) {
+        console.error('Error eliminando archivo temporal:', unlinkError);
+      }
+    }
+    
+    res.status(500).json({ 
+      error: 'Error al reemplazar imagen principal',
+      detalle: error instanceof Error ? error.message : 'Error desconocido'
+    });
+  } finally {
+    client.release();
   }
 }
 
