@@ -1,5 +1,5 @@
-// components/admin/GalleryManager.tsx - VERSIÓN COMPLETA CORREGIDA
-import { useState, useEffect, useRef } from 'react';
+// components/admin/GalleryManager.tsx - VERSIÓN CORREGIDA SIN ERRORES TYPESCRIPT
+import { useState, useEffect, useRef, useCallback } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
@@ -19,7 +19,7 @@ import { useToast } from '@/hooks/use-toast';
 import { cn } from '@/lib/utils';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useAdminPlaces, type GalleryImage } from '@/hooks/useAdminPlaces';
-import { ImageEditor } from '@/components/admin/ImageEditor'; // ← Asegúrate de tener este componente
+import { ImageEditor } from '@/components/admin/ImageEditor';
 
 interface GalleryManagerProps {
   placeId: string;
@@ -59,7 +59,7 @@ export const GalleryManager = ({
   const [selectedImage, setSelectedImage] = useState<GalleryImage | null>(null);
   const [imageEditorOpen, setImageEditorOpen] = useState(false);
 
-  // Usar el hook para las operaciones de galería - AGREGAR LAS NUEVAS FUNCIONES
+  // Usar el hook para las operaciones de galería
   const { 
     getGallery, 
     uploadMultipleImages, 
@@ -69,6 +69,33 @@ export const GalleryManager = ({
     deleteMainImage,
     replaceMainImage
   } = useAdminPlaces();
+
+  // Función para cargar la galería
+  const loadGallery = useCallback(async () => {
+    try {
+      setLoading(true);
+      console.log('🔄 Cargando galería para placeId:', placeId);
+      
+      const galleryImages = await getGallery(placeId);
+      console.log('✅ Galería cargada:', galleryImages);
+      
+      setImages(galleryImages || []);
+    } catch (error: unknown) {
+      console.error('❌ Error cargando galería:', error);
+      
+      const errorMessage = error instanceof Error ? error.message : 'No se pudo cargar la galería de imágenes';
+      
+      toast({
+        title: '❌ Error',
+        description: errorMessage,
+        variant: 'destructive',
+      });
+      
+      setImages([]);
+    } finally {
+      setLoading(false);
+    }
+  }, [placeId, getGallery, toast]);
 
   // Cargar galería cuando se abre el diálogo
   useEffect(() => {
@@ -81,7 +108,7 @@ export const GalleryManager = ({
       setSelectedImage(null);
       setImageEditorOpen(false);
     }
-  }, [isOpen, placeId]);
+  }, [isOpen, placeId, loadGallery]);
 
   // Función para abrir el editor de imagen
   const openImageEditor = (image: GalleryImage) => {
@@ -93,30 +120,6 @@ export const GalleryManager = ({
   const closeImageEditor = () => {
     setSelectedImage(null);
     setImageEditorOpen(false);
-  };
-
-  const loadGallery = async () => {
-    try {
-      setLoading(true);
-      console.log('🔄 Cargando galería para placeId:', placeId);
-      
-      const galleryImages = await getGallery(placeId);
-      console.log('✅ Galería cargada:', galleryImages);
-      
-      setImages(galleryImages || []);
-    } catch (error: any) {
-      console.error('❌ Error cargando galería:', error);
-      
-      toast({
-        title: '❌ Error',
-        description: error.message || 'No se pudo cargar la galería de imágenes',
-        variant: 'destructive',
-      });
-      
-      setImages([]);
-    } finally {
-      setLoading(false);
-    }
   };
 
   const handleFileSelect = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -169,7 +172,7 @@ export const GalleryManager = ({
       await loadGallery(); // Recargar la galería
       onGalleryUpdate?.(); // Notificar al componente padre
 
-    } catch (error: any) {
+    } catch (error: unknown) {
       console.error('❌ Error subiendo imágenes:', error);
       // El toast se maneja en el hook
     } finally {
@@ -183,7 +186,7 @@ export const GalleryManager = ({
       await setMainImage(placeId, imageId);
       await loadGallery(); // Recargar la galería
       onGalleryUpdate?.(); // Notificar al componente padre
-    } catch (error: any) {
+    } catch (error: unknown) {
       console.error('❌ Error estableciendo imagen principal:', error);
       // El toast se maneja en el hook
     }
@@ -208,13 +211,13 @@ export const GalleryManager = ({
       await deleteGalleryImage(placeId, imageId);
       await loadGallery(); // Recargar la galería
       onGalleryUpdate?.(); // Notificar al componente padre
-    } catch (error: any) {
+    } catch (error: unknown) {
       console.error('❌ Error eliminando imagen:', error);
       // El toast se maneja en el hook
     }
   };
 
-  // NUEVA FUNCIÓN: Manejar eliminación de imagen principal
+  // Manejar eliminación de imagen principal
   const handleDeleteMainImage = async () => {
     if (!selectedImage) return;
     
@@ -224,32 +227,43 @@ export const GalleryManager = ({
       await loadGallery(); // Recargar la galería
       onGalleryUpdate?.(); // Notificar al componente padre
       closeImageEditor();
-    } catch (error: any) {
+    } catch (error: unknown) {
       console.error('❌ Error eliminando imagen principal:', error);
       // El toast se maneja en el hook
     }
   };
 
-  // NUEVA FUNCIÓN: Manejar reemplazo de imagen principal
-  const handleReplaceMainImage = async (file: File) => {
+  // Manejar reemplazo de imagen principal
+  const handleReplaceMainImage = async (placeIdParam: string, file: File) => {
     try {
-      console.log('🔄 Reemplazando imagen principal');
-      await replaceMainImage(placeId, file);
-      await loadGallery(); // Recargar la galería
-      onGalleryUpdate?.(); // Notificar al componente padre
-    } catch (error: any) {
-      console.error('❌ Error reemplazando imagen principal:', error);
+      console.log('🔄 [GalleryManager] Reemplazando imagen principal:', {
+        placeId: placeIdParam,
+        fileName: file.name,
+        fileSize: file.size,
+        fileType: file.type
+      });
+
+      // Verificar que el archivo existe
+      if (!file || file.size === 0) {
+        throw new Error('El archivo recibido está vacío o es inválido');
+      }
+
+      await replaceMainImage(placeIdParam, file);
+      await loadGallery();
+      onGalleryUpdate?.();
+    } catch (error: unknown) {
+      console.error('❌ [GalleryManager] Error reemplazando imagen principal:', error);
       // El toast se maneja en el hook
     }
   };
 
-  // NUEVA FUNCIÓN: Actualizar descripción de imagen
+  // Actualizar descripción de imagen
   const handleUpdateDescription = async (imageId: string, descripcion: string) => {
     try {
       console.log('📝 Actualizando descripción:', { imageId, descripcion });
       await updateImageDescription(placeId, imageId, descripcion);
       await loadGallery(); // Recargar la galería
-    } catch (error: any) {
+    } catch (error: unknown) {
       console.error('❌ Error actualizando descripción:', error);
       // El toast se maneja en el hook
     }
@@ -402,8 +416,8 @@ export const GalleryManager = ({
                         initial={{ opacity: 0, scale: 0.9 }}
                         animate={{ opacity: 1, scale: 1 }}
                         exit={{ opacity: 0, scale: 0.9 }}
-                        className="relative group bg-slate-800 rounded-lg overflow-hidden border border-slate-700 cursor-pointer" // ← AGREGAR cursor-pointer
-                        onClick={() => openImageEditor(image)} // ← AGREGAR este onClick
+                        className="relative group bg-slate-800 rounded-lg overflow-hidden border border-slate-700 cursor-pointer"
+                        onClick={() => openImageEditor(image)}
                       >
                         {/* Imagen */}
                         <img
@@ -430,7 +444,7 @@ export const GalleryManager = ({
                               <Button
                                 size="sm"
                                 onClick={(e) => {
-                                  e.stopPropagation(); // ← EVITAR que se abra el editor
+                                  e.stopPropagation();
                                   handleSetAsMainImage(image.id);
                                 }}
                                 className="h-7 px-2 text-xs bg-amber-600 hover:bg-amber-700 text-white"
@@ -445,7 +459,7 @@ export const GalleryManager = ({
                               <Button
                                 size="sm"
                                 onClick={(e) => {
-                                  e.stopPropagation(); // ← EVITAR que se abra el editor
+                                  e.stopPropagation();
                                   handleDeleteImage(image.id);
                                 }}
                                 className="h-7 px-2 text-xs bg-red-600 hover:bg-red-700 text-white"
@@ -478,7 +492,7 @@ export const GalleryManager = ({
         </DialogContent>
       </Dialog>
 
-      {/* AGREGAR EL ImageEditor AL FINAL DEL COMPONENTE */}
+      {/* ImageEditor */}
       {selectedImage && (
         <ImageEditor
           image={selectedImage}

@@ -91,7 +91,7 @@ router.delete('/:id/imagen-principal',
 // Reemplazar imagen principal (admin)
 router.put('/:id/imagen-principal', 
   autenticarAdmin,
-  uploadImage.single('file'), // ✅ Cambiado de 'imagen' a 'file'
+  uploadImage.single('imagen'), // ✅ Cambiado de 'imagen' a 'file'
   validacion.validarArchivoImagen,
   lugarController.reemplazarImagenPrincipal
 );

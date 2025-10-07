@@ -100,7 +100,7 @@ const handleFileSelect = async (event: React.ChangeEvent<HTMLInputElement>): Pro
   const allowedTypes = ['image/jpeg', 'image/png', 'image/webp', 'image/jpg'];
   const maxSize = 5 * 1024 * 1024; // 5MB
 
-  console.log('📁 Archivo seleccionado:', {
+  console.log('📁 Archivo seleccionado en ImageEditor:', {
     name: file.name,
     type: file.type,
     size: file.size
@@ -127,6 +127,11 @@ const handleFileSelect = async (event: React.ChangeEvent<HTMLInputElement>): Pro
   try {
     setIsUploading(true);
     console.log('🔄 Reemplazando imagen principal con archivo:', file.name);
+    
+    // ✅ VERIFICAR que el archivo existe antes de pasarlo
+    if (!file || file.size === 0) {
+      throw new Error('El archivo está vacío o es inválido');
+    }
     
     await onReplaceMain(placeId, file);
     onUpdate();
@@ -214,8 +219,9 @@ const handleFileSelect = async (event: React.ChangeEvent<HTMLInputElement>): Pro
           <div className="space-y-2">
             <Label>Descripción</Label>
             {isEditing ? (
-              <div className="space-y-2">
+              <div className="space-y-2 bg-slate-50 p-2 rounded">
                 <Textarea
+                className='bg-white'
                   value={description}
                   onChange={(e) => setDescription(e.target.value)}
                   placeholder="Describe esta imagen..."
@@ -223,6 +229,8 @@ const handleFileSelect = async (event: React.ChangeEvent<HTMLInputElement>): Pro
                 />
                 <div className="flex gap-2">
                   <Button 
+                  variant="outline"
+                  className='bg-green-900 text-white hover:bg-green-800'
                     onClick={handleSaveDescription} 
                     size="sm"
                     disabled={!description.trim()}
@@ -230,6 +238,7 @@ const handleFileSelect = async (event: React.ChangeEvent<HTMLInputElement>): Pro
                     Guardar
                   </Button>
                   <Button 
+                  className='bg-red-700 text-white hover:bg-red-600'
                     variant="outline" 
                     onClick={() => {
                       setIsEditing(false);
@@ -273,7 +282,7 @@ const handleFileSelect = async (event: React.ChangeEvent<HTMLInputElement>): Pro
               <div className="space-y-2">
                 <Button
                   variant="outline"
-                  className="w-full justify-start"
+                  className="w-full justify-start bg-green-900 text-white hover:bg-green-800"
                   onClick={() => fileInputRef.current?.click()}
                   disabled={isUploading}
                 >
@@ -295,8 +304,8 @@ const handleFileSelect = async (event: React.ChangeEvent<HTMLInputElement>): Pro
               {/* Eliminar imagen principal */}
               <div className="space-y-2">
                 <Button
-                  variant="destructive"
-                  className="w-full justify-start"
+                  variant="outline"
+                  className="w-full justify-start bg-red-900 text-white hover:bg-red-800"
                   onClick={handleDeleteMainImage}
                 >
                   <Trash2 className="h-4 w-4 mr-2" />
@@ -332,7 +341,7 @@ const handleFileSelect = async (event: React.ChangeEvent<HTMLInputElement>): Pro
               <div className="space-y-2">
                 <Button
                   variant="destructive"
-                  className="w-full justify-start"
+                  className="w-full justify-start bg-red-900 text-white hover:bg-red-800"
                   onClick={handleDeleteImage}
                 >
                   <Trash2 className="h-4 w-4 mr-2" />

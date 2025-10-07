@@ -1,3 +1,4 @@
+//contrladore/cargaArchivosController.ts
 import { Request, Response } from 'express';
 import { pool } from '../utils/baseDeDatos';
 import path from 'path';
@@ -39,7 +40,7 @@ export const cargaArchivosController = {
       }
 
       // Ruta relativa para acceso web
-      const rutaRelativa = `/images/lugares/${req.file.filename}`;
+      const rutaRelativa = `/uploads/images/lugares/${req.file.filename}`;
       
       // Obtener el máximo orden actual para este lugar
       const ordenResult = await pool.query(
@@ -103,7 +104,7 @@ export const cargaArchivosController = {
       }
 
       // Ruta relativa para acceso web
-      const rutaRelativa = `/pdfs/lugares/${req.file.filename}`;
+      const rutaRelativa = `/uploads/pdfs/${req.file.filename}`;
 
       // Si ya existe un PDF, eliminarlo físicamente
       const lugar = lugarResult.rows[0];
@@ -195,7 +196,7 @@ export const cargaArchivosController = {
       }
 
       // Ruta relativa para acceso web
-      const rutaRelativa = `/images/experiencias/${req.file.filename}`;
+      const rutaRelativa = `/uploads/images/experiencias/${req.file.filename}`;
 
       const result = await pool.query(
         `INSERT INTO experiencias 

@@ -10,6 +10,7 @@ export interface Lugar {
   foto_principal_url?: string;
   creado_en: Date;
   pdf_url?: string;
+  actualizado_en: Date;
 }
 
 export interface LugarConEstadisticas extends Lugar {
@@ -34,6 +35,7 @@ export interface FotoLugar {
   tamaño_archivo?: number;
   tipo_archivo?: string;
   creado_en: Date;
+  actualizado_en: Date;
 }
 
 export interface LugarRequest {

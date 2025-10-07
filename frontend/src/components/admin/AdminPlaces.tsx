@@ -276,11 +276,11 @@ const PlaceCard = ({
 
 interface PlaceFormData {
   name: string;
-  description?: string;
+  description: string; // ✅ Cambiar de '?' a requerido
   image_url?: string;
   pdf_url?: string;
-  location?: string;
-  category?: string;
+  location: string; // ✅ Cambiar de '?' a requerido
+  category: string; // ✅ Cambiar de '?' a requerido
 }
 
 interface FileState {
@@ -324,14 +324,14 @@ export const AdminPlaces = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('all');
   const [viewMode, setViewMode] = useState<'grid' | 'table'>('grid');
-  const [formData, setFormData] = useState<PlaceFormData>({
-    name: '',
-    description: '',
-    category: undefined,
-    location: '',
-    image_url: '',
-    pdf_url: ''
-  });
+ const [formData, setFormData] = useState<PlaceFormData>({
+  name: '',
+  description: '', // ✅ Ahora es string vacío, no undefined
+  category: '',
+  location: '',
+  image_url: '',
+  pdf_url: ''
+});
   const [files, setFiles] = useState<FileState>({
     image: null,
     pdf: null
@@ -415,10 +415,10 @@ const handleSubmit = async (e: React.FormEvent) => {
   try {
     // 1. Preparar datos básicos del lugar (sin archivos)
     const placeData: PlaceFormData = {
-      name: formData.name?.trim(),
-      description: formData.description?.trim(),
+      name: formData.name.trim(),
+      description: formData.description.trim(),
       category: formData.category,
-      location: formData.location?.trim(),
+      location: formData.location.trim(),
     };
 
     console.log('📤 Enviando datos del lugar:', placeData);
@@ -428,27 +428,28 @@ const handleSubmit = async (e: React.FormEvent) => {
     // 2. Crear o actualizar el lugar (sin archivos)
     if (editingPlace) {
       // Para edición, NO enviar image_url y pdf_url ya que se manejan por separado
-      const { image_url, pdf_url, ...updateData } = placeData;
+      const { ...updateData } = placeData;
       savedPlace = await updatePlace(editingPlace.id, updateData);
     } else {
       // Para creación, puedes enviar image_url/pdf_url si quieres, pero mejor manejarlos por separado
-      const { image_url, pdf_url, ...createData } = placeData;
+      const { ...createData } = placeData;
       savedPlace = await createPlace(createData);
     }
 
     console.log('✅ Lugar guardado:', savedPlace);
 
     // 3. Subir archivos SOLO si hay archivos nuevos seleccionados
-    let uploadErrors: string[] = [];
+    const uploadErrors: string[] = [];
 
     if (files.image && savedPlace) {
       try {
         console.log('🖼️ Subiendo imagen...');
         await uploadPlaceImage(savedPlace.id, files.image);
         console.log('✅ Imagen subida correctamente');
-      } catch (imageError: any) {
+      } catch (imageError: unknown) {
         console.error('❌ Error subiendo imagen:', imageError);
-        uploadErrors.push(`Imagen: ${imageError.message}`);
+        const errorMessage = imageError instanceof Error ? imageError.message : 'Error desconocido';
+        uploadErrors.push(`Imagen: ${errorMessage}`);
       }
     }
 
@@ -457,9 +458,10 @@ const handleSubmit = async (e: React.FormEvent) => {
         console.log('📄 Subiendo PDF...');
         await uploadPlacePDF(savedPlace.id, files.pdf);
         console.log('✅ PDF subido correctamente');
-      } catch (pdfError: any) {
+      } catch (pdfError: unknown) {
         console.error('❌ Error subiendo PDF:', pdfError);
-        uploadErrors.push(`PDF: ${pdfError.message}`);
+        const errorMessage = pdfError instanceof Error ? pdfError.message : 'Error desconocido';
+        uploadErrors.push(`PDF: ${errorMessage}`);
       }
     }
 
@@ -482,17 +484,13 @@ const handleSubmit = async (e: React.FormEvent) => {
     resetForm();
     await refetch();
 
-  } catch (err: any) {
-    console.error('❌ Error crítico al guardar el lugar:', {
-      error: err,
-      message: err?.message,
-      response: err?.response?.data,
-      status: err?.response?.status
-    });
+  } catch (err: unknown) {
+    console.error('❌ Error crítico al guardar el lugar:', err);
+    const errorMessage = err instanceof Error ? err.message : 'Error desconocido';
     
     toast({
       title: '❌ Error',
-      description: err?.response?.data?.message || err?.message || 'Error al guardar el lugar',
+      description: errorMessage,
       variant: 'destructive',
     });
   } finally {
