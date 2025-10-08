@@ -284,41 +284,46 @@ export const useAdminPlaces = () => {
   /**
    * Subir imagen de un lugar
    */
-  const uploadPlaceImage = useCallback(async (placeId: string, imageFile: File) => {
-    try {
-      const formData = new FormData();
-      formData.append('imagen', imageFile);
+// En useAdminPlaces.ts - modifica las funciones de upload
 
-      const response = await api.post<{ 
-        mensaje: string;
-        url_imagen: string;
-      }>(`/api/lugares/${placeId}/imagen`, formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-        },
-      });
+const uploadPlaceImage = useCallback(async (placeId: string, imageFile: File) => {
+  try {
+    console.log('🖼️ [UPLOAD] Iniciando subida de imagen para lugar:', placeId);
+    
+    const formData = new FormData();
+    formData.append('imagen', imageFile);
 
-      // Actualizar el lugar con la nueva URL de imagen
-      await updatePlace(placeId, { image_url: response.data.url_imagen });
+    // Timeout más largo y manejo de errores mejorado
+    const response = await api.post<{ 
+      mensaje: string;
+      url_imagen: string;
+    }>(`/api/lugares/${placeId}/imagen`, formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+      timeout: 45000, // 45 segundos para subidas lentas
+    });
 
-      toast({
-        title: '✅ Imagen subida',
-        description: 'La imagen se ha subido exitosamente',
-      });
+    console.log('✅ [UPLOAD] Imagen subida correctamente:', response.data.url_imagen);
 
-      return response.data;
-    } catch (err: unknown) { // ✅ CORREGIDO: Eliminado 'any'
-      const errorMessage = handleError(err);
-      
-      toast({
-        title: '❌ Error',
-        description: errorMessage,
-        variant: 'destructive',
-      });
-      
-      throw new Error(errorMessage);
-    }
-  }, [updatePlace, toast]);
+    // Actualización optimista del estado
+    setPlaces(prevPlaces => 
+      prevPlaces.map(place => 
+        place.id === placeId 
+          ? { ...place, image_url: response.data.url_imagen }
+          : place
+      )
+    );
+
+    return response.data;
+  } catch (err: unknown) {
+    console.error('❌ [UPLOAD] Error subiendo imagen:', err);
+    const errorMessage = handleError(err);
+    
+    // NO mostrar toast aquí, dejar que el componente padre lo maneje
+    throw new Error(errorMessage);
+  }
+}, []);
 
   /**
    * Subir múltiples imágenes a la galería de un lugar - CORREGIDA
@@ -642,6 +647,138 @@ export const useAdminPlaces = () => {
     }
   }, [toast]);
 
+  // hooks/useAdminPlaces.ts - AGREGAR estas funciones
+
+/**
+ * Crear lugar SIN archivos - solo datos básicos
+ */
+const createPlaceBasic = useCallback(async (placeData: PlaceFormData) => {
+  try {
+    setLoading(true);
+    setError(null);
+
+    // Validar datos requeridos
+    if (!placeData.name?.trim()) {
+      throw new Error('El nombre del lugar es requerido');
+    }
+    
+    if (!placeData.description?.trim()) {
+      throw new Error('La descripción del lugar es requerida');
+    }
+
+    if (!placeData.location?.trim()) {
+      throw new Error('La ubicación del lugar es requerida');
+    }
+
+    if (!placeData.category?.trim()) {
+      throw new Error('La categoría del lugar es requerida');
+    }
+
+    // Mapear datos al formato de la API
+    const apiData = mapPlaceToApiData(placeData);
+    
+    const response = await api.post<{ 
+      mensaje: string; 
+      lugar: ApiPlace 
+    }>('/api/lugares', apiData);
+    
+    if (!response.data.lugar) {
+      throw new Error('No se recibió el lugar creado del servidor');
+    }
+    
+    const newPlace = mapApiPlaceToPlace(response.data.lugar);
+    
+    // Actualizar la lista de lugares
+    setPlaces(prevPlaces => [...prevPlaces, newPlace]);
+    
+    console.log('✅ [CREATE] Lugar creado básico:', newPlace.id);
+    
+    return newPlace;
+  } catch (err: unknown) {
+    const errorMessage = handleError(err);
+    setError(errorMessage);
+    throw new Error(errorMessage);
+  } finally {
+    setLoading(false);
+  }
+}, []);
+
+/**
+ * Subir imagen para un lugar existente
+ */
+const uploadImageForPlace = useCallback(async (placeId: string, imageFile: File) => {
+  try {
+    console.log('🖼️ [UPLOAD] Subiendo imagen para lugar:', placeId);
+    
+    const formData = new FormData();
+    formData.append('imagen', imageFile);
+
+    const response = await api.post<{ 
+      mensaje: string;
+      url_imagen: string;
+    }>(`/api/lugares/${placeId}/imagen`, formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+      timeout: 30000,
+    });
+
+    console.log('✅ [UPLOAD] Imagen subida correctamente');
+
+    // Actualizar el estado local
+    setPlaces(prevPlaces => 
+      prevPlaces.map(place => 
+        place.id === placeId 
+          ? { ...place, image_url: response.data.url_imagen }
+          : place
+      )
+    );
+
+    return response.data;
+  } catch (err: unknown) {
+    const errorMessage = handleError(err);
+    throw new Error(errorMessage);
+  }
+}, []);
+
+/**
+ * Subir PDF para un lugar existente
+ */
+const uploadPDFForPlace = useCallback(async (placeId: string, pdfFile: File) => {
+  try {
+    console.log('📄 [UPLOAD] Subiendo PDF para lugar:', placeId);
+    
+    const formData = new FormData();
+    formData.append('pdf', pdfFile);
+
+    const response = await api.post<{ 
+      mensaje: string;
+      url_pdf: string;
+    }>(`/api/lugares/${placeId}/pdf`, formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+      timeout: 30000,
+    });
+
+    console.log('✅ [UPLOAD] PDF subido correctamente');
+
+    // Actualizar el estado local
+    setPlaces(prevPlaces => 
+      prevPlaces.map(place => 
+        place.id === placeId 
+          ? { ...place, pdf_url: response.data.url_pdf }
+          : place
+      )
+    );
+
+    return response.data;
+  } catch (err: unknown) {
+    const errorMessage = handleError(err);
+    throw new Error(errorMessage);
+  }
+}, []);
+
   // Función para limpiar errores
   const clearError = useCallback(() => {
     setError(null);
@@ -664,6 +801,9 @@ export const useAdminPlaces = () => {
     refetch: fetchPlaces,
     updateImageDescription,
     deleteMainImage,
+    createPlaceBasic, // ✅ AÑADIDO
+    uploadImageForPlace, // ✅ AÑADIDO
+    uploadPDFForPlace, // ✅ AÑADIDO
     replaceMainImage,
     clearError,
   };

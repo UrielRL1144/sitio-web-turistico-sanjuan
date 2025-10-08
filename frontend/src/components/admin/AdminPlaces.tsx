@@ -65,6 +65,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { MapLocationSelector } from '@/components/admin/MapLocationSelector';
 import { toast } from '@/hooks/use-toast';
 import { ExpandableText } from '@/components/ui/ExpandableText';
+import { FormErrorBoundary } from './FormErrorBoundary';
 
 // Función para construir la URL completa de la imagen
 const buildImageUrl = (imagePath: string | null | undefined): string => {
@@ -286,6 +287,7 @@ export const AdminPlaces = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const imageInputRef = useRef<HTMLInputElement>(null);
   const pdfInputRef = useRef<HTMLInputElement>(null);
+  const [isProcessing, setIsProcessing] = useState(false); // Para prevenir múltiples envíos
 
   useEffect(() => {
     refetch();
@@ -328,56 +330,154 @@ export const AdminPlaces = () => {
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!validateForm()) return;
-    setIsSubmitting(true);
-    try {
-      const placeData: PlaceFormData = {
-        name: formData.name.trim(),
-        description: formData.description.trim(),
-        category: formData.category,
-        location: formData.location.trim(),
-      };
+  // Prevención EXTREMA del comportamiento por defecto
+  e.preventDefault();
+  e.stopPropagation();
+  
+  // Prevención adicional para Chrome
+  if (e.nativeEvent && e.nativeEvent.preventDefault) {
+    e.nativeEvent.preventDefault();
+  }
+  
+  // Prevenir múltiples envíos
+  if (isSubmitting || isProcessing) {
+    console.log('🛑 Submit ya en proceso, ignorando...');
+    return;
+  }
 
-      let savedPlace: Place;
-      if (editingPlace) {
-        savedPlace = await updatePlace(editingPlace.id, placeData);
-      } else {
-        savedPlace = await createPlace(placeData);
-      }
+  console.log('🎯 [SUBMIT] Iniciando proceso PREVENIDO...');
+  
+  if (!validateForm()) {
+    console.log('❌ [VALIDATION] Validación fallida');
+    return;
+  }
+  
+  setIsSubmitting(true);
+  setIsProcessing(true);
+  
+  try {
+    const placeData: PlaceFormData = {
+      name: formData.name.trim(),
+      description: formData.description.trim(),
+      category: formData.category,
+      location: formData.location.trim(),
+    };
 
-      const uploadErrors: string[] = [];
-      if (files.image && savedPlace) {
-        try {
-          await uploadPlaceImage(savedPlace.id, files.image);
-        } catch (err) {
-          uploadErrors.push(`Imagen: ${(err as Error).message}`);
-        }
-      }
-      if (files.pdf && savedPlace) {
-        try {
-          await uploadPlacePDF(savedPlace.id, files.pdf);
-        } catch (err) {
-          uploadErrors.push(`PDF: ${(err as Error).message}`);
-        }
-      }
+    console.log('📤 [CREATE] Creando lugar con datos básicos...');
 
-      if (uploadErrors.length > 0) {
-        toast({ title: '⚠️ Advertencia', description: `Lugar ${editingPlace ? 'actualizado' : 'creado'} pero con errores en archivos`, variant: 'destructive' });
-      } else {
-        toast({ title: '✅ Éxito', description: editingPlace ? 'Lugar actualizado correctamente' : 'Lugar creado correctamente' });
-      }
+    let savedPlace: Place;
 
-      setIsDialogOpen(false);
-      resetForm();
-      await refetch();
-    } catch (err) {
-      const errorMessage = err instanceof Error ? err.message : 'Error desconocido';
-      toast({ title: '❌ Error', description: errorMessage, variant: 'destructive' });
-    } finally {
-      setIsSubmitting(false);
+    // ✅ PASO 1: Crear el lugar (SOLO DATOS BÁSICOS)
+    if (editingPlace) {
+      savedPlace = await updatePlace(editingPlace.id, placeData);
+      console.log('✅ [UPDATE] Lugar actualizado:', savedPlace.id);
+    } else {
+      savedPlace = await createPlace(placeData);
+      console.log('✅ [CREATE] Lugar creado con ID:', savedPlace.id);
     }
-  };
+
+    // Verificar que el lugar se creó correctamente
+    if (!savedPlace?.id) {
+      throw new Error('No se pudo obtener el ID del lugar creado');
+    }
+
+    console.log('🔄 [UPLOAD] Preparando subida de archivos para:', savedPlace.id);
+
+    // ✅ PASO 2: Subir archivos de forma SECUENCIAL con delays
+    const uploadResults = {
+      image: { success: false, error: '' },
+      pdf: { success: false, error: '' }
+    };
+
+    // Subir imagen con delay para evitar conflictos
+    if (files.image) {
+      try {
+        console.log('🖼️ [UPLOAD] Subiendo imagen en 500ms...');
+        await new Promise(resolve => setTimeout(resolve, 500)); // Delay estratégico
+        
+        await uploadPlaceImage(savedPlace.id, files.image);
+        uploadResults.image.success = true;
+        console.log('✅ [UPLOAD] Imagen subida correctamente');
+      } catch (err) {
+        const errorMessage = err instanceof Error ? err.message : 'Error desconocido';
+        uploadResults.image.error = errorMessage;
+        console.error('❌ [UPLOAD] Error subiendo imagen:', errorMessage);
+      }
+    }
+
+    // Subir PDF con delay adicional
+    if (files.pdf) {
+      try {
+        console.log('📄 [UPLOAD] Subiendo PDF en 300ms...');
+        await new Promise(resolve => setTimeout(resolve, 300));
+        
+        await uploadPlacePDF(savedPlace.id, files.pdf);
+        uploadResults.pdf.success = true;
+        console.log('✅ [UPLOAD] PDF subido correctamente');
+      } catch (err) {
+        const errorMessage = err instanceof Error ? err.message : 'Error desconocido';
+        uploadResults.pdf.error = errorMessage;
+        console.error('❌ [UPLOAD] Error subiendo PDF:', errorMessage);
+      }
+    }
+
+    // ✅ PASO 3: Manejar resultados
+    const errors = [];
+    if (uploadResults.image.error) errors.push(`Imagen: ${uploadResults.image.error}`);
+    if (uploadResults.pdf.error) errors.push(`PDF: ${uploadResults.pdf.error}`);
+
+    if (errors.length > 0) {
+      toast({ 
+        title: '⚠️ Advertencia', 
+        description: `Lugar ${editingPlace ? 'actualizado' : 'creado'} pero con errores en archivos: ${errors.join(', ')}`,
+        variant: 'destructive' 
+      });
+    } else {
+      const successMessage = editingPlace 
+        ? 'Lugar actualizado correctamente' 
+        : 'Lugar creado correctamente';
+      
+      if (files.image || files.pdf) {
+        toast({ 
+          title: '✅ Éxito', 
+          description: `${successMessage} con archivos adjuntos` 
+        });
+      } else {
+        toast({ 
+          title: '✅ Éxito', 
+          description: successMessage 
+        });
+      }
+    }
+
+    // ✅ PASO 4: Cerrar y limpiar con delay
+    console.log('🏁 [COMPLETED] Proceso terminado, cerrando en 1 segundo...');
+    await new Promise(resolve => setTimeout(resolve, 1000));
+    
+    setIsDialogOpen(false);
+    resetForm();
+    
+    // ✅ PASO 5: Actualizar lista
+    await refetch();
+    console.log('🔄 [REFETCH] Lista actualizada');
+
+  } catch (err) {
+    console.error('❌ [ERROR] Error crítico:', err);
+    const errorMessage = err instanceof Error ? err.message : 'Error desconocido';
+    
+    toast({
+      title: '❌ Error',
+      description: errorMessage,
+      variant: 'destructive',
+    });
+  } finally {
+    setIsSubmitting(false);
+    setIsProcessing(false);
+  }
+  
+  // Retornar false como prevención adicional
+  return false;
+};
 
   const handleEdit = (place: Place) => {
     setEditingPlace(place);
@@ -524,7 +624,28 @@ export const AdminPlaces = () => {
                   {editingPlace ? 'Editar Lugar' : 'Crear Nuevo Lugar'}
                 </DialogTitle>
               </DialogHeader>
-              <form onSubmit={handleSubmit} className="flex flex-col flex-1 min-h-0">
+              <FormErrorBoundary> 
+              <form 
+  onSubmit={(e) => {
+    // Prevención EXTREMA
+    e.preventDefault();
+    e.stopPropagation();
+    const event = e.nativeEvent as SubmitEvent;
+    if (event) {
+      event.preventDefault();
+    }
+    return false;
+  }}
+  onKeyDown={(e) => {
+    // Prevenir submit con Enter
+    if (e.key === 'Enter' && (e.target as HTMLElement).tagName !== 'TEXTAREA') {
+      e.preventDefault();
+      e.stopPropagation();
+    }
+  }}
+  className="flex flex-col flex-1 min-h-0"
+  noValidate // Deshabilitar validación nativa
+>
                 <div className="flex-1 overflow-y-auto px-6 py-4 space-y-6">
                   {/* Información básica */}
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -797,28 +918,36 @@ export const AdminPlaces = () => {
 
 
                 {/* Footer del formulario */}
-                <div className='border-l-indigo-950/50 border-t-2 flex-shrink-0 px-6 py-4 bg-indigo flex justify-end items-center gap-3'>
-                  <div className="flex justify-end gap-3">
-                    <Button
-                      type="button"
-                      variant="outline"
-                      onClick={() => handleDialogOpenChange(false)}
-                      disabled={isSubmitting}
-                      className="'bg-red-700 text-white hover:bg-red-600"
-                    >
-                      Cancelar
-                    </Button>
-                    <Button 
-                      type="submit" 
-                      disabled={isSubmitting}
-                      className="bg-blue-600 text-white hover:bg-blue-700 min-w-24"
-                    >
-                      {isSubmitting && <Loader2 className="h-4 w-4 animate-spin mr-2" />}
-                      {editingPlace ? 'Actualizar' : 'Crear'}
-                    </Button>
-                  </div>
-                </div>
-              </form>
+  <div className='border-l-indigo-950/50 border-t-2 flex-shrink-0 px-6 py-4 bg-indigo flex justify-end items-center gap-3'>
+    <div className="flex justify-end gap-3">
+      <Button
+        type="button"
+        variant="outline"
+        onClick={() => handleDialogOpenChange(false)}
+        disabled={isSubmitting}
+        className="bg-red-700 text-white hover:bg-red-600"
+      >
+        Cancelar
+      </Button>
+      <Button 
+        type="button" // ✅ CAMBIADO de "submit" a "button"
+        onClick={handleSubmit} // ✅ Manejo manual
+        disabled={isSubmitting}
+        className="bg-blue-600 text-white hover:bg-blue-700 min-w-24"
+      >
+        {isSubmitting ? (
+          <>
+            <Loader2 className="h-4 w-4 animate-spin mr-2" />
+            {editingPlace ? 'Actualizando...' : 'Creando...'}
+          </>
+        ) : (
+          editingPlace ? 'Actualizar' : 'Crear'
+        )}
+      </Button>
+    </div>
+  </div>
+</form>
+              </FormErrorBoundary>
             </DialogContent>
           </Dialog>
         </div>
