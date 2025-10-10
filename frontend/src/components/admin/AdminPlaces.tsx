@@ -1,5 +1,5 @@
 // components/admin/AdminPlaces.tsx
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
@@ -41,7 +41,7 @@ import {
 import { useAdminPlaces, type Place } from '@/hooks/useAdminPlaces';
 import { useCategories } from '@/hooks/useCategories';
 import { CategoryDropdown } from '@/components/admin/CategoryDropdown';
-import { CategoryFilter } from '@/components/admin/CategoryFilter';
+import { CategoryFilter }from '@/components/admin/CategoryFilter';
 import { 
   Loader2, 
   Plus, 
@@ -170,24 +170,28 @@ const PlaceCard = ({
               </h3>
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
-                  <Button variant="ghost" size="sm" className="h-8 w-8 p-0 opacity-0 group-hover:opacity-100 transition-opacity flex-shrink-0">
+                  <Button title='Opciones del lugar'
+                  variant="ghost" size="sm" className="h-8 w-8 p-0 opacity-0 group-hover:opacity-100 transition-opacity flex-shrink-0">
                     <MoreVertical className="h-4 w-4" />
                   </Button>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent align="end" className="w-48 bg-white/90 backdrop-blur-sm border border-white/20 shadow-lg">
-                  <DropdownMenuItem onClick={() => onEdit(place)}>
+                  <DropdownMenuItem onClick={() => onEdit(place)}
+                    title='Editar información del lugar'>
                     <Edit className="h-4 w-4 mr-2" />
                     Editar Lugar
                   </DropdownMenuItem>
-                  <DropdownMenuItem onClick={() => onManageGallery(place)}>
+                  <DropdownMenuItem onClick={() => onManageGallery(place)}
+                    title='Gestionar galería de imágenes del lugar'>
                     <Grid3X3 className="h-4 w-4 mr-2" />
                     Gestionar Galería
                   </DropdownMenuItem>
                   <DropdownMenuItem 
+                  title='Eliminar lugar y todos sus datos asociados (imágenes, PDF, etc.)'
                     onClick={() => onDelete(place)}
                     className="text-destructive"
                   >
-                    <Trash2 className="h-4 w-4 mr-2" />
+                    <Trash2 className="h-4 w-4 mr-2"/>
                     Eliminar
                   </DropdownMenuItem>
                 </DropdownMenuContent>
@@ -253,6 +257,8 @@ export const AdminPlaces = () => {
     createPlace,
     updatePlace,
     deletePlace,
+    deletePlaceImage, // ✅ AÑADIDO
+    deletePlacePDF, // ✅ AÑADIDO
     uploadPlaceImage,
     uploadPlacePDF,
     refetch,
@@ -288,8 +294,8 @@ export const AdminPlaces = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const imageInputRef = useRef<HTMLInputElement>(null);
   const pdfInputRef = useRef<HTMLInputElement>(null);
-  const [isProcessing, setIsProcessing] = useState(false); // Para prevenir múltiples envíos
-  const [isDeleting, setIsDeleting] = useState(false); // Para prevenir múltiples eliminaciones
+  const [isProcessing, setIsProcessing] = useState(false);
+  const [isDeleting, setIsDeleting] = useState(false);
 
   useEffect(() => {
     refetch();
@@ -322,144 +328,336 @@ export const AdminPlaces = () => {
 
   const validateForm = (): boolean => {
     const errors: Record<string, string> = {};
-    if (!formData.name?.trim()) errors.name = 'El nombre es requerido';
-    if (!formData.description?.trim()) errors.description = 'La descripción es requerida';
-    if (!formData.category) errors.category = 'La categoría es requerida';
-    if (!formData.location?.trim()) errors.location = 'La ubicación es requerida';
-    if (!editingPlace && !files.image) errors.image = 'La imagen es requerida para crear un nuevo lugar';
+    
+    if (!editingPlace) {
+      if (!formData.name?.trim()) errors.name = 'El nombre es requerido';
+      if (!formData.description?.trim()) errors.description = 'La descripción es requerida';
+      if (!formData.category) errors.category = 'La categoría es requerida';
+      if (!formData.location?.trim()) errors.location = 'La ubicación es requerida';
+      if (!files.image) errors.image = 'La imagen es requerida para crear un nuevo lugar';
+    } else {
+      const estaModificandoNombre = formData.name && formData.name !== editingPlace.name;
+      const estaModificandoDescripcion = formData.description && formData.description !== editingPlace.description;
+      const estaModificandoCategoria = formData.category && formData.category !== editingPlace.category;
+      const estaModificandoUbicacion = formData.location && formData.location !== editingPlace.location;
+      
+      if (estaModificandoNombre && !formData.name.trim()) {
+        errors.name = 'El nombre no puede estar vacío';
+      }
+      
+      if (estaModificandoDescripcion && !formData.description.trim()) {
+        errors.description = 'La descripción no puede estar vacía';
+      }
+      
+      if (estaModificandoCategoria && !formData.category) {
+        errors.category = 'La categoría es requerida';
+      }
+      
+      if (estaModificandoUbicacion && !formData.location.trim()) {
+        errors.location = 'La ubicación no puede estar vacía';
+      }
+    }
+    
     setFormErrors(errors);
     return Object.keys(errors).length === 0;
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
-  // Prevención EXTREMA del comportamiento por defecto
+  // Función helper para detectar si hay cambios en los datos del formulario
+  const hasFormChanges = useCallback((): boolean => {
+    if (!editingPlace) {
+      // Para nuevo lugar, hay cambios si hay algún dato o archivo
+      return !!(formData.name?.trim() || 
+                formData.description?.trim() || 
+                formData.category || 
+                formData.location?.trim() ||
+                files.image || 
+                files.pdf);
+    }
+    
+    // Para editar lugar, hay cambios si hay diferencias con el lugar original
+    return (
+      (formData.name && formData.name !== editingPlace.name) ||
+      (formData.description && formData.description !== editingPlace.description) ||
+      (formData.category && formData.category !== editingPlace.category) ||
+      (formData.location && formData.location !== editingPlace.location) ||
+      files.image !== null ||
+      files.pdf !== null
+    );
+  }, [editingPlace, formData, files]);
+
+const handleSubmit = async (e: React.FormEvent) => {
   e.preventDefault();
   e.stopPropagation();
   
-  // Prevención adicional para Chrome
-  if (e.nativeEvent && e.nativeEvent.preventDefault) {
-    e.nativeEvent.preventDefault();
-  }
-  
-  // Prevenir múltiples envíos
   if (isSubmitting || isProcessing) {
     console.log('🛑 Submit ya en proceso, ignorando...');
     return;
   }
 
-  console.log('🎯 [SUBMIT] Iniciando proceso PREVENIDO...');
-  
-  if (!validateForm()) {
-    console.log('❌ [VALIDATION] Validación fallida');
-    return;
-  }
+  console.log('🎯 [SUBMIT] Iniciando proceso...');
   
   setIsSubmitting(true);
   setIsProcessing(true);
   
   try {
-    const placeData: PlaceFormData = {
-      name: formData.name.trim(),
-      description: formData.description.trim(),
-      category: formData.category,
-      location: formData.location.trim(),
-    };
+    // ✅ CASO 1: SOLO SUBIR ARCHIVOS (sin modificar datos del lugar)
+    const soloSubirArchivos = editingPlace && 
+      (!formData.name || formData.name === editingPlace.name) &&
+      (!formData.description || formData.description === editingPlace.description) &&
+      (!formData.category || formData.category === editingPlace.category) &&
+      (!formData.location || formData.location === editingPlace.location);
 
-    console.log('📤 [CREATE] Creando lugar con datos básicos...');
-
-    let savedPlace: Place;
-
-    // ✅ PASO 1: Crear el lugar (SOLO DATOS BÁSICOS)
-    if (editingPlace) {
-      savedPlace = await updatePlace(editingPlace.id, placeData);
-      console.log('✅ [UPDATE] Lugar actualizado:', savedPlace.id);
-    } else {
-      savedPlace = await createPlace(placeData);
-      console.log('✅ [CREATE] Lugar creado con ID:', savedPlace.id);
-    }
-
-    // Verificar que el lugar se creó correctamente
-    if (!savedPlace?.id) {
-      throw new Error('No se pudo obtener el ID del lugar creado');
-    }
-
-    console.log('🔄 [UPLOAD] Preparando subida de archivos para:', savedPlace.id);
-
-    // ✅ PASO 2: Subir archivos de forma SECUENCIAL con delays
-    const uploadResults = {
-      image: { success: false, error: '' },
-      pdf: { success: false, error: '' }
-    };
-
-    // Subir imagen con delay para evitar conflictos
-    if (files.image) {
-      try {
-        console.log('🖼️ [UPLOAD] Subiendo imagen en 500ms...');
-        await new Promise(resolve => setTimeout(resolve, 500)); // Delay estratégico
-        
-        await uploadPlaceImage(savedPlace.id, files.image);
-        uploadResults.image.success = true;
-        console.log('✅ [UPLOAD] Imagen subida correctamente');
-      } catch (err) {
-        const errorMessage = err instanceof Error ? err.message : 'Error desconocido';
-        uploadResults.image.error = errorMessage;
-        console.error('❌ [UPLOAD] Error subiendo imagen:', errorMessage);
-      }
-    }
-
-    // Subir PDF con delay adicional
-    if (files.pdf) {
-      try {
-        console.log('📄 [UPLOAD] Subiendo PDF en 300ms...');
-        await new Promise(resolve => setTimeout(resolve, 300));
-        
-        await uploadPlacePDF(savedPlace.id, files.pdf);
-        uploadResults.pdf.success = true;
-        console.log('✅ [UPLOAD] PDF subido correctamente');
-      } catch (err) {
-        const errorMessage = err instanceof Error ? err.message : 'Error desconocido';
-        uploadResults.pdf.error = errorMessage;
-        console.error('❌ [UPLOAD] Error subiendo PDF:', errorMessage);
-      }
-    }
-
-    // ✅ PASO 3: Manejar resultados
-    const errors = [];
-    if (uploadResults.image.error) errors.push(`Imagen: ${uploadResults.image.error}`);
-    if (uploadResults.pdf.error) errors.push(`PDF: ${uploadResults.pdf.error}`);
-
-    if (errors.length > 0) {
-      toast({ 
-        title: '⚠️ Advertencia', 
-        description: `Lugar ${editingPlace ? 'actualizado' : 'creado'} pero con errores en archivos: ${errors.join(', ')}`,
-        variant: 'destructive' 
-      });
-    } else {
-      const successMessage = editingPlace 
-        ? 'Lugar actualizado correctamente' 
-        : 'Lugar creado correctamente';
+    if (soloSubirArchivos) {
+      console.log('📤 [SUBMIT] Solo subiendo archivos sin modificar datos del lugar');
       
-      if (files.image || files.pdf) {
+      const uploadResults = {
+        image: { success: false, error: '' },
+        pdf: { success: false, error: '' }
+      };
+
+      // Subir imagen si existe
+      if (files.image) {
+        try {
+          console.log('🖼️ [UPLOAD] Subiendo imagen...');
+          await uploadPlaceImage(editingPlace.id, files.image);
+          uploadResults.image.success = true;
+          console.log('✅ [UPLOAD] Imagen subida correctamente');
+        } catch (err) {
+          const errorMessage = err instanceof Error ? err.message : 'Error desconocido';
+          uploadResults.image.error = errorMessage;
+          console.error('❌ [UPLOAD] Error subiendo imagen:', errorMessage);
+        }
+      }
+
+      // Subir PDF si existe
+      if (files.pdf) {
+        try {
+          console.log('📄 [UPLOAD] Subiendo PDF...');
+          await uploadPlacePDF(editingPlace.id, files.pdf);
+          uploadResults.pdf.success = true;
+          console.log('✅ [UPLOAD] PDF subido correctamente');
+        } catch (err) {
+          const errorMessage = err instanceof Error ? err.message : 'Error desconocido';
+          uploadResults.pdf.error = errorMessage;
+          console.error('❌ [UPLOAD] Error subiendo PDF:', errorMessage);
+        }
+      }
+
+      // Manejar resultados
+      const errors = [];
+      if (uploadResults.image.error) errors.push(`Imagen: ${uploadResults.image.error}`);
+      if (uploadResults.pdf.error) errors.push(`PDF: ${uploadResults.pdf.error}`);
+
+      if (errors.length > 0) {
+        toast({ 
+          title: '⚠️ Advertencia', 
+          description: `Archivos procesados con errores: ${errors.join(', ')}`,
+          variant: 'destructive' 
+        });
+      } else if (files.image || files.pdf) {
         toast({ 
           title: '✅ Éxito', 
-          description: `${successMessage} con archivos adjuntos` 
+          description: 'Archivos subidos correctamente' 
         });
       } else {
         toast({ 
+          title: 'ℹ️ Información', 
+          description: 'No se realizaron cambios' 
+        });
+      }
+
+    } 
+    // ✅ CASO 2: CREAR NUEVO LUGAR (con validación completa)
+    else if (!editingPlace) {
+      console.log('🆕 [SUBMIT] Creando nuevo lugar...');
+      
+      if (!validateForm()) {
+        console.log('❌ [VALIDATION] Validación fallida para nuevo lugar');
+        return;
+      }
+
+      // Para crear nuevo lugar, primero creamos el lugar sin archivos
+      const placeData: PlaceFormData = {
+        name: formData.name.trim(),
+        description: formData.description.trim(),
+        category: formData.category,
+        location: formData.location.trim(),
+      };
+
+      console.log('📤 [CREATE] Creando lugar con datos básicos...');
+      const savedPlace = await createPlace(placeData);
+      
+      if (!savedPlace?.id) {
+        throw new Error('No se pudo obtener el ID del lugar creado');
+      }
+
+      console.log('🔄 [UPLOAD] Preparando subida de archivos para nuevo lugar:', savedPlace.id);
+
+      // Subir archivos para el nuevo lugar
+      const uploadResults = {
+        image: { success: false, error: '' },
+        pdf: { success: false, error: '' }
+      };
+
+      if (files.image) {
+        try {
+          console.log('🖼️ [UPLOAD] Subiendo imagen para nuevo lugar...');
+          await uploadPlaceImage(savedPlace.id, files.image);
+          uploadResults.image.success = true;
+          console.log('✅ [UPLOAD] Imagen subida correctamente');
+        } catch (err) {
+          const errorMessage = err instanceof Error ? err.message : 'Error desconocido';
+          uploadResults.image.error = errorMessage;
+          console.error('❌ [UPLOAD] Error subiendo imagen:', errorMessage);
+        }
+      }
+
+      if (files.pdf) {
+        try {
+          console.log('📄 [UPLOAD] Subiendo PDF para nuevo lugar...');
+          await uploadPlacePDF(savedPlace.id, files.pdf);
+          uploadResults.pdf.success = true;
+          console.log('✅ [UPLOAD] PDF subido correctamente');
+        } catch (err) {
+          const errorMessage = err instanceof Error ? err.message : 'Error desconocido';
+          uploadResults.pdf.error = errorMessage;
+          console.error('❌ [UPLOAD] Error subiendo PDF:', errorMessage);
+        }
+      }
+
+      // Manejar resultados
+      const errors = [];
+      if (uploadResults.image.error) errors.push(`Imagen: ${uploadResults.image.error}`);
+      if (uploadResults.pdf.error) errors.push(`PDF: ${uploadResults.pdf.error}`);
+
+      if (errors.length > 0) {
+        toast({ 
+          title: '⚠️ Advertencia', 
+          description: `Lugar creado pero con errores en archivos: ${errors.join(', ')}`,
+          variant: 'destructive' 
+        });
+      } else {
+        const message = files.image || files.pdf 
+          ? 'Lugar creado correctamente con archivos adjuntos'
+          : 'Lugar creado correctamente';
+        
+        toast({ 
           title: '✅ Éxito', 
-          description: successMessage 
+          description: message 
         });
       }
     }
+    // ✅ CASO 3: EDITAR LUGAR (modificando datos)
+    else {
+      console.log('✏️ [SUBMIT] Editando lugar existente...');
+      
+      if (!validateForm()) {
+        console.log('❌ [VALIDATION] Validación fallida para edición');
+        return;
+      }
 
-    // ✅ PASO 4: Cerrar y limpiar con delay
-    console.log('🏁 [COMPLETED] Proceso terminado, cerrando en 1 segundo...');
-    await new Promise(resolve => setTimeout(resolve, 1000));
+      // Para editar, solo enviamos los campos que realmente cambiaron
+      const placeData: Partial<PlaceFormData> = {};
+      
+      if (formData.name && formData.name !== editingPlace.name) {
+        placeData.name = formData.name.trim();
+      }
+      if (formData.description && formData.description !== editingPlace.description) {
+        placeData.description = formData.description.trim();
+      }
+      if (formData.category && formData.category !== editingPlace.category) {
+        placeData.category = formData.category;
+      }
+      if (formData.location && formData.location !== editingPlace.location) {
+        placeData.location = formData.location.trim();
+      }
+
+      // Solo actualizamos si hay cambios en los datos
+      if (Object.keys(placeData).length > 0) {
+        console.log('📤 [UPDATE] Actualizando lugar con datos:', placeData);
+        await updatePlace(editingPlace.id, placeData);
+        console.log('✅ [UPDATE] Lugar actualizado');
+      } else {
+        console.log('ℹ️ [UPDATE] No hay cambios en los datos del lugar');
+      }
+
+      // Subir archivos para el lugar editado
+      const uploadResults = {
+        image: { success: false, error: '' },
+        pdf: { success: false, error: '' }
+      };
+
+      if (files.image) {
+        try {
+          console.log('🖼️ [UPLOAD] Subiendo imagen para lugar editado...');
+          await uploadPlaceImage(editingPlace.id, files.image);
+          uploadResults.image.success = true;
+          console.log('✅ [UPLOAD] Imagen subida correctamente');
+        } catch (err) {
+          const errorMessage = err instanceof Error ? err.message : 'Error desconocido';
+          uploadResults.image.error = errorMessage;
+          console.error('❌ [UPLOAD] Error subiendo imagen:', errorMessage);
+        }
+      }
+
+      if (files.pdf) {
+        try {
+          console.log('📄 [UPLOAD] Subiendo PDF para lugar editado...');
+          await uploadPlacePDF(editingPlace.id, files.pdf);
+          uploadResults.pdf.success = true;
+          console.log('✅ [UPLOAD] PDF subido correctamente');
+        } catch (err) {
+          const errorMessage = err instanceof Error ? err.message : 'Error desconocido';
+          uploadResults.pdf.error = errorMessage;
+          console.error('❌ [UPLOAD] Error subiendo PDF:', errorMessage);
+        }
+      }
+
+      // Manejar resultados
+      const errors = [];
+      if (uploadResults.image.error) errors.push(`Imagen: ${uploadResults.image.error}`);
+      if (uploadResults.pdf.error) errors.push(`PDF: ${uploadResults.pdf.error}`);
+
+      if (errors.length > 0) {
+        toast({ 
+          title: '⚠️ Advertencia', 
+          description: `Lugar actualizado pero con errores en archivos: ${errors.join(', ')}`,
+          variant: 'destructive' 
+        });
+      } else {
+        const hasDataChanges = Object.keys(placeData).length > 0;
+        const hasFileChanges = files.image || files.pdf;
+        
+        if (hasDataChanges && hasFileChanges) {
+          toast({ 
+            title: '✅ Éxito', 
+            description: 'Lugar actualizado correctamente con archivos adjuntos' 
+          });
+        } else if (hasDataChanges) {
+          toast({ 
+            title: '✅ Éxito', 
+            description: 'Lugar actualizado correctamente' 
+          });
+        } else if (hasFileChanges) {
+          toast({ 
+            title: '✅ Éxito', 
+            description: 'Archivos subidos correctamente' 
+          });
+        } else {
+          toast({ 
+            title: 'ℹ️ Información', 
+            description: 'No se realizaron cambios' 
+          });
+        }
+      }
+    }
+
+    console.log('🏁 [COMPLETED] Proceso terminado, cerrando...');
+    await new Promise(resolve => setTimeout(resolve, 500));
     
     setIsDialogOpen(false);
     resetForm();
     
-    // ✅ PASO 5: Actualizar lista
     await refetch();
     console.log('🔄 [REFETCH] Lista actualizada');
 
@@ -477,7 +675,6 @@ export const AdminPlaces = () => {
     setIsProcessing(false);
   }
   
-  // Retornar false como prevención adicional
   return false;
 };
 
@@ -495,45 +692,112 @@ export const AdminPlaces = () => {
     setIsDialogOpen(true);
   };
 
- const handleDelete = async () => {
-  if (!editingPlace || isDeleting) {
-    console.log('🛑 Eliminación ya en proceso o lugar no seleccionado');
+  // En AdminPlaces.tsx - agrega estas funciones
+
+const handleDeleteImage = async () => {
+  if (!editingPlace || !editingPlace.image_url) {
+    toast({
+      title: 'ℹ️ Información',
+      description: 'No hay imagen para eliminar',
+    });
     return;
   }
 
-  console.log('🗑️ [DELETE] Iniciando eliminación de lugar:', editingPlace.id);
-  setIsDeleting(true);
-
   try {
-    // Pequeño delay para estabilizar el estado
-    await new Promise(resolve => setTimeout(resolve, 100));
+    console.log('🗑️ Eliminando imagen del lugar:', editingPlace.id);
+    await deletePlaceImage(editingPlace.id);
     
-    await deletePlace(editingPlace.id);
+    // Actualizar el estado local
+    setFormData(prev => ({ ...prev, image_url: '' }));
     
-    console.log('✅ [DELETE] Lugar eliminado correctamente');
+    toast({
+      title: '✅ Éxito',
+      description: 'Imagen eliminada correctamente',
+    });
     
-    // Cerrar diálogo y limpiar con delay
-    await new Promise(resolve => setTimeout(resolve, 300));
-    setIsDeleteDialogOpen(false);
-    resetForm();
-    
-    // Actualizar lista
     await refetch();
-    console.log('🔄 [DELETE] Lista actualizada después de eliminar');
-
   } catch (err) {
-    console.error('❌ [DELETE] Error eliminando lugar:', err);
-    const errorMessage = err instanceof Error ? err.message : 'Error al eliminar el lugar';
+    console.error('❌ Error eliminando imagen:', err);
+    const errorMessage = err instanceof Error ? err.message : 'Error al eliminar la imagen';
     
     toast({
       title: '❌ Error',
       description: errorMessage,
       variant: 'destructive',
     });
-  } finally {
-    setIsDeleting(false);
   }
 };
+
+const handleDeletePDF = async () => {
+  if (!editingPlace || !editingPlace.pdf_url) {
+    toast({
+      title: 'ℹ️ Información',
+      description: 'No hay PDF para eliminar',
+    });
+    return;
+  }
+
+  try {
+    console.log('🗑️ Eliminando PDF del lugar:', editingPlace.id);
+    await deletePlacePDF(editingPlace.id);
+    
+    // Actualizar el estado local
+    setFormData(prev => ({ ...prev, pdf_url: '' }));
+    
+    toast({
+      title: '✅ Éxito',
+      description: 'PDF eliminado correctamente',
+    });
+    
+    await refetch();
+  } catch (err) {
+    console.error('❌ Error eliminando PDF:', err);
+    const errorMessage = err instanceof Error ? err.message : 'Error al eliminar el PDF';
+    
+    toast({
+      title: '❌ Error',
+      description: errorMessage,
+      variant: 'destructive',
+    });
+  }
+};
+
+  const handleDelete = async () => {
+    if (!editingPlace || isDeleting) {
+      console.log('🛑 Eliminación ya en proceso o lugar no seleccionado');
+      return;
+    }
+
+    console.log('🗑️ [DELETE] Iniciando eliminación de lugar:', editingPlace.id);
+    setIsDeleting(true);
+
+    try {
+      await new Promise(resolve => setTimeout(resolve, 100));
+      
+      await deletePlace(editingPlace.id);
+      
+      console.log('✅ [DELETE] Lugar eliminado correctamente');
+      
+      await new Promise(resolve => setTimeout(resolve, 300));
+      setIsDeleteDialogOpen(false);
+      resetForm();
+      
+      await refetch();
+      console.log('🔄 [DELETE] Lista actualizada después de eliminar');
+
+    } catch (err) {
+      console.error('❌ [DELETE] Error eliminando lugar:', err);
+      const errorMessage = err instanceof Error ? err.message : 'Error al eliminar el lugar';
+      
+      toast({
+        title: '❌ Error',
+        description: errorMessage,
+        variant: 'destructive',
+      });
+    } finally {
+      setIsDeleting(false);
+    }
+  };
 
   const openGalleryManager = (place: Place) => {
     setSelectedPlaceForGallery(place);
@@ -633,6 +897,7 @@ export const AdminPlaces = () => {
         </div>
         <div className="flex flex-col sm:flex-row gap-3">
           <Button 
+          title='Actualizar lista de lugares'
             variant="outline" 
             onClick={handleRefresh} 
             disabled={loading}
@@ -648,119 +913,108 @@ export const AdminPlaces = () => {
                 Nuevo Lugar
               </Button>
             </DialogTrigger>
-            <DialogContent className="max-w-4xl max-h-[95vh]  overflow-hidden bg-slate-900/95 backdrop-blur-sm border border-slate-700 shadow-xl text-white flex flex-col">
+            <DialogContent className="max-w-4xl max-h-[95vh] overflow-hidden bg-slate-900/95 backdrop-blur-sm border border-slate-700 shadow-xl text-white flex flex-col"
+            aria-describedby={undefined}>
               <DialogHeader className="flex-shrink-0 pb-4 border-b border-gray-200 px-6 pt-6">
-                <DialogTitle className="text-xl font-bold text-white-900">
+                <DialogTitle className="text-xl font-bold text-white">
                   {editingPlace ? 'Editar Lugar' : 'Crear Nuevo Lugar'}
                 </DialogTitle>
               </DialogHeader>
               <FormErrorBoundary> 
-              <form 
-  onSubmit={(e) => {
-    // Prevención EXTREMA
-    e.preventDefault();
-    e.stopPropagation();
-    const event = e.nativeEvent as SubmitEvent;
-    if (event) {
-      event.preventDefault();
-    }
-    return false;
-  }}
-  onKeyDown={(e) => {
-    // Prevenir submit con Enter
-    if (e.key === 'Enter' && (e.target as HTMLElement).tagName !== 'TEXTAREA') {
-      e.preventDefault();
-      e.stopPropagation();
-    }
-  }}
-  className="flex flex-col flex-1 min-h-0"
-  noValidate // Deshabilitar validación nativa
->
-                <div className="flex-1 overflow-y-auto px-6 py-4 space-y-6">
-                  {/* Información básica */}
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div className="space-y-4">
-                      <div className="space-y-2">
-                        <Label htmlFor="name" className="text-white-700 font-medium">Nombre del lugar *</Label>
-                        <Input
-                          id="name"
-                          value={formData.name}
-                          onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                          placeholder="Ej: Mirador de la Sierra"
-                          className="border-gray-300 focus:border-blue-500 focus:ring-blue-500"
-                        />
-                        {formErrors.name && <p className="text-sm text-red-600">{formErrors.name}</p>}
-                      </div>
-                      <div className="space-y-2">
-                        <Label htmlFor="category" className="text-white-700 font-medium">Categoría *</Label>
-                        <CategoryDropdown
-                          value={formData.category}
-                          onValueChange={(value) => setFormData({ ...formData, category: value })}
-                          error={formErrors.category}
-                          placeholder="Selecciona una categoría"
-                          categories={categories}
-                        />
-                      </div>
-                    </div>
-                    <div className="space-y-4">
-                      <div className="space-y-2">
-                        <Label htmlFor="location" className="text-white-700 font-medium">Ubicación *</Label>
-                        <div className="flex gap-2">
+                <form 
+                  onSubmit={handleSubmit}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter' && (e.target as HTMLElement).tagName !== 'TEXTAREA') {
+                      e.preventDefault();
+                      e.stopPropagation();
+                    }
+                  }}
+                  className="flex flex-col flex-1 min-h-0"
+                  noValidate
+                >
+                  <div className="flex-1 overflow-y-auto px-6 py-4 space-y-6">
+                    {/* Información básica */}
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                      <div className="space-y-4">
+                        <div className="space-y-2">
+                          <Label htmlFor="name" className="text-white font-medium">Nombre del lugar *</Label>
                           <Input
-                            id="location"
-                            value={formData.location}
-                            onChange={(e) => setFormData({ ...formData, location: e.target.value })}
-                            placeholder="Ej: Centro de San Juan Tahitic"
-                            className="flex-1 border-gray-300 focus:border-blue-500 focus:ring-blue-500"
+                            id="name"
+                            value={formData.name}
+                            onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                            placeholder="Ej: Mirador de la Sierra"
+                            className="border-gray-300 focus:border-blue-500 focus:ring-blue-500 text-black bg-white"
                           />
-                          <MapLocationSelector
-                            onLocationSelect={handleLocationSelect}
-                            currentLocation={formData.location}
-                            buttonText="Mapa"
-                            className="w-auto px-4 border-gray-300 hover:border-blue-500"
+                          {formErrors.name && <p className="text-sm text-red-400">{formErrors.name}</p>}
+                        </div>
+                        <div className="space-y-2">
+                          <Label htmlFor="category" className="text-white font-medium">Categoría *</Label>
+                          <CategoryDropdown
+                            value={formData.category}
+                            onValueChange={(value) => setFormData({ ...formData, category: value })}
+                            error={formErrors.category}
+                            placeholder="Selecciona una categoría"
+                            categories={categories}
                           />
                         </div>
-                        {formErrors.location && <p className="text-sm text-red-600">{formErrors.location}</p>}
+                      </div>
+                      <div className="space-y-4">
+                        <div className="space-y-2">
+                          <Label htmlFor="location" className="text-white font-medium">Ubicación *</Label>
+                          <div className="flex gap-2">
+                            <Input
+                              id="location"
+                              value={formData.location}
+                              onChange={(e) => setFormData({ ...formData, location: e.target.value })}
+                              placeholder="Ej: Centro de San Juan Tahitic"
+                              className="flex-1 border-gray-300 focus:border-blue-500 focus:ring-blue-500 text-black bg-white"
+                            />
+                            <MapLocationSelector
+                              onLocationSelect={handleLocationSelect}
+                              currentLocation={formData.location}
+                              buttonText="Mapa"
+                              className="w-auto px-4 border-gray-300 hover:border-blue-500"
+                            />
+                          </div>
+                          {formErrors.location && <p className="text-sm text-red-400">{formErrors.location}</p>}
+                        </div>
                       </div>
                     </div>
-                  </div>
 
-                  {/* Descripción */}
-                  <div className="space-y-4">
-                    <div className="flex items-center justify-between">
-                      <Label htmlFor="description" className="text-white-700 font-medium">Descripción *</Label>
-                      <span className={cn("text-sm", formData.description.length > 1800 ? "text-amber-600" : "text-gray-300")}>
-                        {formData.description.length}/2000 caracteres
-                      </span>
-                    </div>
-                    <Textarea
-                      id="description"
-                      value={formData.description}
-                      onChange={(e) => {
-                        if (e.target.value.length <= 2000) {
-                          setFormData({ ...formData, description: e.target.value });
-                        }
-                      }}
-                      placeholder="Describe el lugar, sus características, atractivos, historia, servicios disponibles, horarios, recomendaciones..."
-                      rows={6}
-                      className="min-h-[150px] max-h-[300px] resize-y border-gray-300 focus:border-blue-500 focus:ring-blue-500"
-                    />
-                    {formErrors.description && <p className="text-sm text-red-600">{formErrors.description}</p>}
-                    {formData.description && (
-                      <div className="mt-4 p-4 bg-gray-50 rounded-lg border border-gray-200">
-                        <h4 className="text-sm font-medium text-gray-700 mb-2">Vista previa:</h4>
-                        <ExpandableText 
-                          text={formData.description} 
-                          maxLength={200}
-                          className="text-gray-600 bg-white p-3 rounded border"
-                        />
+                    {/* Descripción */}
+                    <div className="space-y-4">
+                      <div className="flex items-center justify-between">
+                        <Label htmlFor="description" className="text-white font-medium">Descripción *</Label>
+                        <span className={cn("text-sm", formData.description.length > 1800 ? "text-amber-400" : "text-gray-300")}>
+                          {formData.description.length}/2000 caracteres
+                        </span>
                       </div>
-                    )}
-                  </div>
+                      <Textarea
+                        id="description"
+                        value={formData.description}
+                        onChange={(e) => {
+                          if (e.target.value.length <= 2000) {
+                            setFormData({ ...formData, description: e.target.value });
+                          }
+                        }}
+                        placeholder="Describe el lugar, sus características, atractivos, historia, servicios disponibles, horarios, recomendaciones..."
+                        rows={6}
+                        className="min-h-[150px] max-h-[300px] resize-y border-gray-300 focus:border-blue-500 focus:ring-blue-500 text-black bg-white"
+                      />
+                      {formErrors.description && <p className="text-sm text-red-400">{formErrors.description}</p>}
+                      {formData.description && (
+                        <div className="mt-4 p-4 bg-gray-800 rounded-lg border border-gray-700">
+                          <h4 className="text-sm font-medium text-white mb-2">Vista previa:</h4>
+                          <ExpandableText 
+                            text={formData.description} 
+                            maxLength={200}
+                            className="text-gray-300 bg-gray-900 p-3 rounded border border-gray-700"
+                          />
+                        </div>
+                      )}
+                    </div>
 
-                  {/* Archivos */}
-
-
+{/* Archivos */}
 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
   {/* Input de Imagen */}
   <div className="space-y-2">
@@ -791,35 +1045,40 @@ export const AdminPlaces = () => {
           </Button>
         </div>
       ) : editingPlace?.image_url ? (
-        <div className="flex items-center justify-between p-3 border-2 border-green-300/50 rounded-lg bg-green-500/10 backdrop-blur-sm">
-          <div className="flex items-center gap-3">
-            <img 
-              src={buildImageUrl(editingPlace.image_url)} 
-              alt="Imagen actual" 
-              className="w-12 h-12 object-cover rounded-lg border-2 border-green-200/50"
-            />
-            <span className="text-sm font-medium text-green-100">Imagen actual</span>
+        <div className="flex flex-col gap-2">
+          <div className="flex items-center justify-between p-3 border-2 border-green-300/50 rounded-lg bg-green-500/10 backdrop-blur-sm">
+            <div className="flex items-center gap-3">
+              <img 
+                src={buildImageUrl(editingPlace.image_url)} 
+                alt="Imagen actual" 
+                className="w-12 h-12 object-cover rounded-lg border-2 border-green-200/50"
+              />
+              <span className="text-sm font-medium text-green-100">Imagen actual</span>
+            </div>
+            <div className="flex gap-2">
+              <Button
+                type="button"
+                variant="outline"
+                size="sm"
+                onClick={() => imageInputRef.current?.click()}
+                className="border-blue-300 text-blue-100 hover:bg-blue-400/30 hover:text-white"
+              >
+                Cambiar
+              </Button>
+            </div>
           </div>
-          <div className="flex gap-2">
-            <Button
-              type="button"
-              variant="outline"
-              size="sm"
-              onClick={() => imageInputRef.current?.click()}
-              className="border-blue-300 text-blue-100 hover:bg-blue-400/30 hover:text-white"
-            >
-              Cambiar
-            </Button>
-            <Button
-              type="button"
-              variant="ghost"
-              size="sm"
-              onClick={() => removeFile('image')}
-              className="text-blue-200 hover:text-white hover:bg-blue-400/30"
-            >
-              <X className="h-4 w-4" />
-            </Button>
-          </div>
+          {/* ✅ BOTÓN PARA ELIMINAR IMAGEN */}
+          <Button
+          title='Eliminar Imagen'
+            type="button"
+            variant="destructive"
+            size="sm"
+            onClick={handleDeleteImage}
+            className="w-full bg-red-600 hover:bg-red-700 text-white border-red-600"
+          >
+            <Trash2 className="h-3 w-3 mr-2" />
+            Eliminar Imagen
+          </Button>
         </div>
       ) : (
         <div 
@@ -883,31 +1142,36 @@ export const AdminPlaces = () => {
           </Button>
         </div>
       ) : editingPlace?.pdf_url ? (
-        <div className="flex items-center justify-between p-3 border-2 border-green-300/50 rounded-lg bg-green-500/10 backdrop-blur-sm">
-          <div className="flex items-center gap-3">
-            <FileText className="h-12 w-12 text-green-300" />
-            <span className="text-sm font-medium text-green-100">PDF actual</span>
+        <div className="flex flex-col gap-2">
+          <div className="flex items-center justify-between p-3 border-2 border-green-300/50 rounded-lg bg-green-500/10 backdrop-blur-sm">
+            <div className="flex items-center gap-3">
+              <FileText className="h-12 w-12 text-green-300" />
+              <span className="text-sm font-medium text-green-100">PDF actual</span>
+            </div>
+            <div className="flex gap-2">
+              <Button
+                type="button"
+                variant="outline"
+                size="sm"
+                onClick={() => pdfInputRef.current?.click()}
+                className="border-indigo-300 text-indigo-100 hover:bg-indigo-400/30 hover:text-white"
+              >
+                Cambiar
+              </Button>
+            </div>
           </div>
-          <div className="flex gap-2">
-            <Button
-              type="button"
-              variant="outline"
-              size="sm"
-              onClick={() => pdfInputRef.current?.click()}
-              className="border-indigo-300 text-indigo-100 hover:bg-indigo-400/30 hover:text-white"
-            >
-              Cambiar
-            </Button>
-            <Button
-              type="button"
-              variant="ghost"
-              size="sm"
-              onClick={() => removeFile('pdf')}
-              className="text-indigo-200 hover:text-white hover:bg-indigo-400/30"
-            >
-              <X className="h-4 w-4" />
-            </Button>
-          </div>
+          {/* ✅ BOTÓN PARA ELIMINAR PDF */}
+          <Button
+          title='Eliminar PDF'
+            type="button"
+            variant="destructive"
+            size="sm"
+            onClick={handleDeletePDF}
+            className="w-full bg-red-600 hover:bg-red-700 text-white border-red-600"
+          >
+            <Trash2 className="h-3 w-3 mr-2" />
+            Eliminar PDF
+          </Button>
         </div>
       ) : (
         <div 
@@ -944,50 +1208,53 @@ export const AdminPlaces = () => {
     </div>
   </div>
 </div>
-</div>
+                  </div>
 
-
-                {/* Footer del formulario */}
-  <div className='border-l-indigo-950/50 border-t-2 flex-shrink-0 px-6 py-4 bg-indigo flex justify-end items-center gap-3'>
-    <div className="flex justify-end gap-3">
-      <Button
-        type="button"
-        variant="outline"
-        onClick={() => handleDialogOpenChange(false)}
-        disabled={isSubmitting}
-        className="bg-red-700 text-white hover:bg-red-600"
-      >
-        Cancelar
-      </Button>
-      <Button 
-        type="button" // ✅ CAMBIADO de "submit" a "button"
-        onClick={handleSubmit} // ✅ Manejo manual
-        disabled={isSubmitting}
-        className="bg-blue-600 text-white hover:bg-blue-700 min-w-24"
-      >
-        {isSubmitting ? (
-          <>
-            <Loader2 className="h-4 w-4 animate-spin mr-2" />
-            {editingPlace ? 'Actualizando...' : 'Creando...'}
-          </>
-        ) : (
-          editingPlace ? 'Actualizar' : 'Crear'
-        )}
-      </Button>
-    </div>
-  </div>
-</form>
+                  {/* Footer del formulario */}
+                  <div className='border-t border-gray-700 flex-shrink-0 px-6 py-4 bg-gray-800 flex justify-end items-center gap-3'>
+                    <div className="flex justify-end gap-3">
+                      <Button
+                        type="button"
+                        variant="outline"
+                        onClick={() => handleDialogOpenChange(false)}
+                        disabled={isSubmitting}
+                        className="bg-red-700 text-white hover:bg-red-600 border-red-600"
+                      >
+                        Cancelar
+                      </Button>
+                      <Button 
+                      title='Guardar Lugar'
+                        type="submit"
+                        disabled={isSubmitting || (editingPlace && !hasFormChanges())}
+                        className="bg-blue-600 text-white hover:bg-blue-700 min-w-24 border-blue-600"
+                      >
+                        {isSubmitting ? (
+                          <>
+                            <Loader2 className="h-4 w-4 animate-spin mr-2" />
+                            {editingPlace ? 'Actualizando...' : 'Creando...'}
+                          </>
+                        ) : editingPlace ? (
+                          hasFormChanges() ? 'Actualizar' : 'Sin cambios'
+                        ) : (
+                          'Crear'
+                        )}
+                      </Button>
+                    </div>
+                  </div>
+                </form>
               </FormErrorBoundary>
             </DialogContent>
           </Dialog>
         </div>
       </motion.div>
 
+      {/* Resto del componente permanece igual... */}
       {/* Filtros */}
       <Card className="border border-gray-200 shadow-lg bg-white">
         <CardContent className="p-6">
           <div className="grid grid-cols-1 lg:grid-cols-4 gap-4">
-            <div className="lg:col-span-2 relative">
+            <div className="lg:col-span-2 relative"
+            title='Buscar Lugares'>
               <Search className="absolute left-3 top-3 h-4 w-4 text-blue-500" />
               <Input
                 placeholder="Buscar lugares por nombre o descripción..."
@@ -1003,6 +1270,7 @@ export const AdminPlaces = () => {
             />
             <div className="flex gap-2">
               <Button
+                title='Ver en Modo Cuadricula'
                 variant={viewMode === 'grid' ? 'default' : 'outline'}
                 onClick={() => setViewMode('grid')}
                 className="flex-1 gap-2"
@@ -1013,9 +1281,10 @@ export const AdminPlaces = () => {
                   <div className="bg-current rounded-sm"></div>
                   <div className="bg-current rounded-sm"></div>
                 </div>
-                Grid
+                Cuadrícula
               </Button>
               <Button
+                  title='Ver en Tabla'
                 variant={viewMode === 'table' ? 'default' : 'outline'}
                 onClick={() => setViewMode('table')}
                 className="flex-1 gap-2"
@@ -1057,35 +1326,34 @@ export const AdminPlaces = () => {
               exit={{ opacity: 0 }}
               className="h-full overflow-y-auto"
             >
-              {/* En la vista grid - envuelve cada PlaceCard */}
-<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 pb-6">
-  {filteredPlaces.map((place) => (
-    <AdminErrorBoundary 
-      key={place.id}
-      operation={`renderizado de card ${place.name}`}
-      fallback={
-        <Card className="border border-red-200 bg-red-50 p-4 text-center">
-          <p className="text-red-600 text-sm">Error mostrando lugar</p>
-          <Button 
-            variant="outline" 
-            size="sm" 
-            onClick={() => window.location.reload()}
-            className="mt-2"
-          >
-            Recargar
-          </Button>
-        </Card>
-      }
-    >
-      <PlaceCard
-        place={place}
-        onEdit={handleEdit}
-        onDelete={openDeleteDialog}
-        onManageGallery={openGalleryManager}
-      />
-    </AdminErrorBoundary>
-  ))}
-</div>
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 pb-6">
+                {filteredPlaces.map((place) => (
+                  <AdminErrorBoundary 
+                    key={place.id}
+                    operation={`renderizado de card ${place.name}`}
+                    fallback={
+                      <Card className="border border-red-200 bg-red-50 p-4 text-center">
+                        <p className="text-red-600 text-sm">Error mostrando lugar</p>
+                        <Button 
+                          variant="outline" 
+                          size="sm" 
+                          onClick={() => window.location.reload()}
+                          className="mt-2"
+                        >
+                          Recargar
+                        </Button>
+                      </Card>
+                    }
+                  >
+                    <PlaceCard
+                      place={place}
+                      onEdit={handleEdit}
+                      onDelete={openDeleteDialog}
+                      onManageGallery={openGalleryManager}
+                    />
+                  </AdminErrorBoundary>
+                ))}
+              </div>
             </motion.div>
           ) : (
             <motion.div
@@ -1159,64 +1427,69 @@ export const AdminPlaces = () => {
                                 totalRatings={place.total_ratings} 
                               />
                             </TableCell>
-                            {/* En la tabla - envuelve cada botón de acción */}
-<TableCell>
-  <div className="flex justify-end gap-2">
-    <AdminErrorBoundary 
-      operation="edición de lugar" 
-      fallback={
-        <Button variant="ghost" size="sm" disabled className="text-gray-400">
-          <Edit className="h-4 w-4" />
-        </Button>
-      }
-    >
-      <Button 
-        variant="ghost" 
-        size="sm" 
-        onClick={() => handleEdit(place)} 
-        className="text-blue-600 hover:text-blue-800 hover:bg-blue-50"
-      >
-        <Edit className="h-4 w-4" />
-      </Button>
-    </AdminErrorBoundary>
+                            <TableCell>
+                              <div className="flex justify-end gap-2">
+                                <AdminErrorBoundary 
+                                  operation="edición de lugar" 
+                                  fallback={
+                                    <Button variant="ghost" size="sm" disabled className="text-gray-400"
+                                    title='No se puede editar'>
+                                      <Edit className="h-4 w-4" />
+                                    </Button>
+                                  }
+                                >
+                                  <Button 
+                                      title='Editar Lugar'
+                                    variant="ghost" 
+                                    size="sm" 
+                                    onClick={() => handleEdit(place)} 
+                                    className="text-blue-600 hover:text-blue-800 hover:bg-blue-50"
+                                  >
+                                    <Edit className="h-4 w-4" />
+                                  </Button>
+                                </AdminErrorBoundary>
 
-    <AdminErrorBoundary 
-      operation="gestión de galería"
-      fallback={
-        <Button variant="ghost" size="sm" disabled className="text-gray-400">
-          <Grid3X3 className="h-4 w-4" />
-        </Button>
-      }
-    >
-      <Button 
-        variant="ghost" 
-        size="sm" 
-        onClick={() => openGalleryManager(place)} 
-        className="text-green-600 hover:text-green-800 hover:bg-green-50"
-      >
-        <Grid3X3 className="h-4 w-4" />
-      </Button>
-    </AdminErrorBoundary>
+                                <AdminErrorBoundary 
+                                  operation="gestión de galería"
+                                  fallback={
+                                    <Button variant="ghost" size="sm" disabled className="text-gray-400"
+                                    title='No se puede gestionar la galería'>
+                                      <Grid3X3 className="h-4 w-4" />
+                                    </Button>
+                                  }
+                                >
+                                  <Button 
+                                  title='Gestionar Galería'
+                                    variant="ghost" 
+                                    size="sm" 
+                                    onClick={() => openGalleryManager(place)} 
+                                    className="text-green-600 hover:text-green-800 hover:bg-green-50"
+                                  >
+                                    <Grid3X3 className="h-4 w-4" />
+                                  </Button>
+                                </AdminErrorBoundary>
 
-    <AdminErrorBoundary 
-      operation="apertura de diálogo de eliminación"
-      fallback={
-        <Button variant="ghost" size="sm" disabled className="text-gray-400">
-          <Trash2 className="h-4 w-4" />
-        </Button>
-      }
-    >
-      <Button 
-        variant="ghost" 
-        size="sm" 
-        onClick={() => openDeleteDialog(place)} 
-        className="text-red-600 hover:text-red-800 hover:bg-red-50"
-      >
-        <Trash2 className="h-4 w-4" />
-      </Button>
-    </AdminErrorBoundary>
-  </div>
-</TableCell>
+                                <AdminErrorBoundary 
+                                  operation="apertura de diálogo de eliminación"
+                                  fallback={
+                                    <Button variant="ghost" size="sm" disabled className="text-gray-400"
+                                    title='No se puede eliminar'>
+                                      <Trash2 className="h-4 w-4" />
+                                    </Button>
+                                  }
+                                >
+                                  <Button 
+                                  title='Eliminar Lugar'
+                                    variant="ghost" 
+                                    size="sm" 
+                                    onClick={() => openDeleteDialog(place)} 
+                                    className="text-red-600 hover:text-red-800 hover:bg-red-50"
+                                  >
+                                    <Trash2 className="h-4 w-4" />
+                                  </Button>
+                                </AdminErrorBoundary>
+                              </div>
+                            </TableCell>
                           </TableRow>
                         ))}
                       </TableBody>
@@ -1230,61 +1503,59 @@ export const AdminPlaces = () => {
       </div>
 
       {/* Diálogo de eliminación */}
-{/* Diálogo de eliminación - ENVUELTO CON ERROR BOUNDARY */}
-<AlertDialog open={isDeleteDialogOpen} onOpenChange={setIsDeleteDialogOpen}>
-  <AlertDialogContent className="border border-gray-200 shadow-2xl bg-white">
-    <AdminErrorBoundary operation="eliminación de lugar">
-      <AlertDialogHeader>
-        <AlertDialogTitle className="text-red-600">
-          ¿Eliminar lugar?
-        </AlertDialogTitle>
-        <AlertDialogDescription className="text-gray-600">
-          Esta acción no se puede deshacer. El lugar "{editingPlace?.name}" será eliminado permanentemente junto con todas sus calificaciones y datos asociados.
-        </AlertDialogDescription>
-      </AlertDialogHeader>
-      <AlertDialogFooter>
-        <AlertDialogCancel 
-          className="border-gray-300 text-gray-700 hover:bg-gray-50"
-          disabled={isDeleting}
-        >
-          Cancelar
-        </AlertDialogCancel>
-        <AlertDialogAction 
-          onClick={handleDelete} 
-          className="bg-red-600 text-white hover:bg-red-700 disabled:bg-red-400"
-          disabled={isDeleting}
-        >
-          {isDeleting ? (
-            <>
-              <Loader2 className="h-4 w-4 animate-spin mr-2" />
-              Eliminando...
-            </>
-          ) : (
-            <>
-              <Trash2 className="h-4 w-4 mr-2" />
-              Eliminar Permanentemente
-            </>
-          )}
-        </AlertDialogAction>
-      </AlertDialogFooter>
-    </AdminErrorBoundary>
-  </AlertDialogContent>
-</AlertDialog>
+      <AlertDialog open={isDeleteDialogOpen} onOpenChange={setIsDeleteDialogOpen}>
+        <AlertDialogContent className="border border-gray-200 shadow-2xl bg-white">
+          <AdminErrorBoundary operation="eliminación de lugar">
+            <AlertDialogHeader>
+              <AlertDialogTitle className="text-red-600">
+                ¿Eliminar lugar?
+              </AlertDialogTitle>
+              <AlertDialogDescription className="text-gray-600">
+                Esta acción no se puede deshacer. El lugar "{editingPlace?.name}" será eliminado permanentemente junto con todas sus calificaciones y datos asociados.
+              </AlertDialogDescription>
+            </AlertDialogHeader>
+            <AlertDialogFooter>
+              <AlertDialogCancel 
+                className="border-gray-300 text-gray-700 hover:bg-gray-50"
+                disabled={isDeleting}
+              >
+                Cancelar
+              </AlertDialogCancel>
+              <AlertDialogAction 
+                onClick={handleDelete} 
+                className="bg-red-600 text-white hover:bg-red-700 disabled:bg-red-400"
+                disabled={isDeleting}
+              >
+                {isDeleting ? (
+                  <>
+                    <Loader2 className="h-4 w-4 animate-spin mr-2" />
+                    Eliminando...
+                  </>
+                ) : (
+                  <>
+                    <Trash2 className="h-4 w-4 mr-2" />
+                    Eliminar Permanentemente
+                  </>
+                )}
+              </AlertDialogAction>
+            </AlertDialogFooter>
+          </AdminErrorBoundary>
+        </AlertDialogContent>
+      </AlertDialog>
 
       {/* Gallery Manager */}
-{/* Gallery Manager - ENVUELTO CON ERROR BOUNDARY */}
-{selectedPlaceForGallery && (
-  <AdminErrorBoundary operation="gestión de galería">
-    <GalleryManager
-      key={selectedPlaceForGallery.id}
-      placeId={selectedPlaceForGallery.id}
-      placeName={selectedPlaceForGallery.name}
-      isOpen={galleryManagerOpen}
-      onClose={closeGalleryManager}
-      onGalleryUpdate={handleGalleryUpdate}
-    />
-  </AdminErrorBoundary>
-)}
+      {selectedPlaceForGallery && (
+        <AdminErrorBoundary operation="gestión de galería">
+          <GalleryManager
+            key={selectedPlaceForGallery.id}
+            placeId={selectedPlaceForGallery.id}
+            placeName={selectedPlaceForGallery.name}
+            isOpen={galleryManagerOpen}
+            onClose={closeGalleryManager}
+            onGalleryUpdate={handleGalleryUpdate}
+          />
+        </AdminErrorBoundary>
+      )}
     </div>
   );
 };

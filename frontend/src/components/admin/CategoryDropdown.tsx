@@ -37,6 +37,7 @@ export const CategoryDropdown = ({
       <DropdownMenu open={open} onOpenChange={setOpen}>
         <DropdownMenuTrigger asChild>
           <Button
+          title='Seleccionar categoría'
             variant="outline"
             className={cn(
               "w-full justify-between border-blue-200 focus:border-blue-500",

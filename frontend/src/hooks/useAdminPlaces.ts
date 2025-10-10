@@ -284,16 +284,14 @@ export const useAdminPlaces = () => {
   /**
    * Subir imagen de un lugar
    */
-// En useAdminPlaces.ts - modifica las funciones de upload
 
 const uploadPlaceImage = useCallback(async (placeId: string, imageFile: File) => {
   try {
-    console.log('🖼️ [UPLOAD] Iniciando subida de imagen para lugar:', placeId);
+    console.log('🖼️ [UPLOAD] Subiendo imagen para lugar:', placeId);
     
     const formData = new FormData();
     formData.append('imagen', imageFile);
 
-    // Timeout más largo y manejo de errores mejorado
     const response = await api.post<{ 
       mensaje: string;
       url_imagen: string;
@@ -301,12 +299,12 @@ const uploadPlaceImage = useCallback(async (placeId: string, imageFile: File) =>
       headers: {
         'Content-Type': 'multipart/form-data',
       },
-      timeout: 45000, // 45 segundos para subidas lentas
+      timeout: 30000,
     });
 
-    console.log('✅ [UPLOAD] Imagen subida correctamente:', response.data.url_imagen);
+    console.log('✅ [UPLOAD] Imagen subida correctamente');
 
-    // Actualización optimista del estado
+    // Actualizar el estado local
     setPlaces(prevPlaces => 
       prevPlaces.map(place => 
         place.id === placeId 
@@ -317,10 +315,44 @@ const uploadPlaceImage = useCallback(async (placeId: string, imageFile: File) =>
 
     return response.data;
   } catch (err: unknown) {
-    console.error('❌ [UPLOAD] Error subiendo imagen:', err);
     const errorMessage = handleError(err);
+    console.error('❌ [UPLOAD] Error subiendo imagen:', errorMessage);
+    throw new Error(errorMessage);
+  }
+}, []);
+
+const uploadPlacePDF = useCallback(async (placeId: string, pdfFile: File) => {
+  try {
+    console.log('📄 [UPLOAD] Subiendo PDF para lugar:', placeId);
     
-    // NO mostrar toast aquí, dejar que el componente padre lo maneje
+    const formData = new FormData();
+    formData.append('pdf', pdfFile);
+
+    const response = await api.post<{ 
+      mensaje: string;
+      url_pdf: string;
+    }>(`/api/lugares/${placeId}/pdf`, formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+      timeout: 30000,
+    });
+
+    console.log('✅ [UPLOAD] PDF subido correctamente');
+
+    // Actualizar el estado local
+    setPlaces(prevPlaces => 
+      prevPlaces.map(place => 
+        place.id === placeId 
+          ? { ...place, pdf_url: response.data.url_pdf }
+          : place
+      )
+    );
+
+    return response.data;
+  } catch (err: unknown) {
+    const errorMessage = handleError(err);
+    console.error('❌ [UPLOAD] Error subiendo PDF:', errorMessage);
     throw new Error(errorMessage);
   }
 }, []);
@@ -547,44 +579,7 @@ const replaceMainImage = useCallback(async (placeId: string, imageFile: File) =>
     }
   }, [fetchPlaces, toast]);
 
-  /**
-   * Subir PDF de un lugar
-   */
-  const uploadPlacePDF = useCallback(async (placeId: string, pdfFile: File) => {
-    try {
-      const formData = new FormData();
-      formData.append('pdf', pdfFile);
 
-      const response = await api.post<{ 
-        mensaje: string;
-        url_pdf: string;
-      }>(`/api/lugares/${placeId}/pdf`, formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-        },
-      });
-
-      // Actualizar el lugar con la nueva URL del PDF
-      await updatePlace(placeId, { pdf_url: response.data.url_pdf });
-
-      toast({
-        title: '✅ PDF subido',
-        description: 'El PDF se ha subido exitosamente',
-      });
-
-      return response.data;
-    } catch (err: unknown) { // ✅ CORREGIDO: Eliminado 'any'
-      const errorMessage = handleError(err);
-      
-      toast({
-        title: '❌ Error',
-        description: errorMessage,
-        variant: 'destructive',
-      });
-      
-      throw new Error(errorMessage);
-    }
-  }, [updatePlace, toast]);
 
   /**
    * Actualizar descripción de una imagen - CORREGIDA
@@ -812,6 +807,73 @@ const uploadPDFForPlace = useCallback(async (placeId: string, pdfFile: File) => 
   }
 }, []);
 
+// En useAdminPlaces.ts - agrega estas funciones
+
+/**
+ * Eliminar imagen de un lugar
+ */
+const deletePlaceImage = useCallback(async (placeId: string) => {
+  try {
+    console.log('🗑️ [DELETE] Eliminando imagen del lugar:', placeId);
+    
+    const response = await api.delete<{ 
+      mensaje: string;
+      nueva_imagen_principal: { id: string; url_foto: string } | null;
+    }>(`/api/lugares/${placeId}/imagen-principal`);
+
+    console.log('✅ [DELETE] Imagen eliminada correctamente');
+
+    // Actualizar el estado local
+    setPlaces(prevPlaces => 
+      prevPlaces.map(place => 
+        place.id === placeId 
+          ? { 
+              ...place, 
+              image_url: response.data.nueva_imagen_principal?.url_foto || '',
+              gallery_images: place.gallery_images?.filter(img => !img.es_principal) || []
+            }
+          : place
+      )
+    );
+
+    return response.data;
+  } catch (err: unknown) {
+    const errorMessage = handleError(err);
+    console.error('❌ [DELETE] Error eliminando imagen:', errorMessage);
+    throw new Error(errorMessage);
+  }
+}, []);
+
+/**
+ * Eliminar PDF de un lugar
+ */
+const deletePlacePDF = useCallback(async (placeId: string) => {
+  try {
+    console.log('🗑️ [DELETE] Eliminando PDF del lugar:', placeId);
+    
+    const response = await api.delete<{ 
+      mensaje: string;
+    }>(`/api/lugares/${placeId}/pdf`);
+
+    console.log('✅ [DELETE] PDF eliminado correctamente');
+
+    // Actualizar el estado local
+    setPlaces(prevPlaces => 
+      prevPlaces.map(place => 
+        place.id === placeId 
+          ? { ...place, pdf_url: '' }
+          : place
+      )
+    );
+
+    return response.data;
+  } catch (err: unknown) {
+    const errorMessage = handleError(err);
+    console.error('❌ [DELETE] Error eliminando PDF:', errorMessage);
+    throw new Error(errorMessage);
+  }
+}, []);
+
   // Función para limpiar errores
   const clearError = useCallback(() => {
     setError(null);
@@ -838,6 +900,8 @@ const uploadPDFForPlace = useCallback(async (placeId: string, pdfFile: File) => 
     uploadImageForPlace, // ✅ AÑADIDO
     uploadPDFForPlace, // ✅ AÑADIDO
     replaceMainImage,
+    deletePlaceImage, // ✅ AÑADIDO
+    deletePlacePDF, // ✅ AÑADIDO
     clearError,
   };
 };

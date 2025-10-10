@@ -3,6 +3,7 @@ import { Request, Response } from 'express';
 import { pool } from '../utils/baseDeDatos';
 import fs from 'fs';
 import sharp from 'sharp';
+import path from 'path';
 
 export const lugarController = {
   // Obtener todos los lugares (público) - SIN CAMBIOS
@@ -122,33 +123,51 @@ export const lugarController = {
   },
 
   // Actualizar lugar (admin only) - SIN CAMBIOS
-  async actualizarLugar(req: Request, res: Response) {
-    try {
-      const { id } = req.params;
-      const { nombre, descripcion, ubicacion, categoria, foto_principal_url, pdf_url } = req.body;
+// En lugarController.ts - mejorar actualizarLugar
+async actualizarLugar(req: Request, res: Response) {
+  try {
+    const { id } = req.params;
+    const { nombre, descripcion, ubicacion, categoria, foto_principal_url, pdf_url } = req.body;
 
-      const result = await pool.query(
-        `UPDATE lugares 
-         SET nombre = $1, descripcion = $2, ubicacion = $3, categoria = $4, 
-             foto_principal_url = $5, pdf_url = $6, actualizado_en = NOW()
-         WHERE id = $7
-         RETURNING *`,
-        [nombre, descripcion, ubicacion, categoria, foto_principal_url, pdf_url, id]
-      );
+    // ✅ Obtener el lugar actual primero
+    const lugarActual = await pool.query(
+      'SELECT * FROM lugares WHERE id = $1',
+      [id]
+    );
 
-      if (result.rows.length === 0) {
-        return res.status(404).json({ error: 'Lugar no encontrado' });
-      }
-
-      res.json({
-        mensaje: 'Lugar actualizado exitosamente',
-        lugar: result.rows[0]
-      });
-    } catch (error) {
-      console.error('Error actualizando lugar:', error);
-      res.status(500).json({ error: 'Error al actualizar lugar' });
+    if (lugarActual.rows.length === 0) {
+      return res.status(404).json({ error: 'Lugar no encontrado' });
     }
-  },
+
+    const lugar = lugarActual.rows[0];
+
+    // ✅ Usar valores existentes si no se proporcionan nuevos
+    const nombreFinal = nombre || lugar.nombre;
+    const descripcionFinal = descripcion || lugar.descripcion;
+    const ubicacionFinal = ubicacion || lugar.ubicacion;
+    const categoriaFinal = categoria || lugar.categoria;
+    const fotoPrincipalFinal = foto_principal_url !== undefined ? foto_principal_url : lugar.foto_principal_url;
+    const pdfFinal = pdf_url !== undefined ? pdf_url : lugar.pdf_url;
+
+    const result = await pool.query(
+      `UPDATE lugares 
+       SET nombre = $1, descripcion = $2, ubicacion = $3, categoria = $4, 
+           foto_principal_url = $5, pdf_url = $6, actualizado_en = NOW()
+       WHERE id = $7
+       RETURNING *`,
+      [nombreFinal, descripcionFinal, ubicacionFinal, categoriaFinal, 
+       fotoPrincipalFinal, pdfFinal, id]
+    );
+
+    res.json({
+      mensaje: 'Lugar actualizado exitosamente',
+      lugar: result.rows[0]
+    });
+  } catch (error) {
+    console.error('Error actualizando lugar:', error);
+    res.status(500).json({ error: 'Error al actualizar lugar' });
+  }
+},
 
   // Eliminar lugar (admin only) - SIN CAMBIOS
   async eliminarLugar(req: Request, res: Response) {
@@ -742,6 +761,48 @@ async subirMultipleImagenesLugar(req: Request, res: Response) {
       res.status(500).json({ error: 'Error al eliminar imagen principal' });
     }
   },
+
+  // En lugarController.ts - agrega esta función
+
+// Eliminar PDF de lugar
+async eliminarPDFLugar(req: Request, res: Response) {
+  try {
+    const { id } = req.params;
+
+    // Verificar que el lugar existe
+    const lugarResult = await pool.query(
+      'SELECT id, pdf_url FROM lugares WHERE id = $1',
+      [id]
+    );
+
+    if (lugarResult.rows.length === 0) {
+      return res.status(404).json({ error: 'Lugar no encontrado' });
+    }
+
+    const lugar = lugarResult.rows[0];
+
+    // Si existe un PDF, eliminar el archivo físico
+    if (lugar.pdf_url) {
+      const pdfPath = path.join(__dirname, '..', '..', lugar.pdf_url);
+      if (fs.existsSync(pdfPath)) {
+        fs.unlinkSync(pdfPath);
+      }
+    }
+
+    // Actualizar la base de datos
+    await pool.query(
+      'UPDATE lugares SET pdf_url = NULL, actualizado_en = NOW() WHERE id = $1',
+      [id]
+    );
+
+    res.json({ 
+      mensaje: 'PDF eliminado exitosamente'
+    });
+  } catch (error) {
+    console.error('Error eliminando PDF:', error);
+    res.status(500).json({ error: 'Error al eliminar PDF' });
+  }
+},
 
   // Reemplazar imagen principal - VERSIÓN CORREGIDA
 async reemplazarImagenPrincipal(req: Request, res: Response) {

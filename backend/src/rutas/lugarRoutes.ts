@@ -88,6 +88,11 @@ router.delete('/:id/imagen-principal',
   lugarController.eliminarImagenPrincipal
 );
 
+router.delete('/:id/pdf',
+  autenticarAdmin,
+  lugarController.eliminarPDFLugar
+);
+
 // Reemplazar imagen principal (admin)
 router.put('/:id/imagen-principal', 
   autenticarAdmin,

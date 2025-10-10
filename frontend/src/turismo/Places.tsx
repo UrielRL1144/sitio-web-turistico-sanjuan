@@ -4,8 +4,8 @@ import { useState, useEffect, useCallback } from 'react';
 import { Badge } from '@/components/ui/badge';
 import { TermsAndConditionsDialog } from '@/components/TermsAndConditionsDialog'; 
 import { Button } from '@/components/ui/button';
-import { MapPin, Clock, Users, Star, BarChart3, ThumbsUp, Loader2 } from 'lucide-react';
-import { usePlaces, type GalleryImage } from '@/hooks/usePlaces';
+import { MapPin, Clock, Users, Star, BarChart3, ThumbsUp, Loader2, FileText } from 'lucide-react';
+import { usePlaces, type GalleryImage, type Place } from '@/hooks/usePlaces';
 import { useCategories } from '@/hooks/useCategories';
 
 import { Skeleton } from '@/components/ui/skeleton';
@@ -406,7 +406,8 @@ const Places = () => {
     isRating,
     getUserCurrentRating,
     hasUserRated,
-    getPlaceGallery
+    getPlaceGallery,
+    getPlacePdfUrl 
   } = usePlaces();
   
   const { getCategoryColor } = useCategories();
@@ -589,6 +590,23 @@ const Places = () => {
       loadRatingStats();
     }
   }, [places, getRatingStats]);
+
+  // En el componente Places, agrega esta función
+const handleOpenPdf = (place: Place) => {
+  const pdfUrl = getPlacePdfUrl(place);
+  
+  if (!pdfUrl) {
+    toast({
+      title: 'ℹ️ Información',
+      description: 'Este lugar no tiene una guía PDF disponible',
+      variant: 'default',
+    });
+    return;
+  }
+
+  // Abrir el PDF en una nueva pestaña
+  window.open(pdfUrl, '_blank', 'noopener,noreferrer');
+};
 
   // ✅ CORREGIDO: Función para cargar la galería de un lugar específico
   const loadPlaceGallery = useCallback(async (placeId: string): Promise<GalleryImage[]> => {
@@ -961,24 +979,53 @@ const Places = () => {
                       ))}
                     </div>
 
-                    <Button 
-                      className={cn(
-                        "w-full shadow-md hover:shadow-lg transition-all duration-300",
-                        theme === 'default' && "bg-gradient-to-r from-blue-500 to-indigo-600 text-white hover:from-blue-600 hover:to-indigo-700",
-                        theme === 'nature' && "bg-gradient-to-r from-green-500 to-emerald-600 text-white hover:from-green-600 hover:to-emerald-700",
-                        theme === 'waterfall' && "bg-gradient-to-r from-blue-500 to-cyan-600 text-white hover:from-blue-600 hover:to-cyan-700",
-                        theme === 'cultural' && "bg-gradient-to-r from-amber-500 to-orange-600 text-white hover:from-amber-600 hover:to-orange-700",
-                        theme === 'history' && "bg-gradient-to-r from-purple-500 to-pink-600 text-white hover:from-purple-600 hover:to-pink-700",
-                        theme === 'bridge' && "bg-gradient-to-r from-gray-700 to-gray-900 text-white hover:from-gray-800 hover:to-black",
-                        theme === 'viewpoint' && "bg-gradient-to-r from-yellow-500 to-red-600 text-white hover:from-yellow-600 hover:to-red-700",
-                        theme === 'trail' && "bg-gradient-to-r from-teal-500 to-cyan-600 text-white hover:from-teal-600 hover:to-cyan-700",
-                        theme === 'montain' && "bg-gradient-to-r from-gray-600 to-gray-800 text-white hover:from-gray-700 hover:to-black",
-                        theme === 'river' && "bg-gradient-to-r from-blue-600 to-blue-800 text-white hover:from-blue-700 hover:to-black",
-                        theme === 'path' && "bg-gradient-to-r from-teal-500 to-cyan-600 text-white hover:from-teal-600 hover:to-cyan-700"
-                      )}
-                    >
-                      Ver Detalles
-                    </Button>
+                    <div className="flex flex-col gap-2">
+  {/* Botón principal para ver detalles */}
+  <Button 
+    className={cn(
+      "w-full shadow-md hover:shadow-lg transition-all duration-300",
+      theme === 'default' && "bg-gradient-to-r from-blue-500 to-indigo-600 text-white hover:from-blue-600 hover:to-indigo-700",
+      theme === 'nature' && "bg-gradient-to-r from-green-500 to-emerald-600 text-white hover:from-green-600 hover:to-emerald-700",
+      theme === 'waterfall' && "bg-gradient-to-r from-blue-500 to-cyan-600 text-white hover:from-blue-600 hover:to-cyan-700",
+      theme === 'cultural' && "bg-gradient-to-r from-amber-500 to-orange-600 text-white hover:from-amber-600 hover:to-orange-700",
+      theme === 'history' && "bg-gradient-to-r from-purple-500 to-pink-600 text-white hover:from-purple-600 hover:to-pink-700",
+      theme === 'bridge' && "bg-gradient-to-r from-gray-700 to-gray-900 text-white hover:from-gray-800 hover:to-black",
+      theme === 'viewpoint' && "bg-gradient-to-r from-yellow-500 to-red-600 text-white hover:from-yellow-600 hover:to-red-700",
+      theme === 'trail' && "bg-gradient-to-r from-teal-500 to-cyan-600 text-white hover:from-teal-600 hover:to-cyan-700",
+      theme === 'montain' && "bg-gradient-to-r from-gray-600 to-gray-800 text-white hover:from-gray-700 hover:to-black",
+      theme === 'river' && "bg-gradient-to-r from-blue-600 to-blue-800 text-white hover:from-blue-700 hover:to-black",
+      theme === 'path' && "bg-gradient-to-r from-teal-500 to-cyan-600 text-white hover:from-teal-600 hover:to-cyan-700"
+    )}
+  >
+    Ver Detalles
+  </Button>
+
+  {/* Botón para ver PDF si está disponible */}
+  {place.pdf_url && (
+    <Button 
+      variant="outline"
+      size="sm"
+      onClick={() => handleOpenPdf(place)}
+      className={cn(
+        "w-full border-2 transition-all duration-300 hover:scale-105",
+        theme === 'default' && "border-blue-300 text-blue-700 hover:bg-blue-50 hover:border-blue-400",
+        theme === 'nature' && "border-green-300 text-green-700 hover:bg-green-50 hover:border-green-400",
+        theme === 'waterfall' && "border-blue-300 text-blue-700 hover:bg-blue-50 hover:border-blue-400",
+        theme === 'cultural' && "border-amber-300 text-amber-700 hover:bg-amber-50 hover:border-amber-400",
+        theme === 'history' && "border-purple-300 text-purple-700 hover:bg-purple-50 hover:border-purple-400",
+        theme === 'bridge' && "border-gray-400 text-gray-700 hover:bg-gray-50 hover:border-gray-500",
+        theme === 'viewpoint' && "border-yellow-300 text-yellow-700 hover:bg-yellow-50 hover:border-yellow-400",
+        theme === 'trail' && "border-teal-300 text-teal-700 hover:bg-teal-50 hover:border-teal-400",
+        theme === 'montain' && "border-gray-400 text-gray-700 hover:bg-gray-50 hover:border-gray-500",
+        theme === 'river' && "border-blue-400 text-blue-700 hover:bg-blue-50 hover:border-blue-500",
+        theme === 'path' && "border-teal-300 text-teal-700 hover:bg-teal-50 hover:border-teal-400"
+      )}
+    >
+      <FileText className="w-4 h-4 mr-2" />
+      Ver Guía PDF
+    </Button>
+  )}
+</div>
                   </div>
                 </div>
               );

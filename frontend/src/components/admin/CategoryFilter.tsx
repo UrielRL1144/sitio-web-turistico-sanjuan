@@ -7,7 +7,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import { Filter, Check } from 'lucide-react';
+import { Filter, Check, ChevronDown } from 'lucide-react';
 
 interface CategoryFilterProps {
   value: string;
@@ -32,9 +32,11 @@ export const CategoryFilter = ({
   return (
     <DropdownMenu open={open} onOpenChange={setOpen}>
       <DropdownMenuTrigger asChild>
-        <Button variant="outline" className="w-full justify-start border-blue-200 focus:border-blue-500">
+        <Button variant="outline" className="w-full justify-start border-blue-200 focus:border-blue-500"
+          title='Filtrar por categoría'>
           <Filter className="h-4 w-4 mr-2 text-blue-500" />
           <span className="truncate">{displayValue}</span>
+          <ChevronDown className="h-4 w-4 opacity-50 ml-auto" />
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent 

@@ -608,6 +608,25 @@ const fetchPlaceById = useCallback(async (placeId: string): Promise<PlaceDetails
     return place.gallery_images || [];
   }, []);
 
+
+/**
+ * Obtener URL del PDF del lugar para visualización/descarga
+ */
+const getPlacePdfUrl = useCallback((place: Place): string | null => {
+  if (!place.pdf_url) return null;
+  
+  // Si ya es una URL completa, retornarla directamente
+  if (place.pdf_url.startsWith('http')) {
+    return place.pdf_url;
+  }
+  
+  // Construir URL completa para PDFs relativos
+  const backendUrl = import.meta.env.VITE_API_URL || 'http://localhost:4000';
+  const normalizedPath = place.pdf_url.startsWith('/') ? place.pdf_url : `/${place.pdf_url}`;
+  
+  return `${backendUrl}${normalizedPath}`;
+}, []);
+
   /**
    * Obtener imagen principal desde la galería
    */
@@ -678,6 +697,7 @@ const fetchPlaceById = useCallback(async (placeId: string): Promise<PlaceDetails
     hasUserRated,
     getUserCurrentRating,
     clearUserRating,
+    getPlacePdfUrl,
     
     // Re-fetch
     refetch: fetchPlaces,
