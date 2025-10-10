@@ -1,4 +1,4 @@
-// hooks/useAdminPlaces.ts - VERSIÓN CORREGIDA
+// hooks/useAdminPlaces.ts - VERSIÓN COMPLETAMENTE CORREGIDA
 import { useState, useCallback } from 'react';
 import { useToast } from '@/hooks/use-toast';
 import api from '@/lib/axios';
@@ -6,23 +6,66 @@ import api from '@/lib/axios';
 export interface Place {
   id: string;
   name: string;
-  description: string | null;
-  image_url: string | null;
-  pdf_url: string | null;
-  category: string | null;
-  location: string | null;
+  description: string;
+  location: string;
+  category: string;
+  image_url: string;
+  pdf_url: string;
   average_rating: number;
   total_ratings: number;
+  total_experiences: number;
   created_at: string;
+  updated_at: string;
+  gallery_images?: GalleryImage[]; // ✅ AÑADIDO: Propiedad faltante
+}
+
+// Interface para imágenes de la galería
+export interface GalleryImage {
+  id: string;
+  url_foto: string;
+  descripcion: string;
+  es_principal: boolean;
+  orden: number;
+  creado_en: string;
+  ancho_imagen?: number;
+  alto_imagen?: number;
+  tamaño_archivo?: number;
+  tipo_archivo?: string;
+}
+
+// Interface para la API (nombres en español)
+interface ApiPlace {
+  id: string;
+  nombre: string;
+  descripcion: string;
+  ubicacion: string;
+  categoria: string;
+  foto_principal_url: string;
+  pdf_url: string;
+  puntuacion_promedio: number;
+  total_calificaciones: number;
+  total_experiencias: number;
+  creado_en: string;
+  actualizado_en: string;
 }
 
 interface PlaceFormData {
   name: string;
-  description?: string;
+  description: string;
+  location: string;
+  category: string;
   image_url?: string;
   pdf_url?: string;
-  location?: string;
-  category?: string;
+}
+
+// ✅ INTERFACE PARA ERRORES - Elimina el uso de 'any'
+interface ApiError {
+  response?: {
+    data?: {
+      error?: string;
+    };
+  };
+  message?: string;
 }
 
 export const useAdminPlaces = () => {
@@ -31,25 +74,37 @@ export const useAdminPlaces = () => {
   const [error, setError] = useState<string | null>(null);
   const { toast } = useToast();
 
-  const buildImageUrl = (imagePath: string | null | undefined): string => {
-    if (!imagePath) return '';
-    
-    if (imagePath.startsWith('http')) {
-      return imagePath;
-    }
-    
-    const backendUrl = import.meta.env.VITE_API_URL || 'http://localhost:4000';
-    const normalizedPath = imagePath.startsWith('/') ? imagePath : `/${imagePath}`;
-    
-    return `${backendUrl}${normalizedPath}`;
+  // Función para manejar errores de forma tipada
+  const handleError = (err: unknown): string => {
+    const error = err as ApiError;
+    return error?.response?.data?.error || error?.message || 'Error desconocido';
   };
 
-  const parsePlaceData = (place: any): Place => ({
-    ...place,
-    image_url: place.image_url ? buildImageUrl(place.image_url) : null,
-    pdf_url: place.pdf_url ? buildImageUrl(place.pdf_url) : null,
-    average_rating: place.average_rating ? Number(place.average_rating) : 0,
-    total_ratings: place.total_ratings ? Number(place.total_ratings) : 0
+  // Función para mapear datos de la API al formato del frontend
+  const mapApiPlaceToPlace = (apiPlace: ApiPlace): Place => ({
+    id: apiPlace.id,
+    name: apiPlace.nombre,
+    description: apiPlace.descripcion,
+    location: apiPlace.ubicacion,
+    category: apiPlace.categoria,
+    image_url: apiPlace.foto_principal_url || '',
+    pdf_url: apiPlace.pdf_url || '',
+    average_rating: apiPlace.puntuacion_promedio ? Number(apiPlace.puntuacion_promedio) : 0,
+    total_ratings: apiPlace.total_calificaciones ? Number(apiPlace.total_calificaciones) : 0,
+    total_experiences: apiPlace.total_experiencias ? Number(apiPlace.total_experiencias) : 0,
+    created_at: apiPlace.creado_en,
+    updated_at: apiPlace.actualizado_en,
+    gallery_images: [] // ✅ Inicializado como array vacío
+  });
+
+  // Función para mapear datos del frontend a la API
+  const mapPlaceToApiData = (placeData: PlaceFormData | Partial<PlaceFormData>) => ({
+    nombre: placeData.name,
+    descripcion: placeData.description,
+    ubicacion: placeData.location,
+    categoria: placeData.category,
+    foto_principal_url: placeData.image_url,
+    pdf_url: placeData.pdf_url
   });
 
   /**
@@ -60,20 +115,16 @@ export const useAdminPlaces = () => {
       setLoading(true);
       setError(null);
 
-      const response = await api.get<{ places: Place[] }>('/api/places');
-      console.log('📦 Respuesta completa del servidor:', response.data);
+      const response = await api.get<{ lugares: ApiPlace[] }>('/api/lugares');
+      const placesData = response.data.lugares || [];
       
-      const placesData = response.data.places || [];
-      console.log('📦 Lugares obtenidos:', placesData);
-      
-      const parsedPlaces = placesData.map(parsePlaceData);
+      const parsedPlaces = placesData.map(mapApiPlaceToPlace);
       setPlaces(parsedPlaces);
       
       return parsedPlaces;
-    } catch (err: any) {
-      const errorMessage = err?.response?.data?.message || err?.message || 'Error al cargar los lugares';
+    } catch (err: unknown) { // ✅ CORREGIDO: Eliminado 'any'
+      const errorMessage = handleError(err);
       setError(errorMessage);
-      console.error('❌ Error cargando lugares:', err);
       throw new Error(errorMessage);
     } finally {
       setLoading(false);
@@ -88,8 +139,6 @@ export const useAdminPlaces = () => {
       setLoading(true);
       setError(null);
 
-      console.log('📤 Creando lugar con datos:', placeData);
-      
       // Validar datos requeridos
       if (!placeData.name?.trim()) {
         throw new Error('El nombre del lugar es requerido');
@@ -98,16 +147,28 @@ export const useAdminPlaces = () => {
       if (!placeData.description?.trim()) {
         throw new Error('La descripción del lugar es requerida');
       }
+
+      if (!placeData.location?.trim()) {
+        throw new Error('La ubicación del lugar es requerida');
+      }
+
+      if (!placeData.category?.trim()) {
+        throw new Error('La categoría del lugar es requerida');
+      }
+
+      // Mapear datos al formato de la API
+      const apiData = mapPlaceToApiData(placeData);
       
-      const response = await api.post<{ message: string; place: Place }>('/api/places', placeData);
+      const response = await api.post<{ 
+        mensaje: string; 
+        lugar: ApiPlace 
+      }>('/api/lugares', apiData);
       
-      console.log('✅ Respuesta del servidor al crear:', response.data);
-      
-      if (!response.data.place) {
+      if (!response.data.lugar) {
         throw new Error('No se recibió el lugar creado del servidor');
       }
       
-      const newPlace = parsePlaceData(response.data.place);
+      const newPlace = mapApiPlaceToPlace(response.data.lugar);
       
       // Actualizar la lista de lugares
       setPlaces(prevPlaces => [...prevPlaces, newPlace]);
@@ -118,15 +179,9 @@ export const useAdminPlaces = () => {
       });
       
       return newPlace;
-    } catch (err: any) {
-      const errorMessage = err?.response?.data?.message || err?.message || 'Error al crear el lugar';
+    } catch (err: unknown) { // ✅ CORREGIDO: Eliminado 'any'
+      const errorMessage = handleError(err);
       setError(errorMessage);
-      
-      console.error('❌ Error creando lugar:', {
-        error: err,
-        requestData: placeData,
-        response: err?.response?.data
-      });
       
       toast({
         title: '❌ Error',
@@ -143,102 +198,41 @@ export const useAdminPlaces = () => {
   /**
    * Actualizar un lugar existente
    */
-// hooks/useAdminPlaces.ts - MEJORAR updatePlace
-const updatePlace = useCallback(async (placeId: string, placeData: PlaceFormData) => {
-  try {
-    setLoading(true);
-    setError(null);
-
-    console.log('🔄 Frontend: Actualizando lugar:', { placeId, placeData });
-
-    // Limpiar datos undefined/null
-    const cleanData: any = {};
-    Object.keys(placeData).forEach(key => {
-      if (placeData[key as keyof PlaceFormData] !== undefined && 
-          placeData[key as keyof PlaceFormData] !== null) {
-        cleanData[key] = placeData[key as keyof PlaceFormData];
-      }
-    });
-
-    console.log('🧹 Datos limpios para enviar:', cleanData);
-
-    const response = await api.put<{ message: string; place: Place }>(
-      `/api/places/${placeId}`, 
-      cleanData
-    );
-    
-    console.log('✅ Frontend: Lugar actualizado:', response.data);
-    
-    if (!response.data.place) {
-      throw new Error('No se recibió el lugar actualizado del servidor');
-    }
-    
-    const updatedPlace = parsePlaceData(response.data.place);
-    
-    // Actualizar la lista de lugares
-    setPlaces(prevPlaces => 
-      prevPlaces.map(place => 
-        place.id === placeId ? updatedPlace : place
-      )
-    );
-    
-    toast({
-      title: '✅ Lugar actualizado',
-      description: 'El lugar se ha actualizado exitosamente',
-    });
-    
-    return updatedPlace;
-  } catch (err: any) {
-    console.error('❌ Frontend: Error actualizando lugar:', {
-      error: err,
-      status: err?.response?.status,
-      data: err?.response?.data,
-      message: err?.message
-    });
-    
-    const errorMessage = err?.response?.data?.message || err?.message || 'Error al actualizar el lugar';
-    setError(errorMessage);
-    
-    toast({
-      title: '❌ Error',
-      description: errorMessage,
-      variant: 'destructive',
-    });
-    
-    throw new Error(errorMessage);
-  } finally {
-    setLoading(false);
-  }
-}, [toast]);
-
-  /**
-   * Eliminar un lugar
-   */
-  const deletePlace = useCallback(async (placeId: string) => {
+  const updatePlace = useCallback(async (placeId: string, placeData: Partial<PlaceFormData>) => {
     try {
       setLoading(true);
       setError(null);
 
-      console.log('🗑️ Eliminando lugar:', placeId);
+      // Mapear datos al formato de la API
+      const apiData = mapPlaceToApiData(placeData);
+
+      const response = await api.put<{ 
+        mensaje: string; 
+        lugar: ApiPlace 
+      }>(`/api/lugares/${placeId}`, apiData);
       
-      const response = await api.delete<{ message: string; deletedPlace: Place }>(`/api/places/${placeId}`);
+      if (!response.data.lugar) {
+        throw new Error('No se recibió el lugar actualizado del servidor');
+      }
       
-      console.log('✅ Lugar eliminado:', response.data);
+      const updatedPlace = mapApiPlaceToPlace(response.data.lugar);
       
       // Actualizar la lista de lugares
-      setPlaces(prevPlaces => prevPlaces.filter(place => place.id !== placeId));
+      setPlaces(prevPlaces => 
+        prevPlaces.map(place => 
+          place.id === placeId ? updatedPlace : place
+        )
+      );
       
       toast({
-        title: '✅ Lugar eliminado',
-        description: 'El lugar se ha eliminado exitosamente',
+        title: '✅ Lugar actualizado',
+        description: 'El lugar se ha actualizado exitosamente',
       });
       
-      return true;
-    } catch (err: any) {
-      const errorMessage = err?.response?.data?.message || err?.message || 'Error al eliminar el lugar';
+      return updatedPlace;
+    } catch (err: unknown) { // ✅ CORREGIDO: Eliminado 'any'
+      const errorMessage = handleError(err);
       setError(errorMessage);
-      
-      console.error('❌ Error eliminando lugar:', err);
       
       toast({
         title: '❌ Error',
@@ -252,105 +246,662 @@ const updatePlace = useCallback(async (placeId: string, placeData: PlaceFormData
     }
   }, [toast]);
 
+  /**
+   * Eliminar un lugar
+   */
+  const deletePlace = useCallback(async (placeId: string) => {
+    try {
+      setLoading(true);
+      setError(null);
+
+      await api.delete<{ mensaje: string }>(`/api/lugares/${placeId}`);
+      
+      // Actualizar la lista de lugares
+      setPlaces(prevPlaces => prevPlaces.filter(place => place.id !== placeId));
+      
+      toast({
+        title: '✅ Lugar eliminado',
+        description: 'El lugar se ha eliminado exitosamente',
+      });
+      
+      return true;
+    } catch (err: unknown) { // ✅ CORREGIDO: Eliminado 'any'
+      const errorMessage = handleError(err);
+      setError(errorMessage);
+      
+      toast({
+        title: '❌ Error',
+        description: errorMessage,
+        variant: 'destructive',
+      });
+      
+      throw new Error(errorMessage);
+    } finally {
+      setLoading(false);
+    }
+  }, [toast]);
+
+  /**
+   * Subir imagen de un lugar
+   */
+
+const uploadPlaceImage = useCallback(async (placeId: string, imageFile: File) => {
+  try {
+    console.log('🖼️ [UPLOAD] Subiendo imagen para lugar:', placeId);
+    
+    const formData = new FormData();
+    formData.append('imagen', imageFile);
+
+    const response = await api.post<{ 
+      mensaje: string;
+      url_imagen: string;
+    }>(`/api/lugares/${placeId}/imagen`, formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+      timeout: 30000,
+    });
+
+    console.log('✅ [UPLOAD] Imagen subida correctamente');
+
+    // Actualizar el estado local
+    setPlaces(prevPlaces => 
+      prevPlaces.map(place => 
+        place.id === placeId 
+          ? { ...place, image_url: response.data.url_imagen }
+          : place
+      )
+    );
+
+    return response.data;
+  } catch (err: unknown) {
+    const errorMessage = handleError(err);
+    console.error('❌ [UPLOAD] Error subiendo imagen:', errorMessage);
+    throw new Error(errorMessage);
+  }
+}, []);
+
+const uploadPlacePDF = useCallback(async (placeId: string, pdfFile: File) => {
+  try {
+    console.log('📄 [UPLOAD] Subiendo PDF para lugar:', placeId);
+    
+    const formData = new FormData();
+    formData.append('pdf', pdfFile);
+
+    const response = await api.post<{ 
+      mensaje: string;
+      url_pdf: string;
+    }>(`/api/lugares/${placeId}/pdf`, formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+      timeout: 30000,
+    });
+
+    console.log('✅ [UPLOAD] PDF subido correctamente');
+
+    // Actualizar el estado local
+    setPlaces(prevPlaces => 
+      prevPlaces.map(place => 
+        place.id === placeId 
+          ? { ...place, pdf_url: response.data.url_pdf }
+          : place
+      )
+    );
+
+    return response.data;
+  } catch (err: unknown) {
+    const errorMessage = handleError(err);
+    console.error('❌ [UPLOAD] Error subiendo PDF:', errorMessage);
+    throw new Error(errorMessage);
+  }
+}, []);
+
+  /**
+   * Subir múltiples imágenes a la galería de un lugar - CORREGIDA
+   */
+// En tu useAdminPlaces.ts - mejorar la función uploadMultipleImages
+const uploadMultipleImages = useCallback(async (placeId: string, imageFiles: File[]) => {
+  try {
+    console.log('🔄 [uploadMultipleImages] Subiendo imágenes a galería:', {
+      placeId,
+      cantidad: imageFiles.length
+    });
+
+    const formData = new FormData();
+    
+    imageFiles.forEach((file: File) => {
+      formData.append('imagenes', file);
+    });
+
+    const response = await api.post<{ 
+      mensaje: string;
+      imagenes: Array<{ 
+        id: string; 
+        url: string; 
+        es_principal: boolean;
+        orden: number;
+        nombre: string;
+      }>;
+      nota?: string;
+    }>(`/api/lugares/${placeId}/imagenes`, formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+      timeout: 30000, // 30 segundos timeout
+    });
+
+    console.log('✅ [uploadMultipleImages] Imágenes agregadas a galería:', response.data.imagenes);
+
+    toast({
+      title: '✅ Galería actualizada',
+      description: `${imageFiles.length} imágenes agregadas a la galería`,
+    });
+
+    return response.data;
+  } catch (err: unknown) {
+    const errorMessage = handleError(err);
+    console.error('❌ [uploadMultipleImages] Error:', errorMessage);
+    
+    // Error más específico para el usuario
+    let userMessage = 'Error al agregar imágenes a la galería';
+    if (errorMessage.includes('timeout')) {
+      userMessage = 'La subida tardó demasiado tiempo. Intenta con menos imágenes.';
+    } else if (errorMessage.includes('network') || errorMessage.includes('Network')) {
+      userMessage = 'Error de conexión. Verifica tu internet.';
+    }
+    
+    toast({
+      title: '❌ Error',
+      description: userMessage,
+      variant: 'destructive',
+    });
+    
+    throw new Error(errorMessage);
+  }
+}, [toast]);
+
+/**
+ * Reemplazar imagen principal
+ */
+const replaceMainImage = useCallback(async (placeId: string, imageFile: File) => {
+  try {
+    console.log('🔄 [replaceMainImage] Reemplazando imagen principal:', {
+      placeId,
+      fileName: imageFile.name
+    });
+
+    const formData = new FormData();
+    formData.append('imagen', imageFile);
+
+    const response = await api.put<{ 
+      mensaje: string;
+      url_imagen: string;
+      imagen_id: string;
+      es_principal: boolean;
+      archivo: { nombre: string; tamaño: number; tipo: string };
+    }>(`/api/lugares/${placeId}/imagen-principal`, formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    });
+
+    console.log('✅ [replaceMainImage] Imagen principal reemplazada:', response.data);
+
+    // Actualizar el estado local
+    setPlaces(prevPlaces => 
+      prevPlaces.map(place => 
+        place.id === placeId 
+          ? {
+              ...place,
+              image_url: response.data.url_imagen,
+              gallery_images: place.gallery_images?.map(img => 
+                img.es_principal 
+                  ? { ...img, url_foto: response.data.url_imagen }
+                  : img
+              ) || []
+            }
+          : place
+      )
+    );
+
+    toast({
+      title: '✅ Imagen principal actualizada',
+      description: 'La imagen principal se ha reemplazado correctamente',
+    });
+
+    return response.data;
+  } catch (err: unknown) {
+    const errorMessage = handleError(err);
+    console.error('❌ [replaceMainImage] Error:', errorMessage);
+    
+    toast({
+      title: '❌ Error',
+      description: 'Error al reemplazar imagen principal',
+      variant: 'destructive',
+    });
+    
+    throw new Error(errorMessage);
+  }
+}, [toast]);
+
+  /**
+   * Obtener galería de imágenes de un lugar - CORREGIDA
+   */
+  const getGallery = useCallback(async (placeId: string) => {
+    try {
+      console.log('🔄 Obteniendo galería para placeId:', placeId);
+      
+      const response = await api.get<{ 
+        lugar_id: string;
+        imagenes: GalleryImage[];
+        total: number;
+      }>(`/api/lugares/${placeId}/galeria`);
+
+      console.log('✅ Respuesta de galería:', response.data);
+      
+      if (!response.data.imagenes) {
+        console.warn('⚠️ No se encontraron imágenes en la respuesta');
+        return [];
+      }
+
+      return response.data.imagenes;
+    } catch (err: unknown) { // ✅ CORREGIDO: Eliminado 'any'
+      console.error('❌ Error obteniendo galería:', {
+        error: err,
+        message: (err as Error)?.message,
+      });
+      
+      const errorMessage = handleError(err);
+      throw new Error(errorMessage);
+    }
+  }, []);
+
+  /**
+   * Eliminar imagen de la galería - CORREGIDA
+   */
+  const deleteGalleryImage = useCallback(async (placeId: string, imageId: string) => {
+    try {
+      console.log('🗑️ Eliminando imagen:', { placeId, imageId });
+      
+      await api.delete(`/api/lugares/${placeId}/galeria/${imageId}`);
+      
+      toast({
+        title: '✅ Imagen eliminada',
+        description: 'La imagen ha sido eliminada de la galería',
+      });
+      
+      return true;
+    } catch (err: unknown) { // ✅ CORREGIDO: Eliminado 'any'
+      console.error('❌ Error eliminando imagen:', err);
+      
+      const errorMessage = handleError(err);
+      
+      toast({
+        title: '❌ Error',
+        description: errorMessage,
+        variant: 'destructive',
+      });
+      
+      throw new Error(errorMessage);
+    }
+  }, [toast]);
+
+  /**
+   * Establecer imagen como principal - CORREGIDA
+   */
+  const setMainImage = useCallback(async (placeId: string, imageId: string) => {
+    try {
+      console.log('⭐ Estableciendo imagen principal:', { placeId, imageId });
+      
+       await api.put(`/api/lugares/${placeId}/galeria/${imageId}/principal`);      
+      // Actualizar la lista de lugares para reflejar el cambio
+      await fetchPlaces();
+      
+      toast({
+        title: '✅ Imagen principal actualizada',
+        description: 'La imagen se ha establecido como principal',
+      });
+      
+      return true;
+    } catch (err: unknown) { // ✅ CORREGIDO: Eliminado 'any'
+      console.error('❌ Error estableciendo imagen principal:', err);
+      
+      const errorMessage = handleError(err);
+      
+      toast({
+        title: '❌ Error',
+        description: errorMessage,
+        variant: 'destructive',
+      });
+      
+      throw new Error(errorMessage);
+    }
+  }, [fetchPlaces, toast]);
+
+
+
+  /**
+   * Actualizar descripción de una imagen - CORREGIDA
+   */
+  const updateImageDescription = useCallback(async (placeId: string, imageId: string, descripcion: string) => {
+    try {
+      const response = await api.put<{ 
+        mensaje: string;
+        imagen: { id: string; descripcion: string };
+      }>(`/api/lugares/${placeId}/galeria/${imageId}/descripcion`, {
+        descripcion
+      });
+
+      // Actualizar el estado local
+      setPlaces(prevPlaces => 
+        prevPlaces.map(place => 
+          place.id === placeId 
+            ? {
+                ...place,
+                gallery_images: place.gallery_images?.map((img: GalleryImage) => // ✅ CORREGIDO: Tipo explícito
+                  img.id === imageId ? { ...img, descripcion } : img
+                ) || []
+              }
+            : place
+        )
+      );
+
+      toast({
+        title: '✅ Descripción actualizada',
+        description: 'La descripción se ha actualizado correctamente',
+      });
+
+      return response.data;
+    } catch (err: unknown) { // ✅ CORREGIDO: Eliminado 'any'
+      const errorMessage = handleError(err);
+      
+      toast({
+        title: '❌ Error',
+        description: errorMessage,
+        variant: 'destructive',
+      });
+      
+      throw new Error(errorMessage);
+    }
+  }, [toast]);
+
+  /**
+   * Eliminar imagen principal
+   */
+  const deleteMainImage = useCallback(async (placeId: string) => {
+    try {
+      const response = await api.delete<{ 
+        mensaje: string;
+        nueva_imagen_principal: { id: string; url_foto: string } | null;
+      }>(`/api/lugares/${placeId}/imagen-principal`);
+
+      // Actualizar el estado local
+      setPlaces(prevPlaces => 
+        prevPlaces.map(place => {
+          if (place.id !== placeId) return place;
+
+          const nuevaImagenPrincipal = response.data.nueva_imagen_principal;
+          
+          return {
+            ...place,
+            image_url: nuevaImagenPrincipal?.url_foto || '',
+            gallery_images: place.gallery_images?.filter((img: GalleryImage) => // ✅ CORREGIDO: Tipo explícito
+              !img.es_principal
+            ).map((img: GalleryImage, index: number) => // ✅ CORREGIDO: Parámetros tipados
+              index === 0 && nuevaImagenPrincipal 
+                ? { ...img, es_principal: true }
+                : img
+            ) || []
+          };
+        })
+      );
+
+      toast({
+        title: '✅ Imagen principal eliminada',
+        description: response.data.mensaje,
+      });
+
+      return response.data;
+    } catch (err: unknown) { // ✅ CORREGIDO: Eliminado 'any'
+      const errorMessage = handleError(err);
+      
+      toast({
+        title: '❌ Error',
+        description: errorMessage,
+        variant: 'destructive',
+      });
+      
+      throw new Error(errorMessage);
+    }
+  }, [toast]);
+
+
+/**
+ * Crear lugar SIN archivos - solo datos básicos
+ */
+const createPlaceBasic = useCallback(async (placeData: PlaceFormData) => {
+  try {
+    setLoading(true);
+    setError(null);
+
+    // Validar datos requeridos
+    if (!placeData.name?.trim()) {
+      throw new Error('El nombre del lugar es requerido');
+    }
+    
+    if (!placeData.description?.trim()) {
+      throw new Error('La descripción del lugar es requerida');
+    }
+
+    if (!placeData.location?.trim()) {
+      throw new Error('La ubicación del lugar es requerida');
+    }
+
+    if (!placeData.category?.trim()) {
+      throw new Error('La categoría del lugar es requerida');
+    }
+
+    // Mapear datos al formato de la API
+    const apiData = mapPlaceToApiData(placeData);
+    
+    const response = await api.post<{ 
+      mensaje: string; 
+      lugar: ApiPlace 
+    }>('/api/lugares', apiData);
+    
+    if (!response.data.lugar) {
+      throw new Error('No se recibió el lugar creado del servidor');
+    }
+    
+    const newPlace = mapApiPlaceToPlace(response.data.lugar);
+    
+    // Actualizar la lista de lugares
+    setPlaces(prevPlaces => [...prevPlaces, newPlace]);
+    
+    console.log('✅ [CREATE] Lugar creado básico:', newPlace.id);
+    
+    return newPlace;
+  } catch (err: unknown) {
+    const errorMessage = handleError(err);
+    setError(errorMessage);
+    throw new Error(errorMessage);
+  } finally {
+    setLoading(false);
+  }
+}, []);
+
+/**
+ * Subir imagen para un lugar existente
+ */
+const uploadImageForPlace = useCallback(async (placeId: string, imageFile: File) => {
+  try {
+    console.log('🖼️ [UPLOAD] Subiendo imagen para lugar:', placeId);
+    
+    const formData = new FormData();
+    formData.append('imagen', imageFile);
+
+    const response = await api.post<{ 
+      mensaje: string;
+      url_imagen: string;
+    }>(`/api/lugares/${placeId}/imagen`, formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+      timeout: 30000,
+    });
+
+    console.log('✅ [UPLOAD] Imagen subida correctamente');
+
+    // Actualizar el estado local
+    setPlaces(prevPlaces => 
+      prevPlaces.map(place => 
+        place.id === placeId 
+          ? { ...place, image_url: response.data.url_imagen }
+          : place
+      )
+    );
+
+    return response.data;
+  } catch (err: unknown) {
+    const errorMessage = handleError(err);
+    throw new Error(errorMessage);
+  }
+}, []);
+
+/**
+ * Subir PDF para un lugar existente
+ */
+const uploadPDFForPlace = useCallback(async (placeId: string, pdfFile: File) => {
+  try {
+    console.log('📄 [UPLOAD] Subiendo PDF para lugar:', placeId);
+    
+    const formData = new FormData();
+    formData.append('pdf', pdfFile);
+
+    const response = await api.post<{ 
+      mensaje: string;
+      url_pdf: string;
+    }>(`/api/lugares/${placeId}/pdf`, formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+      timeout: 30000,
+    });
+
+    console.log('✅ [UPLOAD] PDF subido correctamente');
+
+    // Actualizar el estado local
+    setPlaces(prevPlaces => 
+      prevPlaces.map(place => 
+        place.id === placeId 
+          ? { ...place, pdf_url: response.data.url_pdf }
+          : place
+      )
+    );
+
+    return response.data;
+  } catch (err: unknown) {
+    const errorMessage = handleError(err);
+    throw new Error(errorMessage);
+  }
+}, []);
+
+// En useAdminPlaces.ts - agrega estas funciones
+
+/**
+ * Eliminar imagen de un lugar
+ */
+const deletePlaceImage = useCallback(async (placeId: string) => {
+  try {
+    console.log('🗑️ [DELETE] Eliminando imagen del lugar:', placeId);
+    
+    const response = await api.delete<{ 
+      mensaje: string;
+      nueva_imagen_principal: { id: string; url_foto: string } | null;
+    }>(`/api/lugares/${placeId}/imagen-principal`);
+
+    console.log('✅ [DELETE] Imagen eliminada correctamente');
+
+    // Actualizar el estado local
+    setPlaces(prevPlaces => 
+      prevPlaces.map(place => 
+        place.id === placeId 
+          ? { 
+              ...place, 
+              image_url: response.data.nueva_imagen_principal?.url_foto || '',
+              gallery_images: place.gallery_images?.filter(img => !img.es_principal) || []
+            }
+          : place
+      )
+    );
+
+    return response.data;
+  } catch (err: unknown) {
+    const errorMessage = handleError(err);
+    console.error('❌ [DELETE] Error eliminando imagen:', errorMessage);
+    throw new Error(errorMessage);
+  }
+}, []);
+
+/**
+ * Eliminar PDF de un lugar
+ */
+const deletePlacePDF = useCallback(async (placeId: string) => {
+  try {
+    console.log('🗑️ [DELETE] Eliminando PDF del lugar:', placeId);
+    
+    const response = await api.delete<{ 
+      mensaje: string;
+    }>(`/api/lugares/${placeId}/pdf`);
+
+    console.log('✅ [DELETE] PDF eliminado correctamente');
+
+    // Actualizar el estado local
+    setPlaces(prevPlaces => 
+      prevPlaces.map(place => 
+        place.id === placeId 
+          ? { ...place, pdf_url: '' }
+          : place
+      )
+    );
+
+    return response.data;
+  } catch (err: unknown) {
+    const errorMessage = handleError(err);
+    console.error('❌ [DELETE] Error eliminando PDF:', errorMessage);
+    throw new Error(errorMessage);
+  }
+}, []);
+
   // Función para limpiar errores
   const clearError = useCallback(() => {
     setError(null);
   }, []);
 
-
-
-
-/**
- * Subir imagen de un lugar
- */
-const uploadPlaceImage = useCallback(async (placeId: string, imageFile: File) => {
-  try {
-    console.log('🚀 Iniciando upload de imagen:', {
-      placeId,
-      fileName: imageFile.name,
-      fileSize: imageFile.size,
-      fileType: imageFile.type
-    });
-
-    const formData = new FormData();
-    formData.append('file', imageFile);
-
-    const response = await api.post<{ 
-      message: string; 
-      imageUrl: string; 
-      place: Place 
-    }>(`/api/places/${placeId}/upload-image`, formData, {
-      headers: {
-        'Content-Type': 'multipart/form-data',
-      },
-    });
-
-    console.log('📨 Respuesta del servidor (imagen):', response.data);
-    return response.data;
-  } catch (err: any) {
-    console.error('💥 Error en uploadPlaceImage:', {
-      error: err,
-      status: err?.response?.status,
-      data: err?.response?.data,
-      message: err?.message
-    });
-    
-    const errorMessage = err?.response?.data?.message || err?.message || 'Error al subir la imagen';
-    throw new Error(errorMessage);
-  }
-}, []);
-
-/**
- * Subir PDF de un lugar
- */
-const uploadPlacePDF = useCallback(async (placeId: string, pdfFile: File) => {
-  try {
-    console.log('🚀 Iniciando upload de PDF:', {
-      placeId,
-      fileName: pdfFile.name,
-      fileSize: pdfFile.size,
-      fileType: pdfFile.type
-    });
-
-    const formData = new FormData();
-    formData.append('file', pdfFile);
-
-    const response = await api.post<{ 
-      message: string; 
-      pdfUrl: string; 
-      place: Place 
-    }>(`/api/places/${placeId}/upload-pdf`, formData, {
-      headers: {
-        'Content-Type': 'multipart/form-data',
-      },
-    });
-
-    console.log('📨 Respuesta del servidor (PDF):', response.data);
-    return response.data;
-  } catch (err: any) {
-    console.error('💥 Error en uploadPlacePDF:', {
-      error: err,
-      status: err?.response?.status,
-      data: err?.response?.data,
-      message: err?.message
-    });
-    
-    const errorMessage = err?.response?.data?.message || err?.message || 'Error al subir el PDF';
-    throw new Error(errorMessage);
-  }
-}, []);
-
-// Agrega estas funciones al return del hook
-return {
-  places,
-  loading,
-  error,
-  createPlace,
-  updatePlace,
-  deletePlace,
-  uploadPlaceImage, // ← Agregar esta línea
-  uploadPlacePDF,   // ← Agregar esta línea
-  refetch: fetchPlaces,
-  clearError,
-};
+  return {
+    places,
+    loading,
+    error,
+    createPlace,
+    updatePlace,
+    deletePlace,
+    uploadPlaceImage,
+    uploadMultipleImages,
+    getGallery,
+    deleteGalleryImage,
+    setMainImage,
+    fetchPlaces,
+    uploadPlacePDF,
+    refetch: fetchPlaces,
+    updateImageDescription,
+    deleteMainImage,
+    createPlaceBasic, // ✅ AÑADIDO
+    uploadImageForPlace, // ✅ AÑADIDO
+    uploadPDFForPlace, // ✅ AÑADIDO
+    replaceMainImage,
+    deletePlaceImage, // ✅ AÑADIDO
+    deletePlacePDF, // ✅ AÑADIDO
+    clearError,
+  };
 };

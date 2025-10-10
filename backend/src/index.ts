@@ -1,93 +1,63 @@
+// ✅ ESTO DEBE SER LO PRIMERO EN EL ARCHIVO
+import dotenv from 'dotenv';
+dotenv.config();
+
 import express from 'express';
 import cors from 'cors';
-import cookieParser from 'cookie-parser';
-import dotenv from 'dotenv';
 import path from 'path';
-import passport from 'passport';
+import passport from './utils/oauth';
+import { middlewareIpNavegador } from './middleware/ipNavegador';
 
-// Cargar variables de entorno PRIMERO, desde la raíz del proyecto
-dotenv.config({ path: path.resolve(__dirname, '../.env') });
-
-// Debug: Verificar que las variables se cargaron
-console.log('🔍 Variables cargadas:');
-console.log('DB_HOST:', process.env.DB_HOST);
-console.log('DB_USER:', process.env.DB_USER);
-console.log('DB_PASSWORD:', process.env.DB_PASSWORD ? '***' : 'UNDEFINED ❌');
-
-import { connectDB } from './utils/db';
-import errorHandler from './middleware/errorHandler';
-
-// Importar rutas
-import authRoutes from './routes/authRoutes';
-import userRoutes from './routes/userRoutes';
-import profileRoutes from './routes/profileRoutes';
-import placeRoutes from './routes/placeRoutes';
-import photoRoutes from './routes/photoRoutes';
-import commentRoutes from './routes/commentRoutes';
-import ratingRoutes from './routes/ratingRoutes';
-import { configureGoogleOAuth, checkGoogleConfig } from './utils/oauth';
+// Rutas
+import administradorRoutes from './rutas/administradorRoutes';
+import autenticacionRoutes from './rutas/autenticacionRoutes';
+import lugarRoutes from './rutas/lugarRoutes';
+import experienciaRoutes from './rutas/experienciaRoutes';
+import calificacionRoutes from './rutas/calificacionRoutes';
+import archivosRoutes from './rutas/archivosRoutes';
 
 const app = express();
-const PORT = process.env.PORT || 4000;
 
 // Middlewares globales
-app.use(cors({
-  origin: process.env.FRONTEND_URL || 'http://localhost:5173',
-  credentials: true
-}));
+app.use(cors());
 app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
-app.use(cookieParser());
+app.use(passport.initialize());
+app.use(middlewareIpNavegador);
 
 // Servir archivos estáticos
-app.use('/images', express.static(path.join(__dirname, '../images')));
+// Servir archivos estáticos desde la carpeta uploads
 app.use('/uploads', express.static(path.join(__dirname, '../uploads')));
-app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+app.use('/images', express.static(path.join(__dirname, '../uploads/images')));
+app.use('/pdfs', express.static(path.join(__dirname, '../uploads/pdfs')));
 
+// Rutas públicas
+app.use('/api/auth', autenticacionRoutes);
+app.use('/api/lugares', lugarRoutes);
+app.use('/api/experiencias', experienciaRoutes);
+app.use('/api/calificaciones', calificacionRoutes);
 
-// Configurar Passport y OAuth
-app.use(passport.initialize());
-configureGoogleOAuth();
-checkGoogleConfig();
+// Rutas protegidas (admin)
+app.use('/api/admin', administradorRoutes);
+app.use('/api/archivos', archivosRoutes);
 
-// Rutas API
-app.use('/api/auth', authRoutes);
-app.use('/api/users', userRoutes);
-app.use('/api/profiles', profileRoutes);
-app.use('/api/places', placeRoutes);
-app.use('/api/photos', photoRoutes);
-app.use('/api/comments', commentRoutes);
-app.use('/api/ratings', ratingRoutes);
-
-// ✅ CORREGIDO: Manejo de rutas no encontradas (usa '/*' en lugar de '*')
-app.use('/', (req, res) => {
-  res.status(404).json({
-    error: 'Endpoint no encontrado',
-    message: `La ruta ${req.originalUrl} no existe`,
-    availableEndpoints: [
-      '/api/auth/*',
-      '/api/users/*',
-      '/api/profiles/*',
-      '/api/places/*',
-      '/api/photos/*',
-      '/api/comments/*',
-      '/api/ratings/*'
-    ]
+// Ruta de salud
+app.get('/api/health', (req, res) => {
+  res.json({ 
+    status: 'OK', 
+    message: 'Servidor Tahitic funcionando',
+    env: process.env.NODE_ENV,
+    googleOAuth: !!process.env.GOOGLE_CLIENT_ID
   });
 });
 
-// Manejo de errores (debe ser el último middleware)
-app.use(errorHandler);
-
-// Iniciar servidor
-connectDB().then(() => {
-  app.listen(PORT, () => {
-    console.log(`Servidor ejecutándose en el puerto ${PORT}`);
-    console.log(`Archivos estáticos disponibles en: http://localhost:${PORT}/uploads/`);
-  });
-}).catch((error) => {
-  console.error('Error al conectar con la base de datos:', error);
-  process.exit(1);
+// Inicialización
+const PORT = process.env.PORT || 4000;
+app.listen(PORT, () => {
+  console.log('=== ✅ Variables de Entorno Cargadas ===');
+  console.log('🌐 Puerto:', process.env.PORT);
+  console.log('🗄️  BD:', process.env.DB_NAME);
+  console.log('🔐 JWT:', process.env.JWT_SECRET ? '✅ Configurado' : '❌ Faltante');
+  console.log('📧 Admin:', process.env.ADMIN_EMAIL);
+  console.log('🔑 Google Client ID:', process.env.GOOGLE_CLIENT_ID ? '✅' : '❌ Faltante');
+  console.log('🚀 Servidor ejecutándose en puerto', PORT);
 });
-
-export default app;
