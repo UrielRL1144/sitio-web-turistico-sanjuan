@@ -1,6 +1,5 @@
 import { GalleryGeneralSection } from '@/galeria/GalleryGeneralSection';
-import  GalleryUserSection  from '@/galeria/GalleryUserSection';
-import  CommentsForumSection  from '@/galeria/CommentsForumSection';
+import  { ExperienceMural }  from '@/galeria/ExperienceMural';
 
 export function GallerySection() {
   return (
@@ -9,10 +8,9 @@ export function GallerySection() {
       <GalleryGeneralSection />
 
       {/* Galería para usuarios */}
-      <GalleryUserSection />
+      <ExperienceMural />
 
-      {/* Foro de comentarios */}
-      <CommentsForumSection />
+
     </>
   );
 }
