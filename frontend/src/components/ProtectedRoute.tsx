@@ -1,13 +1,14 @@
-import { ReactNode } from 'react';
-import { useAuth } from '@/hooks/useAuth';
-import { Navigate } from 'react-router-dom';
+import { useAuth } from '../hooks/useAuth';
+import { Navigate, useLocation } from 'react-router-dom';
 
 interface ProtectedRouteProps {
-  children: ReactNode;
+  children: React.ReactNode;
+  requireAdmin?: boolean;
 }
 
-export const ProtectedRoute = ({ children }: ProtectedRouteProps) => {
-  const { user, loading } = useAuth();
+export const ProtectedRoute = ({ children, requireAdmin = true }: ProtectedRouteProps) => {
+  const { isAuthenticated, isAdmin, loading, setRedirectPath } = useAuth(); // ✅ Cambiar a setRedirectPath
+  const location = useLocation();
 
   if (loading) {
     return (
@@ -17,8 +18,17 @@ export const ProtectedRoute = ({ children }: ProtectedRouteProps) => {
     );
   }
 
-  if (!user) {
+  if (!isAuthenticated) {
+    // ✅ Guardar la ruta usando setRedirectPath
+    const currentPath = location.pathname + location.search;
+    console.log('🚫 No autenticado, guardando ruta:', currentPath);
+    setRedirectPath(currentPath);
+    
     return <Navigate to="/login" replace />;
+  }
+
+  if (requireAdmin && !isAdmin) {
+    return <Navigate to="/" replace />;
   }
 
   return <>{children}</>;

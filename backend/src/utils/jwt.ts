@@ -1,24 +1,44 @@
+//utils/jwt.ts
 import jwt from 'jsonwebtoken';
 
-export interface JwtPayload {
-  userId: string;
+export interface PayloadJWT {
+  id: string;
   email: string;
+  rol: string;
+  tipo: 'admin';
 }
 
-export const generateToken = (payload: JwtPayload): string => {
+// Función auxiliar para validar el payload
+function isValidPayload(payload: any): payload is PayloadJWT {
+  return (
+    typeof payload === 'object' &&
+    typeof payload.id === 'string' &&
+    typeof payload.email === 'string' &&
+    typeof payload.rol === 'string' &&
+    payload.tipo === 'admin'
+  );
+}
+
+export function generarToken(payload: PayloadJWT): string {
   const secret = process.env.JWT_SECRET;
   
   if (!secret) {
     throw new Error('JWT_SECRET no está definido en las variables de entorno');
   }
 
-  // ✅ SOLUCIÓN SIMPLE: Usar 'as any' para evitar problemas de tipos
-  return jwt.sign(payload as any, secret, { 
-    expiresIn: process.env.JWT_EXPIRES_IN || '7d'
-  } as any);
-};
+  // Conversión explícita para evitar problemas de tipos
+  const token = jwt.sign(
+    { ...payload } as object, 
+    secret, 
+    { 
+      expiresIn: process.env.JWT_EXPIRES_IN || '60m' 
+    } as jwt.SignOptions
+  );
 
-export const verifyToken = (token: string): JwtPayload => {
+  return token;
+}
+
+export function verificarToken(token: string): PayloadJWT {
   const secret = process.env.JWT_SECRET;
   
   if (!secret) {
@@ -26,19 +46,22 @@ export const verifyToken = (token: string): JwtPayload => {
   }
 
   try {
-    const decoded = jwt.verify(token, secret) as { [key: string]: any };
+    const decoded = jwt.verify(token, secret);
     
-    return {
-      userId: decoded.userId,
-      email: decoded.email
-    };
+    if (!isValidPayload(decoded)) {
+      throw new Error('Estructura del token inválida');
+    }
     
+    return decoded;
   } catch (error) {
     if (error instanceof jwt.JsonWebTokenError) {
-      throw new Error('Token inválido');
+      throw new Error('Token JWT inválido');
     } else if (error instanceof jwt.TokenExpiredError) {
       throw new Error('Token expirado');
+    } else if (error instanceof Error) {
+      throw error;
+    } else {
+      throw new Error('Error desconocido verificando token');
     }
-    throw new Error('Error al verificar el token');
   }
-};
+}

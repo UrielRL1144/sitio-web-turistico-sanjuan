@@ -1,4 +1,4 @@
-// main.tsx - Estructura final con MinimalLayout
+// main.tsx
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import './index.css';
@@ -7,9 +7,9 @@ import {
   RouterProvider,
 } from 'react-router-dom';
 
-// App principal (layout completo)
+// App principal
 import App from './App.tsx';
- 
+
 // Layout mínimo para login
 import { MinimalLayout } from './MinimalLayout'; // 👈 Importar MinimalLayout
 
@@ -22,20 +22,17 @@ import { GallerySection } from './pages/GallerySection.tsx';
 import { ContactSection } from './ContactSection';
 import { OAuthCallback } from './pages/OAuthCallback';
 import { Login } from './pages/Login';
-import { CalendarPage } from './pages/CalendarPage';
 
 // 🔑 Importa tu AuthProvider
 import { AuthProvider } from '@/hooks/useAuth'; 
-
-// Importar ProtectedRoute y ProfilePage (si los tienes)
 import { ProtectedRoute } from './components/ProtectedRoute';
 import { ProfilePage } from './pages/ProfilePage';
-import { GastronomyPage } from './pages/GastronomyPage.tsx';
 
 const router = createBrowserRouter([
   {
     path: '/',
-    element: <App />, // 👈 Layout completo con navbar, footer, etc.
+    element: <App />,
+    errorElement: <SilentRouteError />, // 👈 Recarga silenciosa
     children: [
       { index: true, element: <HomePage /> },
       { path: 'turismo', element: <TourismSection /> },
@@ -43,7 +40,7 @@ const router = createBrowserRouter([
       { path: 'comunidad', element: <CommunitySection /> },
       { path: 'galeria', element: <GallerySection /> },
       { path: 'contacto', element: <ContactSection /> },
-
+      
       // 👇 Ruta protegida
       {
         path: 'perfil',
@@ -52,12 +49,20 @@ const router = createBrowserRouter([
             <ProfilePage />
           </ProtectedRoute>
         )
+      },
+      {
+        path: 'admin/places',
+        element: (
+          <ProtectedRoute requireAdmin={true}>
+            <PanelPlaceSection />
+          </ProtectedRoute>
+        )
       }
     ],
   },
   {
     path: '/login',
-    element: ( // 👈 Layout mínimo SOLO para login
+    element: (
       <MinimalLayout>
         <Login />
       </MinimalLayout>
@@ -85,10 +90,20 @@ const router = createBrowserRouter([
   },
 ]);
 
-createRoot(document.getElementById('root')!).render(
+// Renderizar con protección silenciosa
+const rootElement = document.getElementById('root');
+if (!rootElement) {
+  throw new Error('No se encontró el elemento root');
+}
+
+const root = createRoot(rootElement);
+
+root.render(
   <StrictMode>
-    <AuthProvider>
-      <RouterProvider router={router} />
-    </AuthProvider>
-  </StrictMode>,
+    <SilentErrorBoundary>
+      <AuthProvider>
+        <RouterProvider router={router} />
+      </AuthProvider>
+    </SilentErrorBoundary>
+  </StrictMode>
 );

@@ -1,44 +1,48 @@
-// Importar la biblioteca Axios
 import axios from 'axios';
 
-// Configurar la URL base según el entorno
 const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:4000';
 
-// Crear una instancia de Axios
 const api = axios.create({
   baseURL: API_BASE_URL,
-  withCredentials: true, // Para enviar cookies si usas JWT en cookies
 });
 
-// Interceptor para agregar el token automáticamente
+// Interceptor para requests
 api.interceptors.request.use(
   (config) => {
-    const token = localStorage.getItem('token'); // Obtener el token del almacenamiento local
+    const token = localStorage.getItem('admin_token');
+    
     if (token) {
-      // Asegurar que headers exista
-      if (!config.headers) {
-        config.headers = {};
-      }
-      config.headers.Authorization = `Bearer ${token}`; // Agregar el token al encabezado de autorización
+      config.headers = config.headers || {};
+      config.headers.Authorization = `Bearer ${token}`;
+      console.log('🔐 Token añadido a request:', config.url);
     }
-    return config; // Retornar la configuración modificada
+    return config;
   },
   (error) => {
-    return Promise.reject(error); // Rechazar la promesa en caso de error
+    console.error('❌ Error en request interceptor:', error);
+    return Promise.reject(error);
   }
 );
 
-// Interceptor para manejar errores de autenticación
+// Interceptor para responses
 api.interceptors.response.use(
-  (response) => response, // Retornar la respuesta si es exitosa
+  (response) => {
+    return response;
+  },
   (error) => {
-    if (error.response?.status === 401) { // Si el estado es 401 (no autorizado)
-      localStorage.removeItem('token'); // Eliminar el token del almacenamiento local
-      window.location.href = '/login'; // Redirigir al usuario a la página de inicio de sesión
+    console.error('❌ Error en response:', {
+      url: error.config?.url,
+      status: error.response?.status,
+      message: error.message
+    });
+    
+    if (error.response?.status === 401) {
+      console.log('🚨 Token inválido, limpiando localStorage');
+      localStorage.removeItem('admin_token');
+      // No redirigir automáticamente, dejar que el hook maneje el estado
     }
-    return Promise.reject(error); // Rechazar la promesa en caso de error
+    return Promise.reject(error);
   }
 );
 
-// Exportar la instancia de Axios
 export default api;
