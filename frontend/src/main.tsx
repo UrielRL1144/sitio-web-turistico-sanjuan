@@ -9,7 +9,7 @@ import {
 
 // App principal (layout completo)
 import App from './App.tsx';
-
+ 
 // Layout mínimo para login
 import { MinimalLayout } from './MinimalLayout'; // 👈 Importar MinimalLayout
 
@@ -22,6 +22,7 @@ import { GallerySection } from './pages/GallerySection.tsx';
 import { ContactSection } from './ContactSection';
 import { OAuthCallback } from './pages/OAuthCallback';
 import { Login } from './pages/Login';
+import { CalendarPage } from './pages/CalendarPage';
 
 // 🔑 Importa tu AuthProvider
 import { AuthProvider } from '@/hooks/useAuth'; 
@@ -29,6 +30,7 @@ import { AuthProvider } from '@/hooks/useAuth';
 // Importar ProtectedRoute y ProfilePage (si los tienes)
 import { ProtectedRoute } from './components/ProtectedRoute';
 import { ProfilePage } from './pages/ProfilePage';
+import { GastronomyPage } from './pages/GastronomyPage.tsx';
 
 const router = createBrowserRouter([
   {
@@ -41,7 +43,7 @@ const router = createBrowserRouter([
       { path: 'comunidad', element: <CommunitySection /> },
       { path: 'galeria', element: <GallerySection /> },
       { path: 'contacto', element: <ContactSection /> },
-      
+
       // 👇 Ruta protegida
       {
         path: 'perfil',
@@ -60,6 +62,22 @@ const router = createBrowserRouter([
         <Login />
       </MinimalLayout>
     ),
+  },
+  {
+    path: '/calendario-cultural',
+    element: (
+      <MinimalLayout>
+        <CalendarPage />
+      </MinimalLayout>
+    )
+  },
+  {
+    path: '/section-gastronomia',
+    element: (
+      <MinimalLayout>
+        <GastronomyPage />
+      </MinimalLayout>
+    )
   },
   {
     path: '/oauth-callback',
