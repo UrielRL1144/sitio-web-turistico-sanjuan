@@ -9,9 +9,7 @@ import {
 
 // App principal
 import App from './App.tsx';
-
-// Layout mínimo para login
-import { MinimalLayout } from './MinimalLayout'; // 👈 Importar MinimalLayout
+import { MinimalLayout } from './MinimalLayout';
 
 // Rutas
 import { HomePage } from './pages/HomePage';
@@ -22,17 +20,21 @@ import { GallerySection } from './pages/GallerySection.tsx';
 import { ContactSection } from './ContactSection';
 import { OAuthCallback } from './pages/OAuthCallback';
 import { Login } from './pages/Login';
+import { CalendarPage } from './pages/CalendarPage';
+import { GastronomyPage } from './pages/GastronomyPage.tsx';
 
-// 🔑 Importa tu AuthProvider
 import { AuthProvider } from '@/hooks/useAuth'; 
 import { ProtectedRoute } from './components/ProtectedRoute';
 import { ProfilePage } from './pages/ProfilePage';
+import { PanelPlaceSection } from './pages/PanelPlaceSection';
+import { SilentErrorBoundary } from './components/SilentErrorBoundary';
+import { SilentRouteError } from './components/SilentRouteError';
 
 const router = createBrowserRouter([
   {
     path: '/',
     element: <App />,
-    errorElement: <SilentRouteError />, // 👈 Recarga silenciosa
+    errorElement: <SilentRouteError />,
     children: [
       { index: true, element: <HomePage /> },
       { path: 'turismo', element: <TourismSection /> },
@@ -40,8 +42,6 @@ const router = createBrowserRouter([
       { path: 'comunidad', element: <CommunitySection /> },
       { path: 'galeria', element: <GallerySection /> },
       { path: 'contacto', element: <ContactSection /> },
-      
-      // 👇 Ruta protegida
       {
         path: 'perfil',
         element: (
@@ -90,7 +90,6 @@ const router = createBrowserRouter([
   },
 ]);
 
-// Renderizar con protección silenciosa
 const rootElement = document.getElementById('root');
 if (!rootElement) {
   throw new Error('No se encontró el elemento root');
@@ -107,3 +106,4 @@ root.render(
     </SilentErrorBoundary>
   </StrictMode>
 );
+// Fin de main.tsx
