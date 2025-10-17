@@ -3,6 +3,9 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../co
 import { ImageWithFallback } from '../components/figma/ImageWithFallback';
 import { Coffee, Wine, Leaf, Droplet, Users, ShoppingBag, Award, Sparkles } from 'lucide-react';
 import { motion } from 'framer-motion';
+// Al inicio de CooperativaSection.tsx
+import { Link } from "react-router-dom";
+
 
 export function CooperativaSection() {
   const productos = [
@@ -75,14 +78,14 @@ export function CooperativaSection() {
           transition={{ duration: 0.8 }}
           className="text-center mb-20"
         >
-          <div className="inline-flex items-center space-x-2 bg-gradient-to-r from-amber-100 to-pink-100 px-4 py-2 rounded-full mb-6">
-            <Users className="h-5 w-5 text-amber-600" />
-            <span className="text-amber-800 font-medium">Producción Comunitaria</span>
+          <div className="inline-flex items-center space-x-2 bg-gradient-to-r from-teal-400 to-blue-500 px-4 py-2 rounded-full mb-6">
+            <Users className="h-5 w-5 text-black" />
+            <span className="text-black font-medium">Producción Comunitaria</span>
           </div>
           
           <h2 className="text-5xl lg:text-6xl font-bold text-gray-900 mb-6">
-            Nuestra{' '}
-            <span className="bg-gradient-to-r from-amber-600 via-orange-500 to-pink-600 bg-clip-text text-transparent">
+            Nuestra{' '} 
+            <span className="bg-gradient-to-r from-teal-600 via-blue-500 to-emerald-600 bg-clip-text text-transparent">
               Cooperativa
             </span>
           </h2>
@@ -139,7 +142,7 @@ export function CooperativaSection() {
         </div>
 
         {/* Impacto de la cooperativa */}
-        <div className="bg-white/95 backdrop-blur-xl rounded-3xl p-8 lg:p-16 shadow-lg border border-amber-100 relative overflow-hidden mb-20">
+        <div className="bg-teal-100/50 backdrop-blur-xl rounded-3xl p-8 lg:p-16 shadow-lg border border-amber-100 relative overflow-hidden mb-20">
           <div className="text-center mb-16 relative">
             <div className="inline-flex items-center space-x-2 bg-orange-100 px-4 py-2 rounded-full mb-6">
               <Award className="h-5 w-5 text-orange-600" />
@@ -154,7 +157,7 @@ export function CooperativaSection() {
               className="text-4xl font-bold text-gray-900 mb-6"
             >
               Más que Productos,{' '}
-              <span className="bg-gradient-to-r from-amber-600 to-pink-600 bg-clip-text text-transparent">
+              <span className="bg-gradient-to-r from-teal-600 to-blue-600 bg-clip-text text-transparent">
                 Oportunidades
               </span>
             </motion.h3>
@@ -199,12 +202,11 @@ export function CooperativaSection() {
         {/* CTA */}
         <div className="text-center">
           <div className="inline-flex items-center space-x-4">
-            <button className="bg-gradient-to-r from-amber-500 to-pink-600 hover:from-amber-600 hover:to-pink-700 text-white px-8 py-4 rounded-full font-semibold shadow-2xl transform hover:scale-105 transition-all duration-300">
-              Comprar Productos
-            </button>
-            <button className="border-2 border-amber-500 text-amber-700 hover:bg-amber-50 px-8 py-4 rounded-full font-semibold transition-all duration-300 transform hover:scale-105">
+            <Link 
+              to="/cooperativa"
+              className="bg-gradient-to-r from-violet-500 to-fuchsia-600 hover:from-teal-600 hover:to-pink-700 text-white px-8 py-4 rounded-full font-semibold shadow-2xl transform hover:scale-105 transition-all duration-300">
               Conocer la Cooperativa
-            </button>
+            </Link>
           </div>
         </div>
       </div>
