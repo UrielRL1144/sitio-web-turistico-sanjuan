@@ -30,6 +30,8 @@ import { PanelPlaceSection } from './pages/PanelPlaceSection';
 import { SilentErrorBoundary } from './components/SilentErrorBoundary';
 import { SilentRouteError } from './components/SilentRouteError';
 
+import { ServiciosSection } from './comunidad/ServiciosSection.tsx';
+
 const router = createBrowserRouter([
   {
     path: '/',
@@ -73,6 +75,14 @@ const router = createBrowserRouter([
     element: (
       <MinimalLayout>
         <CalendarPage />
+      </MinimalLayout>
+    )
+  },
+  {
+    path: '/cooperativa',
+    element: (
+      <MinimalLayout>
+        <ServiciosSection />
       </MinimalLayout>
     )
   },
