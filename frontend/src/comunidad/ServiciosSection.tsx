@@ -4,6 +4,8 @@ import { Coffee, Wine, Droplet, Leaf, FlaskConical, Store } from "lucide-react";
 import { ImageWithFallback } from "@/components/figma/ImageWithFallback";
 import { Tooltip, TooltipTrigger, TooltipContent, TooltipProvider } from "@/components/ui/tooltip";
 import { motion } from "framer-motion";
+import { useNavigate } from "react-router-dom";
+
 
 export function ServiciosSection() {
   const servicios = [
@@ -52,6 +54,7 @@ export function ServiciosSection() {
   ];
 
   const [openTooltip, setOpenTooltip] = useState<number | null>(null);
+  const navigate = useNavigate();
 
   return (
     <section id="servicios" className="py-24 bg-gradient-to-br from-yellow-50 via-rose-50 to-green-50 relative overflow-hidden">
@@ -68,6 +71,15 @@ export function ServiciosSection() {
       />
 
       <div className="max-w-[90rem] mx-auto px-4 sm:px-6 lg:px-8 relative">
+        <div className="mb-10 px-4">
+          <button
+            onClick={() => navigate(-1)}
+            className="px-6 py-2 rounded-full bg-gradient-to-r from-amber-500 to-orange-600 text-white font-semibold shadow-lg hover:scale-105 transition-all"
+          >
+            ← Regresar
+          </button>
+        </div>
+
         {/* Encabezado */}
         <motion.div
           initial={{ opacity: 0, y: -20 }}
@@ -155,3 +167,4 @@ export function ServiciosSection() {
     </section>
   );
 }
+ 
