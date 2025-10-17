@@ -1,26 +1,19 @@
+import { CommunityHome } from '@/comunidad/CommunityHome';
+import { RootsSection } from '@/comunidad/RootsSection';
+import { VibrantPresentSection } from '@/comunidad/VibrantPresentSection';
 import { CooperativaSection } from '@/comunidad/CooperativaSection';
-import FloraLocalSection from '@/comunidad/FloraLocalSection';
-import AgriculturaSection from '@/comunidad/AgriculturaSection';
-import { ServiciosSection } from '@/comunidad/ServiciosSection'; // Nueva importación
-
+import { VocesDeNuestraTierra } from '@/comunidad/VocesDeNuestraTierra';
 
 export function CommunitySection() {
   return (
     <>
-      
+      <CommunityHome />
+
+      <RootsSection />
       {/* Servicios y productos de la cooperativa */}
+      <VibrantPresentSection />
       <CooperativaSection />
-
-      {/* Servicios generales */}
-      <ServiciosSection /> {/* Nuevo componente agregado */}
-
-      {/* Flora local y biodiversidad */}
-      <FloraLocalSection />
-
-      {/* Agricultura y producción local */}
-      <AgriculturaSection />
-
-      
+      <VocesDeNuestraTierra />
     </>
   );
 }
