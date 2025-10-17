@@ -63,3 +63,29 @@
   break-inside: avoid;
   -webkit-column-break-inside: avoid;
 }
+
+/* Puedes añadir esto en tu archivo index.css o globals.css */
+.card-glow {
+  position: relative;
+}
+
+.card-glow::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 1rem;
+  padding: 2px;
+  background: linear-gradient(135deg, #2dd4bf, #14b8a6, #0f766e);
+  -webkit-mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+          mask-composite: exclude;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+
+.card-glow:hover::before {
+  opacity: 1;
+}
+/* Estilos para el botón del lightbox */
