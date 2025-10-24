@@ -13,12 +13,10 @@ export function Footer() {
   ];
 
   const services = [
-    'Tours Guiados',
-    'Hospedaje Local',
-    'Gastronomía Regional',
+    'Gastronomía regional',
     'Artesanías',
     'Transporte',
-    'Eventos Culturales'
+    'Eventos culturales'
   ];
 
   return (
@@ -83,29 +81,36 @@ export function Footer() {
 
         {/* Redes Sociales, AuthButton y Copyright */}
         <div className="border-t border-gray-800 mt-12 pt-12">
-          <div className="flex flex-col md:flex-row justify-between items-center">
-            <div className="flex space-x-6 mb-6 md:mb-0">
-              <button className="text-gray-400 hover:text-indigo-400 transition-colors duration-300 transform hover:scale-110">
-                <Facebook className="h-7 w-7" />
-              </button>
-              <button className="text-gray-400 hover:text-indigo-400 transition-colors duration-300 transform hover:scale-110">
-                <Instagram className="h-7 w-7" />
-              </button>
-              <button className="text-gray-400 hover:text-indigo-400 transition-colors duration-300 transform hover:scale-110">
-                <Twitter className="h-7 w-7" />
-              </button>
-            </div>
+            <div className="flex flex-col md:flex-row justify-between items-center">
+                <div className="flex space-x-6 mb-6 md:mb-0">
+                    
+                    {/* Enlace de Facebook */}
+                    <a 
+                        href="https://www.facebook.com/share/16Pi8HTdzA/" // <-- ¡Añade tu URL aquí!
+                        target="_blank" 
+                        rel="noopener noreferrer"
+                        className="text-gray-400 hover:text-indigo-400 transition-colors duration-300 transform hover:scale-110"
+                    >
+                        <Facebook className="h-7 w-7" />
+                    </a>
+                    
+                    {/* Enlace de Instagram */}
+                    <a 
+                        href="https://www.instagram.com/zacapoaxtlamagica?igsh=MXFmcmFlNGlqcGxrMA==" // <-- ¡Añade tu URL aquí!
+                        target="_blank" 
+                        rel="noopener noreferrer"
+                        className="text-gray-400 hover:text-indigo-400 transition-colors duration-300 transform hover:scale-110"
+                    >
+                        <Instagram className="h-7 w-7" />
+                    </a>
+                    
+                </div>
 
-            {/* Botón de Autenticación */}
-            <div className="mb-6 md:mb-0">
-              <AuthButton />
+                <div className="text-gray-500 text-sm text-center md:text-right">
+                    <p>&copy; 2025 San Juan Tahitic. Todos los derechos reservados.</p>
+                    <p className="mt-1">Desarrollado con ❤️ para nuestra comunidad</p>
+                </div>
             </div>
-
-            <div className="text-gray-500 text-sm text-center md:text-right">
-              <p>&copy; 2025 San Juan Tahitic. Todos los derechos reservados.</p>
-              <p className="mt-1">Desarrollado con ❤️ para nuestra comunidad</p>
-            </div>
-          </div>
         </div>
       </div>
     </footer>
