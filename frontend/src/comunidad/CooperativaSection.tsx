@@ -5,6 +5,7 @@ import { Coffee, Wine, Leaf, Droplet, Users, ShoppingBag, Award, Sparkles } from
 import { motion } from 'framer-motion';
 // Al inicio de CooperativaSection.tsx
 import { Link } from "react-router-dom";
+import { Button } from '@/components/ui/button';
 
 
 export function CooperativaSection() {
@@ -202,13 +203,14 @@ export function CooperativaSection() {
         {/* CTA */}
         <div className="text-center">
           <div className="inline-flex items-center space-x-4">
-            <Link 
-              to="/cooperativa"
-              className="bg-gradient-to-r from-violet-500 to-fuchsia-600 hover:from-teal-600 hover:to-pink-700 text-white px-8 py-4 rounded-full font-semibold shadow-2xl transform hover:scale-105 transition-all duration-300">
-              Conocer la Cooperativa
+            <Link to="/productos">
+              <Button className="bg-gradient-to-r from-violet-500 to-fuchsia-600 hover:from-teal-600 hover:to-pink-700 text-white px-8 py-4 rounded-full font-semibold shadow-2xl transform hover:scale-105 transition-all duration-300">
+                Conocer la cooperativa
+              </Button>
             </Link>
           </div>
         </div>
+
       </div>
     </section>
   );
