@@ -2,6 +2,7 @@
 import { motion, useInView, useMotionValue, useTransform, animate } from 'framer-motion';
 import type { Variants } from 'framer-motion';
 import { InfoModal } from './section/InfoModal';
+import { UpcomingAttractionsSection } from './section/pillars/UpcomingAttractionsSection';
 
 import { EducacionContent } from './section/pillars/EducacionContent';
 import { FiestasContent } from './section/pillars/FiestasContent';
@@ -78,31 +79,6 @@ const statsData: {
   { value: 45, suffix: '%', label: 'Población Joven (<30 años)', icon: Heart, color: 'text-rose-400' },
   { value: 5, label: 'Escuelas (Básica y Media)', icon: School2, color: 'text-amber-400' },
   { value: 98, suffix: '%', label: 'Cobertura Eléctrica', icon: Home, color: 'text-emerald-400' },
-];
-
-// --- Datos de Eventos Próximos ---
-const upcomingEvents = [
-  { 
-    title: 'Feria del Maíz', 
-    date: '15 Oct 2023', 
-    description: 'Celebración anual de nuestra cosecha más importante',
-    icon: Calendar,
-    color: 'bg-amber-100 text-amber-700'
-  },
-  { 
-    title: 'Tequio Comunitario', 
-    date: '22 Oct 2023', 
-    description: 'Jornada de trabajo colectivo para mejorar espacios públicos',
-    icon: Users,
-    color: 'bg-emerald-100 text-emerald-700'
-  },
-  { 
-    title: 'Festival de Danzas', 
-    date: '5 Nov 2023', 
-    description: 'Exhibición de danzas tradicionales de la comunidad',
-    icon: PartyPopper,
-    color: 'bg-rose-100 text-rose-700'
-  },
 ];
 
 const cardVariants: Variants = {
@@ -319,60 +295,9 @@ export function VibrantPresentSection() {
             </div>
           </motion.div>
         </div>
-
-        {/* --- Nueva Sección: Próximos Eventos --- */}
-        <div className="mb-16">
-          <motion.div
-            className="text-center mb-12"
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            viewport={{ once: true }}
-          >
-            <h3 className="text-3xl font-bold text-slate-900 mb-4">Próximos Eventos</h3>
-            <p className="text-lg text-slate-600 max-w-2xl mx-auto">
-              Participa en las actividades que mantienen viva nuestra cultura y comunidad
-            </p>
-            <div className="w-24 h-1 bg-gradient-to-r from-sky-500 to-blue-600 mx-auto rounded-full mt-4"></div>
-          </motion.div>
-          
-          <motion.div 
-            className="grid grid-cols-1 md:grid-cols-3 gap-6"
-            variants={staggerContainer}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true }}
-          >
-            {upcomingEvents.map((event, index) => (
-              <motion.div
-                key={event.title}
-                variants={cardVariants}
-                className="bg-white rounded-2xl shadow-lg p-6 border border-slate-100 hover:shadow-xl transition-all duration-300"
-              >
-                <div className="flex items-start mb-4">
-                  <div className={`p-3 rounded-xl ${event.color} mr-4`}>
-                    <event.icon className="h-6 w-6" />
-                  </div>
-                  <div>
-                    <h4 className="font-bold text-slate-800 text-lg">{event.title}</h4>
-                    <p className="text-slate-500 text-sm flex items-center mt-1">
-                      <Calendar className="h-4 w-4 mr-1" />
-                      {event.date}
-                    </p>
-                  </div>
-                </div>
-                <p className="text-slate-600">{event.description}</p>
-                <button className="mt-4 text-sky-600 font-medium text-sm hover:text-sky-700 transition-colors flex items-center">
-                  Más información
-                  <svg className="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                  </svg>
-                </button>
-              </motion.div>
-            ))}
-          </motion.div>
-        </div>
-
+        {/* --- Nueva Sección: Próximos Eventos (REEMPLAZO) --- */}
+            {/* BORRAR EL BLOQUE ANTERIOR Y REEMPLAZARLO CON LA SIGUIENTE LÍNEA */}
+            <UpcomingAttractionsSection /> {/* ✨ NUEVO COMPONENTE INTEGRADO ✨ */}
         {/* --- Llamada a la Acción --- */}
         <motion.div
           className="text-center bg-gradient-to-r from-sky-500 to-blue-600 rounded-3xl p-10 md:p-12 shadow-2xl"
