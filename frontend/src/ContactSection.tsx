@@ -35,27 +35,41 @@ export function ContactSection() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    // Aquí se manejaría el envío del formulario
     alert('Gracias por tu mensaje. Te contactaremos pronto.');
   };
 
   return (
-    <section id="contacto" className="py-20 bg-gray-50">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section id="contacto" className="relative py-20 overflow-hidden bg-gray-50">
+      {/* 🔹 Fondo con imagen y gradiente (solo mitad superior) */}
+      <div
+        className="absolute inset-0 bg-[url('images/Exploracion.svg')]
+                   bg-cover bg-center opacity-85"
+        style={{
+          clipPath: 'polygon(0 0, 100% 0, 100% 50%, 0 100%)',
+          filter: 'blur(1.5px) brightness(0.75)',
+        }}
+      ></div>
+
+      {/* Capa de sombra para mejorar legibilidad */}
+      <div className="absolute inset-0 bg-gradient-to-b from-gray-900/30 via-gray-800/10 to-transparent"></div>
+
+      {/* Contenido principal */}
+      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-16">
-          <h2 className="text-4xl text-gray-900 mb-4">Contacto e Información</h2>
-          <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+          <h2 className="text-4xl text-white mb-4">Contacto e Información</h2>
+          <p className="text-xl text-amber-200 max-w-3xl mx-auto">
             Planifica tu visita a San Juan Tahitic. Estamos aquí para ayudarte a 
             organizar una experiencia memorable en nuestro destino.
           </p>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 mb-16">
+          {/* Columna izquierda */}
           <div>
-            <h3 className="text-2xl text-gray-900 mb-8">Información de Contacto</h3>
+            <h3 className="text-2xl text-white mb-8">Información de Contacto</h3>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
               {contactInfo.map((info, index) => (
-                <Card key={index} className="group hover:shadow-lg transition-shadow duration-300">
+                <Card key={index} className="group hover:shadow-lg transition-shadow duration-300 bg-white/80 backdrop-blur-sm">
                   <CardHeader className="flex flex-row items-center space-y-0 pb-2">
                     <div className="bg-blue-100 p-2 rounded-lg mr-3 group-hover:bg-blue-200 transition-colors duration-300">
                       <info.icon className="h-5 w-5 text-blue-600" />
@@ -71,8 +85,8 @@ export function ContactSection() {
             </div>
 
             <div className="mt-8">
-              <h4 className="text-xl text-gray-900 mb-4">¿Cómo llegar?</h4>
-              <div className="bg-white p-6 rounded-lg shadow-md">
+              <h4 className="text-xl text-white mb-4">¿Cómo llegar?</h4>
+              <div className="bg-white/90 p-6 rounded-lg shadow-md backdrop-blur-sm">
                 <ImageWithFallback
                   src="https://images.unsplash.com/photo-1511593358241-7eea1f3c84e5?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
                   alt="Mapa de ubicación de San Juan Tahitic"
@@ -87,9 +101,10 @@ export function ContactSection() {
             </div>
           </div>
 
+          {/* Columna derecha */}
           <div>
-            <h3 className="text-2xl text-gray-900 mb-8">Envíanos un Mensaje</h3>
-            <Card className="shadow-lg">
+            <h3 className="text-2xl text-white mb-8">Envíanos un Mensaje</h3>
+            <Card className="shadow-lg bg-white/90 backdrop-blur-sm">
               <CardHeader>
                 <CardTitle className="text-gray-900">Formulario de Contacto</CardTitle>
                 <CardDescription>
@@ -103,26 +118,13 @@ export function ContactSection() {
                       <label htmlFor="nombre" className="block text-sm text-gray-700 mb-2">
                         Nombre *
                       </label>
-                      <Input
-                        id="nombre"
-                        name="nombre"
-                        required
-                        placeholder="Tu nombre completo"
-                        className="w-full"
-                      />
+                      <Input id="nombre" name="nombre" required placeholder="Tu nombre completo" className="w-full" />
                     </div>
                     <div>
                       <label htmlFor="email" className="block text-sm text-gray-700 mb-2">
                         Email *
                       </label>
-                      <Input
-                        id="email"
-                        name="email"
-                        type="email"
-                        required
-                        placeholder="tu@email.com"
-                        className="w-full"
-                      />
+                      <Input id="email" name="email" type="email" required placeholder="tu@email.com" />
                     </div>
                   </div>
 
@@ -130,26 +132,14 @@ export function ContactSection() {
                     <label htmlFor="telefono" className="block text-sm text-gray-700 mb-2">
                       Teléfono
                     </label>
-                    <Input
-                      id="telefono"
-                      name="telefono"
-                      type="tel"
-                      placeholder="Tu número de teléfono"
-                      className="w-full"
-                    />
+                    <Input id="telefono" name="telefono" type="tel" placeholder="Tu número de teléfono" />
                   </div>
 
                   <div>
                     <label htmlFor="asunto" className="block text-sm text-gray-700 mb-2">
                       Asunto *
                     </label>
-                    <Input
-                      id="asunto"
-                      name="asunto"
-                      required
-                      placeholder="¿En qué podemos ayudarte?"
-                      className="w-full"
-                    />
+                    <Input id="asunto" name="asunto" required placeholder="¿En qué podemos ayudarte?" />
                   </div>
 
                   <div>
@@ -162,14 +152,10 @@ export function ContactSection() {
                       required
                       rows={5}
                       placeholder="Cuéntanos más detalles sobre tu consulta o visita planeada..."
-                      className="w-full"
                     />
                   </div>
 
-                  <Button 
-                    type="submit" 
-                    className="w-full bg-blue-600 hover:bg-blue-700 text-white"
-                  >
+                  <Button type="submit" className="w-full bg-blue-600 hover:bg-blue-700 text-white">
                     Enviar Mensaje
                   </Button>
                 </form>
