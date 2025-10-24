@@ -162,7 +162,7 @@ const AnimatedPhrase: FC<{
       {phrase.welcome}
       <br />
       <span 
-        className="block text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl text-green-600"
+        className="block text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl text-green-500"
         lang={phrase.lang === 'mix' ? 'mix' : 'es'}
       >
         {phrase.location}
@@ -209,7 +209,7 @@ export const AnimatedLetterTitle: FC = () => {
         <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-extrabold leading-tight text-white drop-shadow-[0_4px_6px_rgba(0,0,0,0.8)]">
           Bienvenido a
           <br />
-          <span className="block text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl text-green-600">
+          <span className="block text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl text-teal-400">
             San Juan Tahitic
           </span>
         </h1>
