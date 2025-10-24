@@ -2,7 +2,6 @@ import { ArrowDown, ArrowRight, Sparkles, Utensils } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 
-
 export function GastronomySection() {
   return (
     <section
@@ -75,7 +74,7 @@ export function GastronomySection() {
       >
         <motion.button
           onClick={() =>
-            document.getElementById("section-gastronomia-inmersiva-v2")?.scrollIntoView({
+            document.getElementById("cocinas")?.scrollIntoView({
               behavior: "smooth",
               block: "start",
             })
