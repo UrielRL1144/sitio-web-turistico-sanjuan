@@ -1,16 +1,14 @@
 // src/ScrollToTop.tsx
-import { useEffect } from 'react';
+import { useLayoutEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 
-function ScrollToTop() {
-const { pathname } = useLocation();
+export default function ScrollToTop() {
+  const { pathname } = useLocation();
 
-useEffect(() => {
-    // "window.scrollTo(0, 0)" se desplaza a la parte superior de la página
-    window.scrollTo(0, 0);
-  }, [pathname]); // El efecto se ejecuta cada vez que 'pathname' cambia
+  useLayoutEffect(() => {
+    // Se asegura de que la página comience desde el top
+    window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
+  }, [pathname]);
 
-  return null; // Este componente no renderiza nada, solo maneja el efecto secundario
+  return null;
 }
-
-export default ScrollToTop;
