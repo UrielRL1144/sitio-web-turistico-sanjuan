@@ -22,7 +22,7 @@ const MobileFallback: FC = () => (
 /**
  * HeroSection: Sección principal de bienvenida - Optimizado para Móviles
  */
-export const HeroSection: FC<HeroSectionProps> = ({ onDiscoverClick }) => {
+export const HeroSection: FC<HeroSectionProps> = ({ onDiscoverClick, onDiscoverCardClick }) => {
   const [visible, setVisible] = useState(true);
   const [isVideoLoaded, setIsVideoLoaded] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
@@ -174,7 +174,7 @@ export const HeroSection: FC<HeroSectionProps> = ({ onDiscoverClick }) => {
               <Suspense fallback={<MobileFallback />}>
                 <MainContent 
                   scrollToTourism={onDiscoverClick} // Usamos la nueva prop aquí
-                  scrollToContact={() => scrollTo('#contacto')} 
+                  scrollToContact={onDiscoverCardClick} 
                   isVideoLoaded={isVideoLoaded}
                   isMobile={isMobile}
                   reduceMotion={reduceMotion}
@@ -201,6 +201,7 @@ interface BackgroundLayerProps {
 
 interface HeroSectionProps {
   onDiscoverClick: () => void;
+  onDiscoverCardClick: () => void; // Nueva prop
 }
 
 const BackgroundLayer: FC<BackgroundLayerProps> = ({ onVideoLoad, isVideoLoaded, isMobile }) => {
@@ -260,8 +261,8 @@ const BackgroundLayer: FC<BackgroundLayerProps> = ({ onVideoLoad, isVideoLoaded,
       )}
 
       {/* Overlays optimizados para móviles */}
-      <div className="absolute inset-0 bg-gradient-to-br from-black/70 via-transparent to-black/60"></div>
-      <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent"></div>
+      <div className="absolute inset-0 bg-gradient-to-br from-black/60 via-black/30 to-black/60"></div>
+      <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent"></div>
       
       {/* Loading state móvil mejorado */}
       {!isVideoLoaded && !videoError && (
@@ -303,9 +304,9 @@ const MainContent: FC<MainContentProps> = ({
     <div className={`inline-flex items-center space-x-2 bg-white/25 backdrop-blur-md px-3 sm:px-4 py-1 sm:py-2 rounded-full mb-10 sm:mb-12 border border-white/30 shadow-xl ${
       reduceMotion ? '' : 'animate-fade-in-down'
     }`}>
-      <MapPin className="h-4 w-4 sm:h-5 sm:w-5 text-green-300" aria-hidden="true" />
-      <span className="text-white font-medium text-sm sm:text-base">Región Central</span>
-      <Sparkles className="h-3 w-3 sm:h-4 sm:w-4 text-yellow-300 animate-pulse" aria-hidden="true" />
+      <MapPin className="h-4 w-4 sm:h-5 sm:w-5 text-green-900" aria-hidden="true" />
+      <span className="text-black font-medium text-sm sm:text-base">Región Central</span>
+      <Sparkles className="h-3 w-3 sm:h-4 sm:w-4 text-blue-800 animate-pulse" aria-hidden="true" />
     </div>
 
     {/* Título animado con optimizaciones móviles */}
@@ -326,18 +327,18 @@ const MainContent: FC<MainContentProps> = ({
       reduceMotion ? '' : 'animate-fade-in-up'
     }`}>
       {[
-        { label: "Clima", value: climaError ? "Error" : clima, icon: <Sun className="h-4 w-4 sm:h-5 sm:w-5 text-yellow-300" aria-hidden="true" /> },
-        { label: "Idioma", value: "Español", icon: <Languages className="h-4 w-4 sm:h-5 sm:w-5 text-blue-300" aria-hidden="true" /> },
-        { label: "Moneda", value: "MXN", icon: <Coins className="h-4 w-4 sm:h-5 sm:w-5 text-emerald-300" aria-hidden="true" /> },
-        { label: "Temporada", value: "Mar-Oct", icon: <Calendar className="h-4 w-4 sm:h-5 sm:w-5 text-pink-300" aria-hidden="true" /> }
+        { label: "Clima", value: climaError ? "Error" : clima, icon: <Sun className="h-4 w-4 sm:h-5 sm:w-5 text-yellow-800" aria-hidden="true" /> },
+        { label: "Idioma", value: "Español", icon: <Languages className="h-4 w-4 sm:h-5 sm:w-5 text-black" aria-hidden="true" /> },
+        { label: "Moneda", value: "MXN", icon: <Coins className="h-4 w-4 sm:h-5 sm:w-5 text-emerald-500" aria-hidden="true" /> },
+        { label: "Temporada", value: "Mar-Oct", icon: <Calendar className="h-4 w-4 sm:h-5 sm:w-5 text-pink-500" aria-hidden="true" /> }
       ].map((info, index) => (
         <div
           key={index}
-          className="bg-white/10 backdrop-blur-md p-2 sm:p-4 rounded-lg sm:rounded-xl border border-white/20 shadow-lg hover:bg-white/15 transition-colors duration-300 flex flex-col items-center"
+          className="bg-white/20 backdrop-blur-md p-2 sm:p-4 rounded-lg sm:rounded-xl border border-white/20 shadow-lg hover:bg-white/15 transition-colors duration-300 flex flex-col items-center"
           role="listitem"
         >
           {info.icon}
-          <div className="text-green-300 text-sm uppercase mt-1 sm:mt-2 font-semibold">{info.label}</div>
+          <div className="text-green-200 text-sm uppercase mt-1 sm:mt-2 font-semibold">{info.label}</div>
           <div className="text-white text-xs sm:text-sm font-medium mt-1">{info.value}</div>
         </div>
       ))}
@@ -353,6 +354,7 @@ const MainContent: FC<MainContentProps> = ({
         className="group relative w-full sm:w-auto overflow-hidden rounded-full border-0 bg-gradient-to-r from-green-500 to-emerald-600 px-6 py-3 text-base font-semibold text-white shadow-lg transition-all duration-300 hover:scale-105 hover:shadow-xl sm:px-10 sm:py-4 sm:text-lg"
         aria-label="Descubre más sobre el turismo en San Juan Tahitic"
       >
+        <div className="absolute -inset-0.5 rounded-full bg-gradient-to-r from-blue-700 via-cyan-500 to-green-800 opacity-0 transition-opacity duration-500 group-hover:opacity-75" />
         {/* Efecto de brillo */}
         <span className="absolute inset-0 h-full w-full -translate-x-full transform bg-white opacity-20 transition-transform duration-700 ease-in-out group-hover:translate-x-full group-hover:duration-1000" />
         
