@@ -11,6 +11,7 @@ import {
 import App from './App.tsx';
 import { MinimalLayout } from './MinimalLayout';
 
+
 // Rutas
 import { HomePage } from './pages/HomePage';
 import { TourismSection } from './pages/TourismSection.tsx';
@@ -31,6 +32,7 @@ import { SilentErrorBoundary } from './components/SilentErrorBoundary';
 import { SilentRouteError } from './components/SilentRouteError';
 
 import { ServiciosSection } from './comunidad/ServiciosSection.tsx';
+import { ProductPage } from './pages/ProductPage.tsx';
 
 const router = createBrowserRouter([
   {
@@ -44,6 +46,7 @@ const router = createBrowserRouter([
       { path: 'comunidad', element: <CommunitySection /> },
       { path: 'galeria', element: <GallerySection /> },
       { path: 'contacto', element: <ContactSection /> },
+      
       {
         path: 'perfil',
         element: (
@@ -67,6 +70,14 @@ const router = createBrowserRouter([
     element: (
       <MinimalLayout>
         <Login />
+      </MinimalLayout>
+    ),
+  },
+  {
+    path: '/productos',
+    element: (
+      <MinimalLayout>
+        <ProductPage />
       </MinimalLayout>
     ),
   },
