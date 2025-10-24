@@ -1,0 +1,54 @@
+[
+  {
+    "id": "cafe-yektanesik",
+    "name": "Café Yektanesik de Altura",
+    "tag": "Café de Especialidad",
+    "mainImage": "/images/comunidad/cafe-coperariva.jpeg",
+    "galleryImages": [
+      "/images/comunidad/cafe-grano.jpeg",
+      "/images/comunidad/cafe-planta.jpeg"
+    ],
+    "story": "Cultivado a la sombra de los árboles nativos de la sierra, cada grano de Yektanesik ('Corazón Noble' en náhuatl) es cosechado a mano por familias que han perfeccionado el arte del café por generaciones. No es solo una bebida, es el sabor de nuestra tierra y el calor de nuestra gente.",
+    "materials": [
+      { "icon": "Coffee", "text": "Grano 100% Arábica" },
+      { "icon": "Leaf", "text": "Cultivo de Sombra" },
+      { "icon": "Sun", "text": "Secado al Sol" }
+    ]
+  },
+  {
+    "id": "licores-chiwanjmej",
+    "name": "Licores Chiwanjmej",
+    "tag": "Licores Artesanales",
+    "mainImage": "/images/comunidad/licores.jpeg",
+    "galleryImages": [],
+    "story": "Chiwanjmej ('Hecho con el Corazón') es nuestra colección de licores que capturan el espíritu de las fiestas y celebraciones. Macerados lentamente con frutas locales y caña de la región, cada botella es un brindis por la tradición y la buena compañía.",
+    "materials": [
+      { "icon": "Wine", "text": "Destilado de Caña" },
+      { "icon": "Droplet", "text": "Frutas de Temporada" }
+    ]
+  },
+  {
+    "id": "jabones-sembrando-vida",
+    "name": "Jabones Sembrando Vida",
+    "tag": "Cuidado Natural",
+    "mainImage": "/images/comunidad/jabones.jpeg",
+    "galleryImages": [],
+    "story": "Elaborados bajo el sello de 'Sembrando Vida', estos jabones son un tributo a la flora local. Usamos plantas medicinales y aceites esenciales de nuestra sierra, creando un producto que limpia el cuerpo y respeta la tierra.",
+    "materials": [
+        { "icon": "FlaskConical", "text": "Aceites Esenciales" },
+        { "icon": "Leaf", "text": "Plantas Medicinales" }
+    ]
+  },
+  {
+    "id": "pasto-vacas",
+    "name": "Pasto para Vacas",
+    "tag": "Alimento Animal",
+    "mainImage": "/images/comunidad/jabones.jpeg",
+    "galleryImages": [],
+    "story": "Elaborados bajo el sello de 'Sembrando Vida', estos jabones son un tributo a la flora local. Usamos plantas medicinales y aceites esenciales de nuestra sierra, creando un producto que limpia el cuerpo y respeta la tierra.",
+    "materials": [
+        { "icon": "FlaskConical", "text": "Aceites Esenciales" },
+        { "icon": "Leaf", "text": "Plantas Medicinales" }
+    ]
+  }
+]
