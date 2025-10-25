@@ -1,6 +1,6 @@
 // src/components/VisualCardsSection.tsx
 import { motion, useScroll, useTransform, useAnimation, useInView, useReducedMotion } from "framer-motion";
-import { useRef, useEffect, useState, useCallback } from "react";
+import { useRef, useEffect, useState, useCallback, forwardRef } from "react"; // ← Añade forwardRef aquí
 
 /* =============================
    Tipos
@@ -20,6 +20,11 @@ interface VisualCardProps {
   isMobile: boolean;
 }
 
+// Añade esta interfaz para las props del componente principal
+interface VisualCardsSectionProps {
+  // puedes añadir props aquí si las necesitas en el futuro
+}
+
 /* =============================
    Datos optimizados
 ============================= */
@@ -28,38 +33,38 @@ const cardsData: CardData[] = [
     title: "Comedor de Doña Adela",
     description: "Disfruta de la gastronomía local con platillos tradicionales y auténticos sabores de la región.",
     image: "/images/home/cards/Comedor.webp",
-    link: "#comedor",
+    link: "/section-gastronomia",
     priority: true // Primera imagen con prioridad
   },
   {
     title: "Cascada de los Enamorados",
     description: "Admira una de las cascadas más bellas, rodeada de naturaleza y tranquilidad.",
     image: "/images/home/cards/Cascada-enamorados.webp",
-    link: "#cascada",
+    link: "/turismo",
   },
   {
-    title: "Construcción de cabañas al 60%",
+    title: "Construcción de cabañas al 80%",
     description: "Próximamente nuevas opciones de hospedaje inmersas en la naturaleza.",
     image: "/images/home/cards/Cabanas.webp",
-    link: "#cabanas",
+    link: "/comunidad",
   },
   {
     title: "Miradores",
     description: "Vistas panorámicas impresionantes para capturar recuerdos inolvidables.",
     image: "/images/home/cards/mirador.webp",
-    link: "#miradores",
+    link: "/galeria",
   },
   {
     title: "Danzas",
     description: "Vive la riqueza cultural a través de danzas y música tradicional.",
     image: "/images/home/cards/Danza.webp",
-    link: "#danzas",
+    link: "/cultura",
   },
   {
     title: "Ríos",
     description: "Sumérgete en la belleza de nuestros ríos y disfruta de su entorno natural.",
     image: "/images/home/cards/Rios.webp",
-    link: "#rios",
+    link: "/turismo",
   },
 ];
 
@@ -107,7 +112,7 @@ const useDeviceOptimization = () => {
    Hook personalizado para auto-scroll optimizado
 ============================= */
 const useAutoScroll = (
-  containerRef: React.RefObject<HTMLDivElement | null>, // ← AÑADE | null aquí
+  containerRef: React.RefObject<HTMLDivElement | null>,
   isActive: boolean,
   isMobile: boolean,
   shouldReduceMotion: boolean
@@ -308,174 +313,178 @@ const VisualCard = ({ card, index, shouldReduceMotion, isMobile }: VisualCardPro
 };
 
 /* =============================
-   Sección principal optimizada
+   Sección principal optimizada - CON forwardRef
 ============================= */
-export function VisualCardsSection() {
-  const containerRef = useRef<HTMLDivElement | null>(null);
-  const { isMobile, isLowEndDevice, shouldReduceMotion } = useDeviceOptimization();
-  const inView = useInView(containerRef, { once: true, amount: 0.3 });
-  
-  const {
-    startAutoScroll,
-    stopAutoScroll,
-    pauseThenResume,
-    centerFirstCard,
-    scrollBy,
-    scrollToPosition
-  } = useAutoScroll(containerRef, inView, isMobile, shouldReduceMotion);
+export const VisualCardsSection = forwardRef<HTMLDivElement, VisualCardsSectionProps>(
+  (props, ref) => {
+    const containerRef = useRef<HTMLDivElement | null>(null);
+    const { isMobile, isLowEndDevice, shouldReduceMotion } = useDeviceOptimization();
+    const inView = useInView(containerRef, { once: true, amount: 0.3 });
+    
+    const {
+      startAutoScroll,
+      stopAutoScroll,
+      pauseThenResume,
+      centerFirstCard,
+      scrollBy,
+      scrollToPosition
+    } = useAutoScroll(containerRef, inView, isMobile, shouldReduceMotion);
 
-  // Navegación optimizada
-  
-  // Efectos optimizados
-  useEffect(() => {
-    if (inView && !shouldReduceMotion) {
-      // Pequeño delay para centrado inicial
-      const centerTimer = setTimeout(() => {
-        centerFirstCard();
-      }, 100);
+    // Efectos optimizados
+    useEffect(() => {
+      if (inView && !shouldReduceMotion) {
+        // Pequeño delay para centrado inicial
+        const centerTimer = setTimeout(() => {
+          centerFirstCard();
+        }, 100);
 
-      startAutoScroll();
+        startAutoScroll();
 
-      // Event listeners optimizados
-      const el = containerRef.current;
-      if (!el) return;
+        // Event listeners optimizados
+        const el = containerRef.current;
+        if (!el) return;
 
-      const onInteract = () => pauseThenResume(8000);
-      const onEnter = () => stopAutoScroll();
-      const onLeave = () => {
-        if (inView) {
-          pauseThenResume(3000);
-        }
-      };
+        const onInteract = () => pauseThenResume(8000);
+        const onEnter = () => stopAutoScroll();
+        const onLeave = () => {
+          if (inView) {
+            pauseThenResume(3000);
+          }
+        };
 
-      // Passive events para mejor performance
-      el.addEventListener("mouseenter", onEnter, { passive: true });
-      el.addEventListener("mouseleave", onLeave, { passive: true });
-      el.addEventListener("touchstart", onInteract, { passive: true });
-      el.addEventListener("wheel", onInteract, { passive: true });
+        // Passive events para mejor performance
+        el.addEventListener("mouseenter", onEnter, { passive: true });
+        el.addEventListener("mouseleave", onLeave, { passive: true });
+        el.addEventListener("touchstart", onInteract, { passive: true });
+        el.addEventListener("wheel", onInteract, { passive: true });
 
-      return () => {
-        clearTimeout(centerTimer);
-        el.removeEventListener("mouseenter", onEnter);
-        el.removeEventListener("mouseleave", onLeave);
-        el.removeEventListener("touchstart", onInteract);
-        el.removeEventListener("wheel", onInteract);
-        stopAutoScroll();
-      };
-    }
-  }, [inView, shouldReduceMotion, startAutoScroll, stopAutoScroll, pauseThenResume, centerFirstCard]);
+        return () => {
+          clearTimeout(centerTimer);
+          el.removeEventListener("mouseenter", onEnter);
+          el.removeEventListener("mouseleave", onLeave);
+          el.removeEventListener("touchstart", onInteract);
+          el.removeEventListener("wheel", onInteract);
+          stopAutoScroll();
+        };
+      }
+    }, [inView, shouldReduceMotion, startAutoScroll, stopAutoScroll, pauseThenResume, centerFirstCard]);
 
-  // Preload de primera imagen crítica
-  useEffect(() => {
-    const preloadImage = new Image();
-    preloadImage.src = cardsData[0].image;
-  }, []);
+    // Preload de primera imagen crítica
+    useEffect(() => {
+      const preloadImage = new Image();
+      preloadImage.src = cardsData[0].image;
+    }, []);
 
-  return (
-    <section 
-      className="relative bg-black py-16 sm:py-24 px-0 overflow-hidden"
-      aria-label="Galería de atracciones de San Juan Tahitic"
-    >
-      {/* Título optimizado */}
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8 mb-12 sm:mb-16">
-        <motion.h2
-          className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-white text-center drop-shadow-2xl"
-          initial={{ opacity: 0, y: -20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: shouldReduceMotion ? 0.3 : 0.8 }}
-          viewport={{ once: true }}
-        >
-          Explora San Juan Tahitic
-        </motion.h2>
-        <motion.p
-          className="text-base sm:text-lg text-gray-400 mt-3 sm:mt-4 text-center max-w-2xl mx-auto"
-          initial={{ opacity: 0, y: -20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: shouldReduceMotion ? 0.3 : 0.8, delay: 0.1 }}
-          viewport={{ once: true }}
-        >
-          Descubre las maravillas que te esperan en este paraíso
-        </motion.p>
-      </div>
-
-      {/* Flechas optimizadas */}
-      {!isMobile && (
-        <>
-          <button
-            aria-label="Anterior"
-            onClick={() => {
-              const c = containerRef.current;
-              if (!c) return;
-              c.scrollBy({ left: -400, behavior: 'smooth' });
-              pauseThenResume();
-            }}
-            className="hidden sm:flex absolute left-2 lg:left-4 top-1/2 -translate-y-1/2 z-30 items-center justify-center w-10 h-10 lg:w-12 lg:h-12 rounded-full bg-white/10 hover:bg-white/20 text-white backdrop-blur-sm transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-black"
-          >
-            <svg xmlns="http://www.w3.org/2000/svg" className="w-5 h-5 lg:w-6 lg:h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
-            </svg>
-          </button>
-
-          <button
-            aria-label="Siguiente"
-            onClick={() => {
-              const c = containerRef.current;
-              if (!c) return;
-              c.scrollBy({ left: 400, behavior: 'smooth' });
-              pauseThenResume();
-            }}
-            className="hidden sm:flex absolute right-2 lg:right-4 top-1/2 -translate-y-1/2 z-30 items-center justify-center w-10 h-10 lg:w-12 lg:h-12 rounded-full bg-white/10 hover:bg-white/20 text-white backdrop-blur-sm transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-black"
-          >
-            <svg xmlns="http://www.w3.org/2000/svg" className="w-5 h-5 lg:w-6 lg:h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
-            </svg>
-          </button>
-        </>
-      )}
-
-      {/* Carrusel optimizado */}
-      <div
-        ref={containerRef}
-        className="flex flex-nowrap gap-6 sm:gap-8 py-4 px-4 sm:px-6 lg:px-8 overflow-x-auto snap-x snap-mandatory scroll-smooth scrollbar-hide"
-        role="region"
-        aria-label="Carrusel de tarjetas"
-        aria-live="polite"
+    return (
+      <section 
+        ref={ref} // ← Aquí se usa la ref forwardeada
+        className="relative bg-black py-16 sm:py-24 px-0 overflow-hidden"
+        aria-label="Galería de atracciones de San Juan Tahitic"
       >
-        {cardsData.map((card, index) => (
-          <VisualCard 
-            key={`${card.title}-${index}`}
-            card={card} 
-            index={index}
-            shouldReduceMotion={shouldReduceMotion}
-            isMobile={isMobile}
-          />
-        ))}
-      </div>
+        {/* Título optimizado */}
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8 mb-12 sm:mb-16">
+          <motion.h2
+            className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-white text-center drop-shadow-2xl"
+            initial={{ opacity: 0, y: -20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: shouldReduceMotion ? 0.3 : 0.8 }}
+            viewport={{ once: true }}
+          >
+            Explora San Juan Tahitic
+          </motion.h2>
+          <motion.p
+            className="text-base sm:text-lg text-gray-400 mt-3 sm:mt-4 text-center max-w-2xl mx-auto"
+            initial={{ opacity: 0, y: -20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: shouldReduceMotion ? 0.3 : 0.8, delay: 0.1 }}
+            viewport={{ once: true }}
+          >
+            Descubre las maravillas que te esperan en este paraíso
+          </motion.p>
+        </div>
 
-      {/* Indicadores de progreso para móvil */}
-      {isMobile && (
-        <div className="flex justify-center mt-6 space-x-2">
-          {cardsData.map((_, index) => (
+        {/* Flechas optimizadas */}
+        {!isMobile && (
+          <>
             <button
-              key={index}
-              aria-label={`Ir a tarjeta ${index + 1}`}
-              className="w-2 h-2 rounded-full bg-white/30 hover:bg-white/50 transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-white"
+              aria-label="Anterior"
               onClick={() => {
-                // Navegación directa a tarjeta específica
                 const c = containerRef.current;
-                if (c) {
-                  const cards = c.querySelectorAll<HTMLElement>('.snap-center');
-                  if (cards[index]) {
-                    const cardStep = cards[index].offsetLeft;
-                    scrollToPosition(cardStep);
-                    pauseThenResume();
-                  }
-                }
+                if (!c) return;
+                c.scrollBy({ left: -400, behavior: 'smooth' });
+                pauseThenResume();
               }}
+              className="hidden sm:flex absolute left-2 lg:left-4 top-1/2 -translate-y-1/2 z-30 items-center justify-center w-10 h-10 lg:w-12 lg:h-12 rounded-full bg-white/10 hover:bg-white/20 text-white backdrop-blur-sm transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-black"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" className="w-5 h-5 lg:w-6 lg:h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
+              </svg>
+            </button>
+
+            <button
+              aria-label="Siguiente"
+              onClick={() => {
+                const c = containerRef.current;
+                if (!c) return;
+                c.scrollBy({ left: 400, behavior: 'smooth' });
+                pauseThenResume();
+              }}
+              className="hidden sm:flex absolute right-2 lg:right-4 top-1/2 -translate-y-1/2 z-30 items-center justify-center w-10 h-10 lg:w-12 lg:h-12 rounded-full bg-white/10 hover:bg-white/20 text-white backdrop-blur-sm transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-black"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" className="w-5 h-5 lg:w-6 lg:h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
+              </svg>
+            </button>
+          </>
+        )}
+
+        {/* Carrusel optimizado */}
+        <div
+          ref={containerRef}
+          className="flex flex-nowrap gap-6 sm:gap-8 py-4 px-4 sm:px-6 lg:px-8 overflow-x-auto snap-x snap-mandatory scroll-smooth scrollbar-hide"
+          role="region"
+          aria-label="Carrusel de tarjetas"
+          aria-live="polite"
+        >
+          {cardsData.map((card, index) => (
+            <VisualCard 
+              key={`${card.title}-${index}`}
+              card={card} 
+              index={index}
+              shouldReduceMotion={shouldReduceMotion}
+              isMobile={isMobile}
             />
           ))}
         </div>
-      )}
-    </section>
-  );
-}
+
+        {/* Indicadores de progreso para móvil */}
+        {isMobile && (
+          <div className="flex justify-center mt-6 space-x-2">
+            {cardsData.map((_, index) => (
+              <button
+                key={index}
+                aria-label={`Ir a tarjeta ${index + 1}`}
+                className="w-2 h-2 rounded-full bg-white/30 hover:bg-white/50 transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-white"
+                onClick={() => {
+                  // Navegación directa a tarjeta específica
+                  const c = containerRef.current;
+                  if (c) {
+                    const cards = c.querySelectorAll<HTMLElement>('.snap-center');
+                    if (cards[index]) {
+                      const cardStep = cards[index].offsetLeft;
+                      scrollToPosition(cardStep);
+                      pauseThenResume();
+                    }
+                  }
+                }}
+              />
+            ))}
+          </div>
+        )}
+      </section>
+    );
+  }
+);
+
+// Añade el displayName para mejor debugging
+VisualCardsSection.displayName = 'VisualCardsSection';
