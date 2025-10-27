@@ -162,7 +162,7 @@ const AnimatedPhrase: FC<{
       {phrase.welcome}
       <br />
       <span 
-        className="block text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl text-green-500"
+        className="block text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl text-emerald-500"
         lang={phrase.lang === 'mix' ? 'mix' : 'es'}
       >
         {phrase.location}
