@@ -1,9 +1,12 @@
 // AdventureActivities.tsx
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../components/ui/card';
 import { ImageWithFallback } from '../components/figma/ImageWithFallback';
-import { Mountain, Trees, Camera, Waves, Leaf, Sun, Star } from 'lucide-react';
+import { Mountain, Trees, Camera, Waves, Leaf, Sun, Star, Cookie } from 'lucide-react';
+import { forwardRef } from 'react';
+import { motion } from 'framer-motion';
 
-export function AdventureActivities () {
+export const AdventureActivities = forwardRef<HTMLDivElement>((props, ref) => {
+
   const attractions = [
     {
       icon: Mountain,
@@ -47,7 +50,7 @@ export function AdventureActivities () {
   ];
 
   return (
-    <section id="turismo" className="py-24 bg-gradient-to-br from-green-50 via-white to-emerald-50 relative overflow-hidden">
+    <section ref={ref} id="turismo" className="py-24 bg-gradient-to-br from-green-50 via-white to-emerald-50 relative overflow-hidden">
       {/* Elementos decorativos de fondo */}
       <div className="absolute top-20 left-10 w-32 h-32 bg-green-200/30 rounded-full blur-3xl animate-float"></div>
       <div className="absolute bottom-20 right-10 w-40 h-40 bg-emerald-200/30 rounded-full blur-3xl animate-float" style={{ animationDelay: '1s' }}></div>
@@ -180,17 +183,36 @@ export function AdventureActivities () {
         </div>
 
         {/* Call to action mejorado */}
-        <div className="text-center mt-16">
-          <div className="inline-flex items-center space-x-4">
-            <button className="bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700 text-white px-8 py-4 rounded-full font-semibold shadow-2xl transform hover:scale-105 transition-all duration-300 animate-glow">
-              Explora Nuestros Senderos
-            </button>
-            <button className="border-2 border-green-500 text-green-700 hover:bg-green-50 px-8 py-4 rounded-full font-semibold transition-all duration-300 transform hover:scale-105">
-              Guía de Turismo
-            </button>
-          </div>
-        </div>
+        <div className="text-center mt-20 relative">
+        {/* Efecto de resplandor animado detrás del botón */}
+        <motion.div
+          className="absolute inset-0 flex justify-center"
+          animate={{ opacity: [0.4, 0.8, 0.4], scale: [1, 1.05, 1] }}
+          transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+        >
+          <div className="w-64 h-16 bg-gradient-to-r from-orange-400/30 via-amber-300/20 to-orange-400/30 rounded-full blur-3xl"></div>
+        </motion.div>
+
+        {/* Botón principal */}
+        <motion.a
+          href="/section-atracciones"
+          whileHover={{
+            scale: 1.08,
+            boxShadow: "0 0 25px rgba(255, 140, 0, 0.6)",
+          }}
+          whileTap={{ scale: 0.95 }}
+          className="relative inline-flex items-center gap-3 bg-gradient-to-r from-teal-700 to-green-600 text-white text-lg font-semibold px-10 py-4 rounded-full shadow-lg transition-all duration-300"
+        >
+          Conoce su historia
+          <motion.span
+            animate={{ y: [0, -6, 0] }}
+            transition={{ duration: 1.2, repeat: Infinity, ease: 'easeInOut' }}
+          >
+            <Mountain className="w-6 h-6" />
+          </motion.span>
+        </motion.a>
+      </div>
       </div>
     </section>
   );
-}
+})
