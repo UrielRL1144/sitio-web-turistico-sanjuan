@@ -17,7 +17,6 @@ export function ViajeSensorialGastronomico() {
   const cocinas = cocinasData.cocinas;
   const cocina = cocinas[cocinaActiva];
 
-  // Función getServiceIcon movida aquí para compartir entre componentes
   const getServiceIcon = (servicio: string) => {
     const icons: { [key: string]: any } = {
       'WiFi Gratuito': Wifi,
@@ -40,42 +39,48 @@ export function ViajeSensorialGastronomico() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-amber-50 to-orange-50 overflow-x-hidden">
-      {/* Header Navigation */}
-      <HeaderNavigation 
-        cocinas={cocinas}
-        cocinaActiva={cocinaActiva}
-        onCocinaChange={setCocinaActiva}
-        onNavigate={handleNavigate}
-      />
+    <div 
+      id="cocinas-section" // 👈 ID CRÍTICO para el hook de scroll
+      className="min-h-screen bg-gradient-to-br from-amber-50 to-orange-50 overflow-x-hidden"
+    >
+      <div className="w-full max-w-[100vw] overflow-hidden">
+        
+        {/* Header Navigation con efecto de scroll */}
+        <HeaderNavigation 
+          cocinas={cocinas}
+          cocinaActiva={cocinaActiva}
+          onCocinaChange={setCocinaActiva}
+          onNavigate={handleNavigate}
+        />
 
-      {/* Hero Section */}
-      <HeroSection 
-        cocina={cocina}
-        onNavigate={handleNavigate}
-      />
+        {/* Hero Section */}
+        <HeroSection 
+          cocina={cocina}
+          onNavigate={handleNavigate}
+        />
 
-      {/* Restaurant Info */}
-      <RestaurantInfo cocina={cocina} />
+        {/* Restaurant Info */}
+        <RestaurantInfo cocina={cocina} />
 
-      {/* Featured Dishes */}
-      <FeaturedDishes 
-        cocina={cocina}
-        onExpandRestaurant={setRestauranteExpandido}
-      />
+        {/* Featured Dishes */}
+        <FeaturedDishes 
+          cocina={cocina}
+          onExpandRestaurant={setRestauranteExpandido}
+        />
 
-      {/* Location Section */}
-      <LocationSection cocina={cocina} />
+        {/* Location Section */}
+        <LocationSection cocina={cocina} />
 
-      {/* Call to Action */}
-      <CallToAction cocina={cocina} />
+        {/* Call to Action */}
+        <CallToAction cocina={cocina} />
 
-      {/* Expanded Modal */}
-      <ExpandedModal 
-        restauranteExpandido={restauranteExpandido}
-        onClose={() => setRestauranteExpandido(null)}
-        getServiceIcon={getServiceIcon}
-      />
+        {/* Expanded Modal */}
+        <ExpandedModal 
+          restauranteExpandido={restauranteExpandido}
+          onClose={() => setRestauranteExpandido(null)}
+          getServiceIcon={getServiceIcon}
+        />
+      </div>
     </div>
   );
 }
