@@ -34,6 +34,8 @@ import { SilentRouteError } from './components/SilentRouteError';
 import { ServiciosSection } from './comunidad/ServiciosSection.tsx';
 import { ProductPage } from './pages/ProductPage.tsx';
 
+import { ExploradorAtractivosTuristicos } from './turismo/section/ExploradorAtractivosTuristicos.tsx';
+
 const router = createBrowserRouter([
   {
     path: '/',
@@ -102,6 +104,14 @@ const router = createBrowserRouter([
     element: (
       <MinimalLayout>
         <GastronomyPage />
+      </MinimalLayout>
+    )
+  },
+  {
+    path: '/section-atracciones',
+    element: (
+      <MinimalLayout>
+        <ExploradorAtractivosTuristicos />
       </MinimalLayout>
     )
   },
