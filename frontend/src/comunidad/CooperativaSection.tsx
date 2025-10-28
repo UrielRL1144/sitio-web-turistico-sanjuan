@@ -1,7 +1,7 @@
 // src/comunidad/CooperativaSection.tsx
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../components/ui/card';
 import { ImageWithFallback } from '../components/figma/ImageWithFallback';
-import { Coffee, Wine, Leaf, Droplet, Users, ShoppingBag, Award, Sparkles } from 'lucide-react';
+import { Coffee, Wine, Leaf, Droplet, Users, ShoppingBag, Award, Sparkles, Mountain } from 'lucide-react';
 import { motion } from 'framer-motion';
 // Al inicio de CooperativaSection.tsx
 import { Link } from "react-router-dom";
@@ -14,7 +14,7 @@ export function CooperativaSection() {
       icon: Coffee,
       title: "Café Yektanesik",
       description: "Café orgánico de altura, cultivado y producido por familias locales con tradición y pasión.",
-      image: "/images/cafe-yektanesik.jpg",
+      image: "/images/comunidad/cafe-coperariva.jpeg",
       gradient: "from-amber-400 to-orange-600",
       accent: "text-amber-600"
     },
@@ -22,7 +22,7 @@ export function CooperativaSection() {
       icon: Wine,
       title: "Punche & Licores Chiwanjmej",
       description: "Bebida ancestral Punche y licores artesanales de sabores tradicionales, hechos en la comunidad.",
-      image: "/images/licores-chiwanjmej.jpg",
+      image: "/images/comunidad/licores.jpeg",
       gradient: "from-purple-400 to-pink-600",
       accent: "text-purple-600"
     },
@@ -30,7 +30,7 @@ export function CooperativaSection() {
       icon: Leaf,
       title: "Jabones Artesanales",
       description: "Elaborados con plantas medicinales locales dentro del programa Sembrando Vida.",
-      image: "/images/jabones-artesanales.jpg",
+      image: "/images/comunidad/jabones.jpeg",
       gradient: "from-green-400 to-emerald-600",
       accent: "text-green-600"
     },
@@ -38,7 +38,7 @@ export function CooperativaSection() {
       icon: Droplet,
       title: "Jugos Yektanesik",
       description: "Jugos frescos de frutas de la región, 100% naturales y nutritivos.",
-      image: "/images/jugos-yektanesik.jpg",
+      image: "/images/comunidad/jugo-fruta.jpeg",
       gradient: "from-red-400 to-orange-600",
       accent: "text-red-600"
     }
@@ -201,17 +201,38 @@ export function CooperativaSection() {
         </div>
 
         {/* CTA */}
-        <div className="text-center">
-          <div className="inline-flex items-center space-x-4">
-            <Link to="/productos">
-              <Button className="bg-gradient-to-r from-violet-500 to-fuchsia-600 hover:from-teal-600 hover:to-pink-700 text-white px-8 py-4 rounded-full font-semibold shadow-2xl transform hover:scale-105 transition-all duration-300">
-                Conocer la cooperativa
-              </Button>
-            </Link>
-          </div>
-        </div>
+        <div className="text-center mt-20 relative">
+        {/* Efecto de resplandor animado detrás del botón */}
+        <motion.div
+          className="absolute inset-0 flex justify-center"
+          animate={{ opacity: [0.4, 0.8, 0.4], scale: [1, 1.05, 1] }}
+          transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+        >
+          <div className="w-64 h-16 bg-gradient-to-r from-teal-400/30 via-green-300/80 to-lime-200/50 rounded-full blur-3xl"></div>
+        </motion.div>
+
+        {/* Botón principal */}
+        <motion.a
+          href="/section-cooperativa"
+          whileHover={{
+            scale: 1.08,
+            boxShadow: "0 0 25px rgba(255, 140, 0, 0.6)",
+          }}
+          whileTap={{ scale: 0.95 }}
+          className="relative inline-flex items-center gap-3 bg-gradient-to-r from-teal-300 to-green-400 text-black text-lg font-semibold px-10 py-4 rounded-full shadow-lg transition-all duration-300"
+        >
+          Conoce la cooperativa de San Juan Tahitic
+          <motion.span
+            animate={{ y: [0, -6, 0] }}
+            transition={{ duration: 1.2, repeat: Infinity, ease: 'easeInOut' }}
+          >
+            <Mountain className="w-6 h-6" />
+          </motion.span>
+        </motion.a>
+      </div>
 
       </div>
     </section>
   );
+
 };
