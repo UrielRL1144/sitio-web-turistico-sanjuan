@@ -30,9 +30,7 @@ import { ProfilePage } from './pages/ProfilePage';
 import { PanelPlaceSection } from './pages/PanelPlaceSection';
 import { SilentErrorBoundary } from './components/SilentErrorBoundary';
 import { SilentRouteError } from './components/SilentRouteError';
-
-import { ServiciosSection } from './comunidad/ServiciosSection.tsx';
-import { ProductPage } from './pages/ProductPage.tsx';
+import { CooperativaPage } from './pages/CooperativaPage.tsx';
 
 import { ExploradorAtractivosTuristicos } from './turismo/section/ExploradorAtractivosTuristicos.tsx';
 
@@ -76,26 +74,10 @@ const router = createBrowserRouter([
     ),
   },
   {
-    path: '/productos',
-    element: (
-      <MinimalLayout>
-        <ProductPage />
-      </MinimalLayout>
-    ),
-  },
-  {
     path: '/calendario-cultural',
     element: (
       <MinimalLayout>
         <CalendarPage />
-      </MinimalLayout>
-    )
-  },
-  {
-    path: '/cooperativa',
-    element: (
-      <MinimalLayout>
-        <ServiciosSection />
       </MinimalLayout>
     )
   },
@@ -112,6 +94,14 @@ const router = createBrowserRouter([
     element: (
       <MinimalLayout>
         <ExploradorAtractivosTuristicos />
+      </MinimalLayout>
+    )
+  },
+  {
+    path: '/section-cooperativa',
+    element: (
+      <MinimalLayout>
+        <CooperativaPage />
       </MinimalLayout>
     )
   },
