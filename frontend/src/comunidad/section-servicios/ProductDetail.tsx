@@ -1,10 +1,11 @@
-// ProductDetail.tsx (Versión mejorada con scroll y mobile-first)
+// ProductDetail.tsx (con funcionalidad de compartir)
 import { motion, AnimatePresence } from 'framer-motion';
 import { 
   Coffee, Leaf, Sun, Wine, Droplet, FlaskConical,
   Sprout, Flower, Beef, Star, Calendar, Users,
   Shield, CheckCircle, ArrowLeft, Share2, Heart,
-  Maximize2, X, ChevronDown, ChevronUp
+  Maximize2, X, ChevronDown, ChevronUp,
+  Copy, CheckCheck
 } from 'lucide-react';
 import { type Product } from '../ServiciosSection';
 import { useState, useRef, useEffect } from 'react';
@@ -28,10 +29,14 @@ export function ProductDetail({ product, onClose }: ProductDetailProps) {
   const [isImageExpanded, setIsImageExpanded] = useState(false);
   const [activeSection, setActiveSection] = useState<string | null>(null);
   const [isMobile, setIsMobile] = useState(false);
+  const [isLiked, setIsLiked] = useState(false);
+  const [showShareOptions, setShowShareOptions] = useState(false);
+  const [copiedToClipboard, setCopiedToClipboard] = useState(false);
   const contentRef = useRef<HTMLDivElement>(null);
+  const shareTimeoutRef = useRef<NodeJS.Timeout | undefined>(undefined);
+
   
   const allImages = [product.mainImage, ...(product.galleryImages || [])];
-  const [isLiked, setIsLiked] = useState(false);
 
   // Detectar si es móvil
   useEffect(() => {
@@ -48,6 +53,15 @@ export function ProductDetail({ product, onClose }: ProductDetailProps) {
     }
   }, [product]);
 
+  // Limpiar timeout al desmontar
+  useEffect(() => {
+    return () => {
+      if (shareTimeoutRef.current) {
+        clearTimeout(shareTimeoutRef.current);
+      }
+    };
+  }, []);
+
   const nextImage = () => {
     setCurrentImageIndex((prev) => 
       prev === allImages.length - 1 ? 0 : prev + 1
@@ -62,6 +76,85 @@ export function ProductDetail({ product, onClose }: ProductDetailProps) {
 
   const toggleSection = (section: string) => {
     setActiveSection(activeSection === section ? null : section);
+  };
+
+  const handleShare = async () => {
+    const productUrl = `${window.location.origin}${window.location.pathname}#product-${product.id}`;
+    const shareText = `Mira este producto de la Cooperativa San Juan Tahitic: ${product.name} - ${product.description}`;
+
+    try {
+      // Navigator Share API (dispositivos móviles y algunos navegadores desktop)
+      if (navigator.share) {
+        await navigator.share({
+          title: product.name,
+          text: shareText,
+          url: productUrl,
+        });
+      } 
+      // Web Share API fallback para desktop
+      else if (navigator.clipboard) {
+        await navigator.clipboard.writeText(`${shareText}\n${productUrl}`);
+        setCopiedToClipboard(true);
+        
+        // Resetear el estado después de 2 segundos
+        if (shareTimeoutRef.current) {
+          clearTimeout(shareTimeoutRef.current);
+        }
+        shareTimeoutRef.current = setTimeout(() => {
+          setCopiedToClipboard(false);
+        }, 2000);
+      } 
+      // Fallback para navegadores antiguos
+      else {
+        copyToClipboardFallback(`${shareText}\n${productUrl}`);
+      }
+    } catch (error) {
+      console.log('Error al compartir:', error);
+      // Fallback si el usuario cancela el share
+      copyToClipboardFallback(`${shareText}\n${productUrl}`);
+    }
+    
+    setShowShareOptions(false);
+  };
+
+  const copyToClipboardFallback = (text: string) => {
+    const textArea = document.createElement('textarea');
+    textArea.value = text;
+    document.body.appendChild(textArea);
+    textArea.select();
+    try {
+      document.execCommand('copy');
+      setCopiedToClipboard(true);
+      
+      if (shareTimeoutRef.current) {
+        clearTimeout(shareTimeoutRef.current);
+      }
+      shareTimeoutRef.current = setTimeout(() => {
+        setCopiedToClipboard(false);
+      }, 2000);
+    } catch (err) {
+      console.error('Fallback: Error al copiar al portapapeles', err);
+    }
+    document.body.removeChild(textArea);
+  };
+
+  const shareOnSocialMedia = (platform: string) => {
+    const productUrl = encodeURIComponent(`${window.location.origin}${window.location.pathname}#product-${product.id}`);
+    const shareText = encodeURIComponent(`Mira este producto de la Cooperativa San Juan Tahitic: ${product.name}`);
+    
+    const urls = {
+      facebook: `https://www.facebook.com/sharer/sharer.php?u=${productUrl}&quote=${shareText}`,
+      twitter: `https://twitter.com/intent/tweet?text=${shareText}&url=${productUrl}`,
+      whatsapp: `https://wa.me/?text=${shareText}%20${productUrl}`,
+      telegram: `https://t.me/share/url?url=${productUrl}&text=${shareText}`,
+    };
+
+    const url = urls[platform as keyof typeof urls];
+    if (url) {
+      window.open(url, '_blank', 'width=600,height=400');
+    }
+    
+    setShowShareOptions(false);
   };
 
   const hasVariants = product.variants && product.variants.length > 0;
@@ -170,19 +263,119 @@ export function ProductDetail({ product, onClose }: ProductDetailProps) {
             >
               <ArrowLeft className="h-4 w-4 sm:h-5 sm:w-5 text-gray-700" />
             </button>
-            <div className="flex gap-1 sm:gap-2">
+            <div className="flex gap-1 sm:gap-2 relative">
               <button
                 onClick={() => setIsImageExpanded(true)}
                 className="bg-white/90 backdrop-blur-sm rounded-full p-2 sm:p-3 shadow-lg hover:scale-110 transition-transform duration-200"
               >
                 <Maximize2 className="h-4 w-4 sm:h-5 sm:w-5 text-gray-700" />
               </button>
-              <button className="bg-white/90 backdrop-blur-sm rounded-full p-2 sm:p-3 shadow-lg hover:scale-110 transition-transform duration-200">
-                <Share2 className="h-4 w-4 sm:h-5 sm:w-5 text-gray-700" />
+              <button
+                onClick={() => setIsLiked(!isLiked)}
+                className={`bg-white/90 backdrop-blur-sm rounded-full p-2 sm:p-3 shadow-lg hover:scale-110 transition-transform duration-200 ${
+                  isLiked ? 'text-red-500' : 'text-gray-700'
+                }`}
+              >
+                <Heart className="h-4 w-4 sm:h-5 sm:w-5" fill={isLiked ? "currentColor" : "none"} />
               </button>
+              
+              {/* Botón de Compartir con Menú */}
+              <div className="relative">
+                <button
+                  onClick={() => setShowShareOptions(!showShareOptions)}
+                  className="bg-white/90 backdrop-blur-sm rounded-full p-2 sm:p-3 shadow-lg hover:scale-110 transition-transform duration-200"
+                >
+                  {copiedToClipboard ? (
+                    <CheckCheck className="h-4 w-4 sm:h-5 sm:w-5 text-green-600" />
+                  ) : (
+                    <Share2 className="h-4 w-4 sm:h-5 sm:w-5 text-gray-700" />
+                  )}
+                </button>
+
+                {/* Menú de Opciones de Compartir */}
+                <AnimatePresence>
+                  {showShareOptions && (
+                    <motion.div
+                      initial={{ opacity: 0, scale: 0.8, y: 10 }}
+                      animate={{ opacity: 1, scale: 1, y: 0 }}
+                      exit={{ opacity: 0, scale: 0.8, y: 10 }}
+                      className="absolute right-0 top-full mt-2 bg-white/95 backdrop-blur-sm rounded-2xl shadow-2xl border border-gray-200 p-3 min-w-[200px] z-30"
+                    >
+                      <div className="space-y-2">
+                        {/* Compartir nativo (móvil) o copiar enlace (desktop) */}
+                        <button
+                          onClick={handleShare}
+                          className="w-full flex items-center gap-3 p-3 rounded-xl hover:bg-gray-100 transition-colors duration-200 text-left"
+                        >
+                          {typeof navigator.share === 'function' ? (
+                            <>
+                              <Share2 className="h-5 w-5 text-blue-600" />
+                              <span className="text-sm font-medium text-gray-700">
+                                Compartir...
+                              </span>
+                            </>
+                          ) : (
+                            <>
+                              <Copy className="h-5 w-5 text-gray-600" />
+                              <span className="text-sm font-medium text-gray-700">
+                                Copiar enlace
+                              </span>
+                            </>
+                          )}
+                        </button>
+
+                        {/* Divisor */}
+                        <div className="border-t border-gray-200 my-2" />
+
+                        {/* Redes Sociales */}
+                        <div className="grid grid-cols-2 gap-2">
+                          <button
+                            onClick={() => shareOnSocialMedia('whatsapp')}
+                            className="flex items-center gap-2 p-2 rounded-lg hover:bg-green-50 transition-colors duration-200"
+                          >
+                            <div className="w-6 h-6 bg-green-500 rounded flex items-center justify-center">
+                              <span className="text-white text-xs font-bold">WA</span>
+                            </div>
+                            <span className="text-xs text-gray-700">WhatsApp</span>
+                          </button>
+
+                          <button
+                            onClick={() => shareOnSocialMedia('facebook')}
+                            className="flex items-center gap-2 p-2 rounded-lg hover:bg-blue-50 transition-colors duration-200"
+                          >
+                            <div className="w-6 h-6 bg-blue-600 rounded flex items-center justify-center">
+                              <span className="text-white text-xs font-bold">f</span>
+                            </div>
+                            <span className="text-xs text-gray-700">Facebook</span>
+                          </button>
+
+                          <button
+                            onClick={() => shareOnSocialMedia('twitter')}
+                            className="flex items-center gap-2 p-2 rounded-lg hover:bg-blue-50 transition-colors duration-200"
+                          >
+                            <div className="w-6 h-6 bg-blue-400 rounded flex items-center justify-center">
+                              <span className="text-white text-xs font-bold">X</span>
+                            </div>
+                            <span className="text-xs text-gray-700">Twitter</span>
+                          </button>
+
+                          <button
+                            onClick={() => shareOnSocialMedia('telegram')}
+                            className="flex items-center gap-2 p-2 rounded-lg hover:bg-blue-50 transition-colors duration-200"
+                          >
+                            <div className="w-6 h-6 bg-blue-500 rounded flex items-center justify-center">
+                              <span className="text-white text-xs font-bold">TG</span>
+                            </div>
+                            <span className="text-xs text-gray-700">Telegram</span>
+                          </button>
+                        </div>
+                      </div>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </div>
             </div>
           </div>
-
           <div className={`flex-1 min-h-0 flex ${isMobile ? 'flex-col' : 'flex-row'}`}>
             {/* Columna de la Galería */}
             <div className={`relative overflow-hidden bg-gradient-to-br from-gray-50 to-gray-100 ${
@@ -399,6 +592,18 @@ export function ProductDetail({ product, onClose }: ProductDetailProps) {
           </div>
         </motion.div>
       </motion.div>
+      {/* Overlay para cerrar el menú de compartir */}
+      <AnimatePresence>
+        {showShareOptions && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-10"
+            onClick={() => setShowShareOptions(false)}
+          />
+        )}
+      </AnimatePresence>
 
       {/* Modal de Imagen Expandida */}
       <AnimatePresence>
