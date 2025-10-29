@@ -38,7 +38,7 @@ export function Navigation() {
     <nav
       className={`fixed -top-3 w-full z-50 transition-all duration-500 ${
         scrolled
-          ? 'bg-black/60 backdrop-blur-md shadow-md border-b border-white/10'
+          ? 'bg-black/60 backdrop-blur-md shadow-xl border-b border-white/10'
           : 'bg-transparent'
       }`}
     >
@@ -52,10 +52,10 @@ export function Navigation() {
               </div>
             </div>
             <div className="flex flex-col">
-              <span className="text-xl sm:text-2xl font-bold text-white drop-shadow-lg">
+              <span className="text-xl sm:text-2xl font-extrabold font-serif  text-white drop-shadow-lg">
                 San Juan Tahitic
               </span>
-              <span className="text-xs text-white/80">
+              <span className="text-xs font-serif text-white/80">
                 Destino Natural Único
               </span>
             </div>
@@ -69,7 +69,7 @@ export function Navigation() {
                 key={item.to}
                 to={item.to}
                 onClick={() => setIsOpen(false)}
-                className={`relative px-4 py-2 rounded-xl text-white font-medium transition-all duration-300 hover:scale-105 ${item.color}`}
+                className={`relative px-4 py-2 rounded-xl text-white font-medium font-serif transition-all duration-300 hover:scale-105 ${item.color}`}
               >
                 {item.label}
               </Link>
@@ -93,7 +93,7 @@ export function Navigation() {
               </SheetTrigger>
               <SheetContent
                 side="right"
-                className="w-[300px] bg-black/80 backdrop-blur-lg text-white border-l border-white/10"
+                className="w-[300px] bg-black/80 backdrop-blur-lg text-white font-medium font-serif border-l border-white/10"
               >
                 <div className="flex flex-col mt-8 space-y-2">
                   {navItems.map((item) => (
@@ -109,7 +109,7 @@ export function Navigation() {
 
                   {/* Contact info */}
                   <div className="mt-8 pt-4 border-t border-white/20">
-                    <p className="text-sm font-medium text-white/90 mb-3">
+                    <p className="text-sm font-medium font-serif text-white/90 mb-3">
                       Contacto
                     </p>
                     <div className="space-y-2 text-sm text-white/70">
