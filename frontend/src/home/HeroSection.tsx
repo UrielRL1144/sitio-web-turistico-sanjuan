@@ -222,7 +222,7 @@ const BackgroundLayer: FC<BackgroundLayerProps> = ({ onVideoLoad, isVideoLoaded,
         muted
         playsInline
         preload={isMobile ? "metadata" : "auto"}
-        poster={isMobile ? "/images/san_juan-poster-mobile.jpg" : "/images/san_juan-poster.jpg"}
+        poster={isMobile ? "/images/san_juan-poster.webp" : "/images/san_juan-mobile-optimized.webp"}
         className={`
           absolute inset-0 w-full h-full min-h-screen object-cover bg-black
           ${isMobile ? 'object-center' : 'object-[60%_center] xl:object-[55%_bottom]'}
