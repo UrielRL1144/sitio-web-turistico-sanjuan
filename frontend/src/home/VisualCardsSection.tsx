@@ -46,7 +46,7 @@ const cardsData: CardData[] = [
     title: "Construcción de cabañas al 80%",
     description: "Próximamente nuevas opciones de hospedaje inmersas en la naturaleza.",
     image: "/images/home/cards/Cabanas.webp",
-    link: "/comunidad",
+    link: "/comunidad#atracciones-proximas",
   },
   {
     title: "Miradores",
