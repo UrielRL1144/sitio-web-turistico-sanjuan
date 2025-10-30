@@ -5,7 +5,7 @@ export function GallerySection() {
   return (
     <>
       {/* Galería general */}
-      <GalleryGeneralSection />
+      <GalleryGeneralSection images={[]} />
 
       {/* Galería para usuarios */}
       <ExperienceMural />
