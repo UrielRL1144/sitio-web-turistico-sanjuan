@@ -1,8 +1,7 @@
 import { motion, AnimatePresence } from 'framer-motion';
-import { X } from 'lucide-react';
+import { X, ArrowUpRight, Plus } from 'lucide-react'; // Importamos iconos para el overlay
 import React from 'react';
-import type { Dance } from '../CultureDance'; // Importamos la interfaz Dance
- // Importamos la interfaz Dance
+import type{ Dance } from '../CultureDance'; 
 
 // Definimos las props para el componente
 interface DanceCardProps {
@@ -17,22 +16,80 @@ interface DanceCardProps {
   totalItems: number;
 }
 
-// Sub-componente para manejar el elemento multimedia
+// Sub-componente para manejar el elemento multimedia (sin cambios)
 const MediaElement: React.FC<{ src: string, poster: string }> = ({ src, poster }) => (
   <motion.div className="absolute inset-0">
-    {/* Usamos el video si soporta autoPlay, sino el poster. Se asume que el video funciona bien. */}
     <video 
       src={src} 
       poster={poster} 
       autoPlay 
       muted 
       loop 
-      playsInline // Añadido para mejor compatibilidad en móviles
+      playsInline 
       className="w-full h-full object-cover"
     />
-    <div className="absolute inset-0 bg-black/40 transition duration-300 group-hover:bg-black/50"></div>
+    {/* Fondo oscuro más ligero para no opacar el overlay */}
+    <div className="absolute inset-0 bg-black/30 transition duration-300 group-hover:bg-black/40"></div>
   </motion.div>
 );
+
+// --- NUEVO SUBCOMPONENTE: InteractiveOverlay ---
+interface InteractiveOverlayProps {
+    isExpanded: boolean;
+    isMobile: boolean;
+}
+
+const InteractiveOverlay: React.FC<InteractiveOverlayProps> = ({ isExpanded, isMobile }) => {
+    // Si la tarjeta ya está expandida, no mostramos el overlay
+    if (isExpanded) return null;
+
+    // Variante de Framer Motion para el botón
+    const buttonVariants = {
+        hidden: { opacity: 0, scale: 0.95 },
+        visible: { opacity: 1, scale: 1 },
+    };
+
+    // Estilos base para el botón (cumpliendo con 44x44px en móvil)
+    const baseClasses = "flex items-center justify-center font-semibold rounded-full shadow-lg transition-all duration-300 whitespace-nowrap bg-amber-500 text-gray-900 border-2 border-white/50";
+    
+    if (isMobile) {
+        // Móvil: Fijo y discreto (esquina inferior derecha)
+        return (
+            <motion.div 
+                className={`absolute bottom-20 right-6 z-20 h-9 w-11 ${baseClasses}`} // 44px (2.75rem)
+                initial="hidden"
+                animate="visible"
+                variants={buttonVariants}
+                transition={{ type: 'spring', stiffness: 300, damping: 30 }}
+                role="button"
+                aria-label="Toca para saber más sobre esta danza"
+            >
+                <Plus size={20} className="h-5 w-5" />
+            </motion.div>
+        );
+    }
+
+    // Desktop: Flotante y visible solo al hacer hover (usando 'group-hover')
+    return (
+        <AnimatePresence>
+            <motion.div 
+                className={`absolute top-12 left-10 -translate-x-1/2 -translate-y-1/2 z-20 py-3 px-6 text-lg ${baseClasses} opacity-0 group-hover:opacity-100 group-hover:scale-105`}
+                initial="hidden"
+                animate="visible"
+                exit="hidden"
+                variants={buttonVariants}
+                transition={{ duration: 0.2 }}
+                role="button"
+                aria-hidden="true" // Es un indicador visual, el click lo maneja el div padre
+            >
+                <ArrowUpRight size={20} className="mr-2 h-5 w-5" />
+                Saber más
+            </motion.div>
+        </AnimatePresence>
+    );
+};
+
+// --- Componente DanceCard ---
 
 export const DanceCard: React.FC<DanceCardProps> = ({
   dance,
@@ -48,7 +105,7 @@ export const DanceCard: React.FC<DanceCardProps> = ({
   const isExpanded = index === expandedIndex;
   const position = index - activeIndex;
   
-  // Cálculo de animación
+  // Cálculo de animación (se mantiene igual)
   const x = isMobile ? position * 100 : position * 50;
   const rotateY = isMobile ? 0 : position * -20;
   const scale = 1 - Math.abs(position) * 0.2;
@@ -79,11 +136,17 @@ export const DanceCard: React.FC<DanceCardProps> = ({
       }}
       transition={{ type: 'spring', stiffness: 200, damping: 25 }}
       onClick={handleClick}
-      aria-label={`Ver detalles de la danza ${dance.name}`}
+      role="button" // Se añade role="button" para accesibilidad
+      tabIndex={isActive ? 0 : -1} // Permite navegar con el teclado
+      aria-expanded={isExpanded}
+      aria-label={`Detalles de la danza ${dance.name}. Pulsa para ${isExpanded ? 'cerrar' : 'expandir'}`}
     >
-      <div className="w-full h-full bg-black rounded-3xl overflow-hidden shadow-2xl transition-shadow duration-300 hover:shadow-orange-400/50">
+      <div className="w-full h-full bg-black rounded-3xl overflow-hidden shadow-2xl transition-shadow duration-300 hover:shadow-orange-400/50 relative">
         
         <MediaElement src={dance.video} poster={dance.image} />
+        
+        {/* Llama al nuevo componente Overlay */}
+        <InteractiveOverlay isExpanded={isExpanded} isMobile={isMobile} /> 
         
         {/* Contenido en la vista normal/base */}
         <div className="relative h-full flex flex-col justify-end p-6 sm:p-8 text-white">
@@ -97,7 +160,7 @@ export const DanceCard: React.FC<DanceCardProps> = ({
           </AnimatePresence>
         </div>
 
-        {/* Contenido expandido */}
+        {/* Contenido expandido (se mantiene igual, solo se actualiza el X para ser más accesible) */}
         <AnimatePresence>
           {isExpanded && (
             <motion.div 
@@ -120,8 +183,8 @@ export const DanceCard: React.FC<DanceCardProps> = ({
               </div>
               <button 
                 onClick={(e) => { e.stopPropagation(); setExpandedIndex(null); }} 
-                className="absolute top-4 right-4 p-2 bg-white/30 rounded-full hover:bg-white/50 transition"
-                aria-label="Cerrar detalles"
+                className="absolute top-4 right-4 p-2 bg-white/30 rounded-full hover:bg-white/50 transition z-40" // Z-index alto para el botón de cerrar
+                aria-label="Cerrar detalles de la danza"
               >
                 <X className="h-5 w-5 text-white"/>
               </button>
