@@ -27,7 +27,7 @@ export function Footer() {
           <div className="lg:col-span-2">
             <div className="flex items-center space-x-3 mb-4">
               <MapPin className="h-9 w-9 text-indigo-400" />
-              <span className="text-3xl font-bold text-white tracking-wide">San Juan Tahitic</span>
+              <span className="text-3xl font-bold font-serif text-white tracking-wide">San Juan Tahitic</span>
             </div>
             <p className="text-gray-400 mb-8 max-w-md leading-relaxed">
               Un destino que combina belleza natural, riqueza cultural y calidez humana.
@@ -51,13 +51,13 @@ export function Footer() {
 
           {/* Enlaces Rápidos */}
           <div>
-            <h3 className="text-xl font-semibold mb-6 text-white">Explora</h3>
+            <h3 className="text-xl font-semibold font-serif mb-6 text-white">Explora</h3>
             <ul className="space-y-4">
               {quickLinks.map((link, index) => (
                 <li key={index}>
                   <Link
                     to={link.href}
-                    className="text-gray-400 hover:text-indigo-400 transition-colors duration-300 text-lg font-medium"
+                    className="text-gray-400 hover:text-indigo-400 transition-colors duration-300 text-lg font-medium font-serif"
                   >
                     {link.label}
                   </Link>
@@ -68,10 +68,10 @@ export function Footer() {
 
           {/* Servicios */}
           <div>
-            <h3 className="text-xl font-semibold mb-6 text-white">Servicios Clave</h3>
+            <h3 className="text-xl font-semibold font-serif mb-6 text-white">Servicios Clave</h3>
             <ul className="space-y-4">
               {services.map((service, index) => (
-                <li key={index} className="text-gray-400 text-lg">
+                <li key={index} className="text-gray-400 font-serif text-lg">
                   {service}
                 </li>
               ))}
@@ -106,7 +106,7 @@ export function Footer() {
                     
                 </div>
 
-                <div className="text-gray-500 text-sm text-center md:text-right">
+                <div className="text-gray-500 font-serif text-sm text-center md:text-right">
                     <p>&copy; 2025 San Juan Tahitic. Todos los derechos reservados.</p>
                     <p className="mt-1">Desarrollado con ❤️ para nuestra comunidad</p>
                 </div>
