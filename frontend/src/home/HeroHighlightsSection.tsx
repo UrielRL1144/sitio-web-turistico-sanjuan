@@ -122,7 +122,7 @@ const StatsBlock: FC<StatsBlockProps> = ({ stats, align }) => {
       {stats.map((s, i) => (
         <div key={i} className="flex flex-col items-center" role="group" aria-label={`${s.label}: ${s.value}`}>
           {/* Valor grande */}
-          <span className="text-5xl md:text-6xl font-extrabold text-white leading-none">
+          <span className="text-5xl md:text-6xl font-extrabold font-serif text-white leading-none">
             {s.value}
           </span>
           {/* Etiqueta descriptiva */}
@@ -184,7 +184,7 @@ const HighlightSection: FC<HighlightSectionProps> = ({
         <motion.h2
           role="heading"
           aria-level={2}
-          className="text-4xl md:text-6xl font-bold text-white drop-shadow-lg"
+          className="text-4xl md:text-6xl font-bold font-serif text-white drop-shadow-lg"
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.9, delay: 0.2 }}
