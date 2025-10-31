@@ -14,7 +14,7 @@ const AnimatedLetterTitle = lazy(() =>
 // Componente de fallback móvil
 const MobileFallback: FC = () => (
   <div className="text-white text-center">
-    <div className="text-xl font-semibold">San Juan Tahitic</div>
+    <div className="text-xl font-semibold font-serif">San Juan Tahitic</div>
     <div className="text-sm opacity-80 mt-2">Cargando experiencia...</div>
   </div>
 );
@@ -305,7 +305,7 @@ const MainContent: FC<MainContentProps> = ({
       reduceMotion ? '' : 'animate-fade-in-down'
     }`}>
       <MapPin className="h-4 w-4 sm:h-5 sm:w-5 text-green-900" aria-hidden="true" />
-      <span className="text-black font-medium text-sm sm:text-base">Región Central</span>
+      <span className="text-black font-medium font-serif text-sm sm:text-base">Región Central</span>
       <Sparkles className="h-3 w-3 sm:h-4 sm:w-4 text-blue-800 animate-pulse" aria-hidden="true" />
     </div>
 
@@ -338,8 +338,8 @@ const MainContent: FC<MainContentProps> = ({
           role="listitem"
         >
           {info.icon}
-          <div className="text-green-200 text-sm uppercase mt-1 sm:mt-2 font-semibold">{info.label}</div>
-          <div className="text-white text-xs sm:text-sm font-medium mt-1">{info.value}</div>
+          <div className="text-green-200 text-sm uppercase mt-1 sm:mt-2 font-semibold font-serif">{info.label}</div>
+          <div className="text-white text-xs sm:text-sm font-medium font-serif mt-1">{info.value}</div>
         </div>
       ))}
     </div>
@@ -351,7 +351,7 @@ const MainContent: FC<MainContentProps> = ({
       <Button 
         size={isMobile ? "default" : "lg"}
         onClick={scrollToTourism}
-        className="group relative w-full sm:w-auto overflow-hidden rounded-full border-0 bg-gradient-to-r from-green-500 to-emerald-600 px-6 py-3 text-base font-semibold text-white shadow-lg transition-all duration-300 hover:scale-105 hover:shadow-xl sm:px-10 sm:py-4 sm:text-lg"
+        className="group relative w-full sm:w-auto overflow-hidden rounded-full border-0 bg-gradient-to-r from-green-500 to-emerald-600 px-6 py-3 text-base font-semibold font-serif text-white shadow-lg transition-all duration-300 hover:scale-105 hover:shadow-xl sm:px-10 sm:py-4 sm:text-lg"
         aria-label="Descubre más sobre el turismo en San Juan Tahitic"
       >
         <div className="absolute -inset-0.5 rounded-full bg-gradient-to-r from-blue-700 via-cyan-500 to-green-800 opacity-0 transition-opacity duration-500 group-hover:opacity-75" />
@@ -368,7 +368,7 @@ const MainContent: FC<MainContentProps> = ({
         variant="outline"
         size={isMobile ? "default" : "lg"}
         onClick={scrollToContact}
-        className="group relative w-full sm:w-auto rounded-full border-2 border-transparent bg-white/10 px-6 py-3 text-base font-semibold text-white shadow-lg backdrop-blur-md transition-all duration-300 hover:scale-105 hover:shadow-xl sm:px-10 sm:py-4 sm:text-lg"
+        className="group relative w-full sm:w-auto rounded-full border-2 border-transparent bg-white/10 px-6 py-3 text-base font-semibold font-serif text-white shadow-lg backdrop-blur-md transition-all duration-300 hover:scale-105 hover:shadow-xl sm:px-10 sm:py-4 sm:text-lg"
         aria-label="Comienza tu aventura en San Juan Tahitic"
       >
         {/* Contenedor del borde Aurora */}
@@ -394,7 +394,7 @@ const ScrollIndicator: FC<{ isMobile: boolean; reduceMotion: boolean }> = ({ isM
     reduceMotion ? '' : 'animate-fade-in'
   }`}>
     <div className="flex flex-col items-center space-y-6 sm:space-y-4">
-      <div className="text-white/60 text-xs sm:text-sm font-medium animate-pulse">
+      <div className="text-white/60 text-xs sm:text-sm font-medium font-serif animate-pulse">
         {isMobile ? 'Desliza' : 'Descubre más'}
       </div>
       <div className="relative">
