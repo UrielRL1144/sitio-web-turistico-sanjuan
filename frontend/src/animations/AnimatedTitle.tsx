@@ -150,7 +150,7 @@ const AnimatedPhrase: FC<{
       key={`${phrase.welcome}-${phrase.lang}-${isMobile ? 'mobile' : 'desktop'}`}
       {...mobileAnimations}
       onAnimationComplete={onAnimationComplete}
-      className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-extrabold leading-tight text-white drop-shadow-[0_4px_6px_rgba(0,0,0,0.8)] px-4"
+      className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-extrabold font-serif leading-tight text-white drop-shadow-[0_4px_6px_rgba(0,0,0,0.8)] px-4"
       aria-live="polite"
       aria-atomic="true"
       style={{
@@ -174,7 +174,7 @@ const AnimatedPhrase: FC<{
 // Loading fallback para Suspense - optimizado para móviles
 export const AnimatedTitleFallback: FC<{ isMobile?: boolean }> = ({ isMobile = false }) => (
   <div className="flex flex-col items-center justify-center text-center overflow-hidden px-4">
-    <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-extrabold leading-tight text-white drop-shadow-[0_4px_6px_rgba(0,0,0,0.8)]">
+    <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-extrabold font-serif leading-tight text-white drop-shadow-[0_4px_6px_rgba(0,0,0,0.8)]">
       Bienvenido a
       <br />
       <span className="block text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl text-green-600">
@@ -206,7 +206,7 @@ export const AnimatedLetterTitle: FC = () => {
   if (reduceMotion) {
     return (
       <div className="flex flex-col items-center justify-center text-center overflow-hidden px-4">
-        <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-extrabold leading-tight text-white drop-shadow-[0_4px_6px_rgba(0,0,0,0.8)]">
+        <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-extrabold font-serif leading-tight text-white drop-shadow-[0_4px_6px_rgba(0,0,0,0.8)]">
           Bienvenido a
           <br />
           <span className="block text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl text-teal-400">
@@ -273,7 +273,7 @@ export const AnimatedLetterTitle: FC = () => {
 // Versión simplificada para uso en fallbacks
 export const StaticTitle: FC<{ isMobile?: boolean }> = ({ isMobile = false }) => (
   <div className="flex flex-col items-center justify-center text-center overflow-hidden px-4">
-    <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-extrabold leading-tight text-white drop-shadow-[0_4px_6px_rgba(0,0,0,0.8)]">
+    <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-extrabold font-serif leading-tight text-white drop-shadow-[0_4px_6px_rgba(0,0,0,0.8)]">
       Bienvenido a
       <br />
       <span className="block text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl text-green-600">
