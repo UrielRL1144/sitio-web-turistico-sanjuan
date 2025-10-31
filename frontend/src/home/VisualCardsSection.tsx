@@ -288,7 +288,7 @@ const VisualCard = ({ card, index, shouldReduceMotion, isMobile }: VisualCardPro
 
       {/* Contenido */}
       <div className="relative z-10 p-6 sm:p-8 flex flex-col justify-end h-full text-white">
-        <h3 className="text-xl sm:text-2xl font-bold mb-2 drop-shadow-lg leading-tight">{card.title}</h3>
+        <h3 className="text-xl sm:text-2xl font-bold font-serif mb-2 drop-shadow-lg leading-tight">{card.title}</h3>
         <p className="text-gray-200 text-xs sm:text-sm drop-shadow-md line-clamp-2">{card.description}</p>
 
         {/* Botón optimizado */}
@@ -296,7 +296,7 @@ const VisualCard = ({ card, index, shouldReduceMotion, isMobile }: VisualCardPro
           href={card.link}
           aria-label={`Explorar ${card.title}`}
           className={`
-            mt-4 sm:mt-6 inline-block w-fit px-4 sm:px-6 py-2 text-xs sm:text-sm font-medium 
+            mt-4 sm:mt-6 inline-block w-fit px-4 sm:px-6 py-2 text-xs sm:text-sm font-medium  font-serif
             border border-white/80 rounded-full transition-all duration-300 
             opacity-100 translate-y-0 sm:opacity-0 sm:translate-y-4 sm:group-hover:opacity-100 sm:group-hover:translate-y-0 
             hover:bg-white hover:text-gray-900 shadow-md
@@ -384,7 +384,7 @@ export const VisualCardsSection = forwardRef<HTMLDivElement, VisualCardsSectionP
         {/* Título optimizado */}
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 mb-12 sm:mb-16">
           <motion.h2
-            className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-white text-center drop-shadow-2xl"
+            className="text-3xl sm:text-4xl lg:text-5xl font-extrabold font-serif text-white text-center drop-shadow-2xl"
             initial={{ opacity: 0, y: -20 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: shouldReduceMotion ? 0.3 : 0.8 }}
