@@ -380,7 +380,7 @@ export function GalleryGeneralSection() {
         <YouTubeModal
           isOpen={isYouTubeModalOpen}
           onClose={() => setIsYouTubeModalOpen(false)}
-          videoId="jNQXAC9IVRw"
+          videoId="4r2isHLCNFo" 
         />
       </div>
     </section>
