@@ -300,7 +300,7 @@ const VisualCard = ({ card, index, shouldReduceMotion, isMobile }: VisualCardPro
             border border-white/80 rounded-full transition-all duration-300 
             opacity-100 translate-y-0 sm:opacity-0 sm:translate-y-4 sm:group-hover:opacity-100 sm:group-hover:translate-y-0 
             hover:bg-white hover:text-gray-900 shadow-md
-            focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-900
+            focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-900 animate-glow
             ${shouldReduceMotion ? 'sm:opacity-100 sm:translate-y-0' : ''}
           `}
           onClick={(e) => e.stopPropagation()}
