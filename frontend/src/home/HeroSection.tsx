@@ -301,7 +301,7 @@ const MainContent: FC<MainContentProps> = ({
   <div className={`relative z-10 text-center max-w-4xl mx-auto px-4 py-8 sm:py-20 flex flex-col items-center transition-opacity duration-1000 ${isVideoLoaded ? 'opacity-100' : 'opacity-0'}`}>
     
     {/* Badge superior optimizado para móviles */}
-    <div className={`inline-flex items-center space-x-2 bg-white/25 backdrop-blur-md px-3 sm:px-4 py-1 sm:py-2 rounded-full mb-10 sm:mb-12 border border-white/30 shadow-xl ${
+    <div className={`inline-flex items-center space-x-2 bg-white/25 backdrop-blur-md px-3 sm:px-4 py-1 sm:py-2 rounded-md mb-10 sm:mb-12 border border-white/30 shadow-xl ${
       reduceMotion ? '' : 'animate-fade-in-down'
     }`}>
       <MapPin className="h-4 w-4 sm:h-5 sm:w-5 text-green-900" aria-hidden="true" />
