@@ -1,10 +1,12 @@
 // components/NarrativaHistoricaCompleta.tsx
 import { useState, useRef } from 'react';
+import { useNavigate } from "react-router-dom"; 
 import { motion, AnimatePresence } from 'framer-motion';
 import { 
   Clock, MapPin, Users, Book, Play, Calendar, 
   Quote, ArrowRight, Star, X, Volume2, VolumeX,
-  Maximize2, Minimize2, Pause
+  Maximize2, Minimize2, Pause,
+  ArrowLeft
 } from 'lucide-react';
 import historiasData from '../../archivos_data/atractivos-turisticos.json';
 
@@ -12,9 +14,38 @@ export function ExploradorAtractivosTuristicos() {
   const [lugarSeleccionado, setLugarSeleccionado] = useState(0);
   const [seccionActiva, setSeccionActiva] = useState('historia');
   const [imagenExpandida, setImagenExpandida] = useState<string | null>(null);
+  const [videoExpandido, setVideoExpandido] = useState<string | null>(null);
   const [videoReproduciendo, setVideoReproduciendo] = useState<string | null>(null);
   const [modoPantallaCompleta, setModoPantallaCompleta] = useState(false);
   const [volumenActivo, setVolumenActivo] = useState(true);
+
+  const navigate = useNavigate();
+
+  const coloresLugares = [
+  {
+    nombre: 'teal', // color base del primer lugar
+    from: 'from-teal-700',
+    to: 'to-emerald-600',
+    text: 'text-teal-700',
+    border: 'border-teal-600',
+  },
+  {
+    nombre: 'amber',
+    from: 'from-amber-700',
+    to: 'to-orange-600',
+    text: 'text-amber-700',
+    border: 'border-amber-600',
+  },
+  {
+    nombre: 'rose',
+    from: 'from-rose-700',
+    to: 'to-pink-600',
+    text: 'text-rose-700',
+    border: 'border-rose-600',
+  },
+  // puedes agregar más combinaciones según tus lugares
+];
+
   
   const videoRef = useRef<HTMLVideoElement>(null);
 
@@ -61,6 +92,7 @@ export function ExploradorAtractivosTuristicos() {
     }
   };
 
+  const colorActual = coloresLugares[lugarSeleccionado % coloresLugares.length];
   return (
     <section className="min-h-screen relative py-8 sm:py-16">
       {/* Contenedor de fondo */}
@@ -68,14 +100,22 @@ export function ExploradorAtractivosTuristicos() {
         {/* Imagen */}
         <div 
           className="absolute inset-0 bg-cover bg-center bg-no-repeat"
-          style={{ backgroundImage: 'url("/images/Turismo/Monte_virgen.webp")' }}
+          style={{ backgroundImage: 'url("/images/Turismo/puente.jpeg")' }}
         ></div>
         {/* Gradiente superior */}
         <div className="absolute inset-0 bg-gradient-to-b from-white/80 via-white/10 to-transparent"></div>
       </div>
       
       <div className="relative z-10 max-w-6xl mx-auto px-3 sm:px-6 lg:px-8">
-        
+        <div className="mb-2">
+            <button
+              onClick={() => navigate(-1)}
+              className="inline-flex items-center gap-2 px-6 py-3 rounded-2xl bg-white/80 backdrop-blur-sm border border-emerald-200 text-emerald-700 font-semibold shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300"
+            >
+              <ArrowLeft className="h-5 w-5" />
+              Regresar
+            </button>
+          </div>
         {/* Encabezado Responsive */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
@@ -85,19 +125,22 @@ export function ExploradorAtractivosTuristicos() {
           className="text-center mb-12 sm:mb-16"
         >
           <motion.div
-            className="inline-flex items-center space-x-2 bg-gradient-to-r from-emerald-600 to-emerald-400 text-white px-4 sm:px-6 py-2 sm:py-3 rounded-full mb-4 sm:mb-6 shadow-lg text-sm sm:text-base"
+            className="inline-flex items-center space-x-2 bg-gradient-to-r from-emerald-600 to-emerald-400 text-white px-4 sm:px-6 py-2 sm:py-3 rounded-md mb-4 sm:mb-6 shadow-lg text-sm sm:text-base"
             initial={{ scale: 0.9 }}
             whileInView={{ scale: 1 }}
             transition={{ duration: 0.5 }}
             viewport={{ once: true }}
           >
             <Book className="h-4 w-4 sm:h-5 sm:w-5" />
-            <span className="font-medium">Memoria Viva</span>
+            <span className="font-medium font-serif">Memoria Viva</span>
           </motion.div>
 
-          <h1 className="text-2xl sm:text-4xl lg:text-5xl font-bold text-slate-900 mb-4 sm:mb-6 px-2">
-            Tesoros<span className="bg-gradient-to-r from-green-900 to-emerald-900 bg-clip-text text-transparent"> narrados </span> por la tierra
+          <h1 className={`text-2xl sm:text-4xl font-bold font-serif text-slate-900 mb-4 sm:mb-6`}>
+            Tesoros <span className={`bg-gradient-to-r ${colorActual.from} ${colorActual.to} bg-clip-text text-transparent`}>
+              narrados
+            </span> por la tierra
           </h1>
+
           <p className="text-base sm:text-xl text-slate-900 max-w-3xl mx-auto leading-relaxed px-4">
             Conoce las historias, leyendas y momentos que han dado vida a San Juan Tahitic. 
             Cada rincón guarda un relato que, entre tradición y memoria, ha tejido el alma cultural de nuestro pueblo a lo largo de los siglos.
@@ -113,20 +156,31 @@ export function ExploradorAtractivosTuristicos() {
           className="flex overflow-x-auto pb-4 mb-6 sm:mb-8 gap-2 sm:gap-3 scrollbar-hide px-2"
         >
           {historiasData.lugaresHistoricos.map((lugar, index) => (
-            <button
-              key={lugar.id}
-              onClick={() => {
-                setLugarSeleccionado(index);
-                setVideoReproduciendo(null);
-              }}
-              className={`flex-shrink-0 px-4 sm:px-6 py-2 sm:py-3 rounded-2xl font-semibold transition-all whitespace-nowrap text-sm sm:text-base ${
-                lugarSeleccionado === index
-                  ? 'bg-gradient-to-r from-teal-700 to-emerald-600 text-white shadow-lg'
-                  : 'bg-white text-slate-700 border border-slate-300 hover:border-green-600'
-              }`}
-            >
-              {lugar.nombre}
-            </button>
+            
+
+      <motion.button
+        key={lugar.id}
+        onClick={() => {
+          setLugarSeleccionado(index);
+          setVideoReproduciendo(null);
+        }}
+        whileHover={{ scale: 1.07, boxShadow: "0px 4px 12px rgba(0,0,0,0.15)" }}
+        whileTap={{ scale: 0.96 }}
+        animate={{
+          scale: lugarSeleccionado === index ? 1.05 : 1,
+          opacity: lugarSeleccionado === index ? 1 : 0.9,
+        }}
+        transition={{ type: "spring", stiffness: 300, damping: 15 }}
+        className={`flex-shrink-0 px-4 sm:px-6 py-2 sm:py-3 rounded-2xl font-semibold font-serif whitespace-nowrap text-sm sm:text-base transition-colors duration-300 
+          ${
+            lugarSeleccionado === index
+              ? `bg-gradient-to-r ${colorActual.from} ${colorActual.to} text-white`
+              : 'bg-white text-slate-700 border border-slate-300 hover:border-green-600'
+          }`}
+      >
+        {lugar.nombre}
+      </motion.button>
+
           ))}
         </motion.div>
 
@@ -140,7 +194,8 @@ export function ExploradorAtractivosTuristicos() {
             transition={{ duration: 0.6 }}
             className="lg:w-1/3"
           >
-            <div className="bg-white rounded-2xl sm:rounded-3xl shadow-xl overflow-hidden sticky top-4">
+            <div className={`rounded-2xl sm:rounded-3xl shadow-xl overflow-hidden transition-all duration-700 ease-in-out 
+               bg-white border-4 ${colorActual.border}`}>
               
               {/* Reproductor de Video Mejorado */}
               {lugar.videoDocumental ? (
@@ -185,14 +240,10 @@ export function ExploradorAtractivosTuristicos() {
                           {lugar.duracionVideo}
                         </span>
                         <button
-                          onClick={togglePantallaCompleta}
+                          onClick={() => setVideoExpandido(lugar.videoDocumental || null)}
                           className="bg-white/20 backdrop-blur-sm text-white p-2 sm:p-3 rounded-full hover:bg-white/30 transition-colors"
                         >
-                          {modoPantallaCompleta ? (
-                            <Minimize2 className="h-4 w-4 sm:h-5 sm:w-5" />
-                          ) : (
-                            <Maximize2 className="h-4 w-4 sm:h-5 sm:w-5" />
-                          )}
+                          <Maximize2 className="h-4 w-4 sm:h-5 sm:w-5" />
                         </button>
                       </div>
                     </div>
@@ -225,7 +276,7 @@ export function ExploradorAtractivosTuristicos() {
               {/* Metadatos Responsive */}
               <div className="p-4 sm:p-6 space-y-3 sm:space-y-4">
                 <div className="flex items-center justify-between">
-                  <span className="text-xs sm:text-sm font-semibold text-emerald-800 bg-green-300 px-2 sm:px-3 py-1 rounded-full">
+                  <span className="text-xs sm:text-sm font-semibold font-serif text-emerald-800 bg-green-300 px-2 sm:px-3 py-1 rounded-full">
                     {lugar.epoca}
                   </span>
                   <span className="text-xs sm:text-sm text-slate-500 capitalize">
@@ -247,14 +298,14 @@ export function ExploradorAtractivosTuristicos() {
                 {/* Datos Específicos Responsive */}
                 {(lugar.datosArqueologicos || lugar.datosNaturales) && (
                   <div className="pt-3 sm:pt-4 border-t border-slate-200">
-                    <h4 className="font-semibold text-slate-800 mb-2 sm:mb-3 text-sm sm:text-base">
+                    <h4 className="font-semibold font-serif text-slate-800 mb-2 sm:mb-3 text-sm sm:text-base">
                       {lugar.datosArqueologicos ? 'Datos Arqueológicos' : 'Datos Naturales'}
                     </h4>
                     <div className="space-y-1 sm:space-y-2 text-xs sm:text-sm text-slate-600">
                       {Object.entries(lugar.datosArqueologicos || lugar.datosNaturales || {}).map(([key, value]) => (
                         <div key={key} className="flex justify-between">
                           <span className="capitalize">{key.replace(/([A-Z])/g, ' $1')}:</span>
-                          <span className="font-medium text-slate-800">{value}</span>
+                          <span className="font-medium font-serif text-slate-800">{value}</span>
                         </div>
                       ))}
                     </div>
@@ -271,7 +322,8 @@ export function ExploradorAtractivosTuristicos() {
             transition={{ duration: 0.6, delay: 0.3 }}
             className="lg:w-2/3"
           >
-            <div className="bg-white rounded-2xl sm:rounded-3xl shadow-xl overflow-hidden">
+            <div className={`rounded-2xl sm:rounded-3xl shadow-xl overflow-hidden transition-all duration-700 ease-in-out 
+                  bg-white border-4 ${colorActual.border}`}>
               
               {/* Navegación de Secciones Responsive */}
               <div className="border-b border-slate-200">
@@ -282,9 +334,9 @@ export function ExploradorAtractivosTuristicos() {
                       <button
                         key={seccion.id}
                         onClick={() => setSeccionActiva(seccion.id)}
-                        className={`flex items-center space-x-1 sm:space-x-2 px-3 sm:px-6 py-3 sm:py-4 font-semibold transition-all border-b-2 flex-shrink-0 text-sm sm:text-base ${
+                        className={`flex items-center space-x-1 sm:space-x-2 px-3 sm:px-6 py-3 sm:py-4 font-semibold font-serif transition-all border-b-2 flex-shrink-0 text-sm sm:text-base ${
                           seccionActiva === seccion.id
-                            ? 'border-emerald-600 text-teal-700'
+                            ? `${colorActual.border} ${colorActual.text} border-b-2`
                             : 'border-transparent text-slate-500 hover:text-slate-700'
                         }`}
                       >
@@ -311,7 +363,7 @@ export function ExploradorAtractivosTuristicos() {
                     {/* SECCIÓN HISTORIA */}
                     {seccionActiva === 'historia' && (
                       <div className="space-y-4 sm:space-y-6">
-                        <h2 className="text-xl sm:text-2xl lg:text-3xl font-bold text-slate-900">
+                        <h2 className="text-xl sm:text-2xl lg:text-3xl font-bold font-serif text-slate-900">
                           {lugar.historia.titulo}
                         </h2>
                         <p className="text-sm sm:text-base lg:text-lg text-slate-700 leading-relaxed">
@@ -320,11 +372,11 @@ export function ExploradorAtractivosTuristicos() {
                         
                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4 pt-3 sm:pt-4">
                           <div className="bg-amber-50 rounded-xl p-3 sm:p-4">
-                            <h4 className="font-semibold text-slate-800 mb-1 sm:mb-2 text-sm sm:text-base">Significado Cultural</h4>
+                            <h4 className="font-semibold font-serif text-slate-800 mb-1 sm:mb-2 text-sm sm:text-base">Significado Cultural</h4>
                             <p className="text-slate-700 text-xs sm:text-sm">{lugar.historia.significadoCultural}</p>
                           </div>
                           <div className="bg-orange-50 rounded-xl p-3 sm:p-4">
-                            <h4 className="font-semibold text-slate-800 mb-1 sm:mb-2 text-sm sm:text-base">Primer Registro</h4>
+                            <h4 className="font-semibold font-serif text-slate-800 mb-1 sm:mb-2 text-sm sm:text-base">Primer Registro</h4>
                             <p className="text-slate-700 text-xs sm:text-sm">{lugar.historia.fechaDescubrimiento}</p>
                           </div>
                         </div>
@@ -335,7 +387,7 @@ export function ExploradorAtractivosTuristicos() {
                     {seccionActiva === 'leyenda' && (
                       <div className="space-y-4 sm:space-y-6">
                         <div className="bg-gradient-to-r from-teal-900 to-emerald-950 rounded-xl sm:rounded-2xl p-4 sm:p-6 text-white">
-                          <h2 className="text-xl sm:text-2xl lg:text-3xl font-bold mb-3 sm:mb-4">
+                          <h2 className="text-xl sm:text-2xl lg:text-3xl font-bold font-serif mb-3 sm:mb-4">
                             {lugar.leyenda.titulo}
                           </h2>
                           <p className="text-amber-100 text-sm sm:text-base lg:text-lg leading-relaxed">
@@ -345,7 +397,7 @@ export function ExploradorAtractivosTuristicos() {
 
                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
                           <div>
-                            <h4 className="font-semibold text-slate-800 mb-2 sm:mb-3 text-sm sm:text-base">Personajes</h4>
+                            <h4 className="font-semibold font-serif text-slate-800 mb-2 sm:mb-3 text-sm sm:text-base">Personajes</h4>
                             <ul className="space-y-1 sm:space-y-2">
                               {lugar.leyenda.personajes.map((personaje, idx) => (
                                 <li key={idx} className="flex items-center text-slate-700 text-sm sm:text-base">
@@ -356,7 +408,7 @@ export function ExploradorAtractivosTuristicos() {
                             </ul>
                           </div>
                           <div className="bg-slate-50 rounded-xl p-3 sm:p-4">
-                            <h4 className="font-semibold text-slate-800 mb-1 sm:mb-2 text-sm sm:text-base">Enseñanza</h4>
+                            <h4 className="font-semibold font-serif text-slate-800 mb-1 sm:mb-2 text-sm sm:text-base">Enseñanza</h4>
                             <p className="text-slate-700 italic text-xs sm:text-sm">{lugar.leyenda.moral}</p>
                           </div>
                         </div>
@@ -366,7 +418,7 @@ export function ExploradorAtractivosTuristicos() {
                     {/* SECCIÓN LÍNEA DE TIEMPO */}
                     {seccionActiva === 'cronologia' && (
                       <div className="space-y-4 sm:space-y-6">
-                        <h2 className="text-xl sm:text-2xl lg:text-3xl font-bold text-slate-900 mb-4 sm:mb-6">
+                        <h2 className="text-xl sm:text-2xl lg:text-3xl font-bold font-serif text-slate-900 mb-4 sm:mb-6">
                           Línea del Tiempo
                         </h2>
                         
@@ -383,10 +435,10 @@ export function ExploradorAtractivosTuristicos() {
                               <div className="flex-1 pb-4 sm:pb-6">
                                 <div className="bg-white border border-slate-200 rounded-xl p-3 sm:p-4 shadow-sm hover:shadow-md transition-shadow">
                                   <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-2 gap-1 sm:gap-0">
-                                    <span className="font-bold text-teal-600 text-sm sm:text-base">{evento.fecha}</span>
+                                    <span className="font-bold font-serif text-teal-600 text-sm sm:text-base">{evento.fecha}</span>
                                     <div className="hidden sm:block w-2 h-2 bg-teal-500 rounded-full"></div>
                                   </div>
-                                  <h4 className="font-semibold text-slate-800 mb-1 sm:mb-2 text-sm sm:text-base">{evento.evento}</h4>
+                                  <h4 className="font-semibold font-serif text-slate-800 mb-1 sm:mb-2 text-sm sm:text-base">{evento.evento}</h4>
                                   <p className="text-slate-600 text-xs sm:text-sm">{evento.descripcion}</p>
                                 </div>
                               </div>
@@ -407,7 +459,7 @@ export function ExploradorAtractivosTuristicos() {
                     {/* SECCIÓN VOCES */}
                     {seccionActiva === 'testimonios' && (
                       <div className="space-y-4 sm:space-y-6">
-                        <h2 className="text-xl sm:text-2xl lg:text-3xl font-bold text-slate-900">
+                        <h2 className="text-xl sm:text-2xl lg:text-3xl font-bold font-serif text-slate-900">
                           Voces de la Comunidad
                         </h2>
                         
@@ -422,7 +474,7 @@ export function ExploradorAtractivosTuristicos() {
                                   </div>
                                   <div className="flex-1">
                                     <div className="flex flex-col sm:flex-row sm:items-center space-y-1 sm:space-y-0 sm:space-x-3 mb-2 sm:mb-3">
-                                      <span className="font-semibold text-slate-800 text-sm sm:text-base">{testimonio.persona}</span>
+                                      <span className="font-semibold font-serif text-slate-800 text-sm sm:text-base">{testimonio.persona}</span>
                                       <span className="text-slate-500 text-xs sm:text-sm">{testimonio.edad} años</span>
                                     </div>
                                     <p className="text-slate-700 leading-relaxed italic text-sm sm:text-base">
@@ -445,11 +497,11 @@ export function ExploradorAtractivosTuristicos() {
                         {/* Técnicas Tradicionales */}
                         {lugar.tecnicasTradicionales && lugar.tecnicasTradicionales.length > 0 && (
                           <div className="mt-6 sm:mt-8">
-                            <h3 className="text-lg sm:text-xl font-bold text-slate-900 mb-3 sm:mb-4">Técnicas Tradicionales</h3>
+                            <h3 className="text-lg sm:text-xl font-bold font-serif text-slate-900 mb-3 sm:mb-4">Técnicas Tradicionales</h3>
                             <div className="grid gap-3 sm:gap-4">
                               {lugar.tecnicasTradicionales.map((tecnica, index) => (
                                 <div key={index} className="bg-amber-50 rounded-xl p-3 sm:p-4 border border-amber-200">
-                                  <h4 className="font-semibold text-slate-800 mb-1 sm:mb-2 text-sm sm:text-base">{tecnica.nombre}</h4>
+                                  <h4 className="font-semibold font-serif text-slate-800 mb-1 sm:mb-2 text-sm sm:text-base">{tecnica.nombre}</h4>
                                   <p className="text-slate-700 mb-2 text-xs sm:text-sm">{tecnica.descripcion}</p>
                                   <div className="flex items-center text-slate-600 text-xs sm:text-sm">
                                     <Clock className="h-3 w-3 sm:h-4 sm:w-4 mr-2" />
@@ -469,7 +521,7 @@ export function ExploradorAtractivosTuristicos() {
                 {/* Galería Histórica Responsive */}
                 {lugar.galeriaHistorica && lugar.galeriaHistorica.length > 0 && (
                   <div className="mt-6 sm:mt-8 pt-4 sm:pt-6 border-t border-slate-200">
-                    <h3 className="text-lg sm:text-xl font-bold text-slate-900 mb-3 sm:mb-4">Archivo Histórico</h3>
+                    <h3 className="text-lg sm:text-xl font-bold font-serif text-slate-900 mb-3 sm:mb-4">Archivo Histórico</h3>
                     <div className="grid grid-cols-2 sm:grid-cols-3 gap-2 sm:gap-4">
                       {lugar.galeriaHistorica.map((imagen, index) => (
                         <motion.div
@@ -485,7 +537,7 @@ export function ExploradorAtractivosTuristicos() {
                           />
                           <div className="absolute inset-0 bg-black/0 group-hover:bg-black/40 transition-all duration-300 flex items-end p-2 sm:p-3">
                             <div className="transform translate-y-1 sm:translate-y-2 group-hover:translate-y-0 transition-transform duration-300">
-                              <p className="text-white text-xs sm:text-sm font-semibold line-clamp-1">
+                              <p className="text-white text-xs sm:text-sm font-semibold font-serif line-clamp-1">
                                 {imagen.titulo}
                               </p>
                               <p className="text-white/80 text-xs">
@@ -516,8 +568,15 @@ export function ExploradorAtractivosTuristicos() {
               setVideoReproduciendo(null);
             }}
             disabled={lugarSeleccionado === 0}
-            className="flex items-center space-x-2 px-4 sm:px-6 py-2 sm:py-3 rounded-xl sm:rounded-2xl font-semibold disabled:opacity-50 disabled:cursor-not-allowed bg-white border border-slate-300 text-slate-700 hover:border-amber-300 transition-all text-sm sm:text-base flex-1 sm:flex-none justify-center"
-          >
+             className={`flex items-center space-x-2 px-4 sm:px-6 py-2 sm:py-3 rounded-xl sm:rounded-2xl font-semibold font-serif 
+    transition-all text-sm sm:text-base flex-1 sm:flex-none justify-center 
+    disabled:opacity-50 disabled:cursor-not-allowed 
+    ${
+      lugarSeleccionado > 0
+        ? `bg-gradient-to-r ${colorActual.from} ${colorActual.to} text-white shadow-lg`
+        : 'bg-white border border-slate-300 text-slate-700 hover:border-green-600'
+    }`}
+>
             <ArrowRight className="h-4 w-4 sm:h-5 sm:w-5 rotate-180" />
             <span className="hidden sm:inline">Anterior</span>
           </button>
@@ -545,8 +604,15 @@ export function ExploradorAtractivosTuristicos() {
               setVideoReproduciendo(null);
             }}
             disabled={lugarSeleccionado === historiasData.lugaresHistoricos.length - 1}
-            className="flex items-center space-x-2 px-4 sm:px-6 py-2 sm:py-3 rounded-xl sm:rounded-2xl font-semibold disabled:opacity-50 disabled:cursor-not-allowed bg-gradient-to-r from-cyan-800 to-emerald-700 text-white hover:from-teal-600 hover:to-green-700 transition-all text-sm sm:text-base flex-1 sm:flex-none justify-center"
-          >
+             className={`flex items-center space-x-2 px-4 sm:px-6 py-2 sm:py-3 rounded-xl sm:rounded-2xl font-semibold font-serif 
+    transition-all text-sm sm:text-base flex-1 sm:flex-none justify-center 
+    disabled:opacity-50 disabled:cursor-not-allowed 
+    ${
+      lugarSeleccionado > 0
+        ? `bg-gradient-to-r ${colorActual.from} ${colorActual.to} text-white shadow-lg`
+        : 'bg-white border border-slate-300 text-slate-700 hover:border-green-600'
+    }`}
+>
             <span className="hidden sm:inline">Siguiente</span>
             <ArrowRight className="h-4 w-4 sm:h-5 sm:w-5" />
           </button>
@@ -584,6 +650,39 @@ export function ExploradorAtractivosTuristicos() {
           </motion.div>
         )}
       </AnimatePresence>
+      {/* Modal para Video Expandido */}
+<AnimatePresence>
+  {videoExpandido && (
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      className="fixed inset-0 bg-black/90 z-50 flex items-center justify-center p-4"
+      onClick={() => setVideoExpandido(null)}
+    >
+      <motion.div
+        initial={{ scale: 0.9, opacity: 0 }}
+        animate={{ scale: 1, opacity: 1 }}
+        className="relative w-full max-w-5xl aspect-video rounded-2xl overflow-hidden shadow-2xl"
+        onClick={(e) => e.stopPropagation()}
+      >
+        <video
+          src={videoExpandido}
+          controls
+          autoPlay
+          className="w-full h-full object-cover rounded-2xl"
+        />
+        <button
+          onClick={() => setVideoExpandido(null)}
+          className="absolute top-3 right-3 bg-white/20 backdrop-blur-sm text-white p-2 sm:p-3 rounded-full hover:bg-white/30 transition-all"
+        >
+          <X className="h-5 w-5 sm:h-6 sm:w-6" />
+        </button>
+      </motion.div>
+    </motion.div>
+  )}
+</AnimatePresence>
+
     </section>
   );
 }

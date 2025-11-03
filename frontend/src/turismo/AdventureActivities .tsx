@@ -12,7 +12,7 @@ export const AdventureActivities = forwardRef<HTMLDivElement>((props, ref) => {
       icon: Mountain,
       title: "Senderos de Montaña",
       description: "Explora rutas de trekking con vistas panorámicas espectaculares y paisajes únicos que te conectarán con la naturaleza.",
-      image: "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80",
+      image: "images/Exploracion.jpg",
       gradient: "from-emerald-400 to-green-600",
       shadow: "shadow-nature"
     },
@@ -28,7 +28,7 @@ export const AdventureActivities = forwardRef<HTMLDivElement>((props, ref) => {
       icon: Waves,
       title: "Ríos y Cascadas",
       description: "Disfruta de aguas cristalinas, cascadas naturales perfectas para el ecoturismo y la relajación.",
-      image: "https://images.unsplash.com/photo-1439066615861-d1af74d74000?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80",
+      image: "images/Cascada.jpg",
       gradient: "from-cyan-400 to-blue-600",
       shadow: "shadow-nature"
     },
@@ -36,7 +36,7 @@ export const AdventureActivities = forwardRef<HTMLDivElement>((props, ref) => {
       icon: Camera,
       title: "Miradores Panorámicos",
       description: "Captura las mejores vistas desde nuestros miradores estratégicamente ubicados para momentos únicos.",
-      image: "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80",
+      image: "images/puente.jpeg",
       gradient: "from-amber-400 to-orange-600",
       shadow: "shadow-nature"
     }
@@ -50,31 +50,47 @@ export const AdventureActivities = forwardRef<HTMLDivElement>((props, ref) => {
   ];
 
   return (
-    <section ref={ref} id="turismo" className="py-24 bg-gradient-to-br from-green-50 via-white to-emerald-50 relative overflow-hidden">
+    <section
+      ref={ref}
+      id="turismo"
+      className="py-24 relative overflow-hidden bg-[url('images/Turismo/Fondo-turistico.svg')] bg-no-repeat bg-center bg-cover"
+    >
+      {/* capa translúcida para oscurecer o aclarar */}
+      <div className="absolute inset-0 bg-black/10"></div>
+
       {/* Elementos decorativos de fondo */}
       <div className="absolute top-20 left-10 w-32 h-32 bg-green-200/30 rounded-full blur-3xl animate-float"></div>
       <div className="absolute bottom-20 right-10 w-40 h-40 bg-emerald-200/30 rounded-full blur-3xl animate-float" style={{ animationDelay: '1s' }}></div>
       
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
-        <div className="text-center mb-20">
-          <div className="inline-flex items-center space-x-2 bg-gradient-to-r from-green-100 to-emerald-100 px-4 py-2 rounded-full mb-6">
-            <Leaf className="h-5 w-5 text-green-600" />
-            <span className="text-green-800 font-medium">Ecoturismo Sostenible</span>
-          </div>
-          
-          <h2 className="text-5xl lg:text-6xl font-bold text-gray-900 mb-6">
-            Atractivos{' '}
-            <span className="bg-gradient-to-r from-green-600 via-emerald-500 to-teal-600 bg-clip-text text-transparent">
-              Turísticos
-            </span>
-          </h2>
-          <p className="text-xl text-gray-600 max-w-4xl mx-auto leading-relaxed">
-            San Juan Tahitic ofrece experiencias únicas para los amantes de la naturaleza y el turismo de aventura. 
-            Descubre paisajes que te conectarán con la esencia de nuestra tierra.
-          </p>
-        </div>
+      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 z-10">
+      <div className="text-center mb-20">
+        <div className="flex flex-col items-center text-center mb-20">
+  {/* Etiqueta decorativa superior */}
+  <div className="flex items-center space-x-2 bg-gradient-to-r from-green-100/80 to-emerald-100/80 backdrop-blur-md px-4 py-2 rounded-md mb-8 shadow-md shadow-emerald-800/10">
+    <Leaf className="h-5 w-5 text-green-600" />
+    <span className="text-green-800 font-medium font-serif">
+      Ecoturismo Sostenible
+    </span>
+  </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-8 mb-20">
+  {/* Bloque con fondo translúcido */}
+  <div className="bg-white/70 backdrop-blur-md rounded-3xl px-8 py-10 shadow-xl shadow-emerald-900/20 max-w-5xl w-full sm:w-auto">
+    <h2 className="text-5xl lg:text-6xl font-bold font-serif text-gray-900 mb-6">
+      Atractivos{' '}
+      <span className="bg-gradient-to-r from-green-600 via-emerald-500 to-teal-600 bg-clip-text text-transparent">
+        Turísticos
+      </span>
+    </h2>
+    <p className="text-xl text-gray-800 leading-relaxed max-w-3xl mx-auto">
+      San Juan Tahitic ofrece experiencias únicas para los amantes de la naturaleza y el turismo de aventura.
+      Descubre paisajes que te conectarán con la esencia de nuestra tierra.
+    </p>
+  </div>
+</div>
+
+      </div>
+
+        <div className="grid grid-cols-1 font-serif md:grid-cols-2 xl:grid-cols-4 gap-8 mb-20">
           {attractions.map((attraction, index) => (
             <Card 
               key={index} 
@@ -129,10 +145,10 @@ export const AdventureActivities = forwardRef<HTMLDivElement>((props, ref) => {
             <div>
               <div className="inline-flex items-center space-x-2 bg-green-100 px-4 py-2 rounded-full mb-6">
                 <Star className="h-5 w-5 text-green-600" />
-                <span className="text-green-800 font-medium">Compromiso Verde</span>
+                <span className="text-green-800 font-medium font-serif">Compromiso Verde</span>
               </div>
               
-              <h3 className="text-4xl font-bold text-gray-900 mb-6">
+              <h3 className="text-4xl font-bold font-serif text-gray-900 mb-6">
                 Turismo{' '}
                 <span className="bg-gradient-to-r from-green-600 to-emerald-600 bg-clip-text text-transparent">
                   Sostenible
@@ -154,7 +170,7 @@ export const AdventureActivities = forwardRef<HTMLDivElement>((props, ref) => {
                         <stat.icon className={`h-5 w-5 ${stat.color}`} />
                       </div>
                     </div>
-                    <div className={`text-3xl font-bold mb-1 ${stat.color}`}>
+                    <div className={`text-3xl font-bold font-serif mb-1 ${stat.color}`}>
                       {stat.number}
                     </div>
                     <div className="text-sm text-gray-600 font-medium">{stat.label}</div>
@@ -166,7 +182,7 @@ export const AdventureActivities = forwardRef<HTMLDivElement>((props, ref) => {
             <div className="relative">
               <div className="absolute inset-0 bg-gradient-to-br from-green-400/20 to-emerald-600/20 rounded-2xl blur-2xl transform rotate-3"></div>
               <ImageWithFallback
-                src="https://images.unsplash.com/photo-1441974231531-c6227db76b6e?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+                src="images/Cascada.jpg"
                 alt="Ecoturismo en San Juan Tahitic"
                 className="relative w-full h-80 object-cover rounded-2xl shadow-2xl transform hover:rotate-1 transition-transform duration-500"
               />
@@ -190,7 +206,7 @@ export const AdventureActivities = forwardRef<HTMLDivElement>((props, ref) => {
           animate={{ opacity: [0.4, 0.8, 0.4], scale: [1, 1.05, 1] }}
           transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
         >
-          <div className="w-64 h-16 bg-gradient-to-r from-orange-400/30 via-amber-300/20 to-orange-400/30 rounded-full blur-3xl"></div>
+          <div className="w-64 h-16 bg-gradient-to-r from-green-400 via-green-300/20 to-orange-400/30 rounded-full blur-5xl"></div>
         </motion.div>
 
         {/* Botón principal */}
@@ -201,7 +217,7 @@ export const AdventureActivities = forwardRef<HTMLDivElement>((props, ref) => {
             boxShadow: "0 0 25px rgba(255, 140, 0, 0.6)",
           }}
           whileTap={{ scale: 0.95 }}
-          className="relative inline-flex items-center gap-3 bg-gradient-to-r from-teal-700 to-green-600 text-white text-lg font-semibold px-10 py-4 rounded-full shadow-lg transition-all duration-300"
+          className="relative inline-flex items-center gap-3 bg-gradient-to-r from-yellow-400 to-green-300 text-black text-lg font-semibold font-serif px-10 py-4 rounded-full shadow-lg transition-all duration-300 animate-float"
         >
           Conoce su historia
           <motion.span
