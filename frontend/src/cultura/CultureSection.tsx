@@ -59,7 +59,9 @@ export function CultureSection() {
   };
 
   return (
-    <section id="cultura-section" className="py-24 bg-gradient-to-br from-amber-50 via-orange-50 to-red-50 relative overflow-hidden">
+    <section id="cultura-section" className="py-24 relative overflow-hidden bg-[url('images/cultura/Fondo-cultura2.svg')] bg-no-repeat bg-center bg-cover">
+      {/* capa translúcida para oscurecer o aclarar */}
+      <div className="absolute inset-0 bg-black/10"></div>
       {/* Elementos decorativos de fondo */}
       <div className="absolute top-20 right-10 w-40 h-40 bg-orange-200/30 rounded-full blur-3xl animate-float"></div>
       <div className="absolute bottom-20 left-10 w-32 h-32 bg-amber-200/30 rounded-full blur-3xl animate-float" style={{ animationDelay: '1.5s' }}></div>
@@ -85,7 +87,7 @@ export function CultureSection() {
                 </div>
                 
                 <div className="flex-1 relative">
-                  <CardTitle className="text-2xl text-gray-900 group-hover:text-orange-700 transition-colors duration-300 mb-3">
+                  <CardTitle className="text-2xl text-gray-900 group-hover:text-orange-700 font-serif transition-colors duration-300 mb-3">
                     {aspect.title}
                   </CardTitle>
                   <CardDescription className="text-gray-600 text-base leading-relaxed">
@@ -102,7 +104,7 @@ export function CultureSection() {
                       className="flex items-center text-gray-700 group-hover:text-orange-700 transition-colors duration-300"
                     >
                       <div className={`w-3 h-3 bg-gradient-to-r ${aspect.gradient} rounded-full mr-3 shadow-lg group-hover:scale-125 transition-transform duration-300`}></div>
-                      <span className="font-medium">{detail}</span>
+                      <span className="font-medium font-serif">{detail}</span>
                     </div>
                   ))}
                 </div>
@@ -116,7 +118,7 @@ export function CultureSection() {
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.97 }}
                   onClick={() => handleSmoothScroll(aspect.scrollTarget)}
-                  className="mt-6 inline-flex items-center gap-2 bg-orange-600 text-white font-semibold px-5 py-2.5 rounded-full shadow-md hover:bg-orange-600 transition-colors"
+                  className="mt-6 inline-flex items-center gap-2 bg-orange-600 text-white font-semibold font-serif px-5 py-2.5 rounded-full shadow-md hover:bg-orange-600 transition-colors animate-float"
                 >
                   Explorar más
                   <ArrowDown className="w-5 h-5" />
@@ -145,7 +147,7 @@ export function CultureSection() {
         }}
         // Animación al hacer clic/tocar (más rápido y perceptible)
         whileTap={{ scale: 0.95 }}
-        className="relative z-10 inline-flex items-center gap-6 bg-orange-600 text-white text-xl font-bold px-12 py-5 rounded-full shadow-2xl transition-all duration-300 overflow-hidden group"
+        className="relative z-10 inline-flex items-center gap-6 bg-orange-600 text-white text-xl font-bold font-serif px-12 py-5 rounded-full shadow-2xl transition-all duration-300 overflow-hidden group animate-float"
       >
         {/* EFECTO DE BRILLO DESLIZANTE (Añade esta sección) */}
         {/* Este span será el "reflejo" que se desliza */}
@@ -188,7 +190,7 @@ export function CultureSection() {
               
               {/* Badge flotante */}
               <div className="absolute top-6 left-6 bg-white/95 backdrop-blur-sm px-4 py-2 rounded-full shadow-xl">
-                <span className="text-orange-700 font-semibold text-sm flex items-center">
+                <span className="text-orange-700 font-semibold font-serif text-sm flex items-center">
                   <Crown className="h-4 w-4 mr-1" />
                   Patrimonio
                 </span>
@@ -201,10 +203,10 @@ export function CultureSection() {
             <div>
               <div className="inline-flex items-center space-x-2 bg-orange-100 px-4 py-2 rounded-full mb-6">
                 <Heart className="h-5 w-5 text-orange-600" />
-                <span className="text-orange-800 font-medium">Tradición Viva</span>
+                <span className="text-orange-800 font-medium font-serif">Tradición Viva</span>
               </div>
               
-              <h3 className="text-4xl font-bold text-gray-900 mb-6">
+              <h3 className="text-4xl font-bold font-serif text-gray-900 mb-6">
                 Preservando Nuestras{' '}
                 <span className="bg-gradient-to-r from-orange-600 to-amber-600 bg-clip-text text-transparent">
                   Raíces
@@ -227,10 +229,10 @@ export function CultureSection() {
                         <stat.icon className={`h-6 w-6 ${stat.color}`} />
                       </div>
                     </div>
-                    <div className={`text-3xl font-bold mb-2 ${stat.color}`}>
+                    <div className={`text-3xl font-bold font-serif mb-2 ${stat.color}`}>
                       {stat.number}
                     </div>
-                    <div className="text-gray-600 font-medium">{stat.label}</div>
+                    <div className="text-gray-600 font-medium font-serif">{stat.label}</div>
                   </div>
                 ))}
               </div>
@@ -245,7 +247,7 @@ export function CultureSection() {
                 ].map((achievement, index) => (
                   <div key={index} className="flex items-center group">
                     <div className="w-3 h-3 bg-gradient-to-r from-orange-400 to-amber-500 rounded-full mr-4 group-hover:scale-150 transition-transform duration-300 shadow-lg"></div>
-                    <span className="text-gray-700 group-hover:text-orange-700 font-medium transition-colors duration-300">{achievement}</span>
+                    <span className="text-gray-700 group-hover:text-orange-700 font-medium font-serif transition-colors duration-300">{achievement}</span>
                   </div>
                 ))}
               </div>
