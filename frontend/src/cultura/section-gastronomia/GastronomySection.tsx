@@ -1,8 +1,12 @@
-import { ArrowDown, ArrowRight, Sparkles, Utensils } from 'lucide-react';
+import { ArrowDown, ArrowLeft, ArrowRight, Sparkles, Utensils } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
+import { useNavigate } from "react-router-dom"; 
+
+
 
 export function GastronomySection() {
+  const navigate = useNavigate();
   return (
     <section
       id="section-gastronomia"
@@ -44,13 +48,13 @@ export function GastronomySection() {
         {/* Badge superior */}
         <div className="inline-flex items-center space-x-2 bg-gradient-to-r from-amber-100/80 to-lime-100/80 px-4 py-2 rounded-full mb-6 backdrop-blur-sm shadow-sm">
           <Utensils className="h-5 w-5 text-amber-700" aria-hidden="true" />
-          <span className="text-lime-800 font-medium">Sabores de Tahitic</span>
+          <span className="text-lime-800 font-medium font-serif">Sabores de Tahitic</span>
         </div>
 
         {/* Título principal */}
         <h2
           id="gastronomia-heading"
-          className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold leading-tight text-white drop-shadow-[0_4px_6px_rgba(0,0,0,0.7)] text-center"
+          className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold font-serif leading-tight text-white drop-shadow-[0_4px_6px_rgba(0,0,0,0.7)] text-center"
         >
           Gastronomía{' '}
           <span className="bg-gradient-to-r from-amber-500 via-red-500 to-lime-600 bg-clip-text text-transparent">
@@ -73,6 +77,15 @@ export function GastronomySection() {
         viewport={{ once: true }}
       >
         <motion.button
+            onClick={() => navigate(-1)}
+            className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-white/80 backdrop-blur-sm border border-amber-600 text-amber-700 font-semibold shadow-md hover:shadow-lg hover:scale-105 transition-all duration-300"
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+          >
+            <ArrowLeft className="h-5 w-5" />
+            Regresar
+          </motion.button>
+        <motion.button
           onClick={() =>
             document.getElementById("cocinas")?.scrollIntoView({
               behavior: "smooth",
@@ -81,19 +94,12 @@ export function GastronomySection() {
           }
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.98 }}
-          className="inline-flex items-center gap-2 bg-red-600 text-white font-semibold px-6 py-3 rounded-full shadow-lg hover:bg-red-700 transition-colors"
+          className="inline-flex items-center gap-2 bg-red-600 text-white font-semibold font-serif px-6 py-3 rounded-full shadow-lg hover:bg-red-700 transition-colors animate-bounce"
         >
           Explora la gastronomía
           <ArrowDown className="h-5 w-5" />
         </motion.button>
-
-        <Link
-          to="/cultura"
-          className="border-2 border-amber-500 text-amber-100 hover:bg-amber-500/20 px-8 py-4 rounded-full font-semibold transition-all duration-300 transform hover:scale-105 text-center backdrop-blur-sm"
-        >
-          Regresar
-        </Link>
-      </motion.div>
+        </motion.div>
     </div>
 
     </section>

@@ -1,104 +1,101 @@
-import { ChefHat, ChevronLeft, ChevronRight, Menu } from 'lucide-react';
+// HeaderNavigation.tsx - Versión que solo funciona dentro de ViajeSensorialGastronomico
+import { ChefHat, ChevronLeft, ChevronRight, Menu, Sparkles } from 'lucide-react';
 import { MobileMenu } from './MobileMenu';
-import { useState } from 'react'; // Añadir useState aquí
+import { useState } from 'react';
 
 interface HeaderNavigationProps {
   cocinas: any[];
   cocinaActiva: number;
   onCocinaChange: (index: number) => void;
   onNavigate: (section: string) => void;
+  onSiguienteCocina: () => void;
+  onAnteriorCocina: () => void;
 }
 
 export function HeaderNavigation({ 
   cocinas, 
   cocinaActiva, 
   onCocinaChange, 
-  onNavigate 
+  onNavigate,
+  onSiguienteCocina,
+  onAnteriorCocina
 }: HeaderNavigationProps) {
-  const [menuMovilAbierto, setMenuMovilAbierto] = useState(false);
-
-  // Usar las funciones del padre en lugar del hook local
-  const siguienteCocina = () => {
-    const siguienteIndex = (cocinaActiva + 1) % cocinas.length;
-    onCocinaChange(siguienteIndex);
-  };
-
-  const anteriorCocina = () => {
-    const anteriorIndex = (cocinaActiva - 1 + cocinas.length) % cocinas.length;
-    onCocinaChange(anteriorIndex);
-  };
 
   const handleNavigate = (section: string) => {
     onNavigate(section);
   };
 
   return (
-    <div className="bg-white/90 backdrop-blur-sm border-b border-amber-200 sticky top-0 z-50">
-      <div className="max-w-7xl mx-auto px-3 sm:px-4 lg:px-8">
-        <div className="flex items-center justify-between py-3 sm:py-4">
-          <div className="flex items-center space-x-2 sm:space-x-4">
-            <ChefHat className="h-6 w-6 sm:h-8 sm:w-8 text-amber-600" />
-            <h1 className="text-lg sm:text-xl lg:text-2xl font-bold text-gray-900">
-              Experiencias Gastronómicas
-            </h1>
-          </div>
-          
-          {/* Navegación entre cocinas - RESPONSIVE */}
-          <div className="flex items-center space-x-2 sm:space-x-4">
-            <button
-              onClick={anteriorCocina} 
-              className="p-1 sm:p-2 rounded-full bg-amber-100 text-amber-700 hover:bg-amber-200 transition-colors"
-              aria-label="Cocina anterior"
-            >
-              <ChevronLeft className="h-4 w-4 sm:h-5 sm:w-5" />
-            </button>
-            
-            <div className="flex items-center space-x-1 sm:space-x-2">
-              <span className="text-xs sm:text-sm font-medium text-gray-600 hidden xs:block">
-                {cocinaActiva + 1} de {cocinas.length}
-              </span>
-              <div className="flex space-x-1">
-                {cocinas.map((_, index) => (
+    <>
+      {/* Nav principal sticky - DENTRO del componente */}
+      <div className="sticky top-0 z-50">
+        <div className="bg-white/95 backdrop-blur-md border-b border-amber-200 shadow-lg">
+          <div className="max-w-7xl mx-auto px-3 sm:px-4 lg:px-8">
+            <div className="flex items-center justify-between py-3 sm:py-4">
+              
+              {/* Logo y Título */}
+              <div className="flex items-center space-x-2 sm:space-x-4 min-w-0 flex-1">
+                <ChefHat className="h-6 w-6 sm:h-8 sm:w-8 text-amber-600 flex-shrink-0" />
+                <div className="min-w-0 flex-1">
+                  <h1 className="text-lg sm:text-xl lg:text-2xl font-bold font-serif text-gray-900 truncate">
+                    Experiencias Gastronómicas
+                  </h1>
+                  <p className="text-xs text-amber-600 font-medium font-serif hidden sm:block truncate">
+                    {cocinas[cocinaActiva]?.nombre}
+                  </p>
+                </div>
+              </div>
+              
+              {/* Navegación entre cocinas */}
+              <div className="flex items-center space-x-3 sm:space-x-4 lg:space-x-6 flex-shrink-0">
+                
+                {/* Información de cocina activa */}
+                <div className="hidden lg:flex items-center space-x-2 bg-amber-50 px-3 py-1 rounded-full border border-amber-200">
+                  <Sparkles className="h-4 w-4 text-amber-600 flex-shrink-0" />
+                  <span className="text-sm font-medium text-amber-700 whitespace-nowrap">
+                    {cocinaActiva + 1} de {cocinas.length}
+                  </span>
+                </div>
+
+                {/* Controles de navegación */}
+                <div className="flex items-center space-x-1 sm:space-x-2 bg-amber-100 rounded-full p-1 border border-amber-200">
                   <button
-                    key={index}
-                    onClick={() => onCocinaChange(index)}
-                    className={`transition-all ${
-                      index === cocinaActiva 
-                        ? 'bg-amber-600 w-4 sm:w-6' 
-                        : 'bg-amber-300 hover:bg-amber-400 w-2 sm:w-2'
-                    } h-2 rounded-full`}
-                    aria-label={`Ir a cocina ${index + 1}`}
-                  />
-                ))}
+                    onClick={onAnteriorCocina} 
+                    className="p-2 rounded-full bg-white text-amber-700 hover:bg-amber-50 transition-all duration-200 shadow-sm hover:shadow-md border border-amber-200"
+                    aria-label="Cocina anterior"
+                  >
+                    <ChevronLeft className="h-4 w-4 sm:h-5 sm:w-5" />
+                  </button>
+                  
+                  {/* Indicadores de puntos */}
+                  <div className="hidden md:flex space-x-1 mx-2">
+                    {cocinas.map((_, index) => (
+                      <button
+                        key={index}
+                        onClick={() => onCocinaChange(index)}
+                        className={`transition-all duration-200 ${
+                          index === cocinaActiva 
+                            ? 'bg-amber-600 w-3 h-3' 
+                            : 'bg-amber-300 hover:bg-amber-400 w-2 h-2'
+                        } rounded-full`}
+                        aria-label={`Ir a cocina ${index + 1}`}
+                      />
+                    ))}
+                  </div>
+
+                  <button
+                    onClick={onSiguienteCocina} 
+                    className="p-2 rounded-full bg-white text-amber-700 hover:bg-amber-50 transition-all duration-200 shadow-sm hover:shadow-md border border-amber-200"
+                    aria-label="Siguiente cocina"
+                  >
+                    <ChevronRight className="h-4 w-4 sm:h-5 sm:w-5" />
+                  </button>
+                </div>
               </div>
             </div>
-
-            <button
-              onClick={siguienteCocina} 
-              className="p-1 sm:p-2 rounded-full bg-amber-100 text-amber-700 hover:bg-amber-200 transition-colors"
-              aria-label="Siguiente cocina"
-            >
-              <ChevronRight className="h-4 w-4 sm:h-5 sm:w-5" />
-            </button>
-
-            {/* Botón menú móvil */}
-            <button
-              onClick={() => setMenuMovilAbierto(!menuMovilAbierto)}
-              className="lg:hidden p-2 rounded-lg bg-amber-100 text-amber-700 hover:bg-amber-200 transition-colors"
-              aria-label="Menú de navegación"
-            >
-              <Menu className="h-5 w-5" />
-            </button>
           </div>
         </div>
-
-        {/* Menú móvil */}
-        <MobileMenu 
-          isOpen={menuMovilAbierto}
-          onClose={() => setMenuMovilAbierto(false)}
-          onNavigate={handleNavigate}
-        />
       </div>
-    </div>
+    </>
   );
 }

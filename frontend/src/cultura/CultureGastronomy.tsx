@@ -115,7 +115,7 @@ export function CultureGastronomySection() {
   }, [playingVideo]);
 
   return (
-    <section id="gastronomia" className="py-24 bg-gradient-to-br from-amber-50 via-orange-50 to-red-50 relative overflow-hidden">
+    <section id="gastronomia" className="py-24 relative overflow-hidden bg-[url('images/cultura/Fondo-gastronomia.svg')] bg-no-repeat bg-center bg-cover">
       {/* Elementos decorativos de fondo */}
       <div className="absolute top-20 right-10 w-40 h-40 bg-orange-200/30 rounded-full blur-3xl animate-float"></div>
       <div className="absolute bottom-20 left-10 w-32 h-32 bg-amber-200/30 rounded-full blur-3xl animate-float" style={{ animationDelay: '1.5s' }}></div>
@@ -123,20 +123,30 @@ export function CultureGastronomySection() {
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
         <div className="text-center mb-20">
-          <div className="inline-flex items-center space-x-2 bg-gradient-to-r from-orange-100 to-amber-100 px-4 py-2 rounded-full mb-6">
+        {/* 🔹 Sello decorativo superior */}
+        <div className="flex justify-center mb-8">
+          <div className="flex items-center space-x-2 bg-gradient-to-r from-orange-100/80 to-amber-100/80 backdrop-blur-md px-4 py-2 rounded-full shadow-md shadow-amber-800/10">
             <Utensils className="h-5 w-5 text-orange-600" />
-            <span className="text-orange-800 font-medium">Sabores Ancestrales</span>
+            <span className="text-orange-800 font-medium font-serif">
+              Sabores Ancestrales
+            </span>
           </div>
-          <h2 className="text-5xl lg:text-6xl font-bold text-gray-900 mb-6">
-            Un Viaje{' '}
+        </div>
+
+        {/* 🔹 Bloque translúcido principal */}
+        <div className="inline-block bg-white/70 backdrop-blur-md rounded-3xl px-8 py-10 shadow-xl shadow-amber-900/20 max-w-5xl mx-auto">
+          <h2 className="text-5xl lg:text-6xl font-bold font-serif text-gray-900 mb-6">
+            Un viaje{' '}
             <span className="bg-gradient-to-r from-orange-600 via-amber-500 to-red-600 bg-clip-text text-transparent">
-              Gastronómico
+              gastronómico
             </span>
           </h2>
-          <p className="text-xl text-gray-700 max-w-4xl mx-auto leading-relaxed">
-            Descubre los sabores de nuestra tierra, donde cada platillo narra una historia de herencia, tradición e ingredientes cultivados con amor.
+          <p className="text-xl text-gray-800 leading-relaxed max-w-3xl mx-auto">
+            Descubre los sabores de nuestra tierra, donde cada platillo narra una historia de herencia,
+            tradición e ingredientes cultivados con amor.
           </p>
         </div>
+      </div>
 
         {/* Grid de tarjetas (altura aumentada y responsiva) */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-10">
@@ -194,7 +204,7 @@ export function CultureGastronomySection() {
               </div>
 
               <CardContent className="p-6 relative">
-                <CardTitle className="text-xl font-bold text-gray-900 group-hover:text-orange-700 transition-colors duration-300">
+                <CardTitle className="text-xl font-bold font-serif text-gray-900 group-hover:text-orange-700 transition-colors duration-300">
                   {dish.name}
                 </CardTitle>
 
@@ -208,7 +218,7 @@ export function CultureGastronomySection() {
                     <div className="flex items-start gap-2">
                       <Sparkles className="h-4 w-4 text-amber-600 mt-0.5" />
                       <p className="text-gray-700">
-                        <span className="font-semibold">Origen:</span> {dish.origin}
+                        <span className="font-semibold font-serif">Origen:</span> {dish.origin}
                       </p>
                     </div>
                   )}
@@ -216,7 +226,7 @@ export function CultureGastronomySection() {
                     <div className="flex items-start gap-2">
                       <Leaf className="h-4 w-4 text-green-600 mt-0.5" />
                       <p className="text-gray-700">
-                        <span className="font-semibold">Ingredientes:</span> {dish.ingredients.slice(0, 4).join(', ')}
+                        <span className="font-semibold font-serif">Ingredientes:</span> {dish.ingredients.slice(0, 4).join(', ')}
                         {dish.ingredients.length > 4 ? '…' : ''}
                       </p>
                     </div>
@@ -225,7 +235,7 @@ export function CultureGastronomySection() {
                     <div className="flex items-start gap-2">
                       <Utensils className="h-4 w-4 text-orange-600 mt-0.5" />
                       <p className="text-gray-700">
-                        <span className="font-semibold">Picor:</span> {dish.spiceLevel}
+                        <span className="font-semibold font-serif">Picor:</span> {dish.spiceLevel}
                       </p>
                     </div>
                   )}
@@ -233,7 +243,7 @@ export function CultureGastronomySection() {
                     <div className="flex items-start gap-2">
                       <Calendar className="h-4 w-4 text-rose-600 mt-0.5" />
                       <p className="text-gray-700">
-                        <span className="font-semibold">Temporada/Festividad:</span> {dish.festival}
+                        <span className="font-semibold font-serif">Temporada/Festividad:</span> {dish.festival}
                       </p>
                     </div>
                   )}
@@ -255,10 +265,10 @@ export function CultureGastronomySection() {
                   <item.icon className={`h-6 w-6 ${item.color}`} />
                 </div>
               </div>
-              <div className={`text-3xl font-bold mb-2 ${item.color}`}>
+              <div className={`text-3xl font-bold font-serif mb-2 ${item.color}`}>
                 {item.number}
               </div>
-              <p className="text-gray-600 font-medium">{item.label}</p>
+              <p className="text-gray-600 font-medium font-serif">{item.label}</p>
             </div>
           ))}
         </div>
@@ -282,9 +292,9 @@ export function CultureGastronomySection() {
             boxShadow: "0 0 25px rgba(255, 140, 0, 0.6)",
           }}
           whileTap={{ scale: 0.95 }}
-          className="relative inline-flex items-center gap-3 bg-gradient-to-r from-orange-500 to-amber-600 text-white text-lg font-semibold px-10 py-4 rounded-full shadow-lg transition-all duration-300"
+          className="relative inline-flex items-center gap-3 bg-gradient-to-r from-orange-500 to-amber-600 text-white text-lg font-semibold font-serif px-10 py-4 rounded-full shadow-lg transition-all duration-800 animate-bounce"
         >
-          Explora Nuestra Cocina
+          Explora nuestra cocina
           <motion.span
             animate={{ y: [0, -6, 0] }}
             transition={{ duration: 1.2, repeat: Infinity, ease: 'easeInOut' }}
