@@ -65,29 +65,28 @@ export const AdventureActivities = forwardRef<HTMLDivElement>((props, ref) => {
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 z-10">
       <div className="text-center mb-20">
         <div className="flex flex-col items-center text-center mb-20">
-  {/* Etiqueta decorativa superior */}
-  <div className="flex items-center space-x-2 bg-gradient-to-r from-green-100/80 to-emerald-100/80 backdrop-blur-md px-4 py-2 rounded-md mb-8 shadow-md shadow-emerald-800/10">
-    <Leaf className="h-5 w-5 text-green-600" />
-    <span className="text-green-800 font-medium font-serif">
-      Ecoturismo Sostenible
-    </span>
-  </div>
+          {/* Etiqueta decorativa superior */}
+          <div className="flex items-center space-x-2 bg-gradient-to-r from-green-100/80 to-emerald-100/80 backdrop-blur-md px-4 py-2 rounded-md mb-8 shadow-md shadow-emerald-800/10">
+            <Leaf className="h-5 w-5 text-green-600" />
+            <span className="text-green-800 font-medium font-serif">
+              Ecoturismo Sostenible
+            </span>
+          </div>
 
-  {/* Bloque con fondo translúcido */}
-  <div className="bg-white/70 backdrop-blur-md rounded-3xl px-8 py-10 shadow-xl shadow-emerald-900/20 max-w-5xl w-full sm:w-auto">
-    <h2 className="text-5xl lg:text-6xl font-bold font-serif text-gray-900 mb-6">
-      Atractivos{' '}
-      <span className="bg-gradient-to-r from-green-600 via-emerald-500 to-teal-600 bg-clip-text text-transparent">
-        Turísticos
-      </span>
-    </h2>
-    <p className="text-xl text-gray-800 leading-relaxed max-w-3xl mx-auto">
-      San Juan Tahitic ofrece experiencias únicas para los amantes de la naturaleza y el turismo de aventura.
-      Descubre paisajes que te conectarán con la esencia de nuestra tierra.
-    </p>
-  </div>
-</div>
-
+          {/* Bloque con fondo translúcido */}
+          <div className="bg-white/70 backdrop-blur-md rounded-3xl px-8 py-10 shadow-xl shadow-emerald-900/20 max-w-5xl w-full sm:w-auto">
+            <h2 className="text-5xl lg:text-6xl font-bold font-serif text-gray-900 mb-6">
+              Atractivos{' '}
+              <span className="bg-gradient-to-r from-green-600 via-emerald-500 to-teal-600 bg-clip-text text-transparent">
+                Turísticos
+              </span>
+            </h2>
+            <p className="text-xl text-gray-800 leading-relaxed max-w-3xl mx-auto">
+              San Juan Tahitic ofrece experiencias únicas para los amantes de la naturaleza y el turismo de aventura.
+              Descubre paisajes que te conectarán con la esencia de nuestra tierra.
+            </p>
+          </div>
+        </div>
       </div>
 
         <div className="grid grid-cols-1 font-serif md:grid-cols-2 xl:grid-cols-4 gap-8 mb-20">
