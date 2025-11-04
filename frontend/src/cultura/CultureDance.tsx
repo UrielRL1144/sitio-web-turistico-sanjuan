@@ -78,17 +78,20 @@ export function CultureDance() {
   }, [activeIndex, expandedIndex, totalItems, ctaCardIndex]);
 
   return (
-    <section id="danzas" className="py-16 sm:py-24 bg-gradient-to-br from-amber-50 via-orange-50 to-red-50 relative overflow-hidden min-h-screen flex flex-col justify-center">
+    <section id="danzas" className="py-16 sm:py-24 relative overflow-hidden min-h-screen flex flex-col justify-center bg-[url('images/cultura/Fondo-danzas.svg')] bg-no-repeat bg-center bg-cover"
+>
+   {/* capa translúcida para oscurecer o aclarar */}
+      <div className="absolute inset-0 bg-black/10"></div>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
         
         {/* --- Encabezado --- */}
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="text-center mb-12 md:mb-16">
             <div className="inline-flex items-center space-x-2 bg-gradient-to-r from-orange-100 to-amber-100 px-4 py-2 rounded-full mb-6">
                 <Sparkles className="h-5 w-5 text-orange-600" />
-                <span className="text-orange-800 font-medium">Tradiciones en Movimiento</span>
+                <span className="text-orange-800 font-medium font-serif">Tradiciones en Movimiento</span>
             </div>
-          <h2 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-gray-900 mb-8">
-            Danzas <span className="bg-gradient-to-r from-orange-600 via-amber-500 to-red-600 bg-clip-text text-transparent">Ancestrales</span>
+          <h2 className="text-4xl sm:text-5xl lg:text-6xl font-bold font-serif text-gray-900 mb-8">
+            Danzas <span className="bg-gradient-to-r from-orange-600 via-amber-500 to-red-600 bg-clip-text text-transparent">ancestrales</span>
           </h2>
           <p className="text-xl text-gray-700 max-w-4xl mx-auto leading-relaxed">
             Sumérgete en cada danza dando clic en ellos y sé parte de{' '}

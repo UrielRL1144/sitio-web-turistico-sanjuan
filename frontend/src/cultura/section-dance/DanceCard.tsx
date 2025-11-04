@@ -50,7 +50,7 @@ const InteractiveOverlay: React.FC<InteractiveOverlayProps> = ({ isExpanded, isM
     };
 
     // Estilos base para el botón (cumpliendo con 44x44px en móvil)
-    const baseClasses = "flex items-center justify-center font-semibold rounded-full shadow-lg transition-all duration-300 whitespace-nowrap bg-amber-500 text-gray-900 border-2 border-white/50";
+    const baseClasses = "flex items-center justify-center font-semibold font-serif rounded-full shadow-lg transition-all duration-300 whitespace-nowrap bg-amber-500 text-gray-900 border-2 border-white/50";
     
     if (isMobile) {
         // Móvil: Fijo y discreto (esquina inferior derecha)
@@ -82,7 +82,7 @@ const InteractiveOverlay: React.FC<InteractiveOverlayProps> = ({ isExpanded, isM
                 role="button"
                 aria-hidden="true" // Es un indicador visual, el click lo maneja el div padre
             >
-                <ArrowUpRight size={20} className="mr-2 h-5 w-5" />
+                <ArrowUpRight size={20} className="mr-2 h-5 w-5 animate-bounce" />
                 Saber más
             </motion.div>
         </AnimatePresence>
@@ -150,10 +150,10 @@ export const DanceCard: React.FC<DanceCardProps> = ({
         
         {/* Contenido en la vista normal/base */}
         <div className="relative h-full flex flex-col justify-end p-6 sm:p-8 text-white">
-          <motion.h3 layout="position" className="text-3xl sm:text-4xl font-bold transition duration-300 group-hover:text-amber-300">{dance.name}</motion.h3>
+          <motion.h3 layout="position" className="text-3xl sm:text-4xl font-bold font-serif transition duration-300 group-hover:text-amber-300">{dance.name}</motion.h3>
           <AnimatePresence>
             {!isExpanded && (
-              <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1, transition: { delay: 0.3 } }} exit={{ opacity: 0 }} className="text-base sm:text-lg mt-2 font-light">
+              <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1, transition: { delay: 0.3 } }} exit={{ opacity: 0 }} className="text-base sm:text-lg mt-2 font-light font-serif">
                 {dance.description}
               </motion.p>
             )}
@@ -175,7 +175,7 @@ export const DanceCard: React.FC<DanceCardProps> = ({
                   const Icon = iconMap[el.icon]; 
                   return ( 
                     <div key={el.title} className="bg-white/10 p-3 rounded-lg backdrop-blur-sm"> 
-                      <h4 className="font-bold text-sm sm:text-base flex items-center gap-2 text-amber-300 mb-1"><Icon size={18}/> {el.title}</h4> 
+                      <h4 className="font-bold font-serif text-sm sm:text-base flex items-center gap-2 text-amber-300 mb-1"><Icon size={18}/> {el.title}</h4> 
                       <p className="text-gray-300 text-xs sm:text-sm">{el.text}</p> 
                     </div> 
                   ); 
