@@ -294,7 +294,7 @@
   }
 
   .animate-float {
-    animation: float 3s ease-in-out infinite;
+    animation: float 2s ease-in-out infinite;
   }
 
   .animate-glow {
@@ -368,7 +368,7 @@
     transform: translateY(0px);
   }
   50% {
-    transform: translateY(-10px);
+    transform: translateY(-20px);
   }
 }
 
@@ -431,3 +431,47 @@ html {
   box-shadow: var(--dialog-glass-shadow) !important;
   border-radius: 0.375rem !important;
 }
+/* Personalización completa del chatbot de Dialogflow ES */
+df-messenger {
+  /* Colores del tema */
+  --df-messenger-bot-message: #9bbae7; /* verde oscuro - mensajes del bot */
+  --df-messenger-user-message: #b9ffb9; /* dorado - mensajes del usuario */
+  --df-messenger-send-icon: #047857;
+  --df-messenger-chat-background-color: #f0fdf4; /* fondo natural */
+  --df-messenger-input-box-color: #ffffff;
+  --df-messenger-input-placeholder-color: #9ca3af;
+  --df-messenger-font-color: #1e293b;
+
+  /* Título y cabecera */
+  --df-messenger-button-titlebar-color: #065f46;
+  --df-messenger-button-titlebar-font-color: #ffffff;
+
+  /* Burbuja flotante */
+  --df-messenger-minimized-chat-close-icon-color: #ffffff;
+  --df-messenger-button-titlebar-font-size: 16px;
+
+  /* Layout general */
+  position: fixed;
+  bottom: 20px;
+  right: 24px;
+  z-index: 9999;
+  border-radius: 1rem;
+  font-family: 'Inter', system-ui, sans-serif;
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.2);
+}
+
+/* Personaliza el botón del chatbot */
+df-messenger chat-icon {
+  border-radius: 50%;
+  background-color: #d6eee7;
+}
+
+/* Adaptación móvil */
+@media (max-width: 768px) {
+  df-messenger {
+    right: 10px;
+    bottom: 10px;
+    --df-messenger-button-titlebar-font-size: 14px;
+  }
+}
+
