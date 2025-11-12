@@ -1,0 +1,124 @@
+{
+  "galleryImages": [
+    {
+      "src": "/images/galeria/montanas-amanecer.jpg",
+      "alt": "Amanecer en la Sierra Madre",
+      "category": "paisajes",
+      "title": "Amanecer en la Sierra",
+      "description": "Los primeros rayos del sol acarician las cumbres ancestrales de nuestro territorio",
+      "date": "2024-01-15",
+      "location": "Cerro del Águila",
+      "photographer": "Juan Martínez"
+    },
+    {
+      "src": "/images/galeria/Cascada.jpg",
+      "alt": "Bosque de coníferas nativas",
+      "category": "naturaleza",
+      "title": "Bosque Ancestral",
+      "description": "Donde los árboles centenarios guardan la memoria de nuestra tierra",
+      "date": "2024-02-03",
+      "location": "Bosque de los Abuelos",
+      "photographer": "María González"
+    },
+    {
+      "src": "/images/galeria/san_juan-poster.webp",
+      "alt": "Cascada cristalina en la montaña",
+      "category": "naturaleza",
+      "title": "Cascada Xochitl",
+      "description": "El canto del agua que purifica y renueva la vida en nuestro ecosistema",
+      "date": "2024-01-22",
+      "location": "Cañada de las Flores",
+      "photographer": "Carlos Ruiz"
+    },
+    {
+      "src": "/images/galeria/poster-hero.webp",
+      "alt": "Tejidos tradicionales en telar",
+      "category": "cultura",
+      "title": "Telares de Tradición",
+      "description": "Hilos que entrelazan historias, colores que pintan identidad",
+      "date": "2024-03-10",
+      "location": "Taller Comunitario",
+      "photographer": "Ana Torres"
+    },
+    {
+      "src": "/images/galeria/Dia-muertos.png",
+      "alt": "Trabajo colectivo en el campo",
+      "category": "comunidad",
+      "title": "Tequio que Une",
+      "description": "Manos que trabajan juntas, corazones que laten al mismo ritmo",
+      "date": "2024-02-18",
+      "location": "Campos Comunales",
+      "photographer": "Pedro Hernández"
+    },
+    {
+      "src": "/images/galeria/puente.jpeg",
+      "alt": "Festival tradicional con danzas",
+      "category": "tradiciones",
+      "title": "Danzas del Sol",
+      "description": "Ritmos ancestrales que celebran la conexión con el cosmos",
+      "date": "2024-03-15",
+      "location": "Plaza Principal",
+      "photographer": "Laura Mendoza"
+    },
+    {
+      "src": "/images/galeria/Monte_virgen.jpg",
+      "alt": "Arquitectura vernácula local",
+      "category": "cultura",
+      "title": "Casas que Respiran",
+      "description": "Espacios construidos con materiales de la tierra, diseñados con sabiduría ancestral",
+      "date": "2024-03-05",
+      "location": "Barrio Antiguo",
+      "photographer": "Roberto Díaz"
+    },
+    {
+      "src": "/images/galeria/punche.jpeg",
+      "alt": "Niños aprendiendo en la naturaleza",
+      "category": "comunidad",
+      "title": "Semillas del Mañana",
+      "description": "El conocimiento que florece entre juegos y risas en nuestro entorno natural",
+      "date": "2024-02-12",
+      "location": "Escuela al Aire Libre",
+      "photographer": "Sofia Castro"
+    },
+    {
+      "src": "/images/galeria/maiz.jpg",
+      "alt": "Preparación de comida tradicional",
+      "category": "tradiciones",
+      "title": "Sabores que Cuentan",
+      "description": "Recetas que guardan el secreto de generaciones y el sabor de nuestra identidad",
+      "date": "2024-03-20",
+      "location": "Cocina Comunitaria",
+      "photographer": "Miguel Ángel"
+    },
+    {
+      "src": "/images/galeria/milpa.jpeg",
+      "alt": "Cielo estrellado sobre la comunidad",
+      "category": "paisajes",
+      "title": "Manto Estrellado",
+      "description": "Noches donde el universo se acerca para susurrar secretos ancestrales",
+      "date": "2024-01-28",
+      "location": "Mirador Celestial",
+      "photographer": "Elena Morales"
+    },
+    {
+      "src": "/images/galeria/licores.jpeg",
+      "alt": "Hierbas medicinales y curandera",
+      "category": "tradiciones",
+      "title": "Sabiduría Verde",
+      "description": "Plantas que sanan, manos que curan, conocimiento que perdura",
+      "date": "2024-02-25",
+      "location": "Jardín de Medicinas",
+      "photographer": "Isabel Ramírez"
+    },
+    {
+      "src": "/images/galeria/cultura1.jpg",
+      "alt": "Alfarería tradicional en barro",
+      "category": "cultura",
+      "title": "Barro con Alma",
+      "description": "Arcilla que se transforma en vasijas que guardan nuestra esencia",
+      "date": "2024-03-08",
+      "location": "Taller de Alfarería",
+      "photographer": "José Luis"
+    }
+  ]
+}

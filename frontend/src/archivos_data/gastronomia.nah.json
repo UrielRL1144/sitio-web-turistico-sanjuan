@@ -1,0 +1,48 @@
+{
+  "platillos": [
+    {
+      "id": 1,
+      "name": "Mole Poblano",
+      "description": "Yankwik tlamanitilistli ipan chilli, xoxouhqui, huan cacahuatl, tlazohcaxitl tlen tlalpan moneki.",
+      "image": "/images/cultura/gastronomia/Comedor.webp",
+      "video": "/images/cultura/videos/gastronomia/Mole-poblano_720p.mp4",
+      "origin": "San Juan Tahitic",
+      "ingredients": ["Chilli tlen yankwik", "Cacahuatl", "Xoxouhqui", "Tlalxoxouhqui", "Tlaxkalli"],
+      "spiceLevel": "Nepantla",
+      "festival": "Tlapohualiztli tlen mayo"
+    },
+    {
+      "id": 2,
+      "name": "Tamales tlen Xochitl",
+      "description": "Yolqui tlaolli tlen moneki ipan xochitl tlen plátano, moneki ipan atl tlen chichiltic.",
+      "image": "/images/cultura/gastronomia/tamales-hoja.jpg",
+      "video": "/images/cultura/videos/gastronomia/Tamales_optimizado.mp4",
+      "origin": "Tlalpan altepetl",
+      "ingredients": ["Tlaolli", "Tlamanitilistli tlen moneki", "Xochitl tlen plátano", "Mulli"],
+      "spiceLevel": "Yolqui",
+      "festival": "Tlapohualiztli tlen moneki"
+    },
+    {
+      "id": 3,
+      "name": "Atole tlen Maíz Morado",
+      "description": "Yankwik tlapalli atl tlen moneki ipan maíz tlen tlalpan, cualli ipan cecec tonalli.",
+      "image": "/images/cultura/gastronomia/atole.jpg",
+      "video": "/images/cultura/videos/gastronomia/atole_optimizado.mp4",
+      "origin": "Sierra Norte tlalpan",
+      "ingredients": ["Maíz morado", "Atl", "Chiancaca", "Canela"],
+      "spiceLevel": "Yolqui",
+      "festival": "Tonalco tlapohualiztli"
+    },
+    {
+      "id": 4,
+      "name": "Tlaxkalli Tlamanitilistli",
+      "description": "Yolqui tlaxkalli tlen moneki ipan tlecuilli, yankwik tlamanitilistli tlen moneki ipan xihuitl.",
+      "image": "/images/cultura/gastronomia/pan.jpg",
+      "video": "/images/cultura/videos/gastronomia/atole_optimizado.mp4",
+      "origin": "Yankwik tlecuilli",
+      "ingredients": ["Harina", "Levadura", "Chiancaca", "Xoxouhqui"],
+      "spiceLevel": "Yolqui",
+      "festival": "Xihuitl tlapohualiztli"
+    }
+  ]
+}

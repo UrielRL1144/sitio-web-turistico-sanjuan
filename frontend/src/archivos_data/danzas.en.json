@@ -1,0 +1,94 @@
+{
+  "dances": [
+    {
+      "id": 1,
+      "name": "Jaguar Dance",
+      "description": "A ritual that symbolizes the strength and indomitable spirit of nature.",
+      "image": "/videos/calendario/imagenes/voladores.webp",
+      "video": "/videos/calendario/videos/voladores.mp4",
+      "details": {
+        "story": "Performed during patron saint festivals, this dance invokes the power of the jaguar, guardian of the jungle and symbol of power in pre-Hispanic cultures. Dancers mimic its movements with captivating energy.",
+        "elements": [
+          { "icon": "Shirt", "title": "Attire", "text": "Carved wooden masks and costumes simulating jaguar skin." },
+          { "icon": "Music", "title": "Music", "text": "Drum and flute rhythms marking feline steps." },
+          { "icon": "Sunrise", "title": "Symbolism", "text": "Connection with earth, strength, and the cycle of life." }
+        ]
+      }
+    },
+    {
+      "id": 2,
+      "name": "Feather Dance",
+      "description": "Dazzles with its ceremonial attire and elegant movements.",
+      "image": "/videos/calendario/imagenes/voladores.webp",
+      "video": "URL_A_TU_VIDEO_CORTO_2.mp4",
+      "details": {
+        "story": "Narrates the history of conquest from a local perspective. Despite its beauty, it's a dance with deep historical and cultural resistance meaning. The large feathered headdress is its most distinctive feature.",
+        "elements": [
+          { "icon": "Feather", "title": "Attire", "text": "Impressive macaw feather headdresses and mirrors." },
+          { "icon": "Wind", "title": "Movement", "text": "Spins and jumps requiring great physical skill." },
+          { "icon": "BookOpen", "title": "Symbolism", "text": "Historical memory, duality, and cultural syncretism." }
+        ]
+      }
+    },
+    {
+      "id": 3,
+      "name": "Deer Dance",
+      "description": "Honors the spiritual connection between humans and the animal world.",
+      "image": "URL_A_IMAGEN_DE_PORTADA_DEL_VIDEO_3.jpg",
+      "video": "URL_A_TU_VIDEO_CORTO_3.mp4",
+      "details": {
+        "story": "This dance dramatizes the deer hunt, a sacred animal. It is a rite of gratitude to nature for its sustenance, showing respect for the life that is taken.",
+        "elements": [
+          { "icon": "Leaf", "title": "Attire", "text": "Headdresses simulating deer antlers and tenábari rattles." },
+          { "icon": "Footprints", "title": "Movement", "text": "Agile and stealthy steps imitating the animal in nature." },
+          { "icon": "Heart", "title": "Symbolism", "text": "Respect for nature, the cycle of life and death." }
+        ]
+      }
+    },
+    {
+      "id": 4,
+      "name": "Deer Dance 1",
+      "description": "Honors the spiritual connection between humans and the animal world.",
+      "image": "URL_A_IMAGEN_DE_PORTADA_DEL_VIDEO_3.jpg",
+      "video": "URL_A_TU_VIDEO_CORTO_3.mp4",
+      "details": {
+        "story": "This dance dramatizes the deer hunt, a sacred animal. It is a rite of gratitude to nature for its sustenance, showing respect for the life that is taken.",
+        "elements": [
+          { "icon": "Leaf", "title": "Attire", "text": "Headdresses simulating deer antlers and tenábari rattles." },
+          { "icon": "Footprints", "title": "Movement", "text": "Agile and stealthy steps imitating the animal in nature." },
+          { "icon": "Heart", "title": "Symbolism", "text": "Respect for nature, the cycle of life and death." }
+        ]
+      }
+    },
+    {
+      "id": 5,
+      "name": "Deer Dance 2",
+      "description": "Honors the spiritual connection between humans and the animal world.",
+      "image": "URL_A_IMAGEN_DE_PORTADA_DEL_VIDEO_3.jpg",
+      "video": "URL_A_TU_VIDEO_CORTO_3.mp4",
+      "details": {
+        "story": "This dance dramatizes the deer hunt, a sacred animal. It is a rite of gratitude to nature for its sustenance, showing respect for the life that is taken.",
+        "elements": [
+          { "icon": "Leaf", "title": "Attire", "text": "Headdresses simulating deer antlers and tenábari rattles." },
+          { "icon": "Footprints", "title": "Movement", "text": "Agile and stealthy steps imitating the animal in nature." },
+          { "icon": "Heart", "title": "Symbolism", "text": "Respect for nature, the cycle of life and death." }
+        ]
+      }
+    },
+    {
+      "id": 6,
+      "name": "Deer Dance 3",
+      "description": "Honors the spiritual connection between humans and the animal world.",
+      "image": "/videos/calendario/imagenes/maiz.png",
+      "video": "/videos/calendario/videos/cascada_enamorados.mp4",
+      "details": {
+        "story": "This dance dramatizes the deer hunt, a sacred animal. It is a rite of gratitude to nature for its sustenance, showing respect for the life that is taken.",
+        "elements": [
+          { "icon": "Leaf", "title": "Attire", "text": "Headdresses simulating deer antlers and tenábari rattles." },
+          { "icon": "Footprints", "title": "Movement", "text": "Agile and stealthy steps imitating the animal in nature." },
+          { "icon": "Heart", "title": "Symbolism", "text": "Respect for nature, the cycle of life and death." }
+        ]
+      }
+    }
+  ]
+}

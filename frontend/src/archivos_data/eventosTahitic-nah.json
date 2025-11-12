@@ -1,0 +1,124 @@
+{
+  "events": [
+    {
+      "date": "24 de octubre al 2 de noviembre",
+      "title": "Miccailhuitl: Altarmeh tlen quitemohuaj ilhuitl in tlacameh",
+      "description": "Xinehnemi campa onca poctli copal huan xochitl cempohualxochitl, campa quichihuaj inemilis in huehue tlacameh...",
+      "details": [
+        "Ohtli tlen Altarmeh tlen Altepetl",
+        "Tlamachtiloyan tlen Pan de Muerto",
+        "Tlatolmeh ipan Náhuatl",
+        "Yohualli ipan Cuicatl huan Netotiliztli"
+      ],
+      "category": "Tlanemilistli",
+      "stamp": "dia-muertos",
+      "videoThumbnail": "/videos/calendario/imagenes/Dia-muertos.png",
+      "videoPreview": "/videos/calendario/videos/dia_de_muertos.mp4"
+    },
+    {
+      "date": "Semana Santa (marzo-abril)",
+      "title": "Semana Santa: In xochicayotl tlen nemilistli huan tlanelhuayotl",
+      "description": "Xiquitta in yolchicahuac tlen ipan nemi in tlacameh, ipan in ohtli tlen quiahuiya Tahitic...",
+      "details": [
+        "Ohtli tlen Tlamantli Amocualoyan",
+        "Tlachihualiztli tlen Pasión",
+        "Amatl tlen Tlanelhuayotl"
+      ],
+      "category": "Tlanelhuayotl",
+      "stamp": "semana-santa",
+      "videoThumbnail": "/videos/calendario/imagenes/semana-santa.png",
+      "videoPreview": "/videos/calendario/videos/cascada_enamorados.mp4"
+    },
+    {
+      "date": "13 de julio",
+      "title": "Tlaixmatiliztli: In yancuic tlasojtlalistli ipan Tepetl",
+      "description": "Xiquitta in huehcauh tlamachiliztli campa quichihuaj in tlasojtlalistli ipan netotiliztli, cuicatl huan tlatlepanitalistli...",
+      "details": [
+        "Tlamaniliztli tlen Altepetl",
+        "Tlaquentli tlen ilhuitl",
+        "Tlacualiztli tlen Tepetl"
+      ],
+      "category": "Ilhuitl",
+      "stamp": "bodas-tradicionales",
+      "videoThumbnail": "/videos/calendario/imagenes/bodas.png",
+      "videoPreview": "/videos/calendario/videos/dia_de_muertos.mp4"
+    },
+    {
+      "date": "23 de abril al 5 de mayo",
+      "title": "Feria tlen Tepetl: Yoltzin huan nemilistli ipan Zacapoaxtla",
+      "description": "Xiquitta in netotilqueh, in cahuayohuan huan cuicapiqueh tlen quetzaliliah in 5 de mayo ipan tepetl tlanelhuayotl...",
+      "details": [
+        "Netotiliztli tlen Quetzales huan Santiagos",
+        "Feria tlen Pulque",
+        "Tlamachtiloyan tlen Bordado tlen Tepetl",
+        "Tlachihualiztli tlen Ganado"
+      ],
+      "category": "Feria",
+      "stamp": "feria-sierra",
+      "videoThumbnail": "/videos/calendario/imagenes/feria.png",
+      "videoPreview": "/videos/calendario/videos/cascada_enamorados.mp4"
+    },
+    {
+      "date": "Todo el año (mayor afluencia: noviembre-abril)",
+      "title": "Atzatzin in Inemohuan: In Tlapitzalli tlen Atoyatl Xochiateno",
+      "description": "Ximoyolnequi quema atzintli mitzpolohua ipan in yol, quema titemohuaj ipan ohtli tlen mitzhuica campa tlachichinolli ipan tepetl...",
+      "details": [
+        "Ohtli tlen Motlamachtiloyan",
+        "Tlachializtli tlen Tlaltikpaktli",
+        "Tlacualiztli ipan Tepetl"
+      ],
+      "category": "Tlaltequitl",
+      "stamp": "cascada-enamorados",
+      "videoThumbnail": "/videos/calendario/imagenes/Cascada-enamorados.webp",
+      "videoPreview": "/videos/calendario/videos/dia_de_muertos.mp4"
+    },
+    {
+      "date": "Marzo a Día de Muertos (marzo-noviembre)",
+      "title": "Ipan Tlalpan huan Altar: In Nemilistli tlen Elotl",
+      "description": "Ximoyolpactihuan quema tlalli quichihua yolistli ipan xopan, huan in tlaltikpaktli mochihua tlen yolchicahuac ipan sesen metztli tlen elotlamachiliztli...",
+      "details": [
+        "12 de marzo – Tlatzotzontli tlen Carrizo",
+        "21 de marzo – Xopan Tlaixpoyohualiztli",
+        "3 de mayo – Ilhuitl tlen Santa Cruz",
+        "15 de mayo – San Isidro Labrador",
+        "Junio a agosto – Metztli tlen quiyahuitl",
+        "Septiembre – Tlamantli tlen ixiptla",
+        "Octubre a noviembre – Huei Tlamantli huan Miccailhuitl"
+      ],
+      "category": "Tlalnepantla (Agricultura)",
+      "stamp": "ciclo-agricola",
+      "videoThumbnail": "/videos/calendario/imagenes/maiz.png",
+      "videoPreview": "/videos/calendario/videos/cascada_enamorados.mp4"
+    },
+    {
+      "date": "Todo el año (énfasis en lunas nuevas y llenas)",
+      "title": "Metztli huan Citlalinmeh: In Huei Horario tlen Tlalnamictli",
+      "description": "Xiquitta quen quiahuiya in huehue tlacameh tlaltikpaktli huan ilhuicatl, quema quimatij queniuh tlen tlatoca, tlaahuilia o tlamilhuia...",
+      "details": [
+        "Metztli Yancuic – Xochiyotl huan tlaltikpaktli tlen atzintli",
+        "Metztli Tlapololiztli – Tlamilhuiztli huan tlachihualiztli",
+        "Citlalinmeh tlen onca: Orión huan Pléyades",
+        "Tlachializtli tlen Altepetl iwan Telpocameh"
+      ],
+      "category": "Ilhuicatl (Astronomía)",
+      "stamp": "lunas-estrellas",
+      "videoThumbnail": "/videos/calendario/imagenes/luna.png",
+      "videoPreview": "/videos/calendario/videos/dia_de_muertos.mp4"
+    },
+    {
+      "date": "Todo el año (énfasis en lunas nuevas y llenas)",
+      "title": "Metztli huan Citlalinmeh: In Huei Horario tlen Tlalnamictli",
+      "description": "Xiquitta quen quiahuiya in huehue tlacameh tlaltikpaktli huan ilhuicatl, quema quimatij queniuh tlen tlatoca, tlaahuilia o tlamilhuia...",
+      "details": [
+        "Metztli Yancuic – Xochiyotl huan tlaltikpaktli tlen atzintli",
+        "Metztli Tlapololiztli – Tlamilhuiztli huan tlachihualiztli",
+        "Citlalinmeh tlen onca: Orión huan Pléyades",
+        "Tlachializtli tlen Altepetl iwan Telpocameh"
+      ],
+      "category": "Citlalinmeh (Galaxias)",
+      "stamp": "estrellas-lunas",
+      "videoThumbnail": "/videos/calendario/imagenes/luna.png",
+      "videoPreview": "/videos/calendario/videos/dia_de_muertos.mp4"
+    }
+  ]
+}

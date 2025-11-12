@@ -1,0 +1,372 @@
+{
+  "cocinas": [
+    {
+      "id": 1,
+      "nombre": "Doña Elena's Kitchen",
+      "tagline": "Where flavors embrace the soul",
+      "tipo": "familiar",
+      "generaciones": 3,
+      "descripcionLarga": "A family space where tradition meets the warmth of home. For three generations we have preserved the authentic flavors of our land, offering a culinary experience that transcends the simple act of eating to become an encounter with our roots.",
+      "descripcionAmbiente": "Warm and cozy atmosphere that evokes grandmother's kitchen, with rustic wooden furniture, clay pots and the unmistakable aroma of roasted spices. Every corner tells a story of family and tradition.",
+      "imagenes": {
+        "principal": "/images/cultura/gastronomia/cocinas/kettles.webp",
+        "ambiente": "/images/cultura/gastronomia/cocinas/sushi.webp",
+        "detalle": "/images/cultura/gastronomia/cocinas/food.webp",
+        "cocinera": "/images/cultura/gastronomia/cocinas/kitchen.webp",
+        "fachada": "/images/cultura/gastronomia/cocinas/restaurant-exterior.webp"
+      },
+      "colores": {
+        "primario": "#f59e0b",
+        "secundario": "#ea580c",
+        "acento": "#fbbf24"
+      },
+      "historia": {
+        "titulo": "Three generations of love in every dish",
+        "contenido": "Since 1985, our stove has never been turned off. My grandmother María started this legacy when she decided that the flavors of our land deserved to be preserved. She began selling tamales in the local market, and little by little, her unique seasoning conquered the palates of all San Juan Tahitic. Today, my daughters continue the tradition, mixing ancestral techniques with a contemporary touch that keeps our heritage alive.",
+        "fraseEmblematica": "Here we don't cook in a hurry, we cook with memory"
+      },
+      "servicios": [
+        "Free WiFi",
+        "Parking",
+        "Garden Terrace",
+        "Large Groups",
+        "Takeaway Food",
+        "Reservations"
+      ],
+      "horarios": {
+        "lunesViernes": "9:00 AM - 10:00 PM",
+        "sabadoDomingo": "8:00 AM - 11:00 PM",
+        "diasDescanso": "Tuesday"
+      },
+      "galerias": [
+        {
+          "categoria": "platillos",
+          "fecha": "2024-01-15",
+          "titulo": "Winter Specialties",
+          "imagenes": [
+            {
+              "url": "/images/cultura/gastronomia/cocinas/kettles.webp",
+              "titulo": "Ancestral Mole de Caderas",
+              "descripcion": "Prepared with 12 wood-fired roasted chilies"
+            },
+            {
+              "url": "/images/cultura/gastronomia/cocinas/sushi.webp",
+              "titulo": "Bean Tamales",
+              "descripcion": "Wrapped in corn husks with regional herbs"
+            },
+            {
+              "url": "/images/cultura/gastronomia/cocinas/food.webp",
+              "titulo": "Traditional Barbacoa",
+              "descripcion": "Slow cooking for 8 hours in earth pit"
+            }
+          ]
+        },
+        {
+          "categoria": "eventos",
+          "fecha": "2024-02-10",
+          "titulo": "Patron Saint Festival 2024",
+          "imagenes": [
+            {
+              "url": "/images/cultura/gastronomia/cocinas/kitchen.webp",
+              "titulo": "Preparation for the celebration",
+              "descripcion": "Traditional decoration for the patron saint festival"
+            },
+            {
+              "url": "/images/cultura/gastronomia/cocinas/cooking.webp",
+              "titulo": "Community Banquet",
+              "descripcion": "Shared table with festive dishes"
+            }
+          ]
+        },
+        {
+          "categoria": "preparacion",
+          "fecha": "2024-03-05",
+          "titulo": "Artisanal Process",
+          "imagenes": [
+            {
+              "url": "/images/cultura/gastronomia/cocinas/curry.webp",
+              "titulo": "Grinding on Metate",
+              "descripcion": "Traditional technique for grinding spices"
+            },
+            {
+              "url": "/images/cultura/gastronomia/cocinas/spices.webp",
+              "titulo": "Ingredient Selection",
+              "descripcion": "Local herbs and spices carefully chosen"
+            }
+          ]
+        },
+        {
+          "categoria": "ambiente",
+          "fecha": "2024-03-20",
+          "titulo": "Our Space",
+          "imagenes": [
+            {
+              "url": "/images/cultura/gastronomia/cocinas/restaurant-interior-1.webp",
+              "titulo": "Main Dining Room",
+              "descripcion": "Warm atmosphere with traditional decoration"
+            },
+            {
+              "url": "/images/cultura/gastronomia/cocinas/restaurant-interior-2.webp",
+              "titulo": "Garden Terrace",
+              "descripcion": "Outdoor space surrounded by nature"
+            }
+          ]
+        }
+      ],
+      "especialidades": [
+        {
+          "nombre": "Ancestral Mole de Caderas",
+          "descripcion": "Prepared with 12 wood-fired roasted chilies and metate chocolate. Family recipe dating back to 1890, passed down through 4 generations. Each ingredient is manually selected to guarantee authenticity.",
+          "imagen": "/images/cultura/gastronomia/cocinas/kettles.webp",
+          "ingredientes": ["Mulato chili", "Creole cocoa", "Sesame", "Garlic", "Onion", "Tortilla", "Clove", "Cinnamon", "Pepper", "Sesame", "Almond", "Peanut"],
+          "historia": "This recipe was created by my great-grandmother Elena in 1890 to celebrate community weddings. Originally prepared only for special occasions, today we share it with all our visitors.",
+          "precio": 180,
+          "tiempoPreparacion": "4 hours",
+          "esEmblema": true,
+          "recomendacion": "Our most requested dish. Ideal for sharing with family."
+        },
+        {
+          "nombre": "Bean Tamales with Hoja Santa",
+          "descripcion": "Nixtamalized masa filled with black beans and wrapped in corn husks with regional herbs. Soft texture and unique aroma that evokes traditional breakfasts.",
+          "imagen": "/images/cultura/gastronomia/cocinas/sushi.webp",
+          "ingredientes": ["Blue corn", "Black beans", "Hoja santa", "Epazote", "Ancho chili", "Corn oil"],
+          "historia": "Pre-Hispanic dish that community women prepared for work days in the fields. Today it maintains its nutritious and delicious essence.",
+          "precio": 45,
+          "tiempoPreparacion": "2 hours",
+          "esEmblema": false,
+          "recomendacion": "Perfect for breakfast, accompanied by atole."
+        },
+        {
+          "nombre": "Traditional Beef Barbacoa",
+          "descripcion": "Beef slowly cooked in earth pit for 8 hours. Juicy, tender and with that unmistakable smoky flavor that only ancestral cooking can provide.",
+          "imagen": "/images/cultura/gastronomia/cocinas/food.webp",
+          "ingredientes": ["Local beef", "Maguey", "Aromatic herbs", "Guajillo chili", "Garlic", "Onion"],
+          "historia": "Adapted pre-Hispanic technique that Don Elena perfected after years of experimentation. The maguey provides a unique flavor not achieved with other methods.",
+          "precio": 220,
+          "tiempoPreparacion": "8 hours",
+          "esEmblema": true,
+          "recomendacion": "Only available on weekends. Reservation recommended."
+        },
+        {
+          "nombre": "White Corn Atole",
+          "descripcion": "Hot drink prepared with ground white corn, cinnamon and piloncillo. Creamy consistency and aroma that comforts the soul on cold mornings.",
+          "imagen": "/images/cultura/gastronomia/cocinas/kitchen.webp",
+          "ingredientes": ["White corn", "Cinnamon", "Piloncillo", "Water", "Vanilla"],
+          "historia": "Drink that accompanied children on their way to school. Today it remains the preferred breakfast of our Tahitic mornings.",
+          "precio": 35,
+          "tiempoPreparacion": "1 hour",
+          "esEmblema": false,
+          "recomendacion": "Ideal for cold mornings in the region."
+        }
+      ],
+      "experiencia": {
+        "sonidoAmbiente": "/images/cultura/gastronomia/cocinas/sonido-sazon.mp3",
+        "aromaPrincipal": "Wood smoke and cinnamon",
+        "momentoIdeal": "Midday, when the sun bathes the dining room",
+        "vibra": "Family and Cozy"
+      },
+      "ubicacion": {
+        "direccion": "Knowledge Street #15, San Juan Tahitic, Oaxaca",
+        "coordenadas": "17.2345,-96.1234",
+        "puntoReferencia": "Next to the old chapel",
+        "instrucciones": "5 minutes walking from the main square. The house has a yellow facade with flower pots."
+      },
+      "contacto": {
+        "telefono": "+52 951 123 4567",
+        "whatsapp": "+52 951 123 4568",
+        "correo": "cocina.doña.elena@gmail.com",
+        "horario": "Tuesday to Sunday • 8:00 - 18:00",
+        "redesSociales": {
+          "facebook": "CocinaDeDoñaElena",
+          "instagram": "@cocinadoña_elena"
+        }
+      },
+      "recomendaciones": [
+        "Reserve in advance on weekends",
+        "Try our ancestral mole, it's our pride",
+        "Ask about the daily special",
+        "Visit us with family, we have space for groups"
+      ],
+      "premiosReconocimientos": [
+        "Traditional Flavor Award 2023",
+        "Cultural Preservation Recognition 2022"
+      ]
+    },
+    {
+      "id": 2,
+      "nombre": "Grandparents' Hearth",
+      "tagline": "Time stopped in every bite",
+      "tipo": "comunitario", 
+      "generaciones": 4,
+      "descripcionLarga": "A culinary sanctuary where pre-Hispanic techniques remain alive. Under the shade of the centennial ahuehuete, Don José shares the ancestral knowledge of stone broth, offering an experience that connects diners with the deepest roots of our gastronomy.",
+      "descripcionAmbiente": "Rustic outdoor space with log tables and stone hearths. The sound of nearby river water and the crackling of firewood create a magical atmosphere that transports to ancestral times.",
+      "imagenes": {
+        "principal": "/images/cultura/gastronomia/cocinas/cooking.webp",
+        "ambiente": "/images/cultura/gastronomia/cocinas/curry.webp",
+        "detalle": "/images/cultura/gastronomia/cocinas/pasta.webp",
+        "cocinera": "/images/cultura/gastronomia/cocinas/spices.webp",
+        "fachada": "/images/cultura/gastronomia/cocinas/fogon-exterior.webp"
+      },
+      "colores": {
+        "primario": "#10b981",
+        "secundario": "#0d9488", 
+        "acento": "#34d399"
+      },
+      "historia": {
+        "titulo": "Where stones tell stories",
+        "contenido": "Don José, at 78 years old, keeps alive the pre-Hispanic technique of stone broth. Every morning he selects the volcanic stones that will flavor his broths. He learned this art from his grandfather, who in turn inherited it from previous generations. Today, he is one of the last guardians of this tradition in the entire state of Oaxaca.",
+        "fraseEmblematica": "Our ingredients are love letters to the land"
+      },
+      "servicios": [
+        "Outdoor Space",
+        "Parking",
+        "Culinary Demonstrations",
+        "Cooking Workshops",
+        "Local Ingredients Sale",
+        "Special Events"
+      ],
+      "horarios": {
+        "lunesViernes": "7:00 AM - 8:00 PM",
+        "sabadoDomingo": "6:00 AM - 9:00 PM",
+        "diasDescanso": "Tuesday"
+      },
+      "galerias": [
+        {
+          "categoria": "platillos",
+          "fecha": "2024-01-20",
+          "titulo": "Hearth Flavors",
+          "imagenes": [
+            {
+              "url": "/images/cultura/gastronomia/cocinas/cooking.webp",
+              "titulo": "Pre-Hispanic Stone Broth",
+              "descripcion": "Cooked with red-hot volcanic stones"
+            },
+            {
+              "url": "/images/cultura/gastronomia/cocinas/curry.webp",
+              "titulo": "Traditional Red Pozole",
+              "descripcion": "Cacahuazintle corn and local farm pork"
+            }
+          ]
+        },
+        {
+          "categoria": "tecnicas",
+          "fecha": "2024-02-15",
+          "titulo": "Ancestral Culinary Art",
+          "imagenes": [
+            {
+              "url": "/images/cultura/gastronomia/cocinas/pasta.webp",
+              "titulo": "Volcanic Stone Selection",
+              "descripcion": "Traditional process to choose the best stones"
+            },
+            {
+              "url": "/images/cultura/gastronomia/cocinas/spices.webp",
+              "titulo": "Medicinal Herbs",
+              "descripcion": "Collection of plants for infusions and dishes"
+            }
+          ]
+        },
+        {
+          "categoria": "ambiente",
+          "fecha": "2024-03-18",
+          "titulo": "Our Sanctuary",
+          "imagenes": [
+            {
+              "url": "/images/cultura/gastronomia/cocinas/fogon-garden.webp",
+              "titulo": "Herb Garden",
+              "descripcion": "Where we grow our medicinal plants"
+            },
+            {
+              "url": "/images/cultura/gastronomia/cocinas/fogon-fireplace.webp",
+              "titulo": "Hearth Area",
+              "descripcion": "Main space where magic happens"
+            }
+          ]
+        }
+      ],
+      "especialidades": [
+        {
+          "nombre": "Pre-Hispanic Stone Broth",
+          "descripcion": "Cooked with red-hot volcanic stones in traditional style. Ancestral technique that imparts a unique mineral flavor and preserves all the nutrients of the ingredients. Complete sensory experience.",
+          "imagen": "/images/cultura/gastronomia/cocinas/cooking.webp",
+          "ingredientes": ["Volcanic stone", "Local fish", "River shrimp", "Tomato", "Cilantro", "Onion", "Chili", "Lemon"],
+          "historia": "Pre-Hispanic technique that ancestors used to cook without metal utensils. Don José is one of the last guardians of this knowledge in the region. Each stone is selected for its unique mineral composition.",
+          "precio": 160,
+          "tiempoPreparacion": "3 hours",
+          "esEmblema": true,
+          "recomendacion": "Experience the complete experience with the cooking demonstration."
+        },
+        {
+          "nombre": "Traditional Red Pozole",
+          "descripcion": "Cacahuazintle corn and local farm pork slowly cooked. Robust flavor and textures that celebrate authentic Mexican cuisine. Perfect balance of spices and tradition.",
+          "imagen": "/images/cultura/gastronomia/cocinas/curry.webp",
+          "ingredientes": ["Cacahuazintle corn", "Local pork", "Guajillo chili", "Oregano", "Radish", "Lettuce", "Onion", "Oregano"],
+          "historia": "Festive dish that was served at important town celebrations. Today it is our emblem of hospitality and community.",
+          "precio": 85,
+          "tiempoPreparacion": "5 hours",
+          "esEmblema": true,
+          "recomendacion": "Ideal for sharing. Serve with tostadas and cream."
+        },
+        {
+          "nombre": "Grain Atole with Honey",
+          "descripcion": "Ancestral drink prepared with ground corn, cinnamon and local bee honey. Naturally sweetened with regional honey for an authentic and comforting flavor.",
+          "imagen": "/images/cultura/gastronomia/cocinas/pasta.webp",
+          "ingredientes": ["Creole corn", "Local honey", "Cinnamon", "Water", "Anise"],
+          "historia": "Recipe that Don José's grandmother created for the town's children. Honey replaced the original piloncillo, creating a unique version of the traditional drink.",
+          "precio": 40,
+          "tiempoPreparacion": "1.5 hours",
+          "esEmblema": false,
+          "recomendacion": "Perfect to start the day with energy."
+        },
+        {
+          "nombre": "Tlayudas with Asiento",
+          "descripcion": "Large corn tortilla toasted with pork asiento, beans and quesillo. Crispy outside, soft inside with the essential flavors of Oaxaca adapted to local ingredients.",
+          "imagen": "/images/cultura/gastronomia/cocinas/spices.webp",
+          "ingredientes": ["Corn tortilla", "Pork asiento", "Refried beans", "Quesillo", "Lettuce", "Avocado", "Sauce"],
+          "historia": "Adaptation of the Oaxacan tlayuda that Don José learned on his travels. He combined traditional techniques with local ingredients, creating a unique version.",
+          "precio": 75,
+          "tiempoPreparacion": "30 minutes",
+          "esEmblema": false,
+          "recomendacion": "Our quick but equally delicious version."
+        }
+      ],
+      "experiencia": {
+        "sonidoAmbiente": "/images/cultura/gastronomia/cocinas/sonido-fuego.mp3",
+        "aromaPrincipal": "Wet earth and oak smoke",
+        "momentoIdeal": "Sunset, when golden light enters through the window",
+        "vibra": "Ancestral and Spiritual"
+      },
+      "ubicacion": {
+        "direccion": "Tradition Square, San Juan Tahitic, Oaxaca", 
+        "coordenadas": "17.2350,-96.1240",
+        "puntoReferencia": "Under the centennial ahuehuete",
+        "instrucciones": "In the heart of the main square, under the millennial tree. The hearth smoke can be seen from afar."
+      },
+      "contacto": {
+        "telefono": "+52 951 987 6543",
+        "whatsapp": "+52 951 987 6544",
+        "correo": "fogon.abuelos@gmail.com",
+        "horario": "Wednesday to Monday • 7:00 - 20:00",
+        "redesSociales": {
+          "facebook": "FogonDeLosAbuelos",
+          "instagram": "@fogon_abuelos"
+        }
+      },
+      "recomendaciones": [
+        "Come with time to enjoy the complete experience",
+        "Ask for the stone broth demonstration",
+        "Visit our medicinal herb garden",
+        "Perfect for culture and tradition lovers"
+      ],
+      "premiosReconocimientos": [
+        "Cultural Heritage Guardian 2024",
+        "Ancestral Innovation Award 2023",
+        "National Recognition for Culinary Preservation"
+      ]
+    }
+  ],
+  "configuracion": {
+    "moneda": "MXN",
+    "zonaHoraria": "America/Mexico_City",
+    "idioma": "en"
+  }
+}

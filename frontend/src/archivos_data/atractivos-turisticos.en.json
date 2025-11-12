@@ -1,0 +1,243 @@
+{
+  "lugaresHistoricos": [
+    {
+      "id": 1,
+      "nombre": "Lovers' Waterfall",
+      "tipo": "natural_site",
+      "epoca": "Ancient Era",
+      "imagenPrincipal": "/images/Turismo/Cascada-enamorados.webp",
+      "videoDocumental": "/videos/Turismo/cascada_enamorados.mp4",
+      "thumbnailVideo": "/images/Turismo/Cascada-enamorados.webp",
+      "duracionVideo": "2:45",
+      "coordenadas": "17.2389,-96.1287",
+
+      "colores": {
+        "colorFondo": "from-emerald-700 to-teal-600",
+        "colorAcento": "emerald",
+        "colorTexto": "text-emerald-900",
+        "colorSecundario": "bg-emerald-100/60"
+      },
+
+      "historia": {
+        "titulo": "Where Nature and Love Meet",
+        "contenido": "According to oral tradition, this waterfall witnessed ancient union rituals between couples seeking to bless their love with the strength of water and nature. It is said that its waters hold the whispers of eternal promises, and those who approach with a sincere heart can feel the energy of the lovers who once sealed their destiny here.",
+        "fechaDescubrimiento": "16th Century (first Spanish record)",
+        "periodoHistorico": "1200-1521 AD",
+        "significadoCultural": "Feeling the love of water"
+      },
+
+      "leyenda": {
+        "titulo": "The Stone That Cries on Full Moon",
+        "contenido": "The elders say that during full moons, the stone 'cries' dewdrops that have healing properties. The legend says it was a Mixe princess turned to stone by the gods to protect her people, and her tears are blessings for visitors with pure hearts.",
+        "personajes": ["Princess Yatzil", "Sun God", "Village Elders"],
+        "moral": "Sacrifice for the community is eternally remembered"
+      },
+
+      "testimonios": [
+        {
+          "persona": "Don Felipe, Site Guardian",
+          "edad": 78,
+          "testimonio": "My grandfather told me that his great-grandfather witnessed how the first Spaniards tried to move the stone but couldn't. He said the earth itself protected it."
+        },
+        {
+          "persona": "Ana, Anthropology Student",
+          "edad": 24,
+          "testimonio": "When studying the engravings, we discovered they coincide with specific astronomical events. The precision is amazing considering the era."
+        }
+      ],
+
+      "galeriaHistorica": [
+        {
+          "url": "/images/Turismo/Cascada-enamorados.webp",
+          "titulo": "Ancient Engravings",
+          "epoca": "Preclassic Period",
+          "descripcion": "Symbols representing constellations and agricultural cycles"
+        },
+        {
+          "url": "/images/Turismo/voladores.webp",
+          "titulo": "Solstice Ceremony",
+          "epoca": "1950",
+          "descripcion": "Historical photograph of a traditional ceremony"
+        }
+      ],
+
+      "cronologia": [
+        {
+          "fecha": "≈1200 AD",
+          "evento": "First settlements around the stone",
+          "descripcion": "Mixe communities establish the site as a ceremonial center"
+        },
+        {
+          "fecha": "1522",
+          "evento": "Arrival of the Spaniards",
+          "descripcion": "First European record of the site in colonial chronicles"
+        },
+        {
+          "fecha": "1895",
+          "evento": "Anthropological documentation",
+          "descripcion": "First scientific study by Mexican anthropologists"
+        },
+        {
+          "fecha": "1978",
+          "evento": "Declared Cultural Heritage",
+          "descripcion": "Official recognition by INAH"
+        }
+      ],
+
+      "datosArqueologicos": {
+        "material": "Volcanic basalt",
+        "dimensiones": "4.2m x 3.1m x 1.8m",
+        "tecnicas": "Engraving by percussion and abrasion",
+        "alineacionAstronomica": "Summer solstice"
+      }
+    },
+
+    {
+      "id": 2,
+      "nombre": "The Whispering Tree",
+      "tipo": "natural_site",
+      "epoca": "19th Century",
+      "imagenPrincipal": "/images/Turismo/Cascada-enamorados.webp",
+      "videoDocumental": "/videos/san_juan-optimized1.mp4",
+      "thumbnailVideo": "/images/Monte_virgen.jpg",
+      "duracionVideo": "2:45",
+
+      "colores": {
+        "colorFondo": "from-amber-700 to-orange-500",
+        "colorAcento": "amber",
+        "colorTexto": "text-amber-900",
+        "colorSecundario": "bg-amber-100/60"
+      },
+
+      "historia": {
+        "titulo": "Witness of Revolutions and Loves",
+        "contenido": "This centuries-old ahuehuete was planted in 1845 by the first municipal president of San Juan Tahitic. Crucial decisions were made under its shade during the Mexican Revolution, and it served as a meeting point for revolutionaries in the region.",
+        "fechaDescubrimiento": "1845 (planted)",
+        "periodoHistorico": "19th Century - Present",
+        "significadoCultural": "Symbol of resistance and community unity"
+      },
+
+      "leyenda": {
+        "titulo": "The Tree That Hears Secrets",
+        "contenido": "Tradition says that if you whisper a secret to the tree and it moves its leaves, your wish will come true. Many couples have come here to promise eternal love, and the elders assure that the tree keeps the secrets of entire generations.",
+        "personajes": ["Lovers", "Revolutionaries", "Wise Elders"],
+        "moral": "Nature holds collective memory"
+      },
+
+      "testimonios": [
+        {
+          "persona": "Doña Petra, Town Resident",
+          "edad": 82,
+          "testimonio": "Every year on the town's anniversary, children surround the tree to sing to it. They say when its branches move, it's because it's answering them."
+        }
+      ],
+
+      "galeriaHistorica": [
+        {
+          "url": "/images/Turismo/Cascada-enamorados.webp",
+          "titulo": "The Old Ahuehuete",
+          "epoca": "19th Century",
+          "descripcion": "Old photograph of the tree in its early years"
+        }
+      ],
+
+      "cronologia": [
+        {
+          "fecha": "1845",
+          "evento": "Tree planting",
+          "descripcion": "Planted by the first municipal president"
+        },
+        {
+          "fecha": "1914",
+          "evento": "Revolutionary meeting",
+          "descripcion": "Planning of local defense during the Revolution"
+        },
+        {
+          "fecha": "1998",
+          "evento": "Devastating storm",
+          "descripcion": "Survived a storm that felled centuries-old trees"
+        }
+      ],
+
+      "datosNaturales": {
+        "especie": "Ahuehuete (Taxodium mucronatum)",
+        "edadEstimada": "178 years",
+        "altura": "28 meters",
+        "diametro": "4.3 meters"
+      }
+    },
+
+    {
+      "id": 3,
+      "nombre": "The Ancestral Loom House",
+      "tipo": "traditional_architecture",
+      "epoca": "18th Century",
+      "imagenPrincipal": "/images/historia/casa-telar.webp",
+      "videoDocumental": "/videos/san_juan-optimized.mp4",
+      "thumbnailVideo": "/images/Turismo/Tradiciones.jpg",
+      "duracionVideo": "2:45",
+
+      "colores": {
+        "colorFondo": "from-rose-800 to-pink-600",
+        "colorAcento": "rose",
+        "colorTexto": "text-rose-900",
+        "colorSecundario": "bg-rose-100/60"
+      },
+
+      "historia": {
+        "titulo": "Where Threads Weave History",
+        "contenido": "This 18th-century adobe house housed for generations the Martínez family, recognized weavers who preserved pre-Hispanic textile techniques. The walls preserve natural pigments used to dye the threads, and the original backstrap loom is still in use.",
+        "fechaDescubrimiento": "1782 (construction)",
+        "periodoHistorico": "Colonial - Present",
+        "significadoCultural": "Center for traditional textile preservation"
+      },
+
+      "leyenda": {
+        "titulo": "The Loom That Sings at Night",
+        "contenido": "It is said that on full moon nights, the ancient loom 'sings' with the sound of its threads moving alone. Neighbors assure it is the spirit of great-grandmother Elena, who swore to continue weaving until her designs were known worldwide.",
+        "personajes": ["Great-grandmother Elena", "Weaving Spirits"],
+        "moral": "True art transcends time"
+      },
+
+      "tecnicasTradicionales": [
+        {
+          "nombre": "Backstrap Loom Weaving",
+          "descripcion": "Pre-Hispanic technique that allows creating complex designs",
+          "origen": "Preclassic Period"
+        },
+        {
+          "nombre": "Cochineal Dyeing",
+          "descripcion": "Use of cochineal insect to obtain intense red colors",
+          "origen": "Pre-Hispanic Mixtec technique"
+        }
+      ],
+
+      "galeriaHistorica": [
+        {
+          "url": "/images/Turismo/Cascada-enamorados.webp",
+          "titulo": "The Old Ahuehuete",
+          "epoca": "19th Century",
+          "descripcion": "Old photograph of the tree in its early years"
+        }
+      ],
+
+      "cronologia": [
+        {
+          "fecha": "1782",
+          "evento": "House construction",
+          "descripcion": "Built with traditional adobe techniques"
+        },
+        {
+          "fecha": "1920",
+          "evento": "International recognition",
+          "descripcion": "Textiles exhibited at world fair"
+        },
+        {
+          "fecha": "2005",
+          "evento": "Community workshops",
+          "descripcion": "Start of programs to teach techniques to new generations"
+        }
+      ]
+    }
+  ]
+}

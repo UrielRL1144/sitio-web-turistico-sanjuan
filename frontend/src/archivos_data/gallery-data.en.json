@@ -1,0 +1,124 @@
+{
+  "galleryImages": [
+    {
+      "src": "/images/galeria/montanas-amanecer.jpg",
+      "alt": "Sunrise in the Sierra Madre",
+      "category": "paisajes",
+      "title": "Sunrise in the Sierra",
+      "description": "The first rays of sun caress the ancestral peaks of our territory",
+      "date": "2024-01-15",
+      "location": "Cerro del Águila",
+      "photographer": "Juan Martínez"
+    },
+    {
+      "src": "/images/galeria/Cascada.jpg",
+      "alt": "Native coniferous forest",
+      "category": "naturaleza",
+      "title": "Ancestral Forest",
+      "description": "Where centenary trees guard the memory of our land",
+      "date": "2024-02-03",
+      "location": "Bosque de los Abuelos",
+      "photographer": "María González"
+    },
+    {
+      "src": "/images/galeria/san_juan-poster.webp",
+      "alt": "Crystal clear waterfall in the mountains",
+      "category": "naturaleza",
+      "title": "Xochitl Waterfall",
+      "description": "The song of water that purifies and renews life in our ecosystem",
+      "date": "2024-01-22",
+      "location": "Cañada de las Flores",
+      "photographer": "Carlos Ruiz"
+    },
+    {
+      "src": "/images/galeria/poster-hero.webp",
+      "alt": "Traditional weaving on loom",
+      "category": "cultura",
+      "title": "Looms of Tradition",
+      "description": "Threads that weave stories, colors that paint identity",
+      "date": "2024-03-10",
+      "location": "Taller Comunitario",
+      "photographer": "Ana Torres"
+    },
+    {
+      "src": "/images/galeria/Dia-muertos.png",
+      "alt": "Collective work in the fields",
+      "category": "comunidad",
+      "title": "Tequio that Unites",
+      "description": "Hands that work together, hearts that beat to the same rhythm",
+      "date": "2024-02-18",
+      "location": "Campos Comunales",
+      "photographer": "Pedro Hernández"
+    },
+    {
+      "src": "/images/galeria/puente.jpeg",
+      "alt": "Traditional festival with dances",
+      "category": "tradiciones",
+      "title": "Dances of the Sun",
+      "description": "Ancestral rhythms that celebrate the connection with the cosmos",
+      "date": "2024-03-15",
+      "location": "Plaza Principal",
+      "photographer": "Laura Mendoza"
+    },
+    {
+      "src": "/images/galeria/Monte_virgen.jpg",
+      "alt": "Local vernacular architecture",
+      "category": "cultura",
+      "title": "Houses that Breathe",
+      "description": "Spaces built with materials from the earth, designed with ancestral wisdom",
+      "date": "2024-03-05",
+      "location": "Barrio Antiguo",
+      "photographer": "Roberto Díaz"
+    },
+    {
+      "src": "/images/galeria/punche.jpeg",
+      "alt": "Children learning in nature",
+      "category": "comunidad",
+      "title": "Seeds of Tomorrow",
+      "description": "Knowledge that flourishes through play and laughter in our natural environment",
+      "date": "2024-02-12",
+      "location": "Escuela al Aire Libre",
+      "photographer": "Sofia Castro"
+    },
+    {
+      "src": "/images/galeria/maiz.jpg",
+      "alt": "Traditional food preparation",
+      "category": "tradiciones",
+      "title": "Flavors that Tell Stories",
+      "description": "Recipes that hold the secret of generations and the flavor of our identity",
+      "date": "2024-03-20",
+      "location": "Cocina Comunitaria",
+      "photographer": "Miguel Ángel"
+    },
+    {
+      "src": "/images/galeria/milpa.jpeg",
+      "alt": "Starry sky over the community",
+      "category": "paisajes",
+      "title": "Starry Mantle",
+      "description": "Nights when the universe comes close to whisper ancestral secrets",
+      "date": "2024-01-28",
+      "location": "Mirador Celestial",
+      "photographer": "Elena Morales"
+    },
+    {
+      "src": "/images/galeria/licores.jpeg",
+      "alt": "Medicinal herbs and healer",
+      "category": "tradiciones",
+      "title": "Green Wisdom",
+      "description": "Plants that heal, hands that cure, knowledge that endures",
+      "date": "2024-02-25",
+      "location": "Jardín de Medicinas",
+      "photographer": "Isabel Ramírez"
+    },
+    {
+      "src": "/images/galeria/cultura1.jpg",
+      "alt": "Traditional pottery in clay",
+      "category": "cultura",
+      "title": "Clay with Soul",
+      "description": "Clay that transforms into vessels that hold our essence",
+      "date": "2024-03-08",
+      "location": "Taller de Alfarería",
+      "photographer": "José Luis"
+    }
+  ]
+}

@@ -1,0 +1,124 @@
+{
+  "galleryImages": [
+    {
+      "src": "/images/galeria/montanas-amanecer.jpg",
+      "alt": "Tonalco ipan Sierra Madre",
+      "category": "paisajes",
+      "title": "Tonalco ipan Sierra",
+      "description": "Achto tlapalli tonatiuh quimictia tepemeh toancestro tlalpan",
+      "date": "2024-01-15",
+      "location": "Cerro del Águila",
+      "photographer": "Juan Martínez"
+    },
+    {
+      "src": "/images/galeria/Cascada.jpg",
+      "alt": "Cuahuitl tlen cuahuitzquitl",
+      "category": "naturaleza",
+      "title": "Cuahuitl Huehue",
+      "description": "Canin cuahuitl centzontli quipiya iamox to tlalpan",
+      "date": "2024-02-03",
+      "location": "Bosque de los Abuelos",
+      "photographer": "María González"
+    },
+    {
+      "src": "/images/galeria/san_juan-poster.webp",
+      "alt": "Apatl cristalino ipan tepetl",
+      "category": "naturaleza",
+      "title": "Apatl Xochitl",
+      "description": "Cuicatl atl tlen tlazotla huan yancuic yolistli ipan totlahtolpan",
+      "date": "2024-01-22",
+      "location": "Cañada de las Flores",
+      "photographer": "Carlos Ruiz"
+    },
+    {
+      "src": "/images/galeria/poster-hero.webp",
+      "alt": "Tlamamalli tlen telar",
+      "category": "cultura",
+      "title": "Telares Tlen Tlahtol",
+      "description": "Tlapowalli tlen tlamamaliztli, tlapalli tlen tlahtol",
+      "date": "2024-03-10",
+      "location": "Taller Comunitario",
+      "photographer": "Ana Torres"
+    },
+    {
+      "src": "/images/galeria/Dia-muertos.png",
+      "alt": "Tequio ipan milpan",
+      "category": "comunidad",
+      "title": "Tequio Tlen Moneki",
+      "description": "Maitl tlen tequitl, yolotl tlen ceceni tlatlamanti",
+      "date": "2024-02-18",
+      "location": "Campos Comunales",
+      "photographer": "Pedro Hernández"
+    },
+    {
+      "src": "/images/galeria/puente.jpeg",
+      "alt": "Ilhuitl tlen mitotiliztli",
+      "category": "tradiciones",
+      "title": "Mitotiliztli Tonatiuh",
+      "description": "Cuicatl huehue tlen ilhuitl tlen citlalin",
+      "date": "2024-03-15",
+      "location": "Plaza Principal",
+      "photographer": "Laura Mendoza"
+    },
+    {
+      "src": "/images/galeria/Monte_virgen.jpg",
+      "alt": "Calli tlen tlalpan",
+      "category": "cultura",
+      "title": "Calli Tlen Ehecatl",
+      "description": "Tlalpan tlen tlalli, tlen yancuic tlamatiliztli",
+      "date": "2024-03-05",
+      "location": "Barrio Antiguo",
+      "photographer": "Roberto Díaz"
+    },
+    {
+      "src": "/images/galeria/punche.jpeg",
+      "alt": "Piltontli tlen tlamatiliztli ipan tlalpan",
+      "category": "comunidad",
+      "title": "Xihuitl Tlen Huetztli",
+      "description": "Tlamatiliztli tlen xochitl ipan tlahtol huan chichinaualiztli",
+      "date": "2024-02-12",
+      "location": "Escuela al Aire Libre",
+      "photographer": "Sofia Castro"
+    },
+    {
+      "src": "/images/galeria/maiz.jpg",
+      "alt": "Tlaquetzaliztli tlen nacatl",
+      "category": "tradiciones",
+      "title": "Nacatl Tlen Tlahtol",
+      "description": "Tlaquetzaliztli tlen tlahtol huan nacatl tlen to tlahtol",
+      "date": "2024-03-20",
+      "location": "Cocina Comunitaria",
+      "photographer": "Miguel Ángel"
+    },
+    {
+      "src": "/images/galeria/milpa.jpeg",
+      "alt": "Citlalin ipan altepetl",
+      "category": "paisajes",
+      "title": "Citlalin Tlapalli",
+      "description": "Yohualtlan citlalin quihualehua tlahtol huehue",
+      "date": "2024-01-28",
+      "location": "Mirador Celestial",
+      "photographer": "Elena Morales"
+    },
+    {
+      "src": "/images/galeria/licores.jpeg",
+      "alt": "Xihuitl patli huan ticitl",
+      "category": "tradiciones",
+      "title": "Xihuitl Tlamatiliztli",
+      "description": "Xihuitl tlen patli, maitl tlen patani, tlamatiliztli tlen moneki",
+      "date": "2024-02-25",
+      "location": "Jardín de Medicinas",
+      "photographer": "Isabel Ramírez"
+    },
+    {
+      "src": "/images/galeria/cultura1.jpg",
+      "alt": "Tlachihualiztli tlen tlalpoctli",
+      "category": "cultura",
+      "title": "Tlalpoctli Tlen Yolotl",
+      "description": "Tlalpoctli tlen tlachihualiztli ipan comitl tlen quipiya toyolotl",
+      "date": "2024-03-08",
+      "location": "Taller de Alfarería",
+      "photographer": "José Luis"
+    }
+  ]
+}

@@ -1,0 +1,243 @@
+{
+  "lugaresHistoricos": [
+    {
+      "id": 1,
+      "nombre": "Atlakatl Tlen Tlasojtlalistli (Cascada de los enamorados)",
+      "tipo": "sitio_natural",
+      "epoca": "Tonalmachiyotl Huehueyac",
+      "imagenPrincipal": "/images/Turismo/Cascada-enamorados.webp",
+      "videoDocumental": "/videos/Turismo/cascada_enamorados.mp4",
+      "thumbnailVideo": "/images/Turismo/Cascada-enamorados.webp",
+      "duracionVideo": "2:45",
+      "coordenadas": "17.2389,-96.1287",
+
+      "colores": {
+        "colorFondo": "from-emerald-700 to-teal-600",
+        "colorAcento": "emerald",
+        "colorTexto": "text-emerald-900",
+        "colorSecundario": "bg-emerald-100/60"
+      },
+
+      "historia": {
+        "titulo": "Kan in atl iuan tlasojtlalistli mopantiah",
+        "contenido": "Ika tlahtolli tlen huehuetlahtolli, inin atlakatl okiyekkach in tlamanilistli tlen omochiayah ika kuamekatl iuan atl para kimiktis iuan kimpalehuis in tlasojtlalistli. Kijtiah ke in atl kipiya ixtlahtolli tlen nelyolmelah, iuan tlen kualneki motemiki ika yolmelaj in tlahtol tlen tlasojtlalistli tlen omochiayah nika.",
+        "fechaDescubrimiento": "Xiwitl XVI (achto tlahtolli español)",
+        "periodoHistorico": "1200–1521 d.C.",
+        "significadoCultural": "Machilia in tlasojtlalistli ipan atl"
+      },
+
+      "leyenda": {
+        "titulo": "Tetl tlen choa ipan metztli meztli",
+        "contenido": "Kijtiah in huehuehmeh ke ipan metztli meztli, in tetl 'choa' ika atl tlen tlatsilintok tlen kimpalehuia in tlakatl. In tlahtolli kijtiah ke se ichpochtli mixe otlajtlaliajka tetl ika in teot, para kipalehuis in altepetl, iuan ixtlahtolli in atl ye kualtia in yolmeh tlen tlatskajtoah ika yolmelaj.",
+        "personajes": ["Princesa Yatzil", "Tonatiuh", "Huehuehmeh tlen altepetl"],
+        "moral": "In tlatemachilistli ipan altepetl amo poliwia"
+      },
+
+      "testimonios": [
+        {
+          "persona": "Don Felipe, Tlakatl Tlen Kipatli in Sitio",
+          "edad": 78,
+          "testimonio": "Nochi nikmati ika nohuelo kitemachij in huehuetlahtolli ke españoles okiyejyekojkej kimikis in tetl, pero amo owelkej. Kijtiah ke in tlali isel okipalehuia."
+        },
+        {
+          "persona": "Ana, Tlamachti in Tlacahcuilolli",
+          "edad": 24,
+          "testimonio": "Ika nikmati in tlahcuilolli, nikajsik ke mochipa motemachilia ika tonali tlen metztli. Nikan ipan huehuetlahtolli ye hueyi chikaualistli."
+        }
+      ],
+
+      "galeriaHistorica": [
+        {
+          "url": "/images/Turismo/Cascada-enamorados.webp",
+          "titulo": "Tlahcuilolli Huehueyac",
+          "epoca": "Tonalmachiyotl Preclásico",
+          "descripcion": "Tlahcuilolli tlen kitlatiah in ilhuitl iuan tonalmachilistli"
+        },
+        {
+          "url": "/images/Turismo/voladores.webp",
+          "titulo": "Tlamanilistli Tonatiuh",
+          "epoca": "1950",
+          "descripcion": "Tlamachtilistli tlen tlamanilistli huehuetlahtolli"
+        }
+      ],
+
+      "cronologia": [
+        {
+          "fecha": "≈1200 d.C.",
+          "evento": "Achto tlalpanilistli nechca in tetl",
+          "descripcion": "In tlacameh mixeh motlayekankeh nika ke se teokalli"
+        },
+        {
+          "fecha": "1522",
+          "evento": "In españoles omokalaki",
+          "descripcion": "Achto tlahtolli tlen europeo ipan tlahtolmeh coloniales"
+        },
+        {
+          "fecha": "1895",
+          "evento": "Tlamachtilistli antropológica",
+          "descripcion": "Achto tlatemachilistli tlen tlacameh mexikameh"
+        },
+        {
+          "fecha": "1978",
+          "evento": "Moteneua Patrimonio Cultural",
+          "descripcion": "Okitemachij INAH ika tlahtol oficial"
+        }
+      ],
+
+      "datosArqueologicos": {
+        "material": "Tetl tlen tlalxictli",
+        "dimensiones": "4.2m x 3.1m x 1.8m",
+        "tecnicas": "Tlahcuilolli ika tepos iuan tetl",
+        "alineacionAstronomica": "Tonatiuh iuan metztli (Solsticio de verano)"
+      }
+    },
+
+    {
+      "id": 2,
+      "nombre": "Kuahuitl Tlen Ixtlahtol (El Árbol de los Susurros)",
+      "tipo": "sitio_natural",
+      "epoca": "Xiwitl XIX",
+      "imagenPrincipal": "/images/Turismo/Cascada-enamorados.webp",
+      "videoDocumental": "/videos/san_juan-optimized1.mp4",
+      "thumbnailVideo": "/images/Monte_virgen.jpg",
+      "duracionVideo": "2:45",
+
+      "colores": {
+        "colorFondo": "from-amber-700 to-orange-500",
+        "colorAcento": "amber",
+        "colorTexto": "text-amber-900",
+        "colorSecundario": "bg-amber-100/60"
+      },
+
+      "historia": {
+        "titulo": "Yekatlamantli tlen kitta in tlatokayotl iuan tlasojtlalistli",
+        "contenido": "Inin ahuehuetl tlen huehueyac okitlaliaj in 1845 ika achto tlayekanki tlen San Juan Tahitic. Ipan itzintla motlamantiah hueyi tlamachtilistli ipan in Tlatokayotl Mexicano, iuan mochipa okipalehuia in altepetl.",
+        "fechaDescubrimiento": "1845 (otlalij)",
+        "periodoHistorico": "Xiwitl XIX – Axkan Tonali",
+        "significadoCultural": "Tlapalehuiani iuan mochi in altepetl"
+      },
+
+      "leyenda": {
+        "titulo": "Kuahuitl tlen kikakia tlahtolli",
+        "contenido": "Kijtiah ke tla tikijtoua se tlahtolli iuan kuahuitl kitzomonia in amatl, mopanok se tlanextli: motemachis mochi tlen tiknejki. Miekeh omotekijkeh nika ika tlasojtlalistli, iuan huehuehmeh kijtiah ke kuahuitl kipiya tlahtolli tlen miekeh xiwitl.",
+        "personajes": ["Tlasojtlahtokkeh", "Revolucionarios", "Huehuehmeh Tlamachtilistli"],
+        "moral": "In tlali kipiya in yolmelawalistli tlen mochi tlacameh"
+      },
+
+      "testimonios": [
+        {
+          "persona": "Doña Petra, Kalakilistli ipan altepetl",
+          "edad": 82,
+          "testimonio": "Mochipa ipan ilhuitl in altepetl, in konemeh kitlanilia in kuahuitl iuan kichihuah se kualli tlahtolli. Kijtiah ke tla motemikih in mako, kuahuitl kinankilia ika yolia."
+        }
+      ],
+
+      "galeriaHistorica": [
+        {
+          "url": "/images/Turismo/Cascada-enamorados.webp",
+          "titulo": "Ahuehuetl Huehueyac",
+          "epoca": "Xiwitl XIX",
+          "descripcion": "Tlahcuilolli huehueyac tlen kuahuitl ipan itlatikpak"
+        }
+      ],
+
+      "cronologia": [
+        {
+          "fecha": "1845",
+          "evento": "Otlaliaj in kuahuitl",
+          "descripcion": "Otlaliaj ika achto tlayekanki in altepetl"
+        },
+        {
+          "fecha": "1914",
+          "evento": "Tlahtol tlen Revolución",
+          "descripcion": "Motlalij in tlamantli ika tlatemachilistli local"
+        },
+        {
+          "fecha": "1998",
+          "evento": "Ehekatl hueyi",
+          "descripcion": "Okichpak in ehekatl tlen okimiktik kuahuitl huehueyac"
+        }
+      ],
+
+      "datosNaturales": {
+        "especie": "Ahuehuetl (Taxodium mucronatum)",
+        "edadEstimada": "≈178 xiwitl",
+        "altura": "≈28 metros",
+        "diametro": "≈4.3 metros"
+      }
+    },
+
+    {
+      "id": 3,
+      "nombre": "Kal-li in Telar Huehueyac (La Casa del Telar Ancestral)",
+      "tipo": "arquitectura_tradicional",
+      "epoca": "Xiwitl XVIII",
+      "imagenPrincipal": "/images/historia/casa-telar.webp",
+      "videoDocumental": "/videos/san_juan-optimized.mp4",
+      "thumbnailVideo": "/images/Turismo/Tradiciones.jpg",
+      "duracionVideo": "2:45",
+
+      "colores": {
+        "colorFondo": "from-rose-800 to-pink-600",
+        "colorAcento": "rose",
+        "colorTexto": "text-rose-900",
+        "colorSecundario": "bg-rose-100/60"
+      },
+
+      "historia": {
+        "titulo": "Kan in mekatl tlahcuilia in huehue tlahtolli",
+        "contenido": "Inin kal-li tlen adobe ipan Xiwitl XVIII otlachix in tlakameh Martínez, tlen hueyitokkeh tepojtlahcuilokeh tlen kimomachtiah in tlahcuilolli prehispánico. In kal-li kipiya in tzictli natural tlen okijchij in mekatl, iuan in telar achto noja kichiua itekipanoa.",
+        "fechaDescubrimiento": "1782 (otlachij)",
+        "periodoHistorico": "Colonial – Axkan Tonali",
+        "significadoCultural": "Tlamanilistli in tlahcuilolli tlen huehuetlahtolli"
+      },
+
+      "leyenda": {
+        "titulo": "Telar tlen cuica ipan yohuali",
+        "contenido": "Kijtiah ke ipan metztli meztli, in telar huehueyac cuica isel ika in ixtlahtolli in mekatl. In kalakameh kijtiah ke es in yolia in tlamachti Elena, tlen okijtoj ke amo kixpolos hasta ma kimati mochi in tlaltikpak.",
+        "personajes": ["Huehue Elena", "Teyolia Tlahcuilokeh"],
+        "moral": "In tlamanilistli melajkan amo kixpolos ika tonali"
+      },
+
+      "tecnicasTradicionales": [
+        {
+          "nombre": "Tlahcuilolli ika Telar de Cintura",
+          "descripcion": "Tlamanilistli prehispánica tlen kichiua tlahtolmeh chipahuak",
+          "origen": "Tonalmachiyotl Preclásico"
+        },
+        {
+          "nombre": "Tzictli ika Nocheztli (Cochinilla)",
+          "descripcion": "Tlamanilistli ika tzitzimeh cochinilla para kimanilia color rojo",
+          "origen": "Tlamanilistli Mixteka Prehispánica"
+        }
+      ],
+
+      "galeriaHistorica": [
+        {
+          "url": "/images/Turismo/Cascada-enamorados.webp",
+          "titulo": "Ahuehuetl Huehueyac",
+          "epoca": "Xiwitl XIX",
+          "descripcion": "Tlahcuilolli huehueyac tlen kuahuitl ipan itlatikpak"
+        }
+      ],
+
+      "cronologia": [
+        {
+          "fecha": "1782",
+          "evento": "Otlachij in kal-li",
+          "descripcion": "Otlachij ika tekitl adobe huehueyac"
+        },
+        {
+          "fecha": "1920",
+          "evento": "Mokemachij itech tlaltikpak",
+          "descripcion": "Tlahcuilolli mochiuah ika tlamanilistli internacional"
+        },
+        {
+          "fecha": "2005",
+          "evento": "Tlamachtilistli altepetl",
+          "descripcion": "Ompa otpeuh in tlamachtilistli para tlakatl ipan kalaki"
+        }
+      ]
+    }
+  ]
+}

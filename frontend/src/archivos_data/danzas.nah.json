@@ -1,0 +1,94 @@
+{
+  "dances": [
+    {
+      "id": 1,
+      "name": "Ocelotl Macuilli",
+      "description": "Tlamanitilistli tlen quipiya chicahualistli huan yolistli tlalticpactli.",
+      "image": "/videos/calendario/imagenes/voladores.webp",
+      "video": "/videos/calendario/videos/voladores.mp4",
+      "details": {
+        "story": "Moneki ipan fiesta tlen santos, inin macuilli moneki poder ocelotl, tlalticpactli guardián huan símbolo poder ipan ancestro culturas. Macuilliani quichihua necuiltonoliztli.",
+        "elements": [
+          { "icon": "Shirt", "title": "Tlaquemitl", "text": "Máscaras cuahuitl tlen tzontli huan tlaquemitl ocelotl cuetlaxtli." },
+          { "icon": "Music", "title": "Cuicatl", "text": "Huehuetl huan tlapitzalli ritmos tlen ocelotl netlayecoillis." },
+          { "icon": "Sunrise", "title": "Tlamanitilistli", "text": "Tlalticpactli namanquis, chicahualistli, huan yolistli ciclo." }
+        ]
+      }
+    },
+    {
+      "id": 2,
+      "name": "Totoctli Macuilli",
+      "description": "Tlapowalli ipan tlaquemitl ceremonial huan cualli netlayecoillis.",
+      "image": "/videos/calendario/imagenes/voladores.webp",
+      "video": "URL_A_TU_VIDEO_CORTO_2.mp4",
+      "details": {
+        "story": "Quitlalia historia conquista ipan tovision local. Achica cualli, macuilli quipiya historia huan resistencia cultural. Hueyi totocpa tlaquemitl moneki tlen mas tlapowalli.",
+        "elements": [
+          { "icon": "Feather", "title": "Tlaquemitl", "text": "Totoctli tlaquemitl tlen guacamayo huan tezcatl." },
+          { "icon": "Wind", "title": "Netlayecoillis", "text": "Malacachoa huan chiquihuiltia moneki chicahualistli." },
+          { "icon": "BookOpen", "title": "Tlamanitilistli", "text": "Historia tlamachilistli, ome yolistli, huan cultura namanquis." }
+        ]
+      }
+    },
+    {
+      "id": 3,
+      "name": "Mazatl Macuilli",
+      "description": "Quitlalia tocnoyotl espiritual tlen tlacatl huan yolque tlalticpactli.",
+      "image": "URL_A_IMAGEN_DE_PORTADA_DEL_VIDEO_3.jpg",
+      "video": "URL_A_TU_VIDEO_CORTO_3.mp4",
+      "details": {
+        "story": "Inin macuilli quimachtia mazatl chica, yolque tlen tlateotoquiliztli. Moneki tlen tlazohcamati tlalticpactli tlen tonacayotl, quitlalia tlateotoquiliztli tlen yolistli.",
+        "elements": [
+          { "icon": "Leaf", "title": "Tlaquemitl", "text": "Tlaquemitl tlen mazatl cuamaitl huan tenábari ayoyotl." },
+          { "icon": "Footprints", "title": "Netlayecoillis", "text": "Cualli huan chicaoac netlayecoillis tlen yolque." },
+          { "icon": "Heart", "title": "Tlamanitilistli", "text": "Tlateotoquiliztli tlalticpactli, yolistli ciclo huan miquiztli." }
+        ]
+      }
+    },
+    {
+      "id": 4,
+      "name": "Mazatl Macuilli 1",
+      "description": "Quitlalia tocnoyotl espiritual tlen tlacatl huan yolque tlalticpactli.",
+      "image": "URL_A_IMAGEN_DE_PORTADA_DEL_VIDEO_3.jpg",
+      "video": "URL_A_TU_VIDEO_CORTO_3.mp4",
+      "details": {
+        "story": "Inin macuilli quimachtia mazatl chica, yolque tlen tlateotoquiliztli. Moneki tlen tlazohcamati tlalticpactli tlen tonacayotl, quitlalia tlateotoquiliztli tlen yolistli.",
+        "elements": [
+          { "icon": "Leaf", "title": "Tlaquemitl", "text": "Tlaquemitl tlen mazatl cuamaitl huan tenábari ayoyotl." },
+          { "icon": "Footprints", "title": "Netlayecoillis", "text": "Cualli huan chicaoac netlayecoillis tlen yolque." },
+          { "icon": "Heart", "title": "Tlamanitilistli", "text": "Tlateotoquiliztli tlalticpactli, yolistli ciclo huan miquiztli." }
+        ]
+      }
+    },
+    {
+      "id": 5,
+      "name": "Mazatl Macuilli 2",
+      "description": "Quitlalia tocnoyotl espiritual tlen tlacatl huan yolque tlalticpactli.",
+      "image": "URL_A_IMAGEN_DE_PORTADA_DEL_VIDEO_3.jpg",
+      "video": "URL_A_TU_VIDEO_CORTO_3.mp4",
+      "details": {
+        "story": "Inin macuilli quimachtia mazatl chica, yolque tlen tlateotoquiliztli. Moneki tlen tlazohcamati tlalticpactli tlen tonacayotl, quitlalia tlateotoquiliztli tlen yolistli.",
+        "elements": [
+          { "icon": "Leaf", "title": "Tlaquemitl", "text": "Tlaquemitl tlen mazatl cuamaitl huan tenábari ayoyotl." },
+          { "icon": "Footprints", "title": "Netlayecoillis", "text": "Cualli huan chicaoac netlayecoillis tlen yolque." },
+          { "icon": "Heart", "title": "Tlamanitilistli", "text": "Tlateotoquiliztli tlalticpactli, yolistli ciclo huan miquiztli." }
+        ]
+      }
+    },
+    {
+      "id": 6,
+      "name": "Mazatl Macuilli 3",
+      "description": "Quitlalia tocnoyotl espiritual tlen tlacatl huan yolque tlalticpactli.",
+      "image": "/videos/calendario/imagenes/maiz.png",
+      "video": "/videos/calendario/videos/cascada_enamorados.mp4",
+      "details": {
+        "story": "Inin macuilli quimachtia mazatl chica, yolque tlen tlateotoquiliztli. Moneki tlen tlazohcamati tlalticpactli tlen tonacayotl, quitlalia tlateotoquiliztli tlen yolistli.",
+        "elements": [
+          { "icon": "Leaf", "title": "Tlaquemitl", "text": "Tlaquemitl tlen mazatl cuamaitl huan tenábari ayoyotl." },
+          { "icon": "Footprints", "title": "Netlayecoillis", "text": "Cualli huan chicaoac netlayecoillis tlen yolque." },
+          { "icon": "Heart", "title": "Tlamanitilistli", "text": "Tlateotoquiliztli tlalticpactli, yolistli ciclo huan miquiztli." }
+        ]
+      }
+    }
+  ]
+}
