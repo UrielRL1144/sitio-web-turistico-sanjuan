@@ -2,12 +2,15 @@
 import { CalendarSection } from '@/cultura/section/CalendarSection';
 import { Breadcrumbs } from '@/components/Breadcrumbs';
 import { InmersiveCarousel } from '@/cultura/section/InmersiveCarousel';
+import { useTranslation } from '../contexts/TranslationContext'; // ← AGREGAR IMPORT
 
 export function CalendarPage() {
+  const { t } = useTranslation(); // ← AGREGAR HOOK
+
   const breadcrumbItems = [
-    { label: "Inicio", path: "/" },
-    { label: "Cultura", path: "/cultura" },
-    { label: "Calendario Cultural" }, // Actual, sin path
+    { label: t('breadcrumbs.home'), path: "/" }, // ← TRADUCIBLE
+    { label: t('breadcrumbs.culture'), path: "/cultura" }, // ← TRADUCIBLE
+    { label: t('breadcrumbs.culturalCalendar') }, // ← TRADUCIBLE
   ];
 
   

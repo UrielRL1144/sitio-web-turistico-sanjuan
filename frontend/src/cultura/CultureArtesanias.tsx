@@ -10,7 +10,8 @@ import { ArtesaniaCard } from '../cultura/section-artesanias/ArtesaniaCard';
 import { ArtesaniaModal } from '../cultura/section-artesanias/ArtesaniaModal';
 import { FilterButtons } from '../cultura/section-artesanias/FilterButtons';
 import { TooltipInformativo } from '../cultura/section-artesanias/TooltipInformativo';
-import { categoryNames } from './section-artesanias/types';
+import { useCategoryNames } from './section-artesanias/types';
+import { useTranslation } from '../contexts/TranslationContext'; // ← AGREGAR IMPORT
 
 export function CultureArtesanias() {
   const {
@@ -28,6 +29,8 @@ export function CultureArtesanias() {
   } = useArtesaniasData();
 
   const isFirstVisit = useFirstVisit('artesanias-first-visit');
+  const { t } = useTranslation(); // ← AGREGAR HOOK
+  const categoryNames = useCategoryNames(); // ← AGREGAR ESTO
 
   // Hook para navegación por teclado
   useKeyboardNavigation(
@@ -46,25 +49,21 @@ export function CultureArtesanias() {
   // Función para manejar el toggle con scroll al inicio
   const handleToggleWithScroll = () => {
     if (showAll) {
-      // Si estamos mostrando todo y queremos ocultar, hacer scroll al inicio
       const sectionElement = document.getElementById('section-artesanias-locales');
       if (sectionElement) {
-        // Calcular la posición del grid de artesanías dentro de la sección
         const gridElement = sectionElement.querySelector('.grid');
         if (gridElement) {
           const gridTop = gridElement.getBoundingClientRect().top + window.pageYOffset;
           const sectionTop = sectionElement.getBoundingClientRect().top + window.pageYOffset;
           
-          // Hacer scroll suave al inicio del grid
           window.scrollTo({
-            top: sectionTop - 100, // Un poco arriba para mejor visibilidad
+            top: sectionTop - 100,
             behavior: 'smooth'
           });
         }
       }
     }
     
-    // Cambiar el estado de showAll después de un pequeño delay para que el scroll sea visible
     setTimeout(() => {
       toggleShowAll();
     }, 300);
@@ -93,9 +92,8 @@ export function CultureArtesanias() {
               className="text-5xl lg:text-6xl font-bold font-serif text-gray-900 mb-6"
             >
               <span className="bg-gradient-to-r from-rose-700 via-pink-500 to-amber-800 bg-clip-text text-transparent">
-                Artesanías{' '}
+                {t('crafts.localCrafts')}{' '} {/* ← TRADUCIBLE */}
               </span>
-              locales
             </motion.h2>
 
             <motion.p
@@ -104,8 +102,7 @@ export function CultureArtesanias() {
               transition={{ delay: 0.2 }}
               className="text-xl text-gray-800 leading-relaxed max-w-3xl mx-auto mb-8"
             >
-              Creaciones únicas elaboradas por artesanos locales con técnicas transmitidas 
-              de generación en generación.
+              {t('crafts.description')} {/* ← TRADUCIBLE */}
               <motion.span
                 initial={{ opacity: 0, scale: 0.8 }}
                 animate={{ opacity: 1, scale: 1 }}
@@ -114,10 +111,10 @@ export function CultureArtesanias() {
               >
                 <Hand className="w-5 h-5" />
                 <span className="lg:inline hidden">
-                  Haz clic en cualquier artesanía para descubrir su historia completa
+                  {t('crafts.clickInstructionDesktop')} {/* ← TRADUCIBLE */}
                 </span>
                 <span className="lg:hidden inline">
-                  Toca cualquier artesanía para descubrir su historia completa
+                  {t('crafts.clickInstructionMobile')} {/* ← TRADUCIBLE */}
                 </span>
               </motion.span>
             </motion.p>
@@ -190,7 +187,10 @@ export function CultureArtesanias() {
               />
               
               <span className="text-lg relative z-10">
-                {showAll ? 'Mostrar menos' : `Ver ${filteredCrafts.length - 6} más`}
+                {showAll 
+                  ? t('crafts.showLess') // ← TRADUCIBLE
+                  : `${t('crafts.showMore')} ${filteredCrafts.length - 6} ${t('crafts.moreToDiscover')}` // ← TRADUCIBLE
+                }
               </span>
               <motion.div
                 animate={{ 
@@ -216,8 +216,8 @@ export function CultureArtesanias() {
               className="text-gray-700 text-sm text-center max-w-md mx-auto bg-white/60 backdrop-blur-sm px-4 py-2 rounded-full shadow-sm shadow-amber-900/10"
             >
               {showAll 
-                ? 'Estás viendo todas las artesanías disponibles'
-                : `Hay ${filteredCrafts.length - 6} artesanías más por descubrir`
+                ? t('crafts.showingAll') // ← TRADUCIBLE
+                : `${t('crafts.moreToDiscover')} ${filteredCrafts.length - 6} ${t('crafts.moreToDiscover')}`
               }
             </motion.p>
 
@@ -226,11 +226,11 @@ export function CultureArtesanias() {
               <motion.div
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.9 }}
+                transition={{ delay: 2.9 }}
                 className="flex items-center gap-2 text-amber-600 text-xs bg-amber-50 px-3 py-1 rounded-full"
               >
                 <span>💡</span>
-                <span>Al mostrar menos, volverás al inicio de las artesanías</span>
+                <span>{t('crafts.scrollHint')}</span> {/* ← TRADUCIBLE */}
               </motion.div>
             )}
           </motion.div>
@@ -253,13 +253,13 @@ export function CultureArtesanias() {
             className="text-center py-16"
           >
             <div className="text-gray-500 text-lg">
-              No se encontraron artesanías en esta categoría.
+              {t('crafts.noResults')} {/* ← TRADUCIBLE */}
             </div>
             <button
               onClick={() => handleFilterClick('todos')}
               className="mt-4 text-amber-600 hover:text-amber-700 font-semibold font-serif"
             >
-              Ver todas las artesanías
+              {t('crafts.viewAllCrafts')} {/* ← TRADUCIBLE */}
             </button>
           </motion.div>
         )}
@@ -285,10 +285,10 @@ export function CultureArtesanias() {
 
             {/* Contenido narrativo con enfoque artesanal */}
             <h2 className="relative z-20 text-2xl font-extrabold font-serif mb-4 tracking-tight">
-              ¡Visitanos en San Juan Tahitic!
+              {t('crafts.visitUs')} {/* ← TRADUCIBLE */}
             </h2>
             <p className="relative z-20 text-lg text-orange-100 mb-6">
-              Descubre piezas únicas hemas a mano por artesanos locales. Cada creación refleja tradición, identidad y pasión.
+              {t('crafts.visitDescription')} {/* ← TRADUCIBLE */}
             </p>
 
             {/* Icono animado como guiño visual */}

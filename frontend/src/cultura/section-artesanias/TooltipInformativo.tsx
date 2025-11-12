@@ -2,6 +2,7 @@
 import { motion, AnimatePresence } from 'framer-motion';
 import { useState, useEffect } from 'react';
 import { Hand, X, Smartphone } from 'lucide-react';
+import { useTranslation } from '../../contexts/TranslationContext'; // ← AGREGAR IMPORT
 
 interface TooltipInformativoProps {
   isFirstVisit?: boolean;
@@ -13,6 +14,7 @@ export const TooltipInformativo: React.FC<TooltipInformativoProps> = ({
   const [isVisible, setIsVisible] = useState(isFirstVisit);
   const [isMinimized, setIsMinimized] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
+  const { t } = useTranslation(); // ← AGREGAR HOOK
 
   // Detectar si es móvil
   useEffect(() => {
@@ -53,7 +55,10 @@ export const TooltipInformativo: React.FC<TooltipInformativoProps> = ({
             <div className="flex items-center gap-2 text-white">
               {isMobile ? <Smartphone className="w-5 h-5" /> : <Hand className="w-5 h-5" />}
               <span className="font-semibold font-serif">
-                {isMobile ? '¡Toca para explorar!' : '¡Descubre más!'}
+                {isMobile 
+                  ? t('crafts.tooltip.tapToExplore') // ← TRADUCIBLE
+                  : t('crafts.tooltip.discoverMore') // ← TRADUCIBLE
+                }
               </span>
             </div>
             <div className="flex items-center gap-1">
@@ -83,13 +88,11 @@ export const TooltipInformativo: React.FC<TooltipInformativoProps> = ({
               <p className="text-gray-700 text-sm mb-3">
                 {isMobile ? (
                   <>
-                    <strong>Toca cualquier artesanía</strong> para descubrir su historia completa, 
-                    técnicas ancestrales y conocer al artesano que la creó.
+                    <strong>{t('crafts.tooltip.mobileInstruction')}</strong> {/* ← TRADUCIBLE */}
                   </>
                 ) : (
                   <>
-                    <strong>Haz clic en cualquier artesanía</strong> para descubrir su historia completa, 
-                    técnicas ancestrales y conocer al artesano que la creó.
+                    <strong>{t('crafts.tooltip.desktopInstruction')}</strong> {/* ← TRADUCIBLE */}
                   </>
                 )}
               </p>
@@ -97,8 +100,8 @@ export const TooltipInformativo: React.FC<TooltipInformativoProps> = ({
                 <span className="bg-amber-100 px-2 py-1 rounded-full">💡</span>
                 <span>
                   {isMobile 
-                    ? "También puedes deslizar en el modal para navegar" 
-                    : "También puedes usar las flechas ← → para navegar"
+                    ? t('crafts.tooltip.mobileNavigationTip') // ← TRADUCIBLE
+                    : t('crafts.tooltip.desktopNavigationTip') // ← TRADUCIBLE
                   }
                 </span>
               </div>

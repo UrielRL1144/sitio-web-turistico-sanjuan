@@ -1,6 +1,7 @@
 // components/LazyImage.tsx
 import { useState, useEffect } from 'react';
 import { Loader, Utensils } from 'lucide-react';
+import { useTranslation } from '../../../contexts/TranslationContext'; // ← AGREGAR IMPORT
 
 interface LazyImageProps {
   src: string;
@@ -20,6 +21,7 @@ export function LazyImage({
   const [imageLoaded, setImageLoaded] = useState(false);
   const [imageError, setImageError] = useState(false);
   const [imageSrc, setImageSrc] = useState('');
+  const { t } = useTranslation(); // ← AGREGAR HOOK
 
   useEffect(() => {
     const img = new Image();
@@ -48,7 +50,9 @@ export function LazyImage({
         <div className="absolute inset-0 bg-gradient-to-br from-gray-200 to-gray-300 animate-pulse flex items-center justify-center">
           <div className="flex flex-col items-center gap-2">
             <Loader className="w-6 h-6 text-gray-400 animate-spin" />
-            <span className="text-gray-500 text-sm">Cargando...</span>
+            <span className="text-gray-500 text-sm">
+              {t('platillos.loading')} {/* ← TRADUCIBLE */}
+            </span>
           </div>
         </div>
       )}
@@ -57,7 +61,9 @@ export function LazyImage({
         <div className="absolute inset-0 bg-gradient-to-br from-amber-100 to-orange-100 flex items-center justify-center">
           <div className="text-center text-amber-600">
             <Utensils className="w-8 h-8 mx-auto mb-2" />
-            <p className="text-sm">Imagen no disponible</p>
+            <p className="text-sm">
+              {t('platillos.imageNotAvailable')} {/* ← TRADUCIBLE */}
+            </p>
           </div>
         </div>
       )}

@@ -2,6 +2,7 @@
 import { ChevronLeft, ChevronRight, X, Navigation, Sparkles, Plus } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useState, useEffect, useRef } from 'react';
+import { useTranslation } from '../../../contexts/TranslationContext'; // ← AGREGAR IMPORT
 
 interface FloatingNavigationProps {
   cocinas: any[];
@@ -27,6 +28,7 @@ export function FloatingNavigation({
   const [showTooltip, setShowTooltip] = useState<boolean>(true);
   const [isCollapsed, setIsCollapsed] = useState<boolean>(false);
   const timeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const { t } = useTranslation(); // ← AGREGAR HOOK
 
   // Detectar si es móvil
   useEffect(() => {
@@ -70,7 +72,7 @@ export function FloatingNavigation({
     }
   };
 
-  const cocinaActual = cocinas[cocinaActiva]?.nombre || `Cocina ${cocinaActiva + 1}`;
+  const cocinaActual = cocinas[cocinaActiva]?.nombre || `${t('cocinas.floatingNav.kitchen')} ${cocinaActiva + 1}`; // ← TRADUCIBLE
 
   return (
     <AnimatePresence>
@@ -96,7 +98,7 @@ export function FloatingNavigation({
                   <Sparkles className="w-4 h-4 text-amber-500 flex-shrink-0" />
                   <div className="min-w-0 flex-1">
                     <p className="text-xs text-amber-600 font-medium font-serif truncate">
-                      Estás viendo:
+                      {t('cocinas.floatingNav.currentlyViewing')} {/* ← TRADUCIBLE */}
                     </p>
                     <p className="text-sm font-bold font-serif text-gray-900 truncate">
                       {cocinaActual}
@@ -117,6 +119,7 @@ export function FloatingNavigation({
                   <button
                     onClick={onClose}
                     className="p-1 rounded-lg bg-gray-100 text-gray-500 hover:bg-gray-200 hover:text-gray-700 transition-all"
+                    aria-label={t('cocinas.floatingNav.close')} 
                   >
                     <X className="w-4 h-4" />
                   </button>
@@ -138,7 +141,7 @@ export function FloatingNavigation({
                         className="flex items-center gap-2 px-4 py-2 rounded-full bg-amber-100 text-amber-700 hover:bg-amber-200 transition-all duration-200 shadow-sm hover:shadow-md border border-amber-200 font-medium font-serif"
                       >
                         <ChevronLeft className="w-4 h-4" />
-                        {!isMobile && <span>Anterior</span>}
+                        {!isMobile && <span>{t('cocinas.floatingNav.previous')}</span>} {/* ← TRADUCIBLE */}
                       </button>
 
                       <div className="flex items-center gap-3 flex-1 justify-center">
@@ -169,7 +172,7 @@ export function FloatingNavigation({
                         onClick={onSiguienteCocina}
                         className="flex items-center gap-2 px-4 py-2 rounded-full bg-amber-100 text-amber-700 hover:bg-amber-200 transition-all duration-200 shadow-sm hover:shadow-md border border-amber-200 font-medium font-serif"
                       >
-                        {!isMobile && <span>Siguiente</span>}
+                        {!isMobile && <span>{t('cocinas.floatingNav.next')}</span>} {/* ← TRADUCIBLE */}
                         <ChevronRight className="w-4 h-4" />
                       </button>
                     </div>
@@ -193,17 +196,17 @@ export function FloatingNavigation({
                   <button
                     onClick={() => setShowTooltip(false)}
                     className="absolute top-1 right-1 text-white/80 hover:text-white transition"
-                    aria-label="Minimizar mensaje educativo"
+                    aria-label={t('cocinas.floatingNav.minimize')} 
                   >
                     <X className="w-3 h-3" />
                   </button>
 
                   <p className="text-sm font-medium font-serif flex items-center justify-center gap-2">
                     <Sparkles className="w-4 h-4" />
-                    ¡Navega fácilmente entre cocinas!
+                    {t('cocinas.floatingNav.tooltip.title')} {/* ← TRADUCIBLE */}
                   </p>
                   <p className="text-xs opacity-90 mt-1 font-serif">
-                    Explora todos los establecimientos sin perder tu lugar
+                    {t('cocinas.floatingNav.tooltip.description')} {/* ← TRADUCIBLE */}
                   </p>
                 </div>
                 <div className="w-4 h-4 bg-red-500 rotate-45 transform mx-auto -mt-2"></div>
@@ -219,11 +222,11 @@ export function FloatingNavigation({
                 className={`mt-3 flex items-center justify-center gap-2 px-3 py-2 rounded-full bg-red-500 text-white shadow-md hover:bg-red-600 transition-all ${
                   isMobile ? 'mx-auto' : 'mx-auto animate-bounce'
                 }`}
-                aria-label="Mostrar información educativa"
+                aria-label={t('cocinas.floatingNav.showInfo')}
               >
                 <Navigation className="w-4 h-4" />
                 <span className="text-xs font-serif font-medium hidden sm:inline">
-                  Ver
+                  {t('cocinas.floatingNav.view')} {/* ← TRADUCIBLE */}
                 </span>
               </motion.button>
             )}

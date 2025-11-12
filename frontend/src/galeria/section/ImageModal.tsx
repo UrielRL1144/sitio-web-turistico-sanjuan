@@ -9,6 +9,7 @@ import {
 import { motion, AnimatePresence } from 'framer-motion';
 import type { GalleryImage } from './hooks/useGallery';
 import { useState } from 'react';
+import { useTranslation } from '../../contexts/TranslationContext'; // ← AGREGAR IMPORT
 
 interface ImageModalProps {
   isOpen: boolean;
@@ -22,6 +23,7 @@ interface ImageModalProps {
   onZoomIn: () => void;
   onZoomOut: () => void;
   onResetZoom: () => void;
+  formatDate: (dateString: string) => string; // ← AGREGAR ESTA PROPIEDAD
 }
 
 export function ImageModal({
@@ -35,9 +37,23 @@ export function ImageModal({
   onPrev,
   onZoomIn,
   onZoomOut,
-  onResetZoom
+  onResetZoom,
+  formatDate // ← AGREGAR ESTE PARÁMETRO
 }: ImageModalProps) {
   const [imageLoaded, setImageLoaded] = useState(false);
+  const { t } = useTranslation(); // ← AGREGAR HOOK
+
+  // Función para obtener el nombre traducido de la categoría
+  const getTranslatedCategory = (category: string) => {
+    switch (category) {
+      case 'paisajes': return t('gallery.landscapes');
+      case 'naturaleza': return t('gallery.nature');
+      case 'cultura': return t('gallery.culture');
+      case 'comunidad': return t('gallery.community');
+      case 'tradiciones': return t('gallery.traditions');
+      default: return category;
+    }
+  };
 
   if (!image) return null;
 
@@ -59,21 +75,23 @@ export function ImageModal({
                   <button
                     onClick={onClose}
                     className="bg-slate-800/80 text-white p-3 rounded-full hover:bg-slate-700/80 transition-colors duration-200 backdrop-blur-sm"
+                    aria-label={t('gallery.modal.close')} // ← TRADUCIBLE
                   >
                     <X className="h-5 w-5" />
                   </button>
-                  
                   <div className="flex gap-2">
                     <button
                       onClick={onZoomOut}
                       disabled={zoomLevel <= 1}
                       className="bg-slate-800/80 text-white p-3 rounded-full hover:bg-slate-700/80 transition-colors duration-200 backdrop-blur-sm disabled:opacity-50"
+                      aria-label={t('gallery.modal.zoomOut')} // ← TRADUCIBLE
                     >
                       <ZoomOut className="h-5 w-5" />
                     </button>
                     <button
                       onClick={onResetZoom}
                       className="bg-slate-800/80 text-white p-3 rounded-full hover:bg-slate-700/80 transition-colors duration-200 backdrop-blur-sm"
+                      aria-label={t('gallery.modal.resetZoom')} // ← TRADUCIBLE
                     >
                       <RotateCw className="h-5 w-5" />
                     </button>
@@ -81,6 +99,7 @@ export function ImageModal({
                       onClick={onZoomIn}
                       disabled={zoomLevel >= 3}
                       className="bg-slate-800/80 text-white p-3 rounded-full hover:bg-slate-700/80 transition-colors duration-200 backdrop-blur-sm disabled:opacity-50"
+                      aria-label={t('gallery.modal.zoomIn')} // ← TRADUCIBLE
                     >
                       <ZoomIn className="h-5 w-5" />
                     </button>
@@ -93,6 +112,7 @@ export function ImageModal({
                     <button
                       onClick={onPrev}
                       className="absolute left-4 top-1/2 transform -translate-y-1/2 bg-slate-800/80 text-white p-4 rounded-full hover:bg-slate-700/80 transition-colors duration-200 backdrop-blur-sm z-20"
+                      aria-label={t('gallery.modal.previous')} // ← TRADUCIBLE
                     >
                       <ChevronLeft className="h-6 w-6" />
                     </button>
@@ -100,6 +120,7 @@ export function ImageModal({
                     <button
                       onClick={onNext}
                       className="absolute right-4 top-1/2 transform -translate-y-1/2 bg-slate-800/80 text-white p-4 rounded-full hover:bg-slate-700/80 transition-colors duration-200 backdrop-blur-sm z-20"
+                      aria-label={t('gallery.modal.next')} // ← TRADUCIBLE
                     >
                       <ChevronRight className="h-6 w-6" />
                     </button>
@@ -152,30 +173,34 @@ export function ImageModal({
                     </div>
                     <div className="flex items-center gap-3 text-sm text-slate-400">
                       <Calendar className="h-4 w-4 text-emerald-400" />
-                      <span>{new Date(image.date).toLocaleDateString('es-ES', { 
-                        year: 'numeric', 
-                        month: 'long', 
-                        day: 'numeric' 
-                      })}</span>
+                      <span>{formatDate(image.date)}</span>
                     </div>
                     <div className="flex items-center gap-3 text-sm text-slate-400">
                       <Users className="h-4 w-4 text-violet-400" />
-                      <span>Fotógrafo: {image.photographer}</span>
+                      <span>{t('gallery.modal.photographer')} {image.photographer}</span> {/* ← TRADUCIBLE */}
                     </div>
                   </div>
 
                   <div className="bg-slate-700/50 rounded-lg p-4 border border-slate-600/50">
                     <span className="text-slate-300 text-sm font-medium">
-                      Categoría: <span className="text-blue-400 capitalize">{image.category}</span>
+                      {t('gallery.modal.category')} <span className="text-blue-400 capitalize">
+                        {getTranslatedCategory(image.category)} {/* ← TRADUCIBLE */}
+                      </span>
                     </span>
                   </div>
 
                   {/* Información técnica */}
                   <div className="pt-4 border-t border-slate-700/50">
-                    <h4 className="text-sm font-semibold text-slate-300 mb-2">Información Técnica</h4>
+                    <h4 className="text-sm font-semibold text-slate-300 mb-2">
+                      {t('gallery.modal.technicalInfo')} {/* ← TRADUCIBLE */}
+                    </h4>
                     <div className="grid grid-cols-2 gap-2 text-xs text-slate-400">
-                      <div>Zoom: {(zoomLevel * 100).toFixed(0)}%</div>
-                      <div>Imagen {currentIndex + 1} de {totalImages}</div>
+                      <div>
+                        {t('gallery.modal.zoom')} {(zoomLevel * 100).toFixed(0)}% {/* ← TRADUCIBLE */}
+                      </div>
+                      <div>
+                        {t('gallery.modal.imageOf')} {currentIndex + 1} {t('gallery.modal.imageOf')} {totalImages} {/* ← TRADUCIBLE */}
+                      </div>
                     </div>
                   </div>
                 </div>

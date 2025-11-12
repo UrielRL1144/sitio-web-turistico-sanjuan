@@ -1,16 +1,16 @@
-// main.tsx
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
+import ScrollToTop from './ScrollToTop';
 import './index.css';
 import {
   createBrowserRouter,
   RouterProvider,
 } from 'react-router-dom';
 
+
 // App principal
 import App from './App.tsx';
 import { MinimalLayout } from './MinimalLayout';
-
 
 // Rutas
 import { HomePage } from './pages/HomePage';
@@ -31,6 +31,8 @@ import { PanelPlaceSection } from './pages/PanelPlaceSection';
 import { SilentErrorBoundary } from './components/SilentErrorBoundary';
 import { SilentRouteError } from './components/SilentRouteError';
 import { CooperativaPage } from './pages/CooperativaPage.tsx';
+
+import { TranslationProvider } from './contexts/TranslationContext';
 
 import { ExploradorAtractivosTuristicos } from './turismo/section/ExploradorAtractivosTuristicos.tsx';
 
@@ -121,10 +123,11 @@ const root = createRoot(rootElement);
 root.render(
   <StrictMode>
     <SilentErrorBoundary>
-      <AuthProvider>
-        <RouterProvider router={router} />
-      </AuthProvider>
+        <TranslationProvider>
+          <AuthProvider>
+            <RouterProvider router={router} />
+          </AuthProvider>
+        </TranslationProvider>
     </SilentErrorBoundary>
   </StrictMode>
 );
-// Fin de main.tsx

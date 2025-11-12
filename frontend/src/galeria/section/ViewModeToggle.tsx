@@ -1,5 +1,6 @@
 // components/ViewModeToggle.tsx
 import { motion } from 'framer-motion';
+import { useTranslation } from '../../contexts/TranslationContext'; // ← AGREGAR IMPORT
 
 interface ViewModeToggleProps {
   viewMode: 'circular' | 'grid';
@@ -8,8 +9,9 @@ interface ViewModeToggleProps {
 }
 
 export function ViewModeToggle({ viewMode, onViewModeChange, isMobile = false }: ViewModeToggleProps) {
+  const { t } = useTranslation(); // ← AGREGAR HOOK
+
   // En móvil, forzar vista grid y ocultar toggle
-  // Alternativa para el return móvil en ViewModeToggle:
   if (isMobile) {
     return (
       <motion.div
@@ -24,7 +26,7 @@ export function ViewModeToggle({ viewMode, onViewModeChange, isMobile = false }:
               📱
             </div>
             <span className="text-white font-medium">
-              Vista grid
+              {t('gallery.viewMode.mobileView')} {/* ← TRADUCIBLE */}
             </span>
           </div>
         </div>
@@ -49,7 +51,7 @@ export function ViewModeToggle({ viewMode, onViewModeChange, isMobile = false }:
               : 'text-slate-400 hover:text-white hover:bg-slate-700/50'
           }`}
         >
-          Vista Circular
+          {t('gallery.viewMode.circularView')} {/* ← TRADUCIBLE */}
         </button>
         <button
           onClick={() => onViewModeChange('grid')}
@@ -59,7 +61,7 @@ export function ViewModeToggle({ viewMode, onViewModeChange, isMobile = false }:
               : 'text-slate-400 hover:text-white hover:bg-slate-700/50'
           }`}
         >
-          Vista Grid
+          {t('gallery.viewMode.gridView')} {/* ← TRADUCIBLE */}
         </button>
       </div>
     </motion.div>

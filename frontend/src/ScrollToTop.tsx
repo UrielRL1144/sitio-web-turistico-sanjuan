@@ -6,8 +6,8 @@ export default function ScrollToTop() {
   const { pathname } = useLocation();
 
   useLayoutEffect(() => {
-    // Se asegura de que la página comience desde el top
-    window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
+    // Cambia 'instant' por 'auto' o 'smooth'
+    window.scrollTo({ top: 0, left: 0, behavior: 'auto' });
   }, [pathname]);
 
   return null;

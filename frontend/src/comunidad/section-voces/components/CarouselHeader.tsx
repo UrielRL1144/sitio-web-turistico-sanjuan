@@ -2,8 +2,11 @@
 import { motion } from "framer-motion";
 import { containerVariants, itemVariants } from "../variants";
 import { Mic2 } from "lucide-react";
+import { useTranslation } from '../../../contexts/TranslationContext'; // ← AGREGAR IMPORT
 
 export function CarouselHeader() {
+  const { t } = useTranslation(); // ← AGREGAR HOOK
+
   return (
     <motion.div
       variants={containerVariants}
@@ -17,21 +20,27 @@ export function CarouselHeader() {
         className="inline-flex items-center gap-2 bg-teal-100 px-4 py-2 rounded-full text-teal-800 mb-4 mx-auto"
       >
         <Mic2 className="w-5 h-5" />
-        <span className="font-medium text-sm sm:text-base">Voces de Nuestra Tierra</span>
+        <span className="font-medium font-serif text-sm sm:text-base">
+          {t('voices.header.title')} {/* ← TRADUCIBLE */}
+        </span>
       </motion.div>
-
+      
       <motion.h2
         variants={itemVariants}
-        className="text-2xl sm:text-4xl lg:text-5xl font-extrabold text-slate-800 tracking-tight"
+        className="text-2xl sm:text-4xl lg:text-5xl font-extrabold font-serif text-slate-800 tracking-tight"
       >
-        Historias que <span className="bg-gradient-to-r from-teal-500 to-cyan-600 bg-clip-text text-transparent">conectan</span> generaciones
+        {t('voices.header.mainTitle')}{' '} {/* ← TRADUCIBLE */}
+        <span className="bg-gradient-to-r from-teal-800 to-cyan-600 bg-clip-text text-transparent">
+          {t('voices.header.connect')} {/* ← TRADUCIBLE */}
+        </span>{' '}
+        {t('voices.header.generations')} {/* ← TRADUCIBLE */}
       </motion.h2>
-
+      
       <motion.p
         variants={itemVariants}
         className="mt-4 text-slate-600 max-w-2xl mx-auto text-sm sm:text-base"
       >
-        La voz de cada habitante guarda una parte de nuestra identidad. Escucha, siente y conecta con quienes mantienen viva la cultura de San Juan Tahitic.
+        {t('voices.header.description')} {/* ← TRADUCIBLE */}
       </motion.p>
     </motion.div>
   );

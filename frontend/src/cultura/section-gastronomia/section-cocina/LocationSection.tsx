@@ -1,11 +1,14 @@
 import { motion } from 'framer-motion';
 import { Compass, MapPin, Clock, Sparkles } from 'lucide-react';
+import { useTranslation } from '../../../contexts/TranslationContext'; // ← AGREGAR IMPORT
 
 interface LocationSectionProps {
   cocina: any;
 }
 
 export function LocationSection({ cocina }: LocationSectionProps) {
+  const { t } = useTranslation(); // ← AGREGAR HOOK
+
   return (
     <section id="ubicacion" className="relative overflow-hidden py-12 sm:py-16 lg:py-20 xl:py-24 bg-[url('images/cultura/Fondo-gastronomia1.svg')] bg-no-repeat bg-center bg-cover"
 >
@@ -22,19 +25,23 @@ export function LocationSection({ cocina }: LocationSectionProps) {
             <div>
               <div className="flex items-center space-x-2 sm:space-x-3 mb-4 sm:mb-6">
                 <Compass className="h-6 w-6 sm:h-7 sm:w-7 lg:h-8 lg:w-8 text-amber-600" />
-                <h2 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold font-serif text-gray-900">Visítanos</h2>
+                <h2 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold font-serif text-gray-900">
+                  {t('cocinas.location.visitUs')} {/* ← TRADUCIBLE */}
+                </h2>
               </div>
               
               <div className="space-y-4 sm:space-y-6">
                 <div className="flex items-start space-x-3 sm:space-x-4 p-4 sm:p-6 bg-white rounded-xl sm:rounded-2xl shadow-lg border border-amber-100">
                   <MapPin className="h-5 w-5 sm:h-6 sm:w-6 text-amber-600 mt-0.5 sm:mt-1 flex-shrink-0" />
                   <div className="flex-1 min-w-0">
-                    <h3 className="font-bold font-serif text-gray-900 text-base sm:text-lg mb-1 sm:mb-2">Dirección</h3>
+                    <h3 className="font-bold font-serif text-gray-900 text-base sm:text-lg mb-1 sm:mb-2">
+                      {t('cocinas.location.address')} {/* ← TRADUCIBLE */}
+                    </h3>
                     <p className="text-gray-600 font-medium font-serif text-sm sm:text-base break-words">
-                      {cocina.ubicacion.direccion}
+                      {cocina.ubicacion.direccion} {/* ← VIENE DEL JSON */}
                     </p>
                     <p className="text-gray-500 text-xs sm:text-sm mt-1 sm:mt-2">
-                      {cocina.ubicacion.puntoReferencia}
+                      {cocina.ubicacion.puntoReferencia} {/* ← VIENE DEL JSON */}
                     </p>
                   </div>
                 </div>
@@ -42,15 +49,17 @@ export function LocationSection({ cocina }: LocationSectionProps) {
                 <div className="flex items-start space-x-3 sm:space-x-4 p-4 sm:p-6 bg-white rounded-xl sm:rounded-2xl shadow-lg border border-amber-100">
                   <Clock className="h-5 w-5 sm:h-6 sm:w-6 text-amber-600 mt-0.5 sm:mt-1 flex-shrink-0" />
                   <div className="flex-1">
-                    <h3 className="font-bold font-serif text-gray-900 text-base sm:text-lg mb-1 sm:mb-2">Horarios</h3>
+                    <h3 className="font-bold font-serif text-gray-900 text-base sm:text-lg mb-1 sm:mb-2">
+                      {t('cocinas.location.hours')} {/* ← TRADUCIBLE */}
+                    </h3>
                     <div className="text-gray-600 space-y-1 sm:space-y-2 font-medium font-serif text-sm sm:text-base">
                       <div className="flex justify-between">
-                        <span>Lunes - Viernes:</span>
-                        <span className="text-amber-600 font-semibold font-serif">{cocina.horarios.lunesViernes}</span>
+                        <span>{t('cocinas.location.mondayFriday')}:</span> {/* ← TRADUCIBLE */}
+                        <span className="text-amber-600 font-semibold font-serif">{cocina.horarios.lunesViernes}</span> {/* ← VIENE DEL JSON */}
                       </div>
                       <div className="flex justify-between">
-                        <span>Sábado - Domingo:</span>
-                        <span className="text-amber-600 font-semibold font-serif">{cocina.horarios.sabadoDomingo}</span>
+                        <span>{t('cocinas.location.saturdaySunday')}:</span> {/* ← TRADUCIBLE */}
+                        <span className="text-amber-600 font-semibold font-serif">{cocina.horarios.sabadoDomingo}</span> {/* ← VIENE DEL JSON */}
                       </div>
                     </div>
                   </div>
@@ -62,13 +71,15 @@ export function LocationSection({ cocina }: LocationSectionProps) {
             <div className="bg-white rounded-xl sm:rounded-2xl shadow-lg border border-amber-100 p-4 sm:p-6">
               <div className="flex items-center space-x-2 sm:space-x-3 mb-3 sm:mb-4">
                 <Sparkles className="h-4 w-4 sm:h-5 sm:w-5 lg:h-6 lg:w-6 text-amber-600" />
-                <h3 className="font-bold font-serif text-gray-900 text-base sm:text-lg">Recomendaciones</h3>
+                <h3 className="font-bold font-serif text-gray-900 text-base sm:text-lg">
+                  {t('cocinas.location.recommendations')} {/* ← TRADUCIBLE */}
+                </h3>
               </div>
               <ul className="text-gray-600 space-y-2 sm:space-y-3 font-medium font-serif text-sm sm:text-base">
                 {cocina.recomendaciones.slice(0, 3).map((recomendacion: string, index: number) => (
                   <li key={index} className="flex items-start space-x-2 sm:space-x-3">
                     <div className="w-1.5 h-1.5 sm:w-2 sm:h-2 bg-amber-400 rounded-full mt-1.5 sm:mt-2 flex-shrink-0"></div>
-                    <span className="break-words">{recomendacion}</span>
+                    <span className="break-words">{recomendacion}</span> {/* ← VIENE DEL JSON */}
                   </li>
                 ))}
               </ul>
@@ -90,7 +101,7 @@ export function LocationSection({ cocina }: LocationSectionProps) {
                 allowFullScreen
                 loading="lazy"
                 referrerPolicy="no-referrer-when-downgrade"
-                title={`Ubicación de ${cocina.nombre}`}
+                title={`${t('cocinas.location.locationOf')} ${cocina.nombre}`}
               />
             </div>
           </motion.div>

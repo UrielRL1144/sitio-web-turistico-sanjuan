@@ -4,154 +4,43 @@ import { GalleryVideo } from './section/GalleryVideo';
 import { CircularGallery } from './section/CircularGallery';
 import { GridGallery } from './section/GridGallery';
 import { ImageModal } from './section/ImageModal';
-import { CategoryFilter } from './section/CategoryFilter';
 import { ViewModeToggle } from './section/ViewModeToggle';
 import { motion } from 'framer-motion';
-import { BookOpen, Mountain } from 'lucide-react';
 import { YouTubeModal } from './section/YouTubeModal';
-
-// Datos de la galería
-const galleryImages = [
-  { 
-    src: "/images/galeria/montanas-amanecer.jpg", 
-    alt: "Amanecer en la Sierra Madre", 
-    category: "paisajes",
-    title: "Amanecer en la Sierra",
-    description: "Los primeros rayos del sol acarician las cumbres ancestrales de nuestro territorio",
-    date: "2024-01-15",
-    location: "Cerro del Águila",
-    photographer: "Juan Martínez"
-  },
-  { 
-    src: "/images/galeria/Cascada.jpg", 
-    alt: "Bosque de coníferas nativas", 
-    category: "naturaleza",
-    title: "Bosque Ancestral",
-    description: "Donde los árboles centenarios guardan la memoria de nuestra tierra",
-    date: "2024-02-03",
-    location: "Bosque de los Abuelos",
-    photographer: "María González"
-  },
-  { 
-    src: "/images/galeria/san_juan-poster.webp", 
-    alt: "Cascada cristalina en la montaña", 
-    category: "naturaleza",
-    title: "Cascada Xochitl",
-    description: "El canto del agua que purifica y renueva la vida en nuestro ecosistema",
-    date: "2024-01-22",
-    location: "Cañada de las Flores",
-    photographer: "Carlos Ruiz"
-  },
-  { 
-    src: "/images/galeria/poster-hero.webp", 
-    alt: "Tejidos tradicionales en telar", 
-    category: "cultura",
-    title: "Telares de Tradición",
-    description: "Hilos que entrelazan historias, colores que pintan identidad",
-    date: "2024-03-10",
-    location: "Taller Comunitario",
-    photographer: "Ana Torres"
-  },
-  { 
-    src: "/images/galeria/Dia-muertos.png", 
-    alt: "Trabajo colectivo en el campo", 
-    category: "comunidad",
-    title: "Tequio que Une",
-    description: "Manos que trabajan juntas, corazones que laten al mismo ritmo",
-    date: "2024-02-18",
-    location: "Campos Comunales",
-    photographer: "Pedro Hernández"
-  },
-  { 
-    src: "/images/galeria/puente.jpeg", 
-    alt: "Festival tradicional con danzas", 
-    category: "tradiciones",
-    title: "Danzas del Sol",
-    description: "Ritmos ancestrales que celebran la conexión con el cosmos",
-    date: "2024-03-15",
-    location: "Plaza Principal",
-    photographer: "Laura Mendoza"
-  },
-  { 
-    src: "/images/galeria/Monte_virgen.jpg", 
-    alt: "Arquitectura vernácula local", 
-    category: "cultura",
-    title: "Casas que Respiran",
-    description: "Espacios construidos con materiales de la tierra, diseñados con sabiduría ancestral",
-    date: "2024-03-05",
-    location: "Barrio Antiguo",
-    photographer: "Roberto Díaz"
-  },
-  { 
-    src: "/images/galeria/punche.jpeg", 
-    alt: "Niños aprendiendo en la naturaleza", 
-    category: "comunidad",
-    title: "Semillas del Mañana",
-    description: "El conocimiento que florece entre juegos y risas en nuestro entorno natural",
-    date: "2024-02-12",
-    location: "Escuela al Aire Libre",
-    photographer: "Sofia Castro"
-  },
-  { 
-    src: "/images/galeria/maiz.jpg", 
-    alt: "Preparación de comida tradicional", 
-    category: "tradiciones",
-    title: "Sabores que Cuentan",
-    description: "Recetas que guardan el secreto de generaciones y el sabor de nuestra identidad",
-    date: "2024-03-20",
-    location: "Cocina Comunitaria",
-    photographer: "Miguel Ángel"
-  },
-  { 
-    src: "/images/galeria/milpa.jpeg", 
-    alt: "Cielo estrellado sobre la comunidad", 
-    category: "paisajes",
-    title: "Manto Estrellado",
-    description: "Noches donde el universo se acerca para susurrar secretos ancestrales",
-    date: "2024-01-28",
-    location: "Mirador Celestial",
-    photographer: "Elena Morales"
-  },
-  { 
-    src: "/images/galeria/licores.jpeg", 
-    alt: "Hierbas medicinales y curandera", 
-    category: "tradiciones",
-    title: "Sabiduría Verde",
-    description: "Plantas que sanan, manos que curan, conocimiento que perdura",
-    date: "2024-02-25",
-    location: "Jardín de Medicinas",
-    photographer: "Isabel Ramírez"
-  },
-  { 
-    src: "/images/galeria/cultura1.jpg", 
-    alt: "Alfarería tradicional en barro", 
-    category: "cultura",
-    title: "Barro con Alma",
-    description: "Arcilla que se transforma en vasijas que guardan nuestra esencia",
-    date: "2024-03-08",
-    location: "Taller de Alfarería",
-    photographer: "José Luis"
-  }
-];
+import { useTranslation } from '../contexts/TranslationContext'; // ← AGREGAR IMPORT
+import { useState, useMemo } from 'react'; // ← AGREGAR IMPORT
+// Importar todos los archivos de datos
+import galleryDataEs from '../archivos_data/gallery-data.es.json';
+import galleryDataEn from '../archivos_data/gallery-data.en.json';
+import galleryDataNah from '../archivos_data/gallery-data.nah.json';
 
 export function GalleryGeneralSection() {
+  const { language } = useTranslation(); // ← AGREGAR HOOK
+  // Seleccionar datos según el idioma - NUEVO
+  const galleryImages = useMemo(() => {
+    switch (language) {
+      case 'es':
+        return (galleryDataEs as any).galleryImages;
+      case 'en':
+        return (galleryDataEn as any).galleryImages;
+      case 'nah':
+        return (galleryDataNah as any).galleryImages;
+      default:
+        return (galleryDataEs as any).galleryImages;
+    }
+  }, [language]);
   const {
     selectedImage,
-    currentImageIndex, // ✅ Ahora está disponible
+    currentImageIndex,
     selectedCategory,
     viewMode,
-    zoomLevel, // ✅ Ahora está disponible
-    isPlaying,
-    isMuted,
-    videoRef,
+    zoomLevel,
     categories,
     isMobile,
     filteredImages,
     currentImage,
     setSelectedCategory,
     setViewMode,
-    setIsPlaying,
-    setIsMuted,
     openImage,
     closeImage,
     nextImage,
@@ -164,29 +53,42 @@ export function GalleryGeneralSection() {
     setIsYouTubeModalOpen,
     isVideoHovered,
     setIsVideoHovered,
+    formatDate,
   } = useGallery(galleryImages);
 
-  // ✅ Función para abrir modal de YouTube
+  const { t } = useTranslation(); // ← AGREGAR HOOK
+
+  // Función para obtener el nombre traducido de la categoría
+  const getTranslatedCategory = (category: string) => {
+    switch (category) {
+      case 'paisajes': return t('gallery.landscapes');
+      case 'naturaleza': return t('gallery.nature');
+      case 'cultura': return t('gallery.culture');
+      case 'comunidad': return t('gallery.community');
+      case 'tradiciones': return t('gallery.traditions');
+      default: return category;
+    }
+  };
+
   const handleVideoClick = () => {
     setIsYouTubeModalOpen(true);
   };
 
-  // ✅ Función para hover del video
   const handleVideoHover = (hovered: boolean) => {
     setIsVideoHovered(hovered);
   };
 
   return (
     <section id="galeria" className="py-20 relative overflow-hidden min-h-screen">
-  {/* Fondo con imagen SVG */}
-  <div 
-    className="absolute inset-0 bg-cover bg-center"
-    style={{ backgroundImage: 'url(/images/galeria/fondo-galeria.svg)' }}
-  />
-  
-  {/* Overlay para mejor legibilidad */}
-  <div className="absolute inset-0 bg-black/45 backdrop-blur-[1px]" />
+      {/* Fondo con imagen SVG */}
+      <div 
+        className="absolute inset-0 bg-cover bg-center"
+        style={{ backgroundImage: 'url(/images/galeria/fondo-galeria.svg)' }}
+      />
 
+      {/* Overlay para mejor legibilidad */}
+      <div className="absolute inset-0 bg-black/45 backdrop-blur-[1px]" />
+      
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         {/* Encabezado */}
         <motion.div
@@ -197,41 +99,39 @@ export function GalleryGeneralSection() {
           viewport={{ once: true }}
         >
           <h2 id="roots-heading" className="text-5xl lg:text-6xl font-bold font-serif text-gray-200 mb-6">
-            Mira,{' '}
+            {t('gallery.titlePart1')}{' '} {/* ← TRADUCIBLE */}
             <span className="bg-gradient-to-r from-teal-300 via-blue-400 to-emerald-500 bg-clip-text text-transparent">
-              siente,{' '}
+              {t('gallery.titlePart2')}{' '} {/* ← TRADUCIBLE */}
             </span>
             <span className="bg-gradient-to-r from-teal-100 via-blue-200 to-emerald-300 bg-clip-text text-transparent">
-              descubre
+              {t('gallery.titlePart3')} {/* ← TRADUCIBLE */}
             </span>
           </h2>
-          
         </motion.div>
 
         {/* ✅ LAYOUT MEJORADO CON COMPONENTES EXISTENTES */}
         <div className="flex flex-col lg:flex-row gap-6 items-start">
-  
-        {/* SIDEBAR IZQUIERDO COMPLETO */}
-        <motion.div
-          initial={{ opacity: 0, x: -50 }}
-          whileInView={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.6, delay: 0.3 }}
-          className="w-full lg:w-64 flex-shrink-0 lg:-ml-4"
-        >
-          <div className="bg-slate-800/20 backdrop-blur-sm rounded-4xl p-6 border border-slate-700/50 sticky top-8 space-y-">
-            
-            {/* ✅ VIEW MODE TOGGLE EN SIDEBAR */}
-            <ViewModeToggle
-              viewMode={viewMode}
-              onViewModeChange={setViewMode}
-              isMobile={isMobile}
-            />
+          {/* SIDEBAR IZQUIERDO COMPLETO */}
+          <motion.div
+            initial={{ opacity: 0, x: -50 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.6, delay: 0.3 }}
+            className="w-full lg:w-64 flex-shrink-0 lg:-ml-4"
+          >
+            <div className="bg-slate-800/20 backdrop-blur-sm rounded-4xl p-6 border border-slate-700/50 sticky top-8 space-y-6">
+              
+              {/* ✅ VIEW MODE TOGGLE EN SIDEBAR */}
+              <ViewModeToggle
+                viewMode={viewMode}
+                onViewModeChange={setViewMode}
+                isMobile={isMobile}
+              />
 
-      {/* ✅ CATEGORÍAS VERTICALES */}
-      <div>
-        <h3 className="text-white font-semibold text-lg mb-4 font-serif">
-          Categorías
-        </h3>
+              {/* ✅ CATEGORÍAS VERTICALES */}
+              <div>
+                <h3 className="text-white font-semibold text-lg mb-4 font-serif">
+                  {t('gallery.categoriesTitle')} {/* ← TRADUCIBLE */}
+                </h3>
                 <div className="space-y-2">
                   {categories.map(category => (
                     <motion.button
@@ -245,14 +145,16 @@ export function GalleryGeneralSection() {
                           : 'text-slate-300 hover:text-white hover:bg-slate-700/50 border border-slate-600/50'
                       }`}
                     >
-                      {category === 'todas' ? '🌄 Todas las Categorías' : 
-                       `${
-                         category === 'paisajes' ? '🏔️ ' :
-                         category === 'naturaleza' ? '🌿 ' :
-                         category === 'cultura' ? '🎨 ' :
-                         category === 'comunidad' ? '👥 ' :
-                         category === 'tradiciones' ? '📜 ' : '📸 '
-                       }${category.charAt(0).toUpperCase() + category.slice(1)}`}
+                      {category === 'todas' 
+                        ? `🌄 ${t('gallery.allCategories')}` // ← TRADUCIBLE
+                        : `${
+                            category === 'paisajes' ? '🏔️ ' :
+                            category === 'naturaleza' ? '🌿 ' :
+                            category === 'cultura' ? '🎨 ' :
+                            category === 'comunidad' ? '👥 ' :
+                            category === 'tradiciones' ? '📜 ' : '📸 '
+                          }${getTranslatedCategory(category)}` // ← TRADUCIBLE
+                      }
                     </motion.button>
                   ))}
                 </div>
@@ -261,10 +163,16 @@ export function GalleryGeneralSection() {
               {/* ✅ CONTADOR DE IMÁGENES */}
               <div className="pt-4 border-t border-slate-700/50">
                 <p className="text-slate-400 text-sm">
-                  {filteredImages.length} {filteredImages.length === 1 ? 'imagen' : 'imágenes'}
+                  {filteredImages.length} {filteredImages.length === 1 
+                    ? t('gallery.imagesCount') // ← TRADUCIBLE
+                    : t('gallery.imagesCount_plural') // ← TRADUCIBLE
+                  }
                 </p>
                 <p className="text-slate-500 text-xs mt-1">
-                  Categoría: {selectedCategory === 'todas' ? 'Todas' : selectedCategory}
+                  {t('gallery.categoryLabel')} {selectedCategory === 'todas' 
+                    ? t('gallery.allCategoriesLabel') // ← TRADUCIBLE
+                    : getTranslatedCategory(selectedCategory) // ← TRADUCIBLE
+                  }
                 </p>
               </div>
             </div>
@@ -272,7 +180,6 @@ export function GalleryGeneralSection() {
 
           {/* ✅ CONTENIDO PRINCIPAL - MÁS ESPACIO */}
           <div className="flex-1 w-full min-w-0">
-            
             {/* ✅ VIEW MODE TOGGLE EN PARTE SUPERIOR DERECHA */}
             <div className="flex justify-between items-start mb-6">
               {/* Espacio izquierdo para balance */}
@@ -352,10 +259,10 @@ export function GalleryGeneralSection() {
             >
               <div className="bg-gradient-to-r from-yellow-800 to-amber-900 rounded-3xl p-8 border border-slate-700/50 shadow-2xl">
                 <h3 className="text-2xl md:text-3xl font-bold text-white mb-4 font-serif">
-                  ¿Formas parte de nuestra comunidad?
+                  {t('gallery.communityCallToAction')} {/* ← TRADUCIBLE */}
                 </h3>
                 <p className="text-slate-300 text-lg mb-6 max-w-2xl mx-auto">
-                  Comparte tus momentos y contribuye a la memoria visual colectiva de San Juan Tahitic
+                  {t('gallery.communityDescription')} {/* ← TRADUCIBLE */}
                 </p>
               </div>
             </motion.div>
@@ -375,8 +282,9 @@ export function GalleryGeneralSection() {
           onZoomIn={handleZoomIn}
           onZoomOut={handleZoomOut}
           onResetZoom={handleResetZoom}
+          formatDate={formatDate}
         />
-
+        
         <YouTubeModal
           isOpen={isYouTubeModalOpen}
           onClose={() => setIsYouTubeModalOpen(false)}

@@ -4,38 +4,41 @@ import { Input } from './components/ui/input';
 import { Textarea } from './components/ui/textarea';
 import { MapPin, Phone, Mail, Clock } from 'lucide-react';
 import { ImageWithFallback } from './components/figma/ImageWithFallback';
+import { useTranslation } from './contexts/TranslationContext'; // ← AGREGAR IMPORT
 
 export function ContactSection() {
+  const { t } = useTranslation(); // ← AGREGAR HOOK
+
   const contactInfo = [
     {
       icon: MapPin,
-      title: "Ubicación",
-      content: "San Juan Tahitic, Región Central",
-      details: "Accesible por carretera principal"
+      title: t('contact.contactItems.location.title'), // ← TRADUCIBLE
+      content: t('contact.contactItems.location.content'), // ← TRADUCIBLE
+      details: t('contact.contactItems.location.details') // ← TRADUCIBLE
     },
     {
       icon: Phone,
-      title: "Teléfono",
-      content: "+1 (555) 123-4567",
-      details: "Lunes a Domingo 8:00 AM - 6:00 PM"
+      title: t('contact.contactItems.phone.title'), // ← TRADUCIBLE
+      content: t('contact.contactItems.phone.content'), // ← TRADUCIBLE
+      details: t('contact.contactItems.phone.details') // ← TRADUCIBLE
     },
     {
       icon: Mail,
-      title: "Email",
-      content: "info@sanjuantahitic.com",
-      details: "Respuesta en 24 horas"
+      title: t('contact.contactItems.email.title'), // ← TRADUCIBLE
+      content: t('contact.contactItems.email.content'), // ← TRADUCIBLE
+      details: t('contact.contactItems.email.details') // ← TRADUCIBLE
     },
     {
       icon: Clock,
-      title: "Horarios de Visita",
-      content: "Todos los días",
-      details: "8:00 AM - 6:00 PM"
+      title: t('contact.contactItems.hours.title'), // ← TRADUCIBLE
+      content: t('contact.contactItems.hours.content'), // ← TRADUCIBLE
+      details: t('contact.contactItems.hours.details') // ← TRADUCIBLE
     }
   ];
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    alert('Gracias por tu mensaje. Te contactaremos pronto.');
+    alert(t('contact.contactForm.successMessage')); // ← TRADUCIBLE
   };
 
   return (
@@ -49,24 +52,25 @@ export function ContactSection() {
           filter: 'blur(1.5px) brightness(0.75)',
         }}
       ></div>
-
       {/* Capa de sombra para mejorar legibilidad */}
       <div className="absolute inset-0 bg-gradient-to-b from-gray-900/30 via-gray-800/10 to-transparent"></div>
 
       {/* Contenido principal */}
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-16">
-          <h2 className="text-4xl text-white mb-4">Contacto e Información</h2>
+          <h2 className="text-4xl text-white font-semibold font-serif mb-4">
+            {t('contact.title')} {/* ← TRADUCIBLE */}
+          </h2>
           <p className="text-xl text-amber-200 max-w-3xl mx-auto">
-            Planifica tu visita a San Juan Tahitic. Estamos aquí para ayudarte a 
-            organizar una experiencia memorable en nuestro destino.
+            {t('contact.subtitle')} {/* ← TRADUCIBLE */}
           </p>
         </div>
-
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 mb-16">
           {/* Columna izquierda */}
           <div>
-            <h3 className="text-2xl text-white mb-8">Información de Contacto</h3>
+            <h3 className="text-2xl text-white font-medium font-serif mb-8">
+              {t('contact.contactInfo')} {/* ← TRADUCIBLE */}
+            </h3>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
               {contactInfo.map((info, index) => (
                 <Card key={index} className="group hover:shadow-lg transition-shadow duration-300 bg-white/80 backdrop-blur-sm">
@@ -74,7 +78,7 @@ export function ContactSection() {
                     <div className="bg-blue-100 p-2 rounded-lg mr-3 group-hover:bg-blue-200 transition-colors duration-300">
                       <info.icon className="h-5 w-5 text-blue-600" />
                     </div>
-                    <CardTitle className="text-lg text-gray-900">{info.title}</CardTitle>
+                    <CardTitle className="text-lg font-medium font-serif text-gray-900">{info.title}</CardTitle>
                   </CardHeader>
                   <CardContent>
                     <p className="text-gray-900 mb-1">{info.content}</p>
@@ -83,9 +87,10 @@ export function ContactSection() {
                 </Card>
               ))}
             </div>
-
             <div className="mt-8">
-              <h4 className="text-xl text-white mb-4">¿Cómo llegar?</h4>
+              <h4 className="text-xl text-white font-bold font-serif mb-4">
+                {t('contact.howToGetThere')} {/* ← TRADUCIBLE */}
+              </h4>
               <div className="bg-white/90 p-6 rounded-lg shadow-md backdrop-blur-sm">
                 <ImageWithFallback
                   src="https://images.unsplash.com/photo-1511593358241-7eea1f3c84e5?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
@@ -93,22 +98,23 @@ export function ContactSection() {
                   className="w-full h-48 object-cover rounded-lg mb-4"
                 />
                 <p className="text-gray-600 text-sm">
-                  San Juan Tahitic se encuentra ubicado en una zona de fácil acceso por carretera. 
-                  Desde la capital regional, el viaje toma aproximadamente 2 horas en vehículo particular 
-                  o transporte público.
+                  {t('contact.mapDescription')} {/* ← TRADUCIBLE */}
                 </p>
               </div>
             </div>
           </div>
-
           {/* Columna derecha */}
           <div>
-            <h3 className="text-2xl text-white mb-8">Envíanos un Mensaje</h3>
+            <h3 className="text-2xl text-white font-bold font-serif mb-8">
+              {t('contact.sendMessage')} {/* ← TRADUCIBLE */}
+            </h3>
             <Card className="shadow-lg bg-white/90 backdrop-blur-sm">
               <CardHeader>
-                <CardTitle className="text-gray-900">Formulario de Contacto</CardTitle>
+                <CardTitle className="text-gray-900 font-bold font-serif">
+                  {t('contact.contactForm.title')} {/* ← TRADUCIBLE */}
+                </CardTitle>
                 <CardDescription>
-                  Completa el formulario y te responderemos a la brevedad
+                  {t('contact.contactForm.description')} {/* ← TRADUCIBLE */}
                 </CardDescription>
               </CardHeader>
               <CardContent>
@@ -116,59 +122,77 @@ export function ContactSection() {
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div>
                       <label htmlFor="nombre" className="block text-sm text-gray-700 mb-2">
-                        Nombre *
+                        {t('contact.contactForm.name')} {/* ← TRADUCIBLE */}
                       </label>
-                      <Input id="nombre" name="nombre" required placeholder="Tu nombre completo" className="w-full" />
+                      <Input 
+                        id="nombre" 
+                        name="nombre" 
+                        required 
+                        placeholder={t('contact.contactForm.namePlaceholder')} // ← TRADUCIBLE
+                        className="w-full" 
+                      />
                     </div>
                     <div>
                       <label htmlFor="email" className="block text-sm text-gray-700 mb-2">
-                        Email *
+                        {t('contact.contactForm.email')} {/* ← TRADUCIBLE */}
                       </label>
-                      <Input id="email" name="email" type="email" required placeholder="tu@email.com" />
+                      <Input 
+                        id="email" 
+                        name="email" 
+                        type="email" 
+                        required 
+                        placeholder={t('contact.contactForm.emailPlaceholder')} // ← TRADUCIBLE
+                      />
                     </div>
                   </div>
-
                   <div>
                     <label htmlFor="telefono" className="block text-sm text-gray-700 mb-2">
-                      Teléfono
+                      {t('contact.contactForm.phone')} {/* ← TRADUCIBLE */}
                     </label>
-                    <Input id="telefono" name="telefono" type="tel" placeholder="Tu número de teléfono" />
+                    <Input 
+                      id="telefono" 
+                      name="telefono" 
+                      type="tel" 
+                      placeholder={t('contact.contactForm.phonePlaceholder')} // ← TRADUCIBLE
+                    />
                   </div>
-
                   <div>
                     <label htmlFor="asunto" className="block text-sm text-gray-700 mb-2">
-                      Asunto *
+                      {t('contact.contactForm.subject')} {/* ← TRADUCIBLE */}
                     </label>
-                    <Input id="asunto" name="asunto" required placeholder="¿En qué podemos ayudarte?" />
+                    <Input 
+                      id="asunto" 
+                      name="asunto" 
+                      required 
+                      placeholder={t('contact.contactForm.subjectPlaceholder')} // ← TRADUCIBLE
+                    />
                   </div>
-
                   <div>
                     <label htmlFor="mensaje" className="block text-sm text-gray-700 mb-2">
-                      Mensaje *
+                      {t('contact.contactForm.message')} {/* ← TRADUCIBLE */}
                     </label>
                     <Textarea
                       id="mensaje"
                       name="mensaje"
                       required
                       rows={5}
-                      placeholder="Cuéntanos más detalles sobre tu consulta o visita planeada..."
+                      placeholder={t('contact.contactForm.messagePlaceholder')} // ← TRADUCIBLE
                     />
                   </div>
-
-                  <Button type="submit" className="w-full bg-blue-600 hover:bg-blue-700 text-white">
-                    Enviar Mensaje
+                  <Button type="submit" className="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold font-serif">
+                    {t('contact.contactForm.submit')} {/* ← TRADUCIBLE */}
                   </Button>
                 </form>
               </CardContent>
             </Card>
-
             <div className="mt-8 bg-blue-50 p-6 rounded-lg">
-              <h4 className="text-lg text-gray-900 mb-3">Información Adicional</h4>
-              <ul className="space-y-2 text-sm text-gray-600">
-                <li>• Se recomienda reservar con anticipación para tours guiados</li>
-                <li>• Temporada alta: Diciembre a Marzo</li>
-                <li>• Disponemos de guías locales especializados</li>
-                <li>• Aceptamos grupos de diferentes tamaños</li>
+              <h4 className="text-lg text-gray-900 font-bold font-serif mb-3">
+                {t('contact.additionalInfo')} {/* ← TRADUCIBLE */}
+              </h4>
+              <ul className="space-y-2 text-sm font-medium font-serif text-gray-600">
+                {(t('contact.additionalItems') as unknown as string[]).map((item, index) => ( // ← TRADUCIBLE
+                  <li key={index}>• {item}</li>
+                ))}
               </ul>
             </div>
           </div>

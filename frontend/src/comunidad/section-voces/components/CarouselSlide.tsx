@@ -3,12 +3,10 @@ import { motion } from "framer-motion";
 import { slideVariants } from "../variants";
 import type { Testimonio } from "../data";
 import { Quote } from "lucide-react";
-
 interface Props {
   testimonio: Testimonio;
   direction: number;
 }
-
 export function CarouselSlide({ testimonio, direction }: Props) {
   const Icon = testimonio.icon;
   return (
@@ -39,7 +37,7 @@ export function CarouselSlide({ testimonio, direction }: Props) {
             />
           </div>
           <div className="text-center">
-            <h3 className="text-xl sm:text-2xl lg:text-3xl font-bold mb-2 drop-shadow">
+            <h3 className="text-xl sm:text-2xl lg:text-3xl font-bold font-serif mb-2 drop-shadow">
               {testimonio.nombre}
             </h3>
             <div className="inline-flex items-center bg-white/20 backdrop-blur px-3 py-1 rounded-full border border-white/30 mb-2">
@@ -50,7 +48,6 @@ export function CarouselSlide({ testimonio, direction }: Props) {
           </div>
         </div>
       </div>
-
       {/* TEXTO */}
       <div className="flex items-center justify-center p-6 lg:p-12 bg-gradient-to-br from-white to-slate-50">
         <div className="max-w-md">
@@ -62,8 +59,8 @@ export function CarouselSlide({ testimonio, direction }: Props) {
           <blockquote className="text-lg sm:text-xl lg:text-2xl italic text-slate-800 mb-6">
             “{testimonio.testimonio}”
           </blockquote>
-          <div className="bg-gradient-to-r from-teal-500 to-cyan-600 text-white px-4 py-2 rounded-full text-center">
-            <span className="font-semibold text-sm">{testimonio.tagline}</span>
+          <div className="bg-gradient-to-r from-teal-500 to-cyan-600 text-white px-4 py-2 rounded-md text-center">
+            <span className="font-semibold font-serif text-sm">{testimonio.tagline}</span>
           </div>
         </div>
       </div>

@@ -1,6 +1,8 @@
 // src/components/VisualCardsSection.tsx
 import { motion, useScroll, useTransform, useAnimation, useInView, useReducedMotion } from "framer-motion";
-import { useRef, useEffect, useState, useCallback, forwardRef } from "react"; // ← Añade forwardRef aquí
+import { useRef, useEffect, useState, useCallback, forwardRef } from "react";
+import { useTranslation } from '../contexts/TranslationContext'; // ← AGREGAR IMPORT
+import { Link } from "react-router-dom";
 
 /* =============================
    Tipos
@@ -20,54 +22,54 @@ interface VisualCardProps {
   isMobile: boolean;
 }
 
-// Añade esta interfaz para las props del componente principal
 interface VisualCardsSectionProps {
   // puedes añadir props aquí si las necesitas en el futuro
 }
 
 /* =============================
-   Datos optimizados
+   Datos optimizados - AHORA CON TRADUCCIONES
 ============================= */
-const cardsData: CardData[] = [
+const getCardsData = (t: (key: any) => string): CardData[] => [
   {
-    title: "Comedor de Doña Adela",
-    description: "Disfruta de la gastronomía local con platillos tradicionales y auténticos sabores de la región.",
+    title: t('cards.adelaRestaurant.title'),
+    description: t('cards.adelaRestaurant.description'),
     image: "/images/home/cards/Comedor.webp",
     link: "/section-gastronomia",
-    priority: true // Primera imagen con prioridad
+    priority: true
   },
   {
-    title: "Cascada de los Enamorados",
-    description: "Admira una de las cascadas más bellas, rodeada de naturaleza y tranquilidad.",
+    title: t('cards.loversWaterfall.title'),
+    description: t('cards.loversWaterfall.description'),
     image: "/images/home/cards/Cascada-enamorados.webp",
     link: "/turismo",
   },
   {
-    title: "Construcción de cabañas al 80%",
-    description: "Próximamente nuevas opciones de hospedaje inmersas en la naturaleza.",
+    title: t('cards.cabins.title'),
+    description: t('cards.cabins.description'),
     image: "/images/home/cards/Cabanas.webp",
     link: "/comunidad#atracciones-proximas",
   },
   {
-    title: "Miradores",
-    description: "Vistas panorámicas impresionantes para capturar recuerdos inolvidables.",
+    title: t('cards.viewpoints.title'),
+    description: t('cards.viewpoints.description'),
     image: "/images/home/cards/mirador.webp",
     link: "/galeria",
   },
   {
-    title: "Danzas",
-    description: "Vive la riqueza cultural a través de danzas y música tradicional.",
+    title: t('cards.dances.title'),
+    description: t('cards.dances.description'),
     image: "/images/home/cards/Danza.webp",
-    link: "/cultura",
+    link: "/cultura#danzas",
   },
   {
-    title: "Ríos",
-    description: "Sumérgete en la belleza de nuestros ríos y disfruta de su entorno natural.",
+    title: t('cards.rivers.title'),
+    description: t('cards.rivers.description'),
     image: "/images/home/cards/Rios.webp",
     link: "/turismo",
   },
 ];
 
+// El resto del código se mantiene igual hasta el componente principal...
 /* =============================
    Hook personalizado para detección de dispositivo y optimizaciones
 ============================= */
@@ -227,6 +229,7 @@ const useAutoScroll = (
 const VisualCard = ({ card, index, shouldReduceMotion, isMobile }: VisualCardProps) => {
   const ref = useRef<HTMLDivElement | null>(null);
   const inView = useInView(ref, { once: true, margin: isMobile ? "-50px" : "-100px" });
+  const { t } = useTranslation(); // ← AGREGAR HOOK
 
   // Optimización: solo usar parallax en dispositivos capaces
   const { scrollYProgress } = useScroll({
@@ -265,7 +268,7 @@ const VisualCard = ({ card, index, shouldReduceMotion, isMobile }: VisualCardPro
       variants={variants}
       {...hoverVariants}
       role="article"
-      aria-label={`Tarjeta de ${card.title}`}
+      aria-label={`${t('cards.goToCard')} ${card.title}`} // ← TRADUCIBLE
     >
       {/* Imagen optimizada */}
       <motion.div 
@@ -291,22 +294,22 @@ const VisualCard = ({ card, index, shouldReduceMotion, isMobile }: VisualCardPro
         <h3 className="text-xl sm:text-2xl font-bold font-serif mb-2 drop-shadow-lg leading-tight">{card.title}</h3>
         <p className="text-gray-200 text-xs sm:text-sm drop-shadow-md line-clamp-2">{card.description}</p>
 
-        {/* Botón optimizado */}
-        <a
-          href={card.link}
-          aria-label={`Explorar ${card.title}`}
-          className={`
-            mt-4 sm:mt-6 inline-block w-fit px-4 sm:px-6 py-2 text-xs sm:text-sm font-medium  font-serif
-            border border-white/80 rounded-full transition-all duration-300 
-            opacity-100 translate-y-0 sm:opacity-0 sm:translate-y-4 sm:group-hover:opacity-100 sm:group-hover:translate-y-0 
-            hover:bg-white hover:text-gray-900 shadow-md
-            focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-900 animate-glow
-            ${shouldReduceMotion ? 'sm:opacity-100 sm:translate-y-0' : ''}
-          `}
-          onClick={(e) => e.stopPropagation()}
-        >
-          Explorar
-        </a>
+       {/* Botón optimizado CON REACT ROUTER */}
+<Link
+  to={card.link}
+  aria-label={`${t('cards.exploreButton')} ${card.title}`}
+  className={`
+    mt-4 sm:mt-6 inline-block w-fit px-4 sm:px-6 py-2 text-xs sm:text-sm font-medium font-serif
+    border border-white/80 rounded-full transition-all duration-300 
+    opacity-100 translate-y-0 sm:opacity-0 sm:translate-y-4 sm:group-hover:opacity-100 sm:group-hover:translate-y-0 
+    hover:bg-white hover:text-gray-900 shadow-md
+    focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-900 animate-glow
+    ${shouldReduceMotion ? 'sm:opacity-100 sm:translate-y-0' : ''}
+  `}
+  onClick={(e) => e.stopPropagation()}
+>
+  {t('cards.exploreButton')}
+</Link>
       </div>
     </motion.div>
   );
@@ -317,6 +320,7 @@ const VisualCard = ({ card, index, shouldReduceMotion, isMobile }: VisualCardPro
 ============================= */
 export const VisualCardsSection = forwardRef<HTMLDivElement, VisualCardsSectionProps>(
   (props, ref) => {
+    const { t } = useTranslation(); // ← AGREGAR HOOK
     const containerRef = useRef<HTMLDivElement | null>(null);
     const { isMobile, isLowEndDevice, shouldReduceMotion } = useDeviceOptimization();
     const inView = useInView(containerRef, { once: true, amount: 0.3 });
@@ -372,14 +376,14 @@ export const VisualCardsSection = forwardRef<HTMLDivElement, VisualCardsSectionP
     // Preload de primera imagen crítica
     useEffect(() => {
       const preloadImage = new Image();
-      preloadImage.src = cardsData[0].image;
-    }, []);
+      preloadImage.src = getCardsData(t)[0].image; // ← USAR getCardsData(t)
+    }, [t]);
 
     return (
       <section 
-        ref={ref} // ← Aquí se usa la ref forwardeada
+        ref={ref}
         className="relative bg-black py-16 sm:py-24 px-0 overflow-hidden"
-        aria-label="Galería de atracciones de San Juan Tahitic"
+        aria-label={t('cards.exploreTitle')} // ← TRADUCIBLE
       >
         {/* Título optimizado */}
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 mb-12 sm:mb-16">
@@ -390,7 +394,7 @@ export const VisualCardsSection = forwardRef<HTMLDivElement, VisualCardsSectionP
             transition={{ duration: shouldReduceMotion ? 0.3 : 0.8 }}
             viewport={{ once: true }}
           >
-            Explora San Juan Tahitic
+            {t('cards.exploreTitle')} {/* ← TRADUCIBLE */}
           </motion.h2>
           <motion.p
             className="text-base sm:text-lg text-gray-400 mt-3 sm:mt-4 text-center max-w-2xl mx-auto"
@@ -399,7 +403,7 @@ export const VisualCardsSection = forwardRef<HTMLDivElement, VisualCardsSectionP
             transition={{ duration: shouldReduceMotion ? 0.3 : 0.8, delay: 0.1 }}
             viewport={{ once: true }}
           >
-            Descubre las maravillas que te esperan en este paraíso
+            {t('cards.exploreSubtitle')} {/* ← TRADUCIBLE */}
           </motion.p>
         </div>
 
@@ -407,7 +411,7 @@ export const VisualCardsSection = forwardRef<HTMLDivElement, VisualCardsSectionP
         {!isMobile && (
           <>
             <button
-              aria-label="Anterior"
+              aria-label={t('cards.previous')} // ← TRADUCIBLE
               onClick={() => {
                 const c = containerRef.current;
                 if (!c) return;
@@ -422,7 +426,7 @@ export const VisualCardsSection = forwardRef<HTMLDivElement, VisualCardsSectionP
             </button>
 
             <button
-              aria-label="Siguiente"
+              aria-label={t('cards.next')} // ← TRADUCIBLE
               onClick={() => {
                 const c = containerRef.current;
                 if (!c) return;
@@ -443,10 +447,10 @@ export const VisualCardsSection = forwardRef<HTMLDivElement, VisualCardsSectionP
           ref={containerRef}
           className="flex flex-nowrap gap-6 sm:gap-8 py-4 px-4 sm:px-6 lg:px-8 overflow-x-auto snap-x snap-mandatory scroll-smooth scrollbar-hide"
           role="region"
-          aria-label="Carrusel de tarjetas"
+          aria-label={t('cards.exploreTitle')} // ← TRADUCIBLE
           aria-live="polite"
         >
-          {cardsData.map((card, index) => (
+          {getCardsData(t).map((card, index) => ( // ← USAR getCardsData(t)
             <VisualCard 
               key={`${card.title}-${index}`}
               card={card} 
@@ -460,10 +464,10 @@ export const VisualCardsSection = forwardRef<HTMLDivElement, VisualCardsSectionP
         {/* Indicadores de progreso para móvil */}
         {isMobile && (
           <div className="flex justify-center mt-6 space-x-2">
-            {cardsData.map((_, index) => (
+            {getCardsData(t).map((_, index) => ( // ← USAR getCardsData(t)
               <button
                 key={index}
-                aria-label={`Ir a tarjeta ${index + 1}`}
+                aria-label={`${t('cards.goToCard')} ${index + 1}`} // ← TRADUCIBLE
                 className="w-2 h-2 rounded-full bg-white/30 hover:bg-white/50 transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-white"
                 onClick={() => {
                   // Navegación directa a tarjeta específica
@@ -486,5 +490,4 @@ export const VisualCardsSection = forwardRef<HTMLDivElement, VisualCardsSectionP
   }
 );
 
-// Añade el displayName para mejor debugging
 VisualCardsSection.displayName = 'VisualCardsSection';

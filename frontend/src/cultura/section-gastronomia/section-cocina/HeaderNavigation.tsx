@@ -1,7 +1,6 @@
 // HeaderNavigation.tsx - Versión que solo funciona dentro de ViajeSensorialGastronomico
-import { ChefHat, ChevronLeft, ChevronRight, Menu, Sparkles } from 'lucide-react';
-import { MobileMenu } from './MobileMenu';
-import { useState } from 'react';
+import { ChefHat, ChevronLeft, ChevronRight, Sparkles } from 'lucide-react';
+import { useTranslation } from '../../../contexts/TranslationContext'; // ← AGREGAR IMPORT
 
 interface HeaderNavigationProps {
   cocinas: any[];
@@ -16,14 +15,10 @@ export function HeaderNavigation({
   cocinas, 
   cocinaActiva, 
   onCocinaChange, 
-  onNavigate,
   onSiguienteCocina,
   onAnteriorCocina
 }: HeaderNavigationProps) {
-
-  const handleNavigate = (section: string) => {
-    onNavigate(section);
-  };
+  const { t } = useTranslation(); // ← AGREGAR HOOK
 
   return (
     <>
@@ -38,10 +33,10 @@ export function HeaderNavigation({
                 <ChefHat className="h-6 w-6 sm:h-8 sm:w-8 text-amber-600 flex-shrink-0" />
                 <div className="min-w-0 flex-1">
                   <h1 className="text-lg sm:text-xl lg:text-2xl font-bold font-serif text-gray-900 truncate">
-                    Experiencias Gastronómicas
+                    {t('cocinas.header.gastronomicExperiences')} {/* ← TRADUCIBLE */}
                   </h1>
                   <p className="text-xs text-amber-600 font-medium font-serif hidden sm:block truncate">
-                    {cocinas[cocinaActiva]?.nombre}
+                    {cocinas[cocinaActiva]?.nombre} {/* ← ESTE VIENE DEL JSON */}
                   </p>
                 </div>
               </div>
@@ -53,7 +48,7 @@ export function HeaderNavigation({
                 <div className="hidden lg:flex items-center space-x-2 bg-amber-50 px-3 py-1 rounded-full border border-amber-200">
                   <Sparkles className="h-4 w-4 text-amber-600 flex-shrink-0" />
                   <span className="text-sm font-medium text-amber-700 whitespace-nowrap">
-                    {cocinaActiva + 1} de {cocinas.length}
+                    {cocinaActiva + 1} {t('cocinas.header.of')} {cocinas.length} {/* ← TRADUCIBLE */}
                   </span>
                 </div>
 
@@ -62,7 +57,7 @@ export function HeaderNavigation({
                   <button
                     onClick={onAnteriorCocina} 
                     className="p-2 rounded-full bg-white text-amber-700 hover:bg-amber-50 transition-all duration-200 shadow-sm hover:shadow-md border border-amber-200"
-                    aria-label="Cocina anterior"
+                    aria-label={t('cocinas.header.previousKitchen')} 
                   >
                     <ChevronLeft className="h-4 w-4 sm:h-5 sm:w-5" />
                   </button>
@@ -78,7 +73,7 @@ export function HeaderNavigation({
                             ? 'bg-amber-600 w-3 h-3' 
                             : 'bg-amber-300 hover:bg-amber-400 w-2 h-2'
                         } rounded-full`}
-                        aria-label={`Ir a cocina ${index + 1}`}
+                        aria-label={`${t('cocinas.header.goToKitchen')} ${index + 1}`} 
                       />
                     ))}
                   </div>
@@ -86,7 +81,7 @@ export function HeaderNavigation({
                   <button
                     onClick={onSiguienteCocina} 
                     className="p-2 rounded-full bg-white text-amber-700 hover:bg-amber-50 transition-all duration-200 shadow-sm hover:shadow-md border border-amber-200"
-                    aria-label="Siguiente cocina"
+                    aria-label={t('cocinas.header.nextKitchen')} 
                   >
                     <ChevronRight className="h-4 w-4 sm:h-5 sm:w-5" />
                   </button>

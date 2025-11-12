@@ -1,7 +1,8 @@
 // src/components/InfoModal.tsx
 import { motion, AnimatePresence } from 'framer-motion';
-import { X, CheckCircle } from 'lucide-react';
+import { X } from 'lucide-react';
 import { type ElementType, type ReactNode } from 'react';
+import { useTranslation } from '../../contexts/TranslationContext'; // ← AGREGAR IMPORT
 
 interface ModalProps {
   isOpen: boolean;
@@ -9,7 +10,7 @@ interface ModalProps {
   title: string;
   Icon: ElementType;
   gradient: string;
-  children: ReactNode; // Aceptará cualquier contenido JSX
+  children: ReactNode;
 }
 
 const backdropVariants = {
@@ -23,6 +24,8 @@ const modalVariants = {
 } as const;
 
 export function InfoModal({ isOpen, onClose, title, Icon, gradient, children }: ModalProps) {
+  const { t } = useTranslation(); // ← AGREGAR HOOK
+
   return (
     <AnimatePresence>
       {isOpen && (
@@ -35,30 +38,29 @@ export function InfoModal({ isOpen, onClose, title, Icon, gradient, children }: 
           onClick={onClose}
         >
           <motion.div
-            className="relative bg-slate-50 rounded-2xl shadow-2xl max-w-7xl w-full max-h-[90vh] overflow-y-auto flex flex-col"
+            className="relative bg-slate-50 rounded-2xl shadow-2xl max-w-7xl w-full max-h-[90vh] flex flex-col"
             variants={modalVariants}
             onClick={(e) => e.stopPropagation()}
           >
-            {/* --- Encabezado del Modal --- */}
-            <div className={`sticky top-0 bg-gradient-to-r ${gradient} p-6 flex items-center justify-between text-white rounded-t-2xl`}>
+            <div className={`flex-shrink-0 bg-gradient-to-r ${gradient} p-6 flex items-center justify-between text-white rounded-t-2xl`}>
               <div className="flex items-center gap-4">
                 <div className="bg-white/20 p-3 rounded-xl">
                   <Icon className="h-8 w-8" />
                 </div>
-                <h2 className="text-2xl font-bold">{title}</h2>
+                <h2 className="text-2xl font-bold font-serif">{title}</h2>
               </div>
               <button
                 onClick={onClose}
                 className="bg-white/20 p-2 rounded-full hover:bg-white/30 transition-colors"
-                aria-label="Cerrar modal"
+                aria-label={t('present.closeModal')} 
               >
                 <X size={24} />
               </button>
             </div>
-
-            {/* --- Contenido Reutilizable --- */}
-            <div className="p-8">
-              {children}
+            <div className="flex-1 overflow-y-auto">
+              <div className="p-8">
+                {children}
+              </div>
             </div>
           </motion.div>
         </motion.div>

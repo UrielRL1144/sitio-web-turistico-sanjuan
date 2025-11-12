@@ -1,6 +1,7 @@
 import { motion, type Variants } from 'framer-motion';
 import { Home, Zap, Construction, Calendar, MapPin, Users, TreePine, ArrowRight, Play, ExternalLink } from 'lucide-react';
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
+import { useTranslation } from '../../../contexts/TranslationContext'; // ← AGREGAR IMPORT
 
 const cardVariants: Variants = {
   hidden: { opacity: 0, y: 30 },
@@ -14,67 +15,58 @@ const cardVariants: Variants = {
   },
 };
 
-const galleryVariants: Variants = {
-  hidden: { opacity: 0, scale: 0.8 },
-  visible: {
-    opacity: 1,
-    scale: 1,
-    transition: {
-      duration: 0.6,
-      ease: "easeOut"
-    }
-  }
-};
-
-const projectData = {
-  title: 'Cabañas Turísticas (Fase I)',
-  subtitle: 'Alojamiento para el Futuro Turístico de Tahitic',
-  description: 'Un proyecto comunitario para ofrecer una experiencia de inmersión única. Cabañas ecológicas y confortables construidas con métodos tradicionales y materiales locales, impulsando la economía y el ecoturismo.',
-  status: 'En Construcción (80% completado)',
-  progress: 80,
-  features: [
-    { label: 'Unidades Iniciales', value: 8, icon: Home },
-    { label: 'Fecha Estimada', value: 'Primavera 2024', icon: Calendar },
-    { label: 'Energía Autosuficiente', value: 'Solar', icon: Zap },
-    { label: 'Ubicación', value: 'Vista al Valle', icon: MapPin },
-    { label: 'Empleos Generados', value: '15+', icon: Users },
-    { label: 'Materiales Locales', value: '95%', icon: TreePine },
-  ],
-  constructionImages: [
-    {
-      url: "/images/home/cards/Cabanas.webp",
-      title: "Cimentación de las cabañas",
-      description: "Trabajando en los cimientos con técnicas sostenibles"
-    },
-    {
-      url: "/images/home/cards/cabañas2.webp",
-      title: "Estructura principal",
-      description: "Armazón de madera local en proceso"
-    },
-    {
-      url: "/images/home/cards/Cabañas3.jpg",
-      title: "Trabajo comunitario",
-      description: "Vecinos participando en la construcción"
-    },
-    {
-      url: "/images/home/cards/Cabañas4.jpg",
-      title: "Vista del proyecto",
-      description: "Panorámica del avance general"
-    }
-  ],
-  timeline: [
-    { phase: "Planificación", progress: 100, date: "Ene 2024" },
-    { phase: "Cimentación", progress: 100, date: "Feb 2024" },
-    { phase: "Estructura", progress: 90, date: "Mar 2024" },
-    { phase: "Techado", progress: 70, date: "Abr 2024" },
-    { phase: "Acabados", progress: 40, date: "May 2024" },
-    { phase: "Landscaping", progress: 20, date: "Jun 2024" }
-  ]
-}
-
 export function UpcomingAttractionsSection() {
   const [selectedImage, setSelectedImage] = useState(0);
   const [showGallery, setShowGallery] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const { t, language } = useTranslation(); // ← AGREGAR HOOK
+
+  // Datos del proyecto con useMemo para estabilidad
+  const projectData = useMemo(() => ({
+    title: t('attractions.project.title'),
+    subtitle: t('attractions.project.subtitle'),
+    description: t('attractions.project.description'),
+    status: t('attractions.project.status'),
+    progress: 80,
+    features: [
+      { label: t('attractions.project.features.0.label'), value: t('attractions.project.features.0.value'), icon: Home },
+      { label: t('attractions.project.features.1.label'), value: t('attractions.project.features.1.value'), icon: Calendar },
+      { label: t('attractions.project.features.2.label'), value: t('attractions.project.features.2.value'), icon: Zap },
+      { label: t('attractions.project.features.3.label'), value: t('attractions.project.features.3.value'), icon: MapPin },
+      { label: t('attractions.project.features.4.label'), value: t('attractions.project.features.4.value'), icon: Users },
+      { label: t('attractions.project.features.5.label'), value: t('attractions.project.features.5.value'), icon: TreePine },
+    ],
+    constructionImages: [
+      {
+        url: "/images/home/cards/Cabanas.webp",
+        title: t('attractions.project.constructionImages.0.title'),
+        description: t('attractions.project.constructionImages.0.description')
+      },
+      {
+        url: "/images/home/cards/cabañas2.webp",
+        title: t('attractions.project.constructionImages.1.title'),
+        description: t('attractions.project.constructionImages.1.description')
+      },
+      {
+        url: "/images/home/cards/Cabañas3.jpg",
+        title: t('attractions.project.constructionImages.2.title'),
+        description: t('attractions.project.constructionImages.2.description')
+      },
+      {
+        url: "/images/home/cards/Cabañas4.jpg",
+        title: t('attractions.project.constructionImages.3.title'),
+        description: t('attractions.project.constructionImages.3.description')
+      }
+    ],
+    timeline: [
+      { phase: t('attractions.project.timeline.0.phase'), progress: 100, date: t('attractions.project.timeline.0.date') },
+      { phase: t('attractions.project.timeline.1.phase'), progress: 100, date: t('attractions.project.timeline.1.date') },
+      { phase: t('attractions.project.timeline.2.phase'), progress: 90, date: t('attractions.project.timeline.2.date') },
+      { phase: t('attractions.project.timeline.3.phase'), progress: 70, date: t('attractions.project.timeline.3.date') },
+      { phase: t('attractions.project.timeline.4.phase'), progress: 40, date: t('attractions.project.timeline.4.date') },
+      { phase: t('attractions.project.timeline.5.phase'), progress: 20, date: t('attractions.project.timeline.5.date') }
+    ]
+  }), [t, language]); // ← DEPENDENCIAS
 
   const nextImage = () => {
     setSelectedImage((prev) => (prev + 1) % projectData.constructionImages.length);
@@ -84,22 +76,18 @@ export function UpcomingAttractionsSection() {
     setSelectedImage((prev) => (prev - 1 + projectData.constructionImages.length) % projectData.constructionImages.length);
   };
 
-  // Dentro del componente:
-const [isLoading, setIsLoading] = useState(false);
-
-const handleOpenPDF = async () => {
-  setIsLoading(true);
-  // Pequeño delay para mejor UX
-  await new Promise(resolve => setTimeout(resolve, 500));
-  window.open('/documentos/plan-cabanas-turisticas.pdf', '_blank');
-  setIsLoading(false);
-};
+  const handleOpenPDF = async () => {
+    setIsLoading(true);
+    await new Promise(resolve => setTimeout(resolve, 500));
+    window.open('/documentos/plan-cabanas-turisticas.pdf', '_blank');
+    setIsLoading(false);
+  };
 
   return (
     <section id="atracciones-proximas" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-16 mb-24">
       {/* Encabezado */}
       <motion.div
-        className="text-center mb-16"
+        className="relative text-center mb-16 bg-white/60 backdrop-blur-md rounded-2xl shadow-md p-8"
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8 }}
@@ -113,15 +101,20 @@ const handleOpenPDF = async () => {
           viewport={{ once: true }}
         >
           <Construction className="h-5 w-5" />
-          <span className="font-medium">Proyecto en Desarrollo</span>
+          <span className="font-medium font-serif">{t('attractions.projectInDevelopment')}</span> {/* ← TRADUCIBLE */}
         </motion.div>
         
-        <h3 className="text-4xl font-bold text-slate-900 mb-4">
-          Nuestras <span className="bg-gradient-to-r from-teal-500 to-emerald-600 bg-clip-text text-transparent">Novedades</span>
+        <h3 className="text-4xl font-bold font-serif text-slate-900 mb-4">
+          {t('attractions.our')}{' '} {/* ← TRADUCIBLE */}
+          <span className="bg-gradient-to-r from-teal-500 to-emerald-600 bg-clip-text text-transparent">
+            {t('attractions.novelties')} {/* ← TRADUCIBLE */}
+          </span>
         </h3>
+        
         <p className="text-xl text-slate-600 max-w-3xl mx-auto">
-          Un vistazo a los proyectos que están transformando San Juan Tahitic y que pronto podrás disfrutar.
+          {t('attractions.description')} {/* ← TRADUCIBLE */}
         </p>
+        
         <div className="w-24 h-1 bg-gradient-to-r from-teal-500 to-emerald-600 mx-auto rounded-full mt-4"></div>
       </motion.div>
 
@@ -151,7 +144,7 @@ const handleOpenPDF = async () => {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5 }}
             >
-              <h4 className="text-lg font-bold mb-1">{projectData.constructionImages[selectedImage].title}</h4>
+              <h4 className="text-lg font-bold font-serif mb-1">{projectData.constructionImages[selectedImage].title}</h4>
               <p className="text-sm text-slate-200">{projectData.constructionImages[selectedImage].description}</p>
             </motion.div>
           </div>
@@ -172,7 +165,7 @@ const handleOpenPDF = async () => {
           </div>
 
           {/* Botón de progreso */}
-          <div className="absolute top-4 right-4 bg-gradient-to-r from-teal-500 to-emerald-600 text-white font-semibold px-4 py-2 rounded-full text-sm shadow-lg backdrop-blur-sm">
+          <div className="absolute top-4 right-4 bg-gradient-to-r from-teal-500 to-emerald-600 text-white font-semibold font-serif px-4 py-2 rounded-full text-sm shadow-lg backdrop-blur-sm">
             {projectData.status}
           </div>
 
@@ -203,31 +196,31 @@ const handleOpenPDF = async () => {
           {/* Botón ver galería completa */}
           <button
             onClick={() => setShowGallery(true)}
-            className="absolute bottom-4 right-4 bg-white/20 backdrop-blur-sm hover:bg-white/30 text-white px-4 py-2 rounded-full text-sm font-medium transition-all flex items-center space-x-2"
+            className="absolute bottom-4 right-4 bg-white/20 backdrop-blur-sm hover:bg-white/30 text-white px-4 py-2 rounded-full text-sm font-medium font-serif transition-all flex items-center space-x-2"
           >
             <Play className="h-4 w-4" />
-            <span>Ver Galería</span>
+            <span>{t('attractions.viewGallery')}</span> {/* ← TRADUCIBLE */}
           </button>
         </div>
-        
+
         {/* Lado Derecho - Información */}
         <div className="lg:w-1/2 p-8 md:p-12">
-          <h4 className="text-sm font-bold uppercase tracking-widest text-teal-600 mb-2 flex items-center">
+          <h4 className="text-sm font-bold font-serif uppercase tracking-widest text-teal-600 mb-2 flex items-center">
             <Construction className="h-4 w-4 mr-2" />
-            Proyecto Comunitario
+            {t('attractions.communityProject')} {/* ← TRADUCIBLE */}
           </h4>
-          <h2 className="text-3xl md:text-4xl font-extrabold text-slate-900 mb-4">{projectData.title}</h2>
+          <h2 className="text-3xl md:text-4xl font-extrabold font-serif text-slate-900 mb-4">{projectData.title}</h2>
           <p className="text-lg text-slate-700 mb-8 leading-relaxed">{projectData.description}</p>
-          
+
           {/* Timeline del proyecto */}
           <div className="mb-8">
-            <h5 className="font-semibold text-slate-800 mb-4 flex items-center">
+            <h5 className="font-semibold font-serif text-slate-800 mb-4 flex items-center">
               <Calendar className="h-4 w-4 mr-2 text-teal-500" />
-              Cronograma del Proyecto
+              {t('attractions.projectTimeline')} {/* ← TRADUCIBLE */}
             </h5>
             <div className="space-y-3">
               {projectData.timeline.map((phase, index) => (
-                <div key={phase.phase} className="flex items-center justify-between">
+                <div key={index} className="flex items-center justify-between">
                   <span className="text-sm text-slate-600 flex-1">{phase.phase}</span>
                   <div className="w-24 bg-slate-200 rounded-full h-2 mx-4">
                     <div 
@@ -243,9 +236,9 @@ const handleOpenPDF = async () => {
 
           {/* Características */}
           <div className="grid grid-cols-2 gap-4 mb-8">
-            {projectData.features.map((feature) => (
+            {projectData.features.map((feature, index) => (
               <motion.div
-                key={feature.label}
+                key={index}
                 whileHover={{ scale: 1.02 }}
                 className="flex items-center space-x-3 p-3 bg-slate-50 rounded-lg hover:bg-slate-100 transition-all cursor-pointer group"
               >
@@ -253,8 +246,8 @@ const handleOpenPDF = async () => {
                   <feature.icon className="h-4 w-4 text-white" />
                 </div>
                 <div>
-                  <p className="text-xs text-slate-500 uppercase font-medium">{feature.label}</p>
-                  <p className="text-base font-semibold text-slate-800">{feature.value}</p>
+                  <p className="text-xs text-slate-500 uppercase font-medium font-serif">{feature.label}</p>
+                  <p className="text-base font-semibold font-serif text-slate-800">{feature.value}</p>
                 </div>
               </motion.div>
             ))}
@@ -263,24 +256,24 @@ const handleOpenPDF = async () => {
           {/* Botones de acción */}
           <div className="flex flex-col sm:flex-row gap-4">
             <button 
-                onClick={handleOpenPDF}
-                disabled={isLoading}
-                className="bg-gradient-to-r from-teal-500 to-emerald-600 text-white px-8 py-3 rounded-lg font-bold hover:from-teal-600 hover:to-emerald-700 transition-all shadow-lg shadow-teal-500/50 hover:shadow-xl hover:shadow-teal-500/70 flex items-center justify-center space-x-2 group disabled:opacity-70 disabled:cursor-not-allowed"
-                >
-                {isLoading ? (
-                    <div className="animate-spin rounded-full h-4 w-4 border-2 border-white border-t-transparent" />
-                ) : (
-                    <>
-                    <span>Conoce el Plan Completo</span>
-                    <ExternalLink className="h-4 w-4 group-hover:scale-110 transition-transform" />
-                    </>
-                )}
-                </button>
+              onClick={handleOpenPDF}
+              disabled={isLoading}
+              className="bg-gradient-to-r from-teal-500 to-emerald-600 text-white px-8 py-3 rounded-lg font-bold font-serif hover:from-teal-600 hover:to-emerald-700 transition-all shadow-lg shadow-teal-500/50 hover:shadow-xl hover:shadow-teal-500/70 flex items-center justify-center space-x-2 group disabled:opacity-70 disabled:cursor-not-allowed"
+            >
+              {isLoading ? (
+                <div className="animate-spin rounded-full h-4 w-4 border-2 border-white border-t-transparent" />
+              ) : (
+                <>
+                  <span>{t('attractions.knowCompletePlan')}</span> {/* ← TRADUCIBLE */}
+                  <ExternalLink className="h-4 w-4 group-hover:scale-110 transition-transform" />
+                </>
+              )}
+            </button>
           </div>
         </div>
       </motion.div>
 
-      {/* Modal de Galería (simplificado) */}
+      {/* Modal de galería */}
       {showGallery && (
         <motion.div
           initial={{ opacity: 0 }}
@@ -309,7 +302,7 @@ const handleOpenPDF = async () => {
         </motion.div>
       )}
 
-      {/* Sección de impacto comunitario */}
+      {/* Impacto en la comunidad */}
       <motion.div
         initial={{ opacity: 0, y: 30 }}
         whileInView={{ opacity: 1, y: 0 }}
@@ -317,22 +310,24 @@ const handleOpenPDF = async () => {
         viewport={{ once: true }}
         className="mt-12 bg-gradient-to-r from-teal-50 to-emerald-50 rounded-2xl p-8 border border-teal-200"
       >
-        <h4 className="text-2xl font-bold text-slate-900 mb-4 text-center">Impacto en la Comunidad</h4>
+        <h4 className="text-2xl font-bold font-serif text-slate-900 mb-4 text-center">
+          {t('attractions.communityImpact')} {/* ← TRADUCIBLE */}
+        </h4>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 text-center">
           <div className="bg-white rounded-xl p-6 shadow-lg">
             <Users className="h-8 w-8 text-teal-600 mx-auto mb-3" />
-            <div className="text-2xl font-bold text-slate-900 mb-1">15+</div>
-            <div className="text-slate-600">Empleos Generados</div>
+            <div className="text-2xl font-bold font-serif text-slate-900 mb-1">15+</div>
+            <div className="text-slate-600">{t('attractions.jobsGenerated')}</div> {/* ← TRADUCIBLE */}
           </div>
           <div className="bg-white rounded-xl p-6 shadow-lg">
             <Home className="h-8 w-8 text-teal-600 mx-auto mb-3" />
-            <div className="text-2xl font-bold text-slate-900 mb-1">8</div>
-            <div className="text-slate-600">Cabañas en Construcción</div>
+            <div className="text-2xl font-bold font-serif text-slate-900 mb-1">8</div>
+            <div className="text-slate-600">{t('attractions.cabinsUnderConstruction')}</div> {/* ← TRADUCIBLE */}
           </div>
           <div className="bg-white rounded-xl p-6 shadow-lg">
             <TreePine className="h-8 w-8 text-teal-600 mx-auto mb-3" />
-            <div className="text-2xl font-bold text-slate-900 mb-1">95%</div>
-            <div className="text-slate-600">Materiales Locales</div>
+            <div className="text-2xl font-bold font-serif text-slate-900 mb-1">95%</div>
+            <div className="text-slate-600">{t('attractions.localMaterials')}</div> {/* ← TRADUCIBLE */}
           </div>
         </div>
       </motion.div>

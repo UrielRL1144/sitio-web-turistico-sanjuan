@@ -3,6 +3,7 @@ import { AnimatePresence, motion } from 'framer-motion';
 import { CheckCircle } from 'lucide-react';
 import confetti from 'canvas-confetti';
 import { useEffect } from 'react';
+import { useTranslation } from '../../contexts/TranslationContext'; // ← AGREGAR IMPORT
 
 interface CongratsModalProps {
   show: boolean;
@@ -11,6 +12,8 @@ interface CongratsModalProps {
 }
 
 export function CongratsModal({ show, onClose, pdfUrl }: CongratsModalProps) {
+  const { t } = useTranslation(); // ← AGREGAR HOOK
+
   useEffect(() => {
     if (show) {
       // Confeti al mostrarse
@@ -39,21 +42,23 @@ export function CongratsModal({ show, onClose, pdfUrl }: CongratsModalProps) {
             transition={{ type: 'spring', stiffness: 300, damping: 20 }}
           >
             <CheckCircle className="mx-auto h-12 w-12 text-green-500 mb-4" />
-            <h3 className="text-xl font-bold mb-2">¡Felicidades!</h3>
+            <h3 className="text-xl font-bold mb-2">
+              {t('modal.congratulations')} {/* ← TRADUCIBLE */}
+            </h3>
             <p className="text-gray-700 mb-4">
-              Has completado la Ruta de Experiencias y desbloqueaste los stickers.
+              {t('modal.completedRoute')} {/* ← TRADUCIBLE */}
             </p>
             <button
               onClick={() => window.open(pdfUrl, '_blank')}
               className="bg-orange-500 text-white px-4 py-2 rounded-lg font-semibold hover:bg-orange-600 transition-colors"
             >
-              Descargar Stickers
+              {t('modal.downloadStickers')} {/* ← TRADUCIBLE */}
             </button>
             <button
               onClick={onClose}
               className="mt-3 text-gray-500 text-sm underline mb-8"
             >
-              Cerrar
+              {t('modal.close')} {/* ← TRADUCIBLE */}
             </button>
           </motion.div>
         </motion.div>

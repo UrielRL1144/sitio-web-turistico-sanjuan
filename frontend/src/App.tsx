@@ -3,12 +3,14 @@ import { Navigation } from './Navigation';
 import { Footer } from './Footer';
 import './index.css';
 import { useLayoutEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Outlet, useLocation } from 'react-router-dom';
 import ScrollToTop from './ScrollToTop';
 import { AnimatePresence, motion } from 'framer-motion';
 import { Toaster } from "@/components/ui/toaster"
 import 'leaflet/dist/leaflet.css';
-
+import { ChatBot } from './chat/ChatBot.tsx';
+import { CustomChatbot } from './chat/CustomChatBot.tsx'
 
 const pageVariants = {
   initial: { 
@@ -28,6 +30,7 @@ const pageTransition = {
 };
 
 function App() {
+  const navigate = useNavigate();
   const location = useLocation();
 
   const pageBackgrounds: Record<string, string> = {
@@ -61,6 +64,8 @@ function App() {
       </AnimatePresence>
 
       <Footer />
+       {/*<ChatBot /> */}
+      <CustomChatbot onNavigate={navigate} />
       <Toaster />
     </div>
   );

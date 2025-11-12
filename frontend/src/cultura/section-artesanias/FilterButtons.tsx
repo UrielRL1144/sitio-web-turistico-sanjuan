@@ -2,6 +2,8 @@
 import { motion } from 'framer-motion';
 import type{ FilterType } from './types';
 import { Scissors, Palette, Brush } from 'lucide-react';
+import { useCategoryNames } from './types'; // ← AGREGAR IMPORT
+import { useTranslation } from '../../contexts/TranslationContext'; // ← AGREGAR IMPORT
 
 interface FilterButtonsProps {
   currentFilter: FilterType;
@@ -19,6 +21,17 @@ export const FilterButtons: React.FC<FilterButtonsProps> = ({
   currentFilter, 
   onFilterChange 
 }) => {
+  const categoryNames = useCategoryNames(); // ← AGREGAR HOOK
+  const { t } = useTranslation(); // ← AGREGAR HOOK
+
+  // Usar las categorías traducidas - MODIFICADO
+  const translatedFilterOptions = [
+    { key: 'todos' as const, label: categoryNames.todos, icon: null }, // ← TRADUCIBLE
+    { key: 'textiles' as const, label: categoryNames.textiles, icon: Scissors }, // ← TRADUCIBLE
+    { key: 'ceramica' as const, label: categoryNames.ceramica, icon: Palette }, // ← TRADUCIBLE
+    { key: 'madera' as const, label: categoryNames.madera, icon: Brush }, // ← TRADUCIBLE
+  ];
+
   return (
     <motion.div
       initial={{ opacity: 0, y: 10 }}
@@ -26,7 +39,7 @@ export const FilterButtons: React.FC<FilterButtonsProps> = ({
       transition={{ delay: 0.4 }}
       className="flex flex-wrap justify-center gap-4 mb-12"
     >
-      {filterOptions.map(({ key, label, icon: IconComponent }) => (
+      {translatedFilterOptions.map(({ key, label, icon: IconComponent }) => (
         <button
           key={key}
           onClick={() => onFilterChange(key)}

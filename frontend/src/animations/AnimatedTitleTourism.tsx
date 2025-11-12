@@ -16,13 +16,19 @@ const PHRASES = [
     location: "San Juan Tahitic", 
     lang: "mix", // Lengua mixe para metadata
     shortLocation: "San Juan Tahitic"
+  },
+  {
+    welcome: "Explore", 
+    location: "San Juan Tahitic", 
+    lang: "en", // Lengua mixe para metadata
+    shortLocation: "San Juan Tahitic"
   }
 ] as const;
 
 // Constantes para timing - adaptadas para móviles
 const DESKTOP_ANIMATION_DURATION = 4000; // 4 segundos desktop
 const MOBILE_ANIMATION_DURATION = 6000; // 6 segundos móvil (más lento)
-const DESKTOP_TRANSITION_DURATION = 0.8;
+const DESKTOP_TRANSITION_DURATION = 0.4;
 const MOBILE_TRANSITION_DURATION = 0.5; // Más rápido en móviles
 
 // Hook personalizado para detección móvil y preferencias

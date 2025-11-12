@@ -3,41 +3,42 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../co
 import { ImageWithFallback } from '../components/figma/ImageWithFallback';
 import { Coffee, Wine, Leaf, Droplet, Users, ShoppingBag, Award, Sparkles, Mountain } from 'lucide-react';
 import { motion } from 'framer-motion';
-// Al inicio de CooperativaSection.tsx
 import { Link } from "react-router-dom";
 import { Button } from '@/components/ui/button';
-
+import { useTranslation } from '../contexts/TranslationContext'; // ← AGREGAR IMPORT
 
 export function CooperativaSection() {
+  const { t } = useTranslation(); // ← AGREGAR HOOK
+
   const productos = [
     {
       icon: Coffee,
-      title: "Café Yektanesik",
-      description: "Café orgánico de altura, cultivado y producido por familias locales con tradición y pasión.",
+      title: t('cooperative.products.coffee.title'), // ← TRADUCIBLE
+      description: t('cooperative.products.coffee.description'), // ← TRADUCIBLE
       image: "/images/comunidad/cafe-coperariva.jpeg",
       gradient: "from-amber-400 to-orange-600",
       accent: "text-amber-600"
     },
     {
       icon: Wine,
-      title: "Punche & Licores Chiwanjmej",
-      description: "Bebida ancestral Punche y licores artesanales de sabores tradicionales, hechos en la comunidad.",
+      title: t('cooperative.products.punch.title'), // ← TRADUCIBLE
+      description: t('cooperative.products.punch.description'), // ← TRADUCIBLE
       image: "/images/comunidad/licores.jpeg",
       gradient: "from-purple-400 to-pink-600",
       accent: "text-purple-600"
     },
     {
       icon: Leaf,
-      title: "Jabones Artesanales",
-      description: "Elaborados con plantas medicinales locales dentro del programa Sembrando Vida.",
+      title: t('cooperative.products.soaps.title'), // ← TRADUCIBLE
+      description: t('cooperative.products.soaps.description'), // ← TRADUCIBLE
       image: "/images/comunidad/jabones.jpeg",
       gradient: "from-green-400 to-emerald-600",
       accent: "text-green-600"
     },
     {
       icon: Droplet,
-      title: "Jugos Yektanesik",
-      description: "Jugos frescos de frutas de la región, 100% naturales y nutritivos.",
+      title: t('cooperative.products.juices.title'), // ← TRADUCIBLE
+      description: t('cooperative.products.juices.description'), // ← TRADUCIBLE
       image: "/images/comunidad/jugo-fruta.jpeg",
       gradient: "from-red-400 to-orange-600",
       accent: "text-red-600"
@@ -45,10 +46,34 @@ export function CooperativaSection() {
   ];
 
   const impacto = [
-    { icon: Award, number: "10+", label: "Años de Producción Local", color: "text-amber-600", bg: "from-amber-400 to-orange-600" },
-    { icon: Users, number: "50+", label: "Familias Beneficiadas", color: "text-purple-600", bg: "from-purple-400 to-pink-600" },
-    { icon: ShoppingBag, number: "20+", label: "Productos Comunitarios", color: "text-green-600", bg: "from-green-400 to-emerald-600" },
-    { icon: Sparkles, number: "100%", label: "Producción Artesanal", color: "text-red-600", bg: "from-red-400 to-orange-600" }
+    { 
+      icon: Award, 
+      number: "10+", 
+      label: t('cooperative.impact.stats.yearsProduction'), // ← TRADUCIBLE
+      color: "text-amber-600", 
+      bg: "from-amber-400 to-orange-600" 
+    },
+    { 
+      icon: Users, 
+      number: "50+", 
+      label: t('cooperative.impact.stats.familiesBenefited'), // ← TRADUCIBLE
+      color: "text-purple-600", 
+      bg: "from-purple-400 to-pink-600" 
+    },
+    { 
+      icon: ShoppingBag, 
+      number: "20+", 
+      label: t('cooperative.impact.stats.communityProducts'), // ← TRADUCIBLE
+      color: "text-green-600", 
+      bg: "from-green-400 to-emerald-600" 
+    },
+    { 
+      icon: Sparkles, 
+      number: "100%", 
+      label: t('cooperative.impact.stats.artisanalProduction'), // ← TRADUCIBLE
+      color: "text-red-600", 
+      bg: "from-red-400 to-orange-600" 
+    }
   ];
 
   const cardVariants = {
@@ -57,20 +82,27 @@ export function CooperativaSection() {
   };
 
   return (
-    <section id="cooperativa" className="py-24 bg-gradient-to-br from-amber-50 via-orange-50 to-rose-50 relative overflow-hidden">
-      {/* Fondos decorativos */}
+    <section
+      id="cooperativa"
+      className="py-24 relative overflow-hidden bg-[url('images/comunidad/Fondo-comunidad-cooperativa.svg')] bg-no-repeat bg-center bg-cover"
+    >
+      {/* Capa translúcida para mejorar legibilidad */}
+      <div className="absolute inset-0 bg-white/10 backdrop-blur-[2px]"></div>
+
+      {/* Fondos decorativos animados */}
       <motion.div
         className="absolute top-20 left-10 w-40 h-40 bg-amber-200/30 rounded-full blur-3xl animate-float"
         animate={{ opacity: [0.3, 0.7, 0.3], y: [0, 10, 0] }}
-        transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
+        transition={{ duration: 6, repeat: Infinity, ease: 'easeInOut' }}
       />
       <motion.div
         className="absolute bottom-20 right-10 w-32 h-32 bg-purple-200/30 rounded-full blur-3xl animate-float"
         animate={{ opacity: [0.3, 0.7, 0.3], y: [0, -10, 0] }}
-        transition={{ duration: 8, repeat: Infinity, ease: "easeInOut", delay: 1 }}
+        transition={{ duration: 8, repeat: Infinity, ease: 'easeInOut', delay: 1 }}
       />
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
+      {/* Contenido principal */}
+      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 z-10">
         {/* Encabezado */}
         <motion.div
           initial={{ opacity: 0, y: -20 }}
@@ -79,20 +111,21 @@ export function CooperativaSection() {
           transition={{ duration: 0.8 }}
           className="text-center mb-20"
         >
-          <div className="inline-flex items-center space-x-2 bg-gradient-to-r from-teal-400 to-blue-500 px-4 py-2 rounded-full mb-6">
-            <Users className="h-5 w-5 text-black" />
-            <span className="text-black font-medium">Producción Comunitaria</span>
+          <div className="inline-flex items-center space-x-2 bg-gradient-to-r from-teal-400/80 to-blue-500/80 backdrop-blur-sm px-4 py-2 rounded-full mb-6 shadow-md shadow-blue-900/10">
+            <Users className="h-5 w-5 text-white" />
+            <span className="text-black font-medium font-serif">
+              {t('cooperative.communityProduction')} {/* ← TRADUCIBLE */}
+            </span>
           </div>
           
-          <h2 className="text-5xl lg:text-6xl font-bold text-gray-900 mb-6">
-            Nuestra{' '} 
+          <h2 className="text-5xl lg:text-6xl font-bold font-serif text-gray-900 mb-6">
+            {t('cooperative.our')}{' '} {/* ← TRADUCIBLE */}
             <span className="bg-gradient-to-r from-teal-600 via-blue-500 to-emerald-600 bg-clip-text text-transparent">
-              Cooperativa
+              {t('cooperative.cooperative')} {/* ← TRADUCIBLE */}
             </span>
           </h2>
           <p className="text-xl text-gray-700 max-w-4xl mx-auto leading-relaxed">
-            La Sociedad Cooperativa CHIWANJMEJ y Café Yektanesik impulsan la economía local a través de productos artesanales,
-            sostenibles y con identidad cultural. Cada compra apoya directamente a las familias de San Juan Tahitic.
+            {t('cooperative.description')} {/* ← TRADUCIBLE */}
           </p>
         </motion.div>
 
@@ -128,7 +161,7 @@ export function CooperativaSection() {
                 </div>
                 
                 <CardHeader className="pb-2">
-                  <CardTitle className={`text-lg text-gray-900 group-hover:${item.accent} transition-colors duration-300`}>
+                  <CardTitle className={`text-lg text-gray-900 font-serif group-hover:${item.accent} transition-colors duration-300`}>
                     {item.title}
                   </CardTitle>
                 </CardHeader>
@@ -147,7 +180,9 @@ export function CooperativaSection() {
           <div className="text-center mb-16 relative">
             <div className="inline-flex items-center space-x-2 bg-orange-100 px-4 py-2 rounded-full mb-6">
               <Award className="h-5 w-5 text-orange-600" />
-              <span className="text-orange-800 font-medium">Impacto Local</span>
+              <span className="text-orange-800 font-medium font-serif">
+                {t('cooperative.impact.localImpact')} {/* ← TRADUCIBLE */}
+              </span>
             </div>
             
             <motion.h3
@@ -155,11 +190,11 @@ export function CooperativaSection() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: false, amount: 0.25 }}
               transition={{ duration: 0.8 }}
-              className="text-4xl font-bold text-gray-900 mb-6"
+              className="text-4xl font-bold font-serif text-gray-900 mb-6"
             >
-              Más que Productos,{' '}
+              {t('cooperative.impact.moreThanProducts')}{' '} {/* ← TRADUCIBLE */}
               <span className="bg-gradient-to-r from-teal-600 to-blue-600 bg-clip-text text-transparent">
-                Oportunidades
+                {t('cooperative.impact.opportunities')} {/* ← TRADUCIBLE */}
               </span>
             </motion.h3>
             <motion.p
@@ -169,8 +204,7 @@ export function CooperativaSection() {
               transition={{ duration: 0.8, delay: 0.2 }}
               className="text-gray-700 max-w-3xl mx-auto text-lg leading-relaxed"
             >
-              Cada servicio o producto de la cooperativa representa un ingreso justo, preserva tradiciones 
-              y fortalece el tejido comunitario de San Juan Tahitic.
+              {t('cooperative.impact.impactDescription')} {/* ← TRADUCIBLE */}
             </motion.p>
           </div>
 
@@ -191,10 +225,10 @@ export function CooperativaSection() {
                     <data.icon className="h-8 w-8 text-white" />
                   </div>
                 </div>
-                <div className={`text-4xl md:text-5xl font-bold mb-3 ${data.color} group-hover:scale-110 transition-transform duration-300`}>
+                <div className={`text-4xl md:text-5xl font-bold font-serif mb-3 ${data.color} group-hover:scale-110 transition-transform duration-300`}>
                   {data.number}
                 </div>
-                <div className="text-gray-600 font-medium leading-relaxed">{data.label}</div>
+                <div className="text-gray-600 font-medium font-serifleading-relaxed">{data.label}</div>
               </motion.div>
             ))}
           </div>
@@ -202,37 +236,65 @@ export function CooperativaSection() {
 
         {/* CTA */}
         <div className="text-center mt-20 relative">
-        {/* Efecto de resplandor animado detrás del botón */}
-        <motion.div
-          className="absolute inset-0 flex justify-center"
-          animate={{ opacity: [0.4, 0.8, 0.4], scale: [1, 1.05, 1] }}
-          transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-        >
-          <div className="w-64 h-16 bg-gradient-to-r from-teal-400/30 via-green-300/80 to-lime-200/50 rounded-full blur-3xl"></div>
-        </motion.div>
-
-        {/* Botón principal */}
-        <motion.a
-          href="/section-cooperativa"
-          whileHover={{
-            scale: 1.08,
-            boxShadow: "0 0 25px rgba(255, 140, 0, 0.6)",
-          }}
-          whileTap={{ scale: 0.95 }}
-          className="relative inline-flex items-center gap-3 bg-gradient-to-r from-teal-300 to-green-400 text-black text-lg font-semibold px-10 py-4 rounded-full shadow-lg transition-all duration-300"
-        >
-          Conoce la cooperativa de San Juan Tahitic
-          <motion.span
-            animate={{ y: [0, -6, 0] }}
-            transition={{ duration: 1.2, repeat: Infinity, ease: 'easeInOut' }}
+          {/* Efecto de resplandor animado detrás del botón */}
+          <motion.div
+            className="absolute inset-0 flex justify-center"
+            animate={{ opacity: [0.4, 0.8, 0.4], scale: [1, 1.05, 1] }}
+            transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
           >
-            <Mountain className="w-6 h-6" />
-          </motion.span>
-        </motion.a>
-      </div>
+            <div className="w-64 h-16 bg-gradient-to-r from-teal-400/30 via-green-300/80 to-lime-200/50 rounded-full blur-3xl"></div>
+          </motion.div>
 
+          {/* Botón principal mejorado */}
+          <motion.div
+  whileHover={{
+    scale: 1.05,
+    boxShadow: "0 10px 40px rgba(94, 234, 212, 0.4), 0 0 20px rgba(52, 211, 153, 0.3)",
+    y: -2,
+  }}
+  whileTap={{ 
+    scale: 0.98,
+    boxShadow: "0 5px 20px rgba(94, 234, 212, 0.3)"
+  }}
+  className="relative inline-flex"
+>
+  <Link
+    to="/section-cooperativa"
+    className="relative inline-flex items-center gap-4 bg-gradient-to-r from-teal-300 via-emerald-300 to-green-400 text-gray-900 text-lg font-bold font-serif px-12 py-5 rounded-full shadow-xl hover:shadow-2xl transition-all duration-300 border-2 border-white/30 backdrop-blur-sm overflow-hidden group"
+  >
+    {/* Efecto de brillo al hover */}
+    <div className="absolute inset-0 bg-gradient-to-r from-white/20 via-transparent to-white/10 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700" />
+    
+    {/* Texto y icono */}
+    <span className="relative z-10 drop-shadow-sm">
+      {t('cooperative.cta')} {/* ← TRADUCIBLE */}
+    </span>
+    
+    <motion.span
+      animate={{ 
+        y: [0, -4, 0],
+        rotate: [0, 5, -5, 0]
+      }}
+      transition={{ 
+        duration: 2, 
+        repeat: Infinity, 
+        ease: 'easeInOut',
+        times: [0, 0.5, 0.75, 1]
+      }}
+      className="relative z-10"
+    >
+      <Mountain className="w-6 h-6 drop-shadow-sm" />
+    </motion.span>
+
+    {/* Efecto de partículas sutiles */}
+    <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+      <div className="absolute top-1/4 left-1/4 w-2 h-2 bg-white/40 rounded-full animate-ping" />
+      <div className="absolute bottom-1/3 right-1/3 w-1.5 h-1.5 bg-white/30 rounded-full animate-ping delay-300" />
+    </div>
+  </Link>
+</motion.div>
+        </div>
       </div>
     </section>
   );
-
-};
+}

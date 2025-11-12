@@ -2,8 +2,11 @@
 import { ArrowDown, ArrowRight, Sparkles } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
+import { useTranslation } from '../contexts/TranslationContext'; // ← AGREGAR IMPORT
 
 export function CultureHome() {
+  const { t } = useTranslation(); // ← AGREGAR HOOK
+
   return (
     <section
       id="cultura"
@@ -42,7 +45,9 @@ export function CultureHome() {
           {/* Badge superior */}
           <div className="inline-flex items-center space-x-2 bg-gradient-to-r from-orange-100/80 to-amber-100/80 px-4 py-2 rounded-full mb-6 backdrop-blur-sm shadow-sm">
             <Sparkles className="h-5 w-5 text-orange-600" aria-hidden="true" />
-            <span className="text-orange-800 font-medium font-serif">Herencia Cultural</span>
+            <span className="text-orange-800 font-medium font-serif">
+              {t('culture.heritageBadge')} {/* ← TRADUCIBLE */}
+            </span>
           </div>
 
           {/* Título principal */}
@@ -50,17 +55,15 @@ export function CultureHome() {
             id="culture-heading"
             className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-extrabold font-serif leading-tight text-white drop-shadow-[0_4px_6px_rgba(0,0,0,0.8)]"
           >
-            Patrimonio{' '}
+            {t('culture.titlePart1')}{' '} {/* ← TRADUCIBLE */}
             <span className="bg-gradient-to-r from-orange-400 via-amber-400 to-red-500 bg-clip-text text-transparent">
-              Cultural
+              {t('culture.titlePart2')} {/* ← TRADUCIBLE */}
             </span>
           </h2>
 
           {/* Descripción */}
           <p className="text-lg sm:text-xl text-white drop-shadow-[0_4px_6px_rgba(0,0,0,0.8)]">
-            Nuestra rica herencia cultural es el alma de San Juan Tahitic. Descubre las tradiciones,
-            arte y expresiones que han dado forma a nuestra identidad comunitaria a lo largo de los
-            siglos.
+            {t('culture.description')} {/* ← TRADUCIBLE */}
           </p>
         </motion.div>
 
@@ -72,28 +75,28 @@ export function CultureHome() {
           transition={{ duration: 0.8, delay: 0.2 }}
           viewport={{ once: true }}
         >
-      <motion.button
-        onClick={() =>
-          document.getElementById("cultura-section")?.scrollIntoView({
-            behavior: "smooth",
-            block: "start",
-          })
-        }
-        whileHover={{ scale: 1.05 }}
-        whileTap={{ scale: 0.98 }}
-        className="inline-flex items-center gap-2 bg-orange-500 text-white font-medium font-serif px-6 py-3 rounded-full shadow-lg hover:bg-orange-600 transition-colors"
-      >
-        Explora nuestra cultura
-        <ArrowDown className="h-5 w-5" />
-      </motion.button>
-        <Link
+          <motion.button
+            onClick={() =>
+              document.getElementById("cultura-section")?.scrollIntoView({
+                behavior: "smooth",
+                block: "start",
+              })
+            }
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.98 }}
+            className="inline-flex items-center gap-2 bg-orange-500 text-white font-medium font-serif px-6 py-3 rounded-full shadow-lg hover:bg-orange-600 transition-colors"
+          >
+            {t('culture.exploreButton')} {/* ← TRADUCIBLE */}
+            <ArrowDown className="h-5 w-5" />
+          </motion.button>
+          <Link
             to="/calendario-cultural"
-            className="border-2 border-orange-500 text-orange-100 hover:bg-orange-500/20 px-8 py-4 rounded-full font-medium font-serif transition-all duration-300 transform hover:scale-105 text-center backdrop-blur-sm"            >
-            Calendario Cultural
-        </Link>
+            className="border-2 border-orange-500 text-orange-100 hover:bg-orange-500/20 px-8 py-4 rounded-full font-medium font-serif transition-all duration-300 transform hover:scale-105 text-center backdrop-blur-sm"
+          >
+            {t('culture.calendarButton')} {/* ← TRADUCIBLE */}
+          </Link>
         </motion.div>
       </div>
     </section>
   );
 }
-

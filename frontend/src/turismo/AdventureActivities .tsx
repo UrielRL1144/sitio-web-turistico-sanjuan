@@ -4,38 +4,41 @@ import { ImageWithFallback } from '../components/figma/ImageWithFallback';
 import { Mountain, Trees, Camera, Waves, Leaf, Sun, Star, Cookie } from 'lucide-react';
 import { forwardRef } from 'react';
 import { motion } from 'framer-motion';
+import { useTranslation } from '../contexts/TranslationContext'; // ← AGREGAR IMPORT
+import { Link } from 'react-router-dom';
 
 export const AdventureActivities = forwardRef<HTMLDivElement>((props, ref) => {
+  const { t } = useTranslation(); // ← AGREGAR HOOK
 
   const attractions = [
     {
       icon: Mountain,
-      title: "Senderos de Montaña",
-      description: "Explora rutas de trekking con vistas panorámicas espectaculares y paisajes únicos que te conectarán con la naturaleza.",
+      title: t('tourism.mountainTrails'), // ← TRADUCIBLE
+      description: t('tourism.mountainTrailsDescription'), // ← TRADUCIBLE
       image: "images/Exploracion.jpg",
       gradient: "from-emerald-400 to-green-600",
       shadow: "shadow-nature"
     },
     {
       icon: Trees,
-      title: "Reserva Natural",
-      description: "Descubre la biodiversidad local en nuestros bosques preservados y ecosistemas únicos llenos de vida.",
+      title: t('tourism.naturalReserve'), // ← TRADUCIBLE
+      description: t('tourism.naturalReserveDescription'), // ← TRADUCIBLE
       image: "https://images.unsplash.com/photo-1441974231531-c6227db76b6e?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80",
       gradient: "from-green-400 to-emerald-600",
       shadow: "shadow-nature"
     },
     {
       icon: Waves,
-      title: "Ríos y Cascadas",
-      description: "Disfruta de aguas cristalinas, cascadas naturales perfectas para el ecoturismo y la relajación.",
+      title: t('tourism.riversWaterfalls'), // ← TRADUCIBLE
+      description: t('tourism.riversWaterfallsDescription'), // ← TRADUCIBLE
       image: "images/Cascada.jpg",
       gradient: "from-cyan-400 to-blue-600",
       shadow: "shadow-nature"
     },
     {
       icon: Camera,
-      title: "Miradores Panorámicos",
-      description: "Captura las mejores vistas desde nuestros miradores estratégicamente ubicados para momentos únicos.",
+      title: t('tourism.panoramicViewpoints'), // ← TRADUCIBLE
+      description: t('tourism.panoramicViewpointsDescription'), // ← TRADUCIBLE
       image: "images/puente.jpeg",
       gradient: "from-amber-400 to-orange-600",
       shadow: "shadow-nature"
@@ -43,10 +46,10 @@ export const AdventureActivities = forwardRef<HTMLDivElement>((props, ref) => {
   ];
 
   const stats = [
-    { icon: Leaf, number: "15+", label: "Senderos Ecológicos", color: "text-green-600" },
-    { icon: Trees, number: "300+", label: "Especies de Flora", color: "text-emerald-600" },
-    { icon: Sun, number: "250", label: "Días de Sol al Año", color: "text-yellow-500" },
-    { icon: Star, number: "4.8★", label: "Calificación Visitantes", color: "text-amber-500" }
+    { icon: Leaf, number: "15+", label: t('tourism.stats.ecologicalTrails'), color: "text-green-600" }, // ← TRADUCIBLE
+    { icon: Trees, number: "300+", label: t('tourism.stats.floraSpecies'), color: "text-emerald-600" }, // ← TRADUCIBLE
+    { icon: Sun, number: "250", label: t('tourism.stats.sunnyDays'), color: "text-yellow-500" }, // ← TRADUCIBLE
+    { icon: Star, number: "4.8★", label: t('tourism.stats.visitorRating'), color: "text-amber-500" } // ← TRADUCIBLE
   ];
 
   return (
@@ -69,21 +72,20 @@ export const AdventureActivities = forwardRef<HTMLDivElement>((props, ref) => {
           <div className="flex items-center space-x-2 bg-gradient-to-r from-green-100/80 to-emerald-100/80 backdrop-blur-md px-4 py-2 rounded-md mb-8 shadow-md shadow-emerald-800/10">
             <Leaf className="h-5 w-5 text-green-600" />
             <span className="text-green-800 font-medium font-serif">
-              Ecoturismo Sostenible
+              {t('tourism.sustainableEcotourism')} {/* ← TRADUCIBLE */}
             </span>
           </div>
 
           {/* Bloque con fondo translúcido */}
           <div className="bg-white/70 backdrop-blur-md rounded-3xl px-8 py-10 shadow-xl shadow-emerald-900/20 max-w-5xl w-full sm:w-auto">
             <h2 className="text-5xl lg:text-6xl font-bold font-serif text-gray-900 mb-6">
-              Atractivos{' '}
+              {t('tourism.touristAttractions')}{' '} {/* ← TRADUCIBLE */}
               <span className="bg-gradient-to-r from-green-600 via-emerald-500 to-teal-600 bg-clip-text text-transparent">
-                Turísticos
+                {/* El gradiente se mantiene igual, solo el texto cambia */}
               </span>
             </h2>
             <p className="text-xl text-gray-800 leading-relaxed max-w-3xl mx-auto">
-              San Juan Tahitic ofrece experiencias únicas para los amantes de la naturaleza y el turismo de aventura.
-              Descubre paisajes que te conectarán con la esencia de nuestra tierra.
+              {t('tourism.mainDescription')} {/* ← TRADUCIBLE */}
             </p>
           </div>
         </div>
@@ -144,18 +146,19 @@ export const AdventureActivities = forwardRef<HTMLDivElement>((props, ref) => {
             <div>
               <div className="inline-flex items-center space-x-2 bg-green-100 px-4 py-2 rounded-full mb-6">
                 <Star className="h-5 w-5 text-green-600" />
-                <span className="text-green-800 font-medium font-serif">Compromiso Verde</span>
+                <span className="text-green-800 font-medium font-serif">
+                  {t('tourism.greenCommitment')} {/* ← TRADUCIBLE */}
+                </span>
               </div>
               
               <h3 className="text-4xl font-bold font-serif text-gray-900 mb-6">
-                Turismo{' '}
+                {t('tourism.sustainableTourism')}{' '} {/* ← TRADUCIBLE */}
                 <span className="bg-gradient-to-r from-green-600 to-emerald-600 bg-clip-text text-transparent">
-                  Sostenible
+                  {/* El gradiente se mantiene igual */}
                 </span>
               </h3>
               <p className="text-gray-700 mb-8 text-lg leading-relaxed">
-                Nuestro compromiso con el turismo responsable garantiza la preservación de nuestros recursos naturales 
-                para las futuras generaciones. Cada visita contribuye al desarrollo económico local y la conservación ambiental.
+                {t('tourism.sustainabilityDescription')} {/* ← TRADUCIBLE */}
               </p>
               
               <div className="grid grid-cols-2 gap-6">
@@ -191,7 +194,9 @@ export const AdventureActivities = forwardRef<HTMLDivElement>((props, ref) => {
               
               {/* Badge flotante */}
               <div className="absolute bottom-6 left-6 bg-white/95 backdrop-blur-sm px-4 py-2 rounded-full shadow-lg">
-                <span className="text-green-700 font-semibold text-sm">💚 Eco-Certificado</span>
+                <span className="text-green-700 font-semibold text-sm">
+                  {t('tourism.ecoCertified')} {/* ← TRADUCIBLE */}
+                </span>
               </div>
             </div>
           </div>
@@ -209,25 +214,25 @@ export const AdventureActivities = forwardRef<HTMLDivElement>((props, ref) => {
         </motion.div>
 
         {/* Botón principal */}
-        <motion.a
-          href="/section-atracciones"
-          whileHover={{
-            scale: 1.08,
-            boxShadow: "0 0 25px rgba(255, 140, 0, 0.6)",
-          }}
+        <motion.div
+          whileHover={{ scale: 1.08 }}
           whileTap={{ scale: 0.95 }}
-          className="relative inline-flex items-center gap-3 bg-gradient-to-r from-yellow-400 to-green-300 text-black text-lg font-semibold font-serif px-10 py-4 rounded-full shadow-lg transition-all duration-300 animate-float"
         >
-          Conoce su historia
-          <motion.span
-            animate={{ y: [0, -6, 0] }}
-            transition={{ duration: 1.2, repeat: Infinity, ease: 'easeInOut' }}
+          <Link
+            to="/section-atracciones"
+            className="relative inline-flex items-center gap-3 bg-gradient-to-r from-yellow-400 to-green-300 text-black text-lg font-semibold font-serif px-10 py-4 rounded-full shadow-lg transition-all duration-300 animate-float hover:shadow-xl"
           >
-            <Mountain className="w-6 h-6" />
-          </motion.span>
-        </motion.a>
+            {t('tourism.knowItsHistory')}
+            <motion.span
+              animate={{ y: [0, -6, 0] }}
+              transition={{ duration: 1.2, repeat: Infinity, ease: 'easeInOut' }}
+            >
+              <Mountain className="w-6 h-6" />
+            </motion.span>
+          </Link>
+        </motion.div>
       </div>
       </div>
     </section>
   );
-})
+});

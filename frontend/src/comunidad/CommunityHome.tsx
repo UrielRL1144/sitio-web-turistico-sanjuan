@@ -1,8 +1,11 @@
 import { ArrowDown, HeartHandshake } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
+import { useTranslation } from '../contexts/TranslationContext'; // ← AGREGAR IMPORT
 
 export function CommunityHome() {
+  const { t } = useTranslation(); // ← AGREGAR HOOK
+
   return (
     <section
       id="comunidad"
@@ -41,24 +44,25 @@ export function CommunityHome() {
           {/* Badge superior temático */}
           <div className="inline-flex items-center space-x-2 bg-gradient-to-r from-teal-100/80 to-cyan-100/80 px-4 py-2 rounded-full mb-6 backdrop-blur-sm shadow-sm">
             <HeartHandshake className="h-5 w-5 text-teal-600" aria-hidden="true" />
-            <span className="text-teal-800 font-medium">Nuestra Gente, Nuestra Fortaleza</span>
+            <span className="text-teal-800 font-medium font-serif">
+              {t('community.ourPeopleOurStrength')} {/* ← TRADUCIBLE */}
+            </span>
           </div>
 
           {/* Título principal optimizado para SEO */}
           <h1
             id="community-heading"
-            className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-extrabold leading-tight text-white drop-shadow-[0_4px_6px_rgba(0,0,0,0.8)]"
+            className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-extrabold font-serif leading-tight text-white drop-shadow-[0_4px_6px_rgba(0,0,0,0.8)]"
           >
-            Unidos por{' '}
+            {t('community.unitedBy')}{' '} {/* ← TRADUCIBLE */}
             <span className="bg-gradient-to-r from-teal-400 via-cyan-400 to-sky-500 bg-clip-text text-transparent">
-              tradición
+              {t('community.tradition')} {/* ← TRADUCIBLE */}
             </span>
           </h1>
 
           {/* Descripción */}
           <p className="mt-6 max-w-2xl mx-auto text-lg sm:text-xl text-white drop-shadow-[0_4px_6px_rgba(0,0,0,0.8)]">
-            Somos una familia unida por la tierra, las historias de nuestros ancestros y un profundo sentido de ayuda mutua. 
-            Descubre las manos y los corazones que hacen de San Juan Tahitic un lugar único.
+            {t('community.description')} {/* ← TRADUCIBLE */}
           </p>
         </motion.div>
 
@@ -79,18 +83,18 @@ export function CommunityHome() {
             }
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.98 }}
-            className="inline-flex items-center gap-2 bg-teal-500 text-white font-semibold px-6 py-3 rounded-full shadow-lg hover:bg-teal-600 transition-colors"
+            className="inline-flex items-center gap-2 bg-teal-500 text-white font-semibold font-serif px-6 py-3 rounded-full shadow-lg hover:bg-teal-600 transition-colors"
           >
-            Conoce a nuestra historia
+            {t('community.learnOurHistory')} {/* ← TRADUCIBLE */}
             <ArrowDown className="h-5 w-5" />
           </motion.button>
           
           <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.98 }}>
             <Link
-              to="/proyectos-comunitarios"
-              className="block border-2 border-cyan-400 text-cyan-100 hover:bg-cyan-500/20 px-8 py-3 rounded-full font-semibold transition-all duration-300 text-center backdrop-blur-sm"
+              to="/section-cooperativa"
+              className="block border-2 border-cyan-400 text-cyan-100 hover:bg-cyan-500/20 px-8 py-3 rounded-full font-semibold font-serif transition-all duration-300 text-center backdrop-blur-sm"
             >
-              Proyectos Locales
+              {t('community.communityCooperative')} {/* ← TRADUCIBLE */}
             </Link>
           </motion.div>
         </motion.div>

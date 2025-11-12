@@ -2,11 +2,12 @@ import { ArrowDown, ArrowLeft, ArrowRight, Sparkles, Utensils } from 'lucide-rea
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { useNavigate } from "react-router-dom"; 
-
-
+import { useTranslation } from '../../contexts/TranslationContext'; // ← AGREGAR IMPORT
 
 export function GastronomySection() {
   const navigate = useNavigate();
+  const { t } = useTranslation(); // ← AGREGAR HOOK
+  
   return (
     <section
       id="section-gastronomia"
@@ -35,73 +36,74 @@ export function GastronomySection() {
       </div>
 
       {/* Overlay para mejorar legibilidad */}
-<div className="absolute inset-0 bg-gradient-to-b from-black/30 via-black/40 to-black/20"></div>
+      <div className="absolute inset-0 bg-gradient-to-b from-black/30 via-black/40 to-black/20"></div>
 
-    {/* Contenido principal centrado */}
-    <div className="relative z-20 flex flex-col items-center justify-center h-full max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
-      <motion.div
-        initial={{ opacity: 0, y: 40 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.7 }}
-        viewport={{ once: true }}
-      >
-        {/* Badge superior */}
-        <div className="inline-flex items-center space-x-2 bg-gradient-to-r from-amber-100/80 to-lime-100/80 px-4 py-2 rounded-full mb-6 backdrop-blur-sm shadow-sm">
-          <Utensils className="h-5 w-5 text-amber-700" aria-hidden="true" />
-          <span className="text-lime-800 font-medium font-serif">Sabores de Tahitic</span>
-        </div>
-
-        {/* Título principal */}
-        <h2
-          id="gastronomia-heading"
-          className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold font-serif leading-tight text-white drop-shadow-[0_4px_6px_rgba(0,0,0,0.7)] text-center"
+      {/* Contenido principal centrado */}
+      <div className="relative z-20 flex flex-col items-center justify-center h-full max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+        <motion.div
+          initial={{ opacity: 0, y: 40 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.7 }}
+          viewport={{ once: true }}
         >
-          Gastronomía{' '}
-          <span className="bg-gradient-to-r from-amber-500 via-red-500 to-lime-600 bg-clip-text text-transparent">
-            Mexicana
-          </span>
-        </h2>
+          {/* Badge superior */}
+          <div className="inline-flex items-center space-x-2 bg-gradient-to-r from-amber-100/80 to-lime-100/80 px-4 py-2 rounded-full mb-6 backdrop-blur-sm shadow-sm">
+            <Utensils className="h-5 w-5 text-amber-700" aria-hidden="true" />
+            <span className="text-lime-800 font-medium font-serif">
+              {t('gastronomysection.flavorsOfTahitic')} {/* ← TRADUCIBLE */}
+            </span>
+          </div>
 
-        {/* Descripción */}
-        <p className="mt-4 text-base sm:text-lg text-white text-center drop-shadow-[0_4px_6px_rgba(0,0,0,0.7)] max-w-3xl">
-          Descubre los platillos típicos, ingredientes locales y recetas que dan sabor a San Juan Tahitic. Una experiencia culinaria que conecta con nuestras raíces.
-        </p>
-      </motion.div>
+          {/* Título principal */}
+          <h2
+            id="gastronomia-heading"
+            className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold font-serif leading-tight text-white drop-shadow-[0_4px_6px_rgba(0,0,0,0.7)] text-center"
+          >
+            {t('gastronomysection.mexicanGastronomy')}{' '} {/* ← TRADUCIBLE */}
+            <span className="bg-gradient-to-r from-amber-500 via-red-500 to-lime-600 bg-clip-text text-transparent">
+              Mexicana
+            </span>
+          </h2>
 
-      {/* Botones centrados */}
-      <motion.div
-        className="mt-10 flex flex-col sm:flex-row gap-4 justify-center"
-        initial={{ opacity: 0, y: 30 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.8, delay: 0.2 }}
-        viewport={{ once: true }}
-      >
-        <motion.button
+          {/* Descripción */}
+          <p className="mt-4 text-base sm:text-lg text-white text-center drop-shadow-[0_4px_6px_rgba(0,0,0,0.7)] max-w-3xl">
+            {t('gastronomysection.description')} {/* ← TRADUCIBLE */}
+          </p>
+        </motion.div>
+
+        {/* Botones centrados */}
+        <motion.div
+          className="mt-10 flex flex-col sm:flex-row gap-4 justify-center"
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, delay: 0.2 }}
+          viewport={{ once: true }}
+        >
+          <motion.button
             onClick={() => navigate(-1)}
             className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-white/80 backdrop-blur-sm border border-amber-600 text-amber-700 font-semibold shadow-md hover:shadow-lg hover:scale-105 transition-all duration-300"
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
           >
             <ArrowLeft className="h-5 w-5" />
-            Regresar
+            {t('gastronomysection.back')} {/* ← TRADUCIBLE */}
           </motion.button>
-        <motion.button
-          onClick={() =>
-            document.getElementById("cocinas")?.scrollIntoView({
-              behavior: "smooth",
-              block: "start",
-            })
-          }
-          whileHover={{ scale: 1.05 }}
-          whileTap={{ scale: 0.98 }}
-          className="inline-flex items-center gap-2 bg-red-600 text-white font-semibold font-serif px-6 py-3 rounded-full shadow-lg hover:bg-red-700 transition-colors animate-bounce"
-        >
-          Explora la gastronomía
-          <ArrowDown className="h-5 w-5" />
-        </motion.button>
+          <motion.button
+            onClick={() =>
+              document.getElementById("cocinas")?.scrollIntoView({
+                behavior: "smooth",
+                block: "start",
+              })
+            }
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.98 }}
+            className="inline-flex items-center gap-2 bg-red-600 text-white font-semibold font-serif px-6 py-3 rounded-full shadow-lg hover:bg-red-700 transition-colors animate-bounce"
+          >
+            {t('gastronomysection.exploreGastronomy')} {/* ← TRADUCIBLE */}
+            <ArrowDown className="h-5 w-5" />
+          </motion.button>
         </motion.div>
-    </div>
-
+      </div>
     </section>
   );
 }

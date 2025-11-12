@@ -1,22 +1,24 @@
 // src/components/TimelineModal.tsx
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion } from 'framer-motion';
 import { X } from 'lucide-react';
+import type { TimelineItem } from '../../hooks/useTimelineData'; // ← IMPORTAR DEL HOOK
+ // ← IMPORTAR DEL HOOK
+import { useTranslation } from '../../contexts/TranslationContext'; // ← AGREGAR IMPORT
 
-// Reutilizamos la interfaz, así que hay que exportarla desde RootsSection
-// o definirla en un archivo de tipos compartido (ej. types.ts)
-interface TimelineItemProps {
-  id: number; year: string; category: string; icon: string;
-  title: string; description: string; image: string;
-  modalContent?: {
-    text: string;
-    images?: string[];
-  } | null;
-}
+// 👇 ELIMINAR interfaces locales, usar TimelineItem del hook
+// interface TimelineItemProps {
+//   id: number; year: string; category: string; icon: string;
+//   title: string; description: string; image: string;
+//   modalContent?: {
+//     text: string;
+//     images?: string[];
+//   } | null;
+// }
 
 interface ModalProps {
-  item: TimelineItemProps;
+  item: TimelineItem; // ← CAMBIAR A TimelineItem
   onClose: () => void;
-  onImageClick: (index: number) => void; // 👇 1. Nueva prop para manejar el clic
+  onImageClick: (index: number) => void;
 }
 
 const backdropVariants = {
@@ -27,9 +29,11 @@ const backdropVariants = {
 const modalVariants = {
   hidden: { y: "-100vh", opacity: 0 },
   visible: { y: "0", opacity: 1, transition: { type: 'spring', stiffness: 100, damping: 15 } },
-}as const;; 
+} as const;
 
 export function TimelineModal({ item, onClose, onImageClick }: ModalProps) {
+  const { t } = useTranslation(); // ← AGREGAR HOOK
+
   if (!item.modalContent) return null;
 
   return (
@@ -39,17 +43,17 @@ export function TimelineModal({ item, onClose, onImageClick }: ModalProps) {
       initial="hidden"
       animate="visible"
       exit="hidden"
-      onClick={onClose} // Cierra al hacer clic en el fondo
+      onClick={onClose}
     >
       <motion.div
         className="relative bg-white rounded-lg shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto"
         variants={modalVariants}
-        onClick={(e) => e.stopPropagation()} // Evita que el clic en el modal se propague al fondo
+        onClick={(e) => e.stopPropagation()}
       >
         <button
           onClick={onClose}
           className="absolute top-3 right-3 text-slate-500 hover:text-slate-800 transition-colors z-10"
-          aria-label="Cerrar modal"
+          aria-label={t('common.close')} // ← TRADUCIBLE (usando common.close que ya existe)
         >
           <X size={28} />
         </button>
@@ -63,8 +67,6 @@ export function TimelineModal({ item, onClose, onImageClick }: ModalProps) {
                 src={img} 
                 alt={`${item.title} - imagen ${index + 1}`} 
                 className="w-full h-32 object-cover cursor-pointer" 
-                // 👇 3. El clic aquí abrirá el lightbox en la imagen correcta
-                // El índice es 'index + 1' porque la imagen principal es la 0.
                 onClick={() => onImageClick(index + 1)}
               />
             ))}
@@ -73,8 +75,12 @@ export function TimelineModal({ item, onClose, onImageClick }: ModalProps) {
 
         {/* Contenido de Texto */}
         <div className="p-8">
-          <p className="text-sm font-semibold text-teal-600 mb-2">{item.category} - {item.year}</p>
-          <h2 className="text-3xl font-bold text-slate-800 mb-4">{item.title}</h2>
+          <p className="text-sm font-semibold font-serif text-teal-600 mb-2">
+            {item.category} - {item.year}
+          </p>
+          <h2 className="text-3xl font-bold font-serif text-slate-800 mb-4">
+            {item.title}
+          </h2>
           <p className="text-slate-600 leading-relaxed whitespace-pre-line">
             {item.modalContent.text}
           </p>

@@ -1,17 +1,13 @@
 import { motion, AnimatePresence } from "framer-motion";
 import { useState, useEffect } from "react";
 import { ArrowRight, Sparkles } from "lucide-react";
-
-const phrases = [
-  "Vive la magia de las montañas y el eco de sus tradiciones.",
-  "Cada danza cuenta una historia... cada paso, una emoción.",
-  "Donde la naturaleza abraza la cultura y el alma se siente libre.",
-  "El corazón de la Sierra palpita en San Juan Tahitic.",
-  "Tu próxima experiencia comienza aquí, donde el tiempo se detiene.",
-];
+import { useTranslation } from '../../contexts/TranslationContext'; // ← AGREGAR IMPORT
 
 export function InmersiveCarousel() {
   const [index, setIndex] = useState(0);
+  const { t } = useTranslation(); // ← AGREGAR HOOK
+
+  const phrases = t('carousel.phrases') as unknown as string[]; // ← TRADUCIBLE
 
   // Rotación automática de frases
   useEffect(() => {
@@ -19,7 +15,7 @@ export function InmersiveCarousel() {
       setIndex((prev) => (prev + 1) % phrases.length);
     }, 5000); // cada 5 segundos
     return () => clearInterval(interval);
-  }, []);
+  }, [phrases.length]);
 
   return (
     <section className="relative overflow-hidden mt-20">
@@ -39,7 +35,8 @@ export function InmersiveCarousel() {
         <Sparkles className="mx-auto mb-4 h-10 w-10 text-yellow-400 animate-pulse" />
 
         <h2 className="text-3xl md:text-5xl font-extrabold mb-4 leading-tight">
-          Descubre la esencia de <span className="text-orange-400">San Juan Tahitic</span>
+          {t('carousel.title')}{' '} {/* ← TRADUCIBLE */}
+          <span className="text-orange-400">{t('carousel.sanJuanTahitic')}</span> {/* ← TRADUCIBLE */}
         </h2>
 
         {/* Carrusel de frases */}
@@ -64,7 +61,7 @@ export function InmersiveCarousel() {
           whileTap={{ scale: 0.98 }}
           className="inline-flex items-center gap-2 bg-orange-500 text-white font-semibold px-6 py-3 rounded-full shadow-lg hover:bg-orange-600 transition-colors"
         >
-          Explorar más
+          {t('carousel.exploreMore')} {/* ← TRADUCIBLE */}
           <ArrowRight className="h-5 w-5" />
         </motion.a>
       </div>

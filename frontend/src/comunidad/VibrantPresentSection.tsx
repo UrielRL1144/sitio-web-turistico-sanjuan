@@ -3,7 +3,6 @@ import { motion, useInView, useMotionValue, useTransform, animate } from 'framer
 import type { Variants } from 'framer-motion';
 import { InfoModal } from './section/InfoModal';
 import { UpcomingAttractionsSection } from './section/pillars/UpcomingAttractionsSection';
-
 import { EducacionContent } from './section/pillars/EducacionContent';
 import { FiestasContent } from './section/pillars/FiestasContent';
 import { GastronomiaContent } from './section/pillars/GastronomiaContent';
@@ -26,60 +25,8 @@ import {
   CheckCircle
 } from 'lucide-react';
 import React from 'react';
-import { type ElementType, useEffect, useRef, useState } from 'react';
-
-// --- Datos de los Pilares de la Comunidad ---
-const pillarsData: {
-  [x: string]: any; 
-  title: string; 
-  description: string; 
-  Icon: ElementType;
-  color: string;
-  
-}[] = [
-  {
-    title: 'Trabajo Colectivo (Tequio)',
-    description: 'La faena comunitaria es el pilar de nuestra cohesión. Un sistema ancestral de ayuda mutua para construir y mantener el bienestar de todos.',
-    Icon: Handshake,
-    color: 'from-emerald-500 to-teal-600',
-    ContentComponent: TequioContent,
-  },
-  {
-    title: 'Gastronomía y Agricultura',
-    description: 'Del campo a la mesa. Nuestros cultivos de maíz, frijol y café son la base de una cocina que nutre el cuerpo y preserva la soberanía alimentaria.',
-    Icon: Sprout,
-    color: 'from-amber-500 to-orange-600',
-    ContentComponent: GastronomiaContent,
-  },
-  {
-    title: 'Fiestas y Tradiciones',
-    description: 'El calendario festivo es el corazón cultural. Danzas, música y fe convergen en celebraciones que reafirman nuestra identidad a lo largo del año.',
-    Icon: PartyPopper,
-    color: 'from-rose-500 to-pink-600',
-    ContentComponent: FiestasContent,
-  },
-  {
-    title: 'Educación y Futuro',
-    description: 'Invertimos en las nuevas generaciones. Nuestras escuelas son semilleros de talento que preparan a los jóvenes para el futuro sin olvidar sus raíces.',
-    Icon: School2,
-    color: 'from-blue-500 to-indigo-600',
-    ContentComponent: EducacionContent
-  },
-];
-
-// --- Datos para la Radiografía Cuantitativa ---
-const statsData: {
-  value: number;
-  suffix?: string;
-  label: string;
-  icon: ElementType;
-  color: string;
-}[] = [
-  { value: 2500, label: 'Habitantes', icon: Users, color: 'text-blue-400' },
-  { value: 45, suffix: '%', label: 'Población Joven (<30 años)', icon: Heart, color: 'text-rose-400' },
-  { value: 5, label: 'Escuelas (Básica y Media)', icon: School2, color: 'text-amber-400' },
-  { value: 98, suffix: '%', label: 'Cobertura Eléctrica', icon: Home, color: 'text-emerald-400' },
-];
+import { type ElementType, useEffect, useRef, useState, useMemo } from 'react'; // ← AGREGAR useMemo
+import { useTranslation } from '../contexts/TranslationContext';
 
 const cardVariants: Variants = {
   hidden: { opacity: 0, y: 30 },
@@ -118,24 +65,74 @@ function AnimatedNumber({ to, suffix }: { to: number, suffix?: string }) {
 
   return (
     <div className="flex items-baseline justify-center" ref={ref}>
-      <motion.span className="text-5xl md:text-6xl font-bold">{rounded}</motion.span>
-      {suffix && <span className="text-3xl md:text-4xl font-bold ml-1">{suffix}</span>}
+      <motion.span className="text-5xl md:text-6xl font-bold font-serif">{rounded}</motion.span>
+      {suffix && <span className="text-3xl md:text-4xl font-bold font-serif ml-1">{suffix}</span>}
     </div>
   );
 }
 
 export function VibrantPresentSection() {
   const [activePillar, setActivePillar] = useState(0);
-  // 👇 1. Nuevo estado para controlar el modal
   const [isModalOpen, setIsModalOpen] = useState(false);
-  // Obtenemos los datos del pilar activo para pasarlos al modal
+  const { t, language } = useTranslation(); // ← AGREGAR currentLanguage
+
+  // --- Datos de los Pilares de la Comunidad CON useMemo ---
+  const pillarsData = useMemo(() => [
+    {
+      title: t('present.pillars.0.title'),
+      description: t('present.pillars.0.description'),
+      Icon: Handshake,
+      color: 'from-emerald-500 to-teal-600',
+      ContentComponent: TequioContent,
+    },
+    {
+      title: t('present.pillars.1.title'),
+      description: t('present.pillars.1.description'),
+      Icon: Sprout,
+      color: 'from-amber-500 to-orange-600',
+      ContentComponent: GastronomiaContent,
+    },
+    {
+      title: t('present.pillars.2.title'),
+      description: t('present.pillars.2.description'),
+      Icon: PartyPopper,
+      color: 'from-rose-500 to-pink-600',
+      ContentComponent: FiestasContent,
+    },
+    {
+      title: t('present.pillars.3.title'),
+      description: t('present.pillars.3.description'),
+      Icon: School2,
+      color: 'from-blue-500 to-indigo-600',
+      ContentComponent: EducacionContent
+    },
+  ], [t, language]); // ← SE RECALCULA SOLO CUANDO CAMBIA EL IDIOMA
+
+  // --- Datos para la Radiografía Cuantitativa CON useMemo ---
+  const statsData = useMemo(() => [
+    { value: 2500, suffix: undefined, label: t('present.stats.0.label'), icon: Users, color: 'text-blue-400' },
+    { value: 45, suffix: '%', label: t('present.stats.1.label'), icon: Heart, color: 'text-rose-400' },
+    { value: 5, suffix: undefined, label: t('present.stats.2.label'), icon: School2, color: 'text-amber-400' },
+    { value: 98, suffix: '%', label: t('present.stats.3.label'), icon: Home, color: 'text-emerald-400' },
+  ], [t, language]); // ← SE RECALCULA SOLO CUANDO CAMBIA EL IDIOMA
+  
   const activePillarData = pillarsData[activePillar];
-  // 👇 Obtenemos el componente de la data activa
   const ContentComponent = activePillarData.ContentComponent;
   
   return (
-    <section id="presente" className="w-full bg-gradient-to-b from-slate-50 to-blue-50 py-16 sm:py-24">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section id="presente" className="relative w-full bg-gradient-to-b from-slate-50 to-blue-50 py-16 sm:py-24 overflow-hidden">
+      {/* Fondo con imagen */}
+      <div
+        className="absolute inset-0 bg-cover bg-center opacity-40"
+        style={{
+          backgroundImage: "url('/images/comunidad/Fondo-avance-comunitario.svg')",
+        }}
+      ></div>
+      
+      <div className="absolute inset-0 bg-sky-900/5"></div>
+
+      {/* Contenido principal */}
+      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* --- Encabezado Mejorado --- */}
         <motion.div
           className="text-center mb-16"
@@ -152,13 +149,16 @@ export function VibrantPresentSection() {
             viewport={{ once: true }}
           >
             <MapPin className="h-5 w-5" />
-            <span className="font-medium">San Juan Tahitic Hoy</span>
+            <span className="font-medium font-serif">{t('present.sanJuanToday')}</span>
           </motion.div>
-          <h2 className="text-4xl sm:text-6xl font-bold text-slate-900 leading-tight mb-6">
-            Nuestra Comunidad <span className="bg-gradient-to-r from-sky-500 to-blue-600 bg-clip-text text-transparent">Vibrante</span>
+          <h2 className="text-4xl sm:text-6xl font-bold font-serif text-slate-900 leading-tight mb-6">
+            {t('present.ourVibrant')}{' '}
+            <span className="bg-gradient-to-r from-sky-500 to-blue-600 bg-clip-text text-transparent">
+              {t('present.community')}
+            </span>
           </h2>
           <p className="mt-4 max-w-3xl mx-auto text-xl text-slate-600 leading-relaxed">
-            Descubre cómo vivimos hoy: una comunidad que honra su herencia mientras construye activamente su futuro con esperanza y unidad.
+            {t('present.description')}
           </p>
         </motion.div>
 
@@ -171,7 +171,9 @@ export function VibrantPresentSection() {
             transition={{ duration: 0.8 }}
             viewport={{ once: true }}
           >
-            <h3 className="text-3xl font-bold text-slate-900 mb-4">Pilares de Nuestra Comunidad</h3>
+            <h3 className="text-3xl font-bold font-serif text-slate-900 mb-4">
+              {t('present.communityPillars')}
+            </h3>
             <div className="w-24 h-1 bg-gradient-to-r from-sky-500 to-blue-600 mx-auto rounded-full"></div>
           </motion.div>
           
@@ -179,11 +181,13 @@ export function VibrantPresentSection() {
             {/* Navegación de Pilares */}
             <div className="lg:w-1/4">
               <div className="bg-white rounded-2xl shadow-lg p-6 sticky top-8">
-                <h4 className="text-lg font-semibold text-slate-800 mb-4">Nuestros Valores</h4>
+                <h4 className="text-lg font-semibold font-serif text-slate-800 mb-4">
+                  {t('present.ourValues')}
+                </h4>
                 <div className="space-y-3">
                   {pillarsData.map((pillar, index) => (
                     <button
-                      key={pillar.title}
+                      key={`pillar-${index}`} // ← KEY ESTABLE
                       onClick={() => setActivePillar(index)}
                       className={`w-full text-left p-4 rounded-xl transition-all duration-300 ${
                         activePillar === index 
@@ -193,7 +197,7 @@ export function VibrantPresentSection() {
                     >
                       <div className="flex items-center">
                         <pillar.Icon className="h-5 w-5 mr-3" />
-                        <span className="font-medium">{pillar.title}</span>
+                        <span className="font-medium font-serif">{pillar.title}</span>
                       </div>
                     </button>
                   ))}
@@ -204,7 +208,7 @@ export function VibrantPresentSection() {
             {/* Contenido del Pilar Activo */}
             <div className="lg:w-3/4">
               <motion.div
-                key={activePillar}
+                key={`pillar-content-${activePillar}`} // ← KEY ESTABLE
                 initial={{ opacity: 0, x: 20 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ duration: 0.5 }}
@@ -213,10 +217,9 @@ export function VibrantPresentSection() {
                 <div className={`h-64 bg-gradient-to-r ${pillarsData[activePillar].color} flex items-center justify-center`}>
                   <div className="text-white text-center p-6">
                     <div className="bg-white/20 p-4 rounded-full inline-flex mb-4">
-                    {React.createElement(pillarsData[activePillar].Icon, { className: 'h-12 w-12' })}
+                      {React.createElement(pillarsData[activePillar].Icon, { className: 'h-12 w-12' })}
                     </div>
-
-                    <h3 className="text-3xl font-bold">{pillarsData[activePillar].title}</h3>
+                    <h3 className="text-3xl font-bold font-serif">{pillarsData[activePillar].title}</h3>
                   </div>
                 </div>
                 <div className="p-8">
@@ -225,10 +228,10 @@ export function VibrantPresentSection() {
                   </p>
                   <div className="mt-6 flex justify-end">
                     <button 
-                    onClick={() => setIsModalOpen(true)}
-                    className={`bg-gradient-to-r ${activePillarData.color} text-white px-6 py-2 rounded-lg font-medium hover:opacity-90 transition-opacity shadow-md`}
-                  >
-                      Conocer más
+                      onClick={() => setIsModalOpen(true)}
+                      className={`bg-gradient-to-r ${activePillarData.color} text-white px-6 py-2 rounded-lg font-medium font-serif hover:opacity-90 transition-opacity shadow-md`}
+                    >
+                      {t('present.learnMore')}
                     </button>
                   </div>
                 </div>
@@ -246,20 +249,32 @@ export function VibrantPresentSection() {
             transition={{ duration: 0.8 }}
             viewport={{ once: true }}
           >
-            <h3 className="text-3xl font-bold text-slate-900 mb-4">Nuestra Comunidad en Números</h3>
+            <h3 className="text-3xl font-bold font-serif text-slate-900 mb-4">
+              {t('present.communityInNumbers')}
+            </h3>
             <p className="text-lg text-slate-600 max-w-2xl mx-auto">
-              Datos que reflejan la vitalidad y el progreso de San Juan Tahitic
+              {t('present.numbersDescription')}
             </p>
             <div className="w-24 h-1 bg-gradient-to-r from-sky-500 to-blue-600 mx-auto rounded-full mt-4"></div>
           </motion.div>
           
           <motion.div 
-            className="bg-gradient-to-br from-slate-800 via-slate-900 to-blue-900 p-8 md:p-12 rounded-3xl shadow-2xl"
+            className="relative bg-gradient-to-br from-slate-800 via-slate-900 to-blue-900 p-8 md:p-12 rounded-3xl shadow-2xl overflow-hidden"
             initial={{ opacity: 0, scale: 0.95 }}
             whileInView={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.8 }}
             viewport={{ once: true }}
           >
+            {/* Fondo con imagen */}
+            <div
+              className="absolute inset-0 bg-cover bg-center opacity-20"
+              style={{
+                backgroundImage: "url('/images/comunidad/Fondos-numericos.svg')",
+              }}
+            ></div>
+
+            <div className="absolute inset-0 bg-slate-900/30"></div>
+
             <motion.div 
               className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6"
               variants={staggerContainer}
@@ -267,9 +282,9 @@ export function VibrantPresentSection() {
               whileInView="visible"
               viewport={{ once: true }}
             >
-              {statsData.map((stat) => (
+              {statsData.map((stat, index) => (
                 <motion.div 
-                  key={stat.label} 
+                  key={`stat-${index}`} // ← KEY ESTABLE
                   className="bg-white/10 backdrop-blur-sm rounded-2xl p-6 text-center border border-white/10 hover:bg-white/15 transition-all duration-300"
                   variants={cardVariants}
                 >
@@ -281,23 +296,24 @@ export function VibrantPresentSection() {
                   <div className="text-sky-400 mb-2">
                     <AnimatedNumber to={stat.value} suffix={stat.suffix} />
                   </div>
-                  <p className="text-slate-300 text-sm font-medium">{stat.label}</p>
+                  <p className="text-slate-300 text-sm font-medium font-serif">{stat.label}</p>
                 </motion.div>
               ))}
             </motion.div>
             
             <div className="mt-10 pt-8 border-t border-white/10">
               <div className="text-center">
-                <p className="text-slate-400 text-sm">
-                  Última actualización: Octubre 2023 • Fuente: Consejo Comunitario de San Juan Tahitic
+                <p className="text-white text-sm">
+                  {t('present.lastUpdate')} Octubre 2023 • {t('present.source')}
                 </p>
               </div>
             </div>
           </motion.div>
         </div>
-        {/* --- Nueva Sección: Próximos Eventos (REEMPLAZO) --- */}
-            {/* BORRAR EL BLOQUE ANTERIOR Y REEMPLAZARLO CON LA SIGUIENTE LÍNEA */}
-            <UpcomingAttractionsSection /> {/* ✨ NUEVO COMPONENTE INTEGRADO ✨ */}
+        
+        {/* --- Nueva Sección: Próximos Eventos --- */}
+        <UpcomingAttractionsSection />
+        
         {/* --- Llamada a la Acción --- */}
         <motion.div
           className="text-center bg-gradient-to-r from-sky-500 to-blue-600 rounded-3xl p-10 md:p-12 shadow-2xl"
@@ -306,22 +322,16 @@ export function VibrantPresentSection() {
           transition={{ duration: 0.8 }}
           viewport={{ once: true }}
         >
-          <h3 className="text-3xl font-bold text-white mb-4">¿Te gustaría visitarnos?</h3>
+          <h3 className="text-3xl font-bold font-serif text-white mb-4">
+            {t('present.wouldYouLikeToVisit')}
+          </h3>
           <p className="text-sky-100 text-lg max-w-2xl mx-auto mb-6">
-            Conoce de primera mano la calidez y riqueza cultural de San Juan Tahitic. 
-            Te invitamos a ser parte de nuestra comunidad, aunque sea por un día.
+            {t('present.visitDescription')}
           </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <button className="bg-white text-sky-600 px-8 py-3 rounded-lg font-bold hover:bg-slate-100 transition-colors shadow-lg">
-              Planificar Visita
-            </button>
-            <button className="bg-transparent border-2 border-white text-white px-8 py-3 rounded-lg font-bold hover:bg-white/10 transition-colors">
-              Contactar Comunidad
-            </button>
-          </div>
         </motion.div>
       </div>
-      {/* 👇 3. Renderizado del Modal con Contenido Enriquecido */}
+      
+      {/* Modal */}
       <InfoModal
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
@@ -329,7 +339,6 @@ export function VibrantPresentSection() {
         Icon={activePillarData.Icon}
         gradient={activePillarData.color}
       >
-        {/* 👇 RENDERIZAMOS EL COMPONENTE DINÁMICAMENTE */}
         <ContentComponent />
       </InfoModal>
     </section>

@@ -2,8 +2,9 @@
 import { motion } from 'framer-motion';
 import type{ ArtisanCraft } from './types';
 import { LazyImage } from './LazyImage';
-import { categoryIcons, categoryNames } from './types';
+import { categoryIcons, useCategoryNames } from './types';
 import { Scissors, Palette, Brush, Hand } from 'lucide-react';
+import { useTranslation } from '../../contexts/TranslationContext'; // ← AGREGAR IMPORT
 
 interface ArtesaniaCardProps {
   craft: ArtisanCraft;
@@ -17,6 +18,8 @@ const iconComponents = {
 };
 
 export const ArtesaniaCard: React.FC<ArtesaniaCardProps> = ({ craft, onClick }) => {
+  const categoryNames = useCategoryNames();
+  const { t } = useTranslation(); // ← AGREGAR HOOK
   const CategoryIcon = iconComponents[craft.category];
   const categoryColorClass = craft.category === 'textiles' ? 'bg-blue-600' :
                             craft.category === 'ceramica' ? 'bg-amber-600' :
@@ -57,13 +60,14 @@ export const ArtesaniaCard: React.FC<ArtesaniaCardProps> = ({ craft, onClick }) 
               className="text-white text-sm font-semibold bg-amber-600/90 px-4 py-2 rounded-full backdrop-blur-sm flex items-center gap-2"
             >
               <Hand className="w-4 h-4" />
-              Ver detalles
+              {t('crafts.viewDetails')} {/* ← TRADUCIBLE */}
             </motion.div>
-             {/* Versión móvil del indicador - Siempre visible en móvil */}
-        <div className="lg:hidden absolute bottom-4 right-4 z-20 bg-amber-600 text-white px-3 py-2 rounded-full shadow-lg flex items-center gap-2">
-          <Hand className="w-3 h-3" />
-          <span className="text-xs font-semibold">Ver detalles</span>
-        </div>
+          </div>
+          
+          {/* Versión móvil del indicador - Siempre visible en móvil */}
+          <div className="lg:hidden absolute bottom-4 right-4 z-20 bg-amber-600 text-white px-3 py-2 rounded-full shadow-lg flex items-center gap-2">
+            <Hand className="w-3 h-3" />
+            <span className="text-xs font-semibold">{t('crafts.viewDetails')}</span> {/* ← TRADUCIBLE */}
           </div>
           
           {/* Badge de categoría */}
@@ -78,28 +82,28 @@ export const ArtesaniaCard: React.FC<ArtesaniaCardProps> = ({ craft, onClick }) 
         {/* Contenido */}
         <div className="p-6 flex-1 flex flex-col">
           <h3 className="text-xl font-bold font-serif text-gray-900 mb-2 line-clamp-2 group-hover:text-amber-700 transition-colors">
-            {craft.name}
+            {craft.name} {/* ← ESTE VIENE DEL JSON DE ARTESANÍAS */}
           </h3>
           
           <p className="text-gray-600 text-sm mb-4 flex-1 line-clamp-3">
-            {craft.description}
+            {craft.description} {/* ← ESTE VIENE DEL JSON DE ARTESANÍAS */}
           </p>
 
           {/* Información del artesano */}
           <div className="border-t border-gray-100 pt-4 mt-auto">
             <div className="flex items-center justify-between text-sm text-gray-500">
-              <span className="font-medium text-gray-700">{craft.artisan.name}</span>
-              <span>{craft.timeRequired}</span>
+              <span className="font-medium text-gray-700">{craft.artisan.name}</span> {/* ← DEL JSON */}
+              <span>{craft.timeRequired}</span> {/* ← DEL JSON */}
             </div>
             <div className="text-xs text-gray-400 mt-1">
-              {craft.artisan.experience}
+              {craft.artisan.experience} {/* ← ESTE VIENE DEL JSON DE ARTESANÍAS */}
             </div>
           </div>
 
           {/* Precio */}
           <div className="mt-3 pt-3 border-t border-gray-100">
             <div className="text-lg font-bold text-amber-700">
-              {craft.priceRange}
+              {craft.priceRange} {/* ← DEL JSON */}
             </div>
           </div>
         </div>

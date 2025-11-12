@@ -3,8 +3,9 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { useState } from 'react';
 import type { ArtisanCraft } from './types';
 import { LazyImage } from './LazyImage';
-import { categoryColors, categoryNames } from './types';
+import { categoryColors, useCategoryNames } from './types';
 import { ArrowLeft, MapPin, User, Clock, Scissors, Palette, Brush, X, ZoomIn, ZoomOut } from 'lucide-react';
+import { useTranslation } from '../../contexts/TranslationContext'; // ← AGREGAR IMPORT
 
 interface ArtesaniaModalProps {
   craft: ArtisanCraft;
@@ -27,6 +28,7 @@ export const ArtesaniaModal: React.FC<ArtesaniaModalProps> = ({
 }) => {
   const CategoryIcon = iconComponents[craft.category];
   const [isImageExpanded, setIsImageExpanded] = useState(false);
+  const { t } = useTranslation(); // ← AGREGAR HOOK
   
   const handleImageClick = () => {
     setIsImageExpanded(true);
@@ -35,6 +37,8 @@ export const ArtesaniaModal: React.FC<ArtesaniaModalProps> = ({
   const handleCloseExpandedImage = () => {
     setIsImageExpanded(false);
   };
+
+  const categoryNames = useCategoryNames();
 
   return (
     <AnimatePresence>
@@ -63,7 +67,7 @@ export const ArtesaniaModal: React.FC<ArtesaniaModalProps> = ({
               whileHover={{ scale: 1.1, backgroundColor: "rgba(0,0,0,0.1)" }}
               whileTap={{ scale: 0.9 }}
               className="absolute top-4 right-4 z-30 w-10 h-10 bg-white/90 backdrop-blur-sm rounded-full flex items-center justify-center shadow-lg border border-gray-200 hover:border-gray-300 transition-all duration-200"
-              aria-label="Cerrar modal"
+              aria-label={t('crafts.modal.close')} // ← TRADUCIBLE
             >
               <X className="w-5 h-5 text-gray-700" />
             </motion.button>
@@ -89,7 +93,9 @@ export const ArtesaniaModal: React.FC<ArtesaniaModalProps> = ({
                       className="bg-white/90 backdrop-blur-sm rounded-full p-3 shadow-lg flex items-center gap-2"
                     >
                       <ZoomIn className="w-5 h-5 text-amber-600" />
-                      <span className="text-sm font-semibold text-gray-700">Haz clic para ampliar</span>
+                      <span className="text-sm font-semibold text-gray-700">
+                        {t('crafts.modal.clickToZoom')} {/* ← TRADUCIBLE */}
+                      </span>
                     </motion.div>
                   </div>
                 </div>
@@ -115,7 +121,9 @@ export const ArtesaniaModal: React.FC<ArtesaniaModalProps> = ({
 
                   {/* Historia del Artesano */}
                   <div className="bg-amber-50 rounded-2xl p-6 mb-6">
-                    <h4 className="font-bold font-serif text-amber-800 text-lg mb-3">La Historia Detrás</h4>
+                    <h4 className="font-bold font-serif text-amber-800 text-lg mb-3">
+                      {t('crafts.modal.theStoryBehind')} {/* ← TRADUCIBLE */}
+                    </h4>
                     <p className="text-amber-900 italic leading-relaxed">
                       "{craft.story}"
                     </p>
@@ -126,7 +134,7 @@ export const ArtesaniaModal: React.FC<ArtesaniaModalProps> = ({
                     <div>
                       <h4 className="font-bold font-serif text-gray-900 mb-3 flex items-center gap-2">
                         <User className="w-5 h-5 text-amber-600" />
-                        El Artesano
+                        {t('crafts.modal.theArtisan')} {/* ← TRADUCIBLE */}
                       </h4>
                       <p className="text-gray-800 font-semibold font-serif">{craft.artisan.name}</p>
                       <p className="text-gray-600 text-sm">{craft.artisan.experience}</p>
@@ -139,17 +147,23 @@ export const ArtesaniaModal: React.FC<ArtesaniaModalProps> = ({
                     <div>
                       <h4 className="font-bold font-serif text-gray-900 mb-3 flex items-center gap-2">
                         <Clock className="w-5 h-5 text-amber-600" />
-                        Detalles
+                        {t('crafts.modal.details')} {/* ← TRADUCIBLE */}
                       </h4>
-                      <p className="text-gray-800"><strong>Tiempo de elaboración:</strong> {craft.timeRequired}</p>
-                      <p className="text-gray-800"><strong>Precio:</strong> {craft.priceRange}</p>
+                      <p className="text-gray-800">
+                        <strong>{t('crafts.modal.productionTime')}</strong> {craft.timeRequired} {/* ← TRADUCIBLE */}
+                      </p>
+                      <p className="text-gray-800">
+                        <strong>{t('crafts.modal.price')}</strong> {craft.priceRange} {/* ← TRADUCIBLE */}
+                      </p>
                     </div>
                   </div>
 
                   {/* Materiales y Técnicas */}
                   <div className="grid md:grid-cols-2 gap-6">
                     <div>
-                      <h4 className="font-bold font-serif text-gray-900 mb-2">Materiales Utilizados</h4>
+                      <h4 className="font-bold font-serif text-gray-900 mb-2">
+                        {t('crafts.modal.materialsUsed')} {/* ← TRADUCIBLE */}
+                      </h4>
                       <div className="flex flex-wrap gap-2">
                         {craft.materials.map((material, index) => (
                           <span 
@@ -163,7 +177,9 @@ export const ArtesaniaModal: React.FC<ArtesaniaModalProps> = ({
                     </div>
 
                     <div>
-                      <h4 className="font-bold font-serif text-gray-900 mb-2">Técnicas Ancestrales</h4>
+                      <h4 className="font-bold font-serif text-gray-900 mb-2">
+                        {t('crafts.modal.ancestralTechniques')} {/* ← TRADUCIBLE */}
+                      </h4>
                       <div className="flex flex-wrap gap-2">
                         {craft.techniques.map((technique, index) => (
                           <span 
@@ -187,11 +203,11 @@ export const ArtesaniaModal: React.FC<ArtesaniaModalProps> = ({
                     className="w-full bg-amber-600 hover:bg-amber-700 text-white font-semibold font-serif py-3 rounded-full shadow-lg flex items-center justify-center gap-2 transition-colors"
                   >
                     <ArrowLeft className="w-5 h-5" />
-                    Ver más artesanías
+                    {t('crafts.modal.viewMoreCrafts')} {/* ← TRADUCIBLE */}
                   </motion.button>
 
                   <div className="mt-3 text-center text-sm text-gray-500">
-                    Presiona ESC para cerrar • ← → para navegar
+                    {t('crafts.modal.keyboardShortcuts')} {/* ← TRADUCIBLE */}
                   </div>
                 </div>
               </div>
@@ -216,7 +232,7 @@ export const ArtesaniaModal: React.FC<ArtesaniaModalProps> = ({
               whileHover={{ scale: 1.1, backgroundColor: "rgba(255,255,255,0.2)" }}
               whileTap={{ scale: 0.9 }}
               className="absolute top-6 right-6 z-70 w-12 h-12 bg-black/50 backdrop-blur-sm rounded-full flex items-center justify-center shadow-lg border border-white/20 hover:border-white/40 transition-all duration-200"
-              aria-label="Cerrar imagen ampliada"
+              aria-label={t('crafts.modal.close')} // ← TRADUCIBLE
             >
               <X className="w-6 h-6 text-white" />
             </motion.button>
@@ -229,7 +245,9 @@ export const ArtesaniaModal: React.FC<ArtesaniaModalProps> = ({
               className="absolute bottom-6 left-1/2 transform -translate-x-1/2 z-70 bg-white/20 backdrop-blur-sm text-white px-6 py-3 rounded-full flex items-center gap-2 shadow-lg border border-white/30 hover:bg-white/30 transition-all duration-200"
             >
               <ZoomOut className="w-5 h-5" />
-              <span className="font-semibold">Cerrar zoom</span>
+              <span className="font-semibold">
+                {t('crafts.modal.closeZoom')} {/* ← TRADUCIBLE */}
+              </span>
             </motion.button>
 
             {/* Contenedor de la imagen expandida */}
@@ -258,7 +276,9 @@ export const ArtesaniaModal: React.FC<ArtesaniaModalProps> = ({
                 className="absolute bottom-4 left-4 right-4 bg-black/60 backdrop-blur-sm rounded-xl p-4 text-white"
               >
                 <h3 className="text-xl font-bold font-serif mb-1">{craft.name}</h3>
-                <p className="text-white/80 text-sm">Por: {craft.artisan.name}</p>
+                <p className="text-white/80 text-sm">
+                  {t('crafts.modal.by')} {craft.artisan.name} {/* ← TRADUCIBLE */}
+                </p>
                 <p className="text-white/60 text-xs mt-1">{craft.description}</p>
               </motion.div>
             </motion.div>
@@ -270,7 +290,7 @@ export const ArtesaniaModal: React.FC<ArtesaniaModalProps> = ({
               transition={{ delay: 0.5 }}
               className="absolute top-6 left-6 z-70 bg-black/50 backdrop-blur-sm rounded-full px-4 py-2 text-white/80 text-sm"
             >
-              Presiona ESC o haz clic fuera para cerrar
+              {t('crafts.modal.zoomInstructions')} {/* ← TRADUCIBLE */}
             </motion.div>
           </motion.div>
         )}

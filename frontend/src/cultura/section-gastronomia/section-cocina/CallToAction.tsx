@@ -1,8 +1,11 @@
 import { motion } from 'framer-motion';
 import { Sparkles, Heart, Utensils, Star, Users } from 'lucide-react';
 import { Card } from '@/components/ui/card';
+import { useTranslation } from '../../../contexts/TranslationContext'; // ← AGREGAR IMPORT
 
 export function CallToAction() {
+  const { t } = useTranslation(); // ← AGREGAR HOOK
+
   return (
     <section className="bg-gradient-to-br from-amber-600 via-amber-700 to-orange-700 text-white py-16 sm:py-20 lg:py-24 xl:py-28 relative overflow-hidden">
       {/* Fondos decorativos sutiles */}
@@ -47,11 +50,11 @@ export function CallToAction() {
           className="mb-6 sm:mb-8"
         >
           <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold font-serif mb-4 sm:mb-6 leading-tight">
-            Descubre la{' '}
+            {t('call.discoverThe')}{' '} {/* ← TRADUCIBLE */}
             <span className="text-amber-300 bg-gradient-to-r from-amber-300 to-orange-300 bg-clip-text text-transparent">
-              Magia
+              {t('call.magic')} {/* ← TRADUCIBLE */}
             </span>{' '}
-            de Nuestra Cocina
+            {t('call.ofOurCuisine')} {/* ← TRADUCIBLE */}
           </h2>
           
           <motion.p
@@ -60,7 +63,7 @@ export function CallToAction() {
             transition={{ delay: 0.4, duration: 0.6 }}
             className="text-lg sm:text-xl lg:text-2xl opacity-90 font-light font-serif max-w-3xl mx-auto leading-relaxed"
           >
-            Donde cada platillo cuenta una historia y cada sabor crea un recuerdo inolvidable
+            {t('call.subtitle')} {/* ← TRADUCIBLE */}
           </motion.p>
         </motion.div>
 
@@ -79,8 +82,8 @@ export function CallToAction() {
             <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-3 sm:p-4 mb-2 inline-block">
               <Utensils className="h-6 w-6 sm:h-8 sm:w-8 text-amber-300 mx-auto" />
             </div>
-            <p className="text-xs sm:text-sm font-medium font-serif text-amber-200">
-              Ingredientes<br />Locales
+            <p className="text-xs sm:text-sm font-medium font-serif text-amber-200 whitespace-pre-line">
+              {t('call.features.localIngredients')} {/* ← TRADUCIBLE */}
             </p>
           </motion.div>
 
@@ -92,8 +95,8 @@ export function CallToAction() {
             <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-3 sm:p-4 mb-2 inline-block">
               <Heart className="h-6 w-6 sm:h-8 sm:w-8 text-amber-300 mx-auto" />
             </div>
-            <p className="text-xs sm:text-sm font-medium font-serif text-amber-200">
-              Tradición<br />Familiar
+            <p className="text-xs sm:text-sm font-medium font-serif text-amber-200 whitespace-pre-line">
+              {t('call.features.familyTradition')} {/* ← TRADUCIBLE */}
             </p>
           </motion.div>
 
@@ -105,8 +108,8 @@ export function CallToAction() {
             <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-3 sm:p-4 mb-2 inline-block">
               <Star className="h-6 w-6 sm:h-8 sm:w-8 text-amber-300 mx-auto" />
             </div>
-            <p className="text-xs sm:text-sm font-medium font-serif text-amber-200">
-              Calidad<br />Garantizada
+            <p className="text-xs sm:text-sm font-medium font-serif text-amber-200 whitespace-pre-line">
+              {t('call.features.qualityGuaranteed')} {/* ← TRADUCIBLE */}
             </p>
           </motion.div>
 
@@ -118,8 +121,8 @@ export function CallToAction() {
             <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-3 sm:p-4 mb-2 inline-block">
               <Users className="h-6 w-6 sm:h-8 sm:w-8 text-amber-300 mx-auto" />
             </div>
-            <p className="text-xs sm:text-sm font-medium font-serif text-amber-200">
-              Ambiente<br />Acogedor
+            <p className="text-xs sm:text-sm font-medium font-serif text-amber-200 whitespace-pre-line">
+              {t('call.features.cozyAtmosphere')} {/* ← TRADUCIBLE */}
             </p>
           </motion.div>
         </motion.div>
@@ -142,7 +145,7 @@ export function CallToAction() {
               
               <div className="flex items-center justify-center space-x-3 sm:space-x-4 relative z-10">
                 <Sparkles className="h-5 w-5 sm:h-6 sm:w-6 lg:h-7 lg:w-7" />
-                <span>Vive la Experiencia</span>
+                <span>{t('call.ctaButton')}</span> {/* ← TRADUCIBLE */}
                 <Sparkles className="h-5 w-5 sm:h-6 sm:w-6 lg:h-7 lg:w-7" />
               </div>
             </Card>
@@ -162,7 +165,7 @@ export function CallToAction() {
             transition={{ delay: 1.2, duration: 0.6 }}
             className="text-amber-200 text-base sm:text-lg lg:text-xl italic max-w-2xl mx-auto leading-relaxed"
           >
-            "Más que un platillo, un encuentro con la auténtica esencia de San Juan Tahitic"
+            "{t('call.inspirationalQuote')}" {/* ← TRADUCIBLE */}
           </motion.p>
           
           <motion.div
@@ -172,7 +175,7 @@ export function CallToAction() {
             className="flex justify-center items-center space-x-2 text-amber-300/70 text-sm sm:text-base"
           >
             <div className="w-8 h-px bg-amber-300/50"></div>
-            <span>Te esperamos con los brazos abiertos</span>
+            <span>{t('call.waitingMessage')}</span> {/* ← TRADUCIBLE */}
             <div className="w-8 h-px bg-amber-300/50"></div>
           </motion.div>
         </motion.div>

@@ -1,27 +1,34 @@
-// ViajeSensorialGastronomico.tsx - Versión híbrida
+// ViajeSensorialGastronomico.tsx - Versión híbrida MODIFICADA
 import { useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { HeaderNavigation } from '../section-gastronomia/section-cocina/HeaderNavigation'; // MANTENER
+import { HeaderNavigation } from '../section-gastronomia/section-cocina/HeaderNavigation';
 import { FloatingNavigation } from '../section-gastronomia/section-cocina/FloatingNavigation';
 import { HeroSection } from '../section-gastronomia/section-cocina/HeroSection';
 import { RestaurantInfo } from '../section-gastronomia/section-cocina/RestaurantInfo';
 import { FeaturedDishes } from '../section-gastronomia/section-cocina/FeaturedDishes';
 import { LocationSection } from '../section-gastronomia/section-cocina/LocationSection';
-import { CallToAction } from '../section-gastronomia/section-cocina/CallToAction';
 import { ExpandedModal } from '../section-gastronomia/section-cocina/ExpandedModal';
-import cocinasData from '../../archivos_data/cocinas-tradicionales.json';
+import { useCocinasData } from '../../hooks/useCocinasData'; // ← AGREGAR IMPORT
 import { Wifi, Car, TreePine, Users, Utensils, BookOpen, ChefHat, Sparkles, Calendar } from 'lucide-react';
+import { useTranslation } from '../../contexts/TranslationContext';
 
 export function ViajeSensorialGastronomico() {
-  const [cocinaActiva, setCocinaActiva] = useState(0);
+  // REEMPLAZAR todo el estado anterior con el hook
+  const {
+    cocinasData: cocinas,
+    cocina,
+    cocinaActiva,
+    setCocinaActiva,
+    siguienteCocina,
+    anteriorCocina
+  } = useCocinasData();
+
   const [restauranteExpandido, setRestauranteExpandido] = useState<any>(null);
   const [showFloatingNav, setShowFloatingNav] = useState(false);
   const [hasUserInteracted, setHasUserInteracted] = useState(false);
+  const { t } = useTranslation();
 
-  const cocinas = cocinasData.cocinas;
-  const cocina = cocinas[cocinaActiva];
-
-   // Detectar cuando el usuario está en la sección de cocinas
+  // Detectar cuando el usuario está en la sección de cocinas
   useEffect(() => {
     const handleScroll = () => {
       const section = document.getElementById('cocinas-section');
@@ -53,35 +60,23 @@ export function ViajeSensorialGastronomico() {
 
   const getServiceIcon = (servicio: string) => {
     const icons: { [key: string]: any } = {
-      'WiFi Gratuito': Wifi,
-      'Estacionamiento': Car,
-      'Terraza Jardín': TreePine,
-      'Grupos Grandes': Users,
-      'Comida Para Llevar': Utensils,
-      'Reservaciones': BookOpen,
-      'Espacio al Aire Libre': TreePine,
-      'Demonstraciones Culinarias': ChefHat,
-      'Talleres de Cocina': Utensils,
-      'Venta de Ingredientes Locales': Sparkles,
-      'Eventos Especiales': Calendar
+      [t('cocinas.services.wifi')]: Wifi,
+      [t('cocinas.services.parking')]: Car,
+      [t('cocinas.services.garden')]: TreePine,
+      [t('cocinas.services.groups')]: Users,
+      [t('cocinas.services.takeaway')]: Utensils,
+      [t('cocinas.services.reservations')]: BookOpen,
+      [t('cocinas.services.outdoor')]: TreePine,
+      [t('cocinas.services.demonstrations')]: ChefHat,
+      [t('cocinas.services.workshops')]: Utensils,
+      [t('cocinas.services.ingredients')]: Sparkles,
+      [t('cocinas.services.events')]: Calendar
     };
     return icons[servicio] || Sparkles;
   };
 
-   const handleNavigate = (section: string) => {
+  const handleNavigate = (section: string) => {
     document.getElementById(section)?.scrollIntoView({ behavior: 'smooth' });
-  };
-
-  const siguienteCocina = () => {
-    const siguienteIndex = (cocinaActiva + 1) % cocinas.length;
-    setCocinaActiva(siguienteIndex);
-    setHasUserInteracted(true);
-  };
-
-  const anteriorCocina = () => {
-    const anteriorIndex = (cocinaActiva - 1 + cocinas.length) % cocinas.length;
-    setCocinaActiva(anteriorIndex);
-    setHasUserInteracted(true);
   };
 
   const handleCocinaChange = (index: number) => {
@@ -94,12 +89,10 @@ export function ViajeSensorialGastronomico() {
       id="cocinas-section"
       className="min-h-screen bg-gradient-to-br from-amber-50 to-orange-50 overflow-x-hidden relative"
     >
-       {/* CONTENEDOR PARA STICKY RELATIVE */}
-      <div className="relative"> {/* 👈 Este contenedor es clave */}
+      {/* CONTENEDOR PARA STICKY RELATIVE */}
+      <div className="relative">
         
-      
-        
-        {/* Floating Navigation Contextual (nuevo) */}
+        {/* Floating Navigation Contextual */}
         <FloatingNavigation
           cocinas={cocinas}
           cocinaActiva={cocinaActiva}
@@ -132,9 +125,6 @@ export function ViajeSensorialGastronomico() {
 
         {/* Location Section */}
         <LocationSection cocina={cocina} />
-
-        {/* Call to Action */}
-        {/*<CallToAction cocina={cocina} />
 
         {/* Expanded Modal */}
         <ExpandedModal 

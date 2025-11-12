@@ -1,5 +1,6 @@
 import { motion } from 'framer-motion';
 import { Star, ExternalLink } from 'lucide-react';
+import { useTranslation } from '../../../contexts/TranslationContext'; // ← AGREGAR IMPORT
 
 interface FeaturedDishesProps {
   cocina: any;
@@ -7,6 +8,8 @@ interface FeaturedDishesProps {
 }
 
 export function FeaturedDishes({ cocina, onExpandRestaurant }: FeaturedDishesProps) {
+  const { t } = useTranslation(); // ← AGREGAR HOOK
+
   return (
     <section 
       id="platillos-emblematicos" 
@@ -29,14 +32,14 @@ export function FeaturedDishes({ cocina, onExpandRestaurant }: FeaturedDishesPro
             <div className="flex items-center justify-center space-x-2 sm:space-x-3 mb-4 sm:mb-6">
               <Star className="h-5 w-5 sm:h-6 sm:w-6 text-amber-600 flex-shrink-0" />
               <h2 className="text-xl sm:text-2xl lg:text-3xl font-extrabold font-serif text-gray-900">
-                Platillos emblemáticos
+                {t('cocinas.featuredDishes.emblematicDishes')} {/* ← TRADUCIBLE */}
               </h2>
               <Star className="h-5 w-5 sm:h-6 sm:w-6 text-amber-600 flex-shrink-0" />
             </div>
 
             {/* Texto descriptivo */}
             <p className="text-gray-700 text-sm sm:text-base lg:text-lg max-w-2xl mx-auto font-medium font-serif leading-relaxed">
-              Descubre los sabores que nos definen y han conquistado a nuestros visitantes
+              {t('cocinas.featuredDishes.discoverFlavors')} {/* ← TRADUCIBLE */}
             </p>
           </div>
         </motion.div>
@@ -67,7 +70,7 @@ export function FeaturedDishes({ cocina, onExpandRestaurant }: FeaturedDishesPro
                 {/* Badge Emblema - MEJORADO RESPONSIVE */}
                 <div className="absolute top-3 left-3 bg-gradient-to-r from-amber-600 to-orange-600 text-white px-2 sm:px-3 py-1 rounded-full text-xs font-bold font-serif flex items-center space-x-1 shadow-lg">
                   <Star className="h-3 w-3 flex-shrink-0" />
-                  <span className="whitespace-nowrap">Emblema</span>
+                  <span className="whitespace-nowrap">{t('cocinas.featuredDishes.emblem')}</span> {/* ← TRADUCIBLE */}
                 </div>
                 
                 {/* Overlay Hover - MEJORADO */}
@@ -83,21 +86,21 @@ export function FeaturedDishes({ cocina, onExpandRestaurant }: FeaturedDishesPro
                 
                 {/* Título - MEJORADO PARA MÓVIL */}
                 <h3 className="text-base sm:text-lg lg:text-xl font-bold font-serif text-gray-900 mb-2 sm:mb-3 group-hover:text-amber-700 transition-colors line-clamp-2 leading-tight">
-                  {especialidad.nombre}
+                  {especialidad.nombre} {/* ← VIENE DEL JSON */}
                 </h3>
                 
                 {/* Descripción - TEXTOS MEJORADOS */}
                 <p className="text-gray-600 text-xs sm:text-sm mb-3 sm:mb-4 line-clamp-2 font-medium leading-relaxed">
-                  {especialidad.descripcion}
+                  {especialidad.descripcion} {/* ← VIENE DEL JSON */}
                 </p>
                 
                 {/* Precio y Botón - MEJORADO ALINEACIÓN */}
                 <div className="flex justify-between items-center">
                   <span className="text-lg sm:text-xl font-bold font-serif text-amber-600">
-                    ${especialidad.precio}
+                    {t('cocinas.featuredDishes.currency')}{especialidad.precio} {/* ← TRADUCIBLE */}
                   </span>
                   <button className="text-amber-600 hover:text-amber-700 font-semibold font-serif text-xs sm:text-sm flex items-center space-x-1 sm:space-x-2 group-hover:translate-x-1 transition-transform duration-200">
-                    <span className="whitespace-nowrap">Ver más</span>
+                    <span className="whitespace-nowrap">{t('cocinas.featuredDishes.seeMore')}</span> {/* ← TRADUCIBLE */}
                     <ExternalLink className="h-3 w-3 sm:h-4 sm:w-4 flex-shrink-0" />
                   </button>
                 </div>

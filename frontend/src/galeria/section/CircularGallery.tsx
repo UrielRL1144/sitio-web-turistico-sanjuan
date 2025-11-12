@@ -2,26 +2,22 @@
 import { motion, AnimatePresence } from 'framer-motion';
 import { ImageWithFallback } from '../../components/figma/ImageWithFallback';
 import type { GalleryImage } from "./hooks/useGallery";
-
 interface CircularGalleryProps {
   images: GalleryImage[];
   getCircularPosition: (index: number, total: number) => any;
   onImageClick: (src: string) => void;
 }
-
 export function CircularGallery({ images, getCircularPosition, onImageClick }: CircularGalleryProps) {
   // Función para calcular el z-index dinámicamente
   const getZIndex = (index: number, total: number) => {
     return total - index;
   };
-
   return (
     <div className="absolute inset-0 flex items-center justify-center">
       <AnimatePresence>
         {images.map((image, index) => {
           const position = getCircularPosition(index, images.length);
           const zIndex = getZIndex(index, images.length);
-          
           return (
             <motion.div
               key={`${image.src}-${index}`}
@@ -83,7 +79,6 @@ export function CircularGallery({ images, getCircularPosition, onImageClick }: C
                   alt={image.alt}
                   className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                 />
-                
                 {/* Overlay elegante mejorado */}
                 <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-500">
                   <div className="absolute bottom-0 left-0 right-0 p-3 text-white transform translate-y-4 group-hover:translate-y-0 transition-transform duration-500">
@@ -93,7 +88,6 @@ export function CircularGallery({ images, getCircularPosition, onImageClick }: C
                     </div>
                   </div>
                 </div>
-
                 {/* Efecto de brillo sutil */}
                 <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-1000" />
               </motion.div>
@@ -101,7 +95,6 @@ export function CircularGallery({ images, getCircularPosition, onImageClick }: C
           );
         })}
       </AnimatePresence>
-
       {/* Líneas guía decorativas (solo en desarrollo) */}
       {process.env.NODE_ENV === 'development' && (
         <div className="absolute inset-0 pointer-events-none opacity-20">

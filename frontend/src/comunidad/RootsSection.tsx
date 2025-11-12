@@ -2,10 +2,8 @@
 import { useState, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { TimelineModal } from './section/TimelineModal';
-// 👇 1. Importamos la librería y su CSS
 import Lightbox from "yet-another-react-lightbox";
 import "yet-another-react-lightbox/styles.css";
-// 👇 CAMBIO 1: Importamos los iconos específicos que vamos a usar
 import { 
   Building, 
   Church, 
@@ -16,13 +14,11 @@ import {
   Plus, 
   Minus, 
   BookOpen,
-  ArrowRight,
   ChevronDown, ChevronUp
 } from 'lucide-react';
+import { useTranslation } from '../contexts/TranslationContext';
+import { useTimelineData, type TimelineItem } from '../hooks/useTimelineData'; // 👈 IMPORTAR TIPO
 
-import timelineDataJson from '../archivos_data/timeline.json';
-
-// 👇 CAMBIO 2: Creamos nuestro propio mapa de iconos. Es explícito y seguro.
 const icons = {
   Building,
   Church,
@@ -32,45 +28,19 @@ const icons = {
   PartyPopper,
 };
 
-// 👇 2. Actualizamos la interfaz para incluir el nuevo contenido del modal
-interface TimelineItemProps {
-  id: number; year: string; category: string; icon: keyof typeof icons;
-  title: string; description: string; image: string;
-  modalContent?: {
-    text: string;
-    images?: string[];
-  } | null;
-}
 
-// 👇 CAMBIO 3: La interfaz ahora usa nuestro mapa para ser 100% precisa.
-interface TimelineItemProps {
-  id: number;
-  year: string;
-  category: string;
-  icon: keyof typeof icons; // El 'icon' DEBE ser una de las llaves de nuestro objeto 'icons'.
-  title: string;
-  description: string;
-  image: string;
-  link: string | null;
-}
-
-const timelineData = timelineDataJson as TimelineItemProps[];
-
-// 👇 NUEVO: Definimos cuántos items mostrar inicialmente.
 const INITIAL_ITEMS_TO_SHOW = 4;
 
 export function RootsSection() {
   const [selectedId, setSelectedId] = useState<number | null>(null);
-  // 👇 3. Cambiamos el estado para que sea un booleano, más claro para un toggle.
   const [isExpanded, setIsExpanded] = useState(false);
-  // 👇 4. Creamos una ref para el contenedor de la sección para poder hacer scroll hacia él.
   const sectionRef = useRef<HTMLElement>(null);
-  // 👇 2. Nuevos estados para controlar el Lightbox (galería)
   const [lightboxOpen, setLightboxOpen] = useState(false);
   const [lightboxIndex, setLightboxIndex] = useState(0);
-
-  // 👇 3. Nuevo estado para gestionar el item del modal
-  const [selectedModalItem, setSelectedModalItem] = useState<TimelineItemProps | null>(null);
+  const [selectedModalItem, setSelectedModalItem] = useState<TimelineItem | null>(null); // 👈 CAMBIAR A TimelineItem
+  const { t } = useTranslation();
+  
+  const { timelineData } = useTimelineData();
 
   const visibleItems = isExpanded ? timelineData.length : INITIAL_ITEMS_TO_SHOW;
   const hasMoreItems = timelineData.length > INITIAL_ITEMS_TO_SHOW;
@@ -80,9 +50,7 @@ export function RootsSection() {
     visible: { opacity: 1, y: 0, transition: { duration: 0.6 } },
   };
 
-  // 👇 5. La nueva función de toggle.
   const handleToggleVisibility = () => {
-    // Si está expandido y vamos a contraer, hacemos scroll hacia arriba.
     if (isExpanded && sectionRef.current) {
       sectionRef.current.scrollIntoView({
         behavior: 'smooth',
@@ -92,16 +60,14 @@ export function RootsSection() {
     setIsExpanded(prev => !prev);
   };
 
-  // 👇 3. Función para abrir la galería
-  const openLightbox = (item: TimelineItemProps, photoIndex: number) => {
-    // El 'photoIndex' nos dirá si se hizo clic en la imagen principal (0) o en una de la galería del modal.
+  const openLightbox = (item: TimelineItem, photoIndex: number) => { // 👈 CAMBIAR A TimelineItem
     setLightboxIndex(photoIndex);
-    setSelectedModalItem(item); // Usamos el item seleccionado para construir las diapositivas
+    setSelectedModalItem(item);
     setLightboxOpen(true);
   };
-  // 👇 4. Preparamos las "diapositivas" para la galería basándonos en el item seleccionado
+
   const slides = selectedModalItem ? [
-    { src: selectedModalItem.image }, // La imagen principal es siempre la primera
+    { src: selectedModalItem.image },
     ...(selectedModalItem.modalContent?.images?.map(img => ({ src: img })) || [])
   ] : [];
 
@@ -129,25 +95,26 @@ export function RootsSection() {
         >
           <div className="inline-flex items-center space-x-2 bg-stone-200/80 px-4 py-2 rounded-full mb-4 backdrop-blur-sm">
             <BookOpen className="h-5 w-5 text-stone-600" />
-            <span className="text-stone-800 font-medium">Un Legado que Perdura</span>
+            <span className="text-stone-800 font-medium font-serif">
+              {t('timeline.enduringLegacy')}
+            </span>
           </div>
-          <h2 id="roots-heading" className="text-5xl lg:text-6xl font-bold text-gray-900 mb-6">
-            Nuestras{' '}
+          <h2 id="roots-heading" className="text-5xl lg:text-6xl font-bold font-serif text-gray-900 mb-6">
+            {t('timeline.our')}{' '}
             <span className="bg-gradient-to-r from-teal-600 via-blue-500 to-emerald-600 bg-clip-text text-transparent">
-              Raíces
+              {t('timeline.roots')}
             </span>
           </h2>
           <p className="mt-4 max-w-2xl mx-auto text-lg text-slate-600">
-            Un viaje a través del tiempo para descubrir los momentos, lugares y personas que forjaron nuestra identidad.
+            {t('timeline.description')}
           </p>
         </motion.div>
 
         <div className="relative">
           <div className="hidden md:block absolute w-0.5 h-full bg-stone-300 left-1/2 -translate-x-1/2"></div>
 
-          {/* 👇 MODIFICADO: Usamos .slice() para mostrar solo los items visibles */}
           {timelineData.slice(0, visibleItems).map((item, index) => {
-            const IconComponent = icons[item.icon];
+            const IconComponent = icons[item.icon]; // 👈 AHORA ES COMPATIBLE
             return (
               <motion.div
                 key={item.id}
@@ -167,17 +134,17 @@ export function RootsSection() {
                   >
                     <div className="flex items-center space-x-3 mb-2">
                         {IconComponent && <IconComponent className="h-6 w-6 text-teal-600" aria-hidden="true" />}
-                        <p className="text-sm font-semibold text-teal-600">{item.category}</p>
+                        <p className="text-sm font-semibold font-serif text-teal-600">{item.category}</p>
                     </div>
-                    <h3 className="text-2xl font-extrabold text-slate-800 tracking-wide mb-2">
+                    <h3 className="text-2xl font-extrabold font-serif text-slate-800 tracking-wide mb-2">
                       {item.title}
                     </h3>
                     <div className="flex items-center justify-between mt-4">
-                      <p className="text-3xl font-black text-transparent bg-clip-text bg-gradient-to-r from-teal-500 to-emerald-600 drop-shadow-sm">
+                      <p className="text-3xl font-black font-serif text-transparent bg-clip-text bg-gradient-to-r from-teal-500 to-emerald-600 drop-shadow-sm">
                         {item.year}
                       </p>
                       <button
-                        aria-label={selectedId === item.id ? "Contraer" : "Expandir"}
+                        aria-label={selectedId === item.id ? t('timeline.collapse') : t('timeline.expand')}
                         className="text-teal-600 hover:text-emerald-700 transition-transform duration-300 hover:rotate-90"
                       >
                         {selectedId === item.id ? <Minus /> : <Plus />}
@@ -195,15 +162,15 @@ export function RootsSection() {
                             src={item.image} 
                             alt={`Ilustración de ${item.title}`} 
                             className="rounded-lg w-full h-auto object-cover mb-4 mt-2 cursor-pointer transform transition-all duration-500 hover:scale-[1.03] hover:shadow-2xl hover:brightness-110"
-                            onClick={() => openLightbox(item, 0)} // Abre el lightbox en la primera imagen (index 0)
+                            onClick={() => openLightbox(item, 0)}
                           />
                           <p className="text-slate-600 leading-relaxed">{item.description}</p>
                           {item.modalContent && (
                         <button 
                           onClick={() => setSelectedModalItem(item)}
-                          className="inline-block mt-4 text-teal-600 font-semibold hover:underline"
-                        >
-                          Saber más
+                          className="inline-block mt-4 text-teal-600 font-semibold font-serif hover:underline"
+                        > 
+                          {t('timeline.learnMore')}
                         </button>
                       )}
                         </motion.div>
@@ -223,12 +190,11 @@ export function RootsSection() {
           })}
         </div>
         
-        {/* 👇 7. Botón "Ver más / Ver menos" actualizado */}
         <div className="mt-16 text-center">
           {hasMoreItems && (
             <motion.button
               onClick={handleToggleVisibility}
-              className="bg-teal-500 text-black font-semibold px-8 py-3 rounded-full shadow-lg hover:bg-teal-600 transition-colors transform hover:scale-105 flex items-center gap-2 mx-auto border border-slate-200"
+              className="bg-teal-500 text-black font-semibold font-serif px-8 py-3 rounded-full shadow-lg hover:bg-teal-600 transition-colors transform hover:scale-105 flex items-center gap-2 mx-auto border border-slate-200"
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.98 }}
             >
@@ -241,7 +207,7 @@ export function RootsSection() {
                   exit={{ opacity: 0, y: 10 }}
                   transition={{ duration: 0.2 }}
                 >
-                  {isExpanded ? 'Mostrar menos' : 'Ver más de la historia'}
+                  {isExpanded ? t('timeline.showLess') : t('timeline.showMore')}
                   {isExpanded ? <ChevronUp size={20} /> : <ChevronDown size={20} />}
                 </motion.span>
               </AnimatePresence>
@@ -249,28 +215,24 @@ export function RootsSection() {
           )}
         </div>
       </div>
-      {/* 👇 5. RENDERIZADO DEL MODAL: Lo añadimos al final de la sección */}
+
       <AnimatePresence>
-        {selectedModalItem && !lightboxOpen && ( // Solo muestra el modal si el lightbox está cerrado
+        {selectedModalItem && !lightboxOpen && (
           <TimelineModal
             item={selectedModalItem}
             onClose={() => setSelectedModalItem(null)}
-            // 👇 6. Pasamos la función para abrir el lightbox desde el modal
             onImageClick={(photoIndex) => openLightbox(selectedModalItem, photoIndex)}
           />
         )}
       </AnimatePresence>
-      {/* 👇 7. RENDERIZADO DEL LIGHTBOX (GALERÍA) */}
+
       <Lightbox
         open={lightboxOpen}
         close={() => setLightboxOpen(false)}
         slides={slides}
         index={lightboxIndex}
         styles={{ container: { backgroundColor: "rgba(0, 0, 0, .9)" } }}
-        // 👇 ¡LA MEJORA ESTÁ AQUÍ!
         render={{
-          // Si hay 1 o menos diapositivas, la función devuelve null (no renderiza el botón).
-          // Si hay más, devuelve 'undefined' para que la librería use su botón por defecto.
           buttonPrev: slides.length <= 1 ? () => null : undefined,
           buttonNext: slides.length <= 1 ? () => null : undefined,
         }}

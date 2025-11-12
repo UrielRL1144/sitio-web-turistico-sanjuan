@@ -1,15 +1,18 @@
 import { useState, useEffect } from 'react';
 import { Button } from './components/ui/button';
 import { Sheet, SheetContent, SheetTrigger } from './components/ui/sheet';
-import { Menu, MapPin, Phone, Mail, Sparkles } from 'lucide-react';
+import { Menu, MapPin, Phone, Mail, Sparkles, Languages } from 'lucide-react';
 import { Link, useLocation } from 'react-router-dom';
 import { AuthButton } from "./AuthButton";
+import { LanguageSwitcher } from './LanguageSwitcher';
+import { useTranslation } from './contexts/TranslationContext';
 
 export function Navigation() {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [scrollProgress, setScrollProgress] = useState(0);
   const location = useLocation();
+  const { t } = useTranslation();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -23,13 +26,18 @@ export function Navigation() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  // Definir en qué rutas mostrar TODOS los idiomas (incluyendo náhuatl)
+  const showAllLanguages = ['/', '/comunidad', '/cultura', '/contacto'].includes(location.pathname);
+  
+  // El LanguageSwitcher ahora aparece en TODAS las páginas, pero con idiomas filtrados
+
   const navItems = [
-    { to: '/', label: 'Inicio' },
-    { to: '/turismo', label: 'Turismo' },
-    { to: '/cultura', label: 'Cultura' },
-    { to: '/comunidad', label: 'Comunidad' },
-    { to: '/galeria', label: 'Galería' },
-    { to: '/contacto', label: 'Contacto' }
+    { to: '/', label: t('navigation.home') },
+    { to: '/turismo', label: 'Turismo' }, // Por ahora sin traducción
+    { to: '/cultura', label: t('navigation.culture') },
+    { to: '/comunidad', label: t('navigation.community') },
+    { to: '/galeria', label: t('navigation.gallery') }, // Por ahora sin traducción
+    { to: '/contacto', label: t('navigation.contact') }
   ];
 
   return (
@@ -40,7 +48,6 @@ export function Navigation() {
           : 'bg-transparent'
       }`}
     >
-      {/* Animación personalizada */}
       <style>
         {`
           @keyframes water-glow {
@@ -53,24 +60,27 @@ export function Navigation() {
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-20">
-          {/* Logo */}
-          <Link to="/" className="flex items-center space-x-3 group cursor-pointer">
-            <div className="relative bg-gradient-to-r from-green-500 to-blue-600 p-3 rounded-full shadow-lg">
-              <MapPin className="h-7 w-7 text-white" />
+          {/* Logo - Versión responsive */}
+          <Link to="/" className="flex items-center space-x-2 sm:space-x-3 group cursor-pointer flex-shrink-0">
+            <div className="relative bg-gradient-to-r from-green-500 to-blue-600 p-2 sm:p-3 rounded-full shadow-lg">
+              <MapPin className="h-5 w-5 sm:h-7 sm:w-7 text-white" />
             </div>
             <div className="flex flex-col">
-              <span className="text-xl sm:text-2xl font-extrabold font-serif text-white drop-shadow-lg">
-                San Juan Tahitic
+              <span className="text-lg sm:text-xl lg:text-xl font-extrabold font-serif text-white drop-shadow-lg leading-tight">
+                {t('navigation.title')} 
               </span>
-              <span className="text-xs font-serif text-white/80">
-                Destino Natural Único
+              <span className="text-xs font-serif text-white/80 hidden sm:block">
+                {t('navigation.description')}
+              </span>
+              <span className="text-xs font-serif text-white/80 sm:hidden">
+                Destino Natural
               </span>
             </div>
-            <Sparkles className="h-4 w-4 text-yellow-300 animate-pulse" />
+            <Sparkles className="h-3 w-3 sm:h-4 sm:w-4 text-yellow-300 animate-pulse flex-shrink-0" />
           </Link>
 
           {/* Desktop Navigation */}
-          <div className="hidden lg:flex items-center space-x-2 relative">
+          <div className="hidden lg:flex items-center space-x-2 flex-1 justify-center max-w-2xl">
             {navItems.map((item) => {
               const isActive = location.pathname === item.to;
               return (
@@ -78,20 +88,15 @@ export function Navigation() {
                   key={item.to}
                   to={item.to}
                   onClick={() => setIsOpen(false)}
-                  className={`relative px-5 py-2 rounded-xl font-serif text-white text-lg transition-all duration-500 
-                    hover:text-emerald-300 hover:scale-105
+                  className={`relative px-3 py-2 rounded-xl font-serif text-white text-sm xl:text-lg transition-all duration-500 
+                    hover:text-emerald-300 hover:scale-105 flex-shrink-0
                     ${isActive ? 'text-emerald-300' : ''}
                   `}
                 >
-                  {/* Texto */}
-                  <span className="relative z-10">{item.label}</span>
-
-                  {/* Fondo sutil detrás del texto activo */}
+                  <span className="relative z-10 whitespace-nowrap">{item.label}</span>
                   {isActive && (
                     <span className="absolute inset-0 bg-white/5 rounded-xl blur-sm"></span>
                   )}
-
-                  {/* Subrayado animado tipo “reflejo de agua” */}
                   <span
                     className={`absolute bottom-0 left-0 h-[3px] rounded-full transition-all duration-700 ease-out
                       ${isActive
@@ -102,20 +107,33 @@ export function Navigation() {
                 </Link>
               );
             })}
+          </div>
+
+          {/* Right Side Actions - Desktop */}
+          <div className="hidden lg:flex items-center space-x-3 flex-shrink-0">
+            {/* Language Switcher - Ahora en TODAS las páginas, pero con idiomas filtrados */}
+            <div className="flex items-center space-x-2 border-r border-white/20 pr-3">
+              <LanguageSwitcher showAllLanguages={showAllLanguages} />
+            </div>
 
             <AuthButton />
           </div>
 
           {/* Mobile Navigation */}
-          <div className="lg:hidden">
+          <div className="lg:hidden flex items-center space-x-2 flex-shrink-0">
+            {/* Language Switcher Mobile - Ahora en TODAS las páginas */}
+            <div className="mr-1">
+              <LanguageSwitcher variant="minimal" showAllLanguages={showAllLanguages} />
+            </div>
+
             <Sheet open={isOpen} onOpenChange={setIsOpen}>
               <SheetTrigger asChild>
                 <Button
                   variant="outline"
                   size="icon"
-                  className="relative border border-white/40 bg-white/10 backdrop-blur-md shadow-lg"
+                  className="relative border border-white/40 bg-white/10 backdrop-blur-md shadow-lg flex-shrink-0"
                 >
-                  <Menu className="h-6 w-6 text-white" />
+                  <Menu className="h-5 w-5 text-white" />
                 </Button>
               </SheetTrigger>
               <SheetContent
@@ -141,8 +159,17 @@ export function Navigation() {
                     );
                   })}
 
+                  {/* Language Switcher en Mobile Menu - Ahora en TODAS las páginas */}
+                  <div className="p-4 border-t border-white/20 mt-4">
+                    <div className="flex items-center space-x-3 mb-3">
+                      <Languages className="h-4 w-4 text-green-400" />
+                      <span className="text-sm font-medium text-white/90">Seleccionar Idioma</span>
+                    </div>
+                    <LanguageSwitcher showAllLanguages={showAllLanguages} />
+                  </div>
+
                   {/* Contact info */}
-                  <div className="mt-8 pt-4 border-t border-white/20">
+                  <div className="mt-4 pt-4 border-t border-white/20">
                     <p className="text-sm font-medium font-serif text-white/90 mb-3">
                       Contacto
                     </p>

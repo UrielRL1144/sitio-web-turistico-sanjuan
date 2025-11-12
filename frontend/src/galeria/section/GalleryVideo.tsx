@@ -2,6 +2,7 @@
 import { motion } from 'framer-motion';
 import { Play, Youtube, AlertCircle } from 'lucide-react';
 import { useState } from 'react';
+import { useTranslation } from '../../contexts/TranslationContext'; // ← AGREGAR IMPORT
 
 interface GalleryVideoProps {
   isGridMode?: boolean;
@@ -16,14 +17,14 @@ export function GalleryVideo({
   isVideoHovered,
   onVideoHover
 }: GalleryVideoProps) {
+  const { t } = useTranslation(); // ← AGREGAR HOOK
+  
   // ✅ IDs de YouTube para probar (usa solo uno)
   const youtubeIds = [
     "4r2isHLCNFo", // Primer video de YouTube // Video 4K de paisajes
   ];
-  
   const [currentYoutubeId] = useState(youtubeIds[0]); // Usa el primero
   const [thumbnailError, setThumbnailError] = useState(false);
-  
   const thumbnailUrl = `https://img.youtube.com/vi/${currentYoutubeId}/maxresdefault.jpg`;
 
   return (
@@ -45,7 +46,7 @@ export function GalleryVideo({
         {!thumbnailError ? (
           <img
             src={thumbnailUrl}
-            alt="Video de nuestra comunidad - Haz clic para reproducir"
+            alt={t('gallery.video.altText')} // ← TRADUCIBLE
             className="w-full h-full object-cover" // ✅ object-cover para llenar el espacio
             onError={() => setThumbnailError(true)}
           />
@@ -53,10 +54,14 @@ export function GalleryVideo({
           // Fallback mejorado
           <div className="w-full h-full flex items-center justify-center flex-col p-6 text-white text-center bg-gradient-to-br from-blue-500 to-emerald-500">
             <Youtube className="h-12 w-12 mb-3 opacity-90" />
-            <h3 className="font-semibold text-lg mb-2">Nuestra Comunidad</h3>
-            <p className="text-sm opacity-90 mb-4">Haz clic para ver nuestro video</p>
+            <h3 className="font-semibold text-lg mb-2">
+              {t('gallery.video.ourCommunity')} {/* ← TRADUCIBLE */}
+            </h3>
+            <p className="text-sm opacity-90 mb-4">
+              {t('gallery.video.clickToWatch')} {/* ← TRADUCIBLE */}
+            </p>
             <div className="bg-white/20 px-3 py-1 rounded-full text-xs">
-              ▶️ Reproducir
+              ▶️ {t('gallery.video.play')} {/* ← TRADUCIBLE */}
             </div>
           </div>
         )}
@@ -71,7 +76,7 @@ export function GalleryVideo({
         <div className="flex justify-between items-start p-4">
           <div className="bg-red-600 text-white px-3 py-1 rounded-full text-xs font-semibold flex items-center gap-1 backdrop-blur-sm">
             <Youtube className="h-3 w-3" />
-            YouTube
+            {t('gallery.video.youtube')} {/* ← TRADUCIBLE */}
           </div>
         </div>
 
@@ -84,7 +89,7 @@ export function GalleryVideo({
               : 'text-sm text-center' // ✅ Pequeño en circular
             }
           `}>
-            Nuestra Comunidad
+            {t('gallery.video.ourCommunity')} {/* ← TRADUCIBLE */}
           </h3>
           <p className={`
             opacity-90 mb-4 
@@ -93,29 +98,29 @@ export function GalleryVideo({
               : 'text-xs text-center hidden' // ✅ Oculto en circular (o muy pequeño)
             }
           `}>
-            Descubre la esencia de San Juan Tahitic
+            {t('gallery.video.discoverEssence')} {/* ← TRADUCIBLE */}
           </p>
           
           {/* Botón de reproducción - TAMAÑO CONDICIONAL */}
-      <div className="flex justify-center md:justify-start">
-        <motion.div
-          animate={{ 
-            scale: isVideoHovered ? [1, 1.1, 1] : 1 
-          }}
-          transition={{ 
-            duration: 1.5, 
-            repeat: isVideoHovered ? Infinity : 0 
-          }}
-          className={`
-            bg-red-600 text-white rounded-full shadow-2xl border-2 border-white/30 
-            flex items-center gap-2 hover:bg-red-700 transition-colors duration-200
-            ${isGridMode 
-              ? 'px-6 py-3' // ✅ Tamaño grande para grid
-              : 'px-3 py-1.5' // ✅ Tamaño pequeño para circular
-            }
-          `}
-        >
-                    <Play className={`
+          <div className="flex justify-center md:justify-start">
+            <motion.div
+              animate={{ 
+                scale: isVideoHovered ? [1, 1.1, 1] : 1 
+              }}
+              transition={{ 
+                duration: 1.5, 
+                repeat: isVideoHovered ? Infinity : 0 
+              }}
+              className={`
+                bg-red-600 text-white rounded-full shadow-2xl border-2 border-white/30 
+                flex items-center gap-2 hover:bg-red-700 transition-colors duration-200
+                ${isGridMode 
+                  ? 'px-6 py-3' // ✅ Tamaño grande para grid
+                  : 'px-3 py-1.5' // ✅ Tamaño pequeño para circular
+                }
+              `}
+            >
+              <Play className={`
                 fill-current 
                 ${isGridMode ? 'h-5 w-5' : 'h-3 w-3'} // ✅ Icono más pequeño en circular
               `} />
@@ -123,7 +128,10 @@ export function GalleryVideo({
                 font-semibold 
                 ${isGridMode ? 'text-sm' : 'text-xs'} // ✅ Texto más pequeño en circular
               `}>
-                {isGridMode ? 'Reproducir Video' : 'Reproducir'} {/* ✅ Texto más corto */}
+                {isGridMode 
+                  ? t('gallery.video.playVideo') // ← TRADUCIBLE
+                  : t('gallery.video.play') // ← TRADUCIBLE
+                }
               </span>
             </motion.div>
           </div>

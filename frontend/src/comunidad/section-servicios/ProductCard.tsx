@@ -16,6 +16,7 @@ import {
   Shield
 } from 'lucide-react';
 import { type Product } from '../ServiciosSection';
+import { useTranslation } from '../../contexts/TranslationContext'; // ← AGREGAR IMPORT
 
 // Mapeo de íconos para los materiales con tipado seguro
 const iconMap: { [key: string]: React.ComponentType<any> } = {
@@ -42,6 +43,7 @@ interface ProductCardProps {
 export function ProductCard({ product, onSelect, index }: ProductCardProps) {
   // Ícono por defecto si no se encuentra el específico
   const defaultIcon = Leaf;
+  const { t } = useTranslation(); // ← AGREGAR HOOK
   
   // Obtener el componente de ícono de manera segura
   const getIconComponent = (iconName: string): React.ComponentType<any> => {
@@ -84,23 +86,23 @@ export function ProductCard({ product, onSelect, index }: ProductCardProps) {
         {/* Etiquetas superpuestas */}
         <div className="absolute top-3 left-3 flex flex-col gap-2">
           {product.highlight && (
-            <div className="bg-amber-500 text-white px-3 py-1 rounded-full text-xs font-bold flex items-center gap-1 shadow-lg">
+            <div className="bg-amber-500 text-white px-3 py-1 rounded-full text-xs font-bold font-serif flex items-center gap-1 shadow-lg">
               <Star className="h-3 w-3" />
-              Destacado
+              {t('services.featured')} {/* ← TRADUCIBLE */}
             </div>
           )}
           
           {product.seasonal && (
-            <div className="bg-green-500 text-white px-3 py-1 rounded-full text-xs font-bold flex items-center gap-1 shadow-lg">
+            <div className="bg-green-500 text-white px-3 py-1 rounded-full text-xs font-bold font-serif flex items-center gap-1 shadow-lg">
               <Calendar className="h-3 w-3" />
-              De Temporada
+              {t('services.seasonal')} {/* ← TRADUCIBLE */}
             </div>
           )}
         </div>
 
         {/* Badge de categoría */}
         <div className="absolute top-3 right-3">
-          <div className={`bg-gradient-to-r ${product.color} text-white px-3 py-1 rounded-full text-xs font-bold shadow-lg`}>
+          <div className={`bg-gradient-to-r ${product.color} text-white px-3 py-1 rounded-full text-xs font-bold font-serif shadow-lg`}>
             {product.tag}
           </div>
         </div>
@@ -112,7 +114,7 @@ export function ProductCard({ product, onSelect, index }: ProductCardProps) {
         <div className="flex items-start justify-between mb-3">
           <motion.h3 
             layoutId={`product-name-${product.id}`}
-            className="text-xl font-bold text-gray-900 leading-tight flex-1"
+            className="text-xl font-bold font-serif text-gray-900 leading-tight flex-1"
           >
             {product.name}
           </motion.h3>
@@ -142,7 +144,7 @@ export function ProductCard({ product, onSelect, index }: ProductCardProps) {
           })}
           {product.materials.length > 2 && (
             <div className="text-xs text-gray-500 bg-gray-50 px-2 py-1 rounded-lg">
-              +{product.materials.length - 2} más
+              +{product.materials.length - 2} {t('services.moreItems')} {/* ← TRADUCIBLE */}
             </div>
           )}
         </div>
@@ -152,7 +154,7 @@ export function ProductCard({ product, onSelect, index }: ProductCardProps) {
           <div className="flex items-center gap-2">
             {product.price && (
               <div className="flex items-baseline gap-1">
-                <span className="text-2xl font-bold text-emerald-600">
+                <span className="text-2xl font-bold font-serif text-emerald-600">
                   ${product.price}
                 </span>
                 {product.unit && (
@@ -163,7 +165,7 @@ export function ProductCard({ product, onSelect, index }: ProductCardProps) {
             
             {product.variants && (
               <span className="text-sm text-gray-500">
-                {product.variants.length} variantes
+                {product.variants.length} {t('services.variants')} {/* ← TRADUCIBLE */}
               </span>
             )}
           </div>
@@ -173,12 +175,16 @@ export function ProductCard({ product, onSelect, index }: ProductCardProps) {
             {product.available ? (
               <div className="flex items-center gap-1 text-green-600">
                 <div className="w-2 h-2 bg-green-500 rounded-full"></div>
-                <span className="text-xs font-medium">Disponible</span>
+                <span className="text-xs font-medium font-serif">
+                  {t('services.available')} {/* ← TRADUCIBLE */}
+                </span>
               </div>
             ) : (
               <div className="flex items-center gap-1 text-red-600">
                 <div className="w-2 h-2 bg-red-500 rounded-full"></div>
-                <span className="text-xs font-medium">Agotado</span>
+                <span className="text-xs font-medium font-serif">
+                  {t('services.soldOut')} {/* ← TRADUCIBLE */}
+                </span>
               </div>
             )}
           </div>
@@ -190,7 +196,7 @@ export function ProductCard({ product, onSelect, index }: ProductCardProps) {
             layoutId={`product-producer-${product.id}`}
             className="text-xs text-gray-500 mt-3 pt-3 border-t border-gray-100"
           >
-            Por: {product.producer}
+            {t('services.by')} {product.producer} {/* ← TRADUCIBLE */}
           </motion.p>
         )}
       </div>

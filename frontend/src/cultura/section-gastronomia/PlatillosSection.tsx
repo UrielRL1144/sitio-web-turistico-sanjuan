@@ -1,38 +1,28 @@
 // PlatillosSection.tsx - Versión modularizada
 import { useState, useEffect, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import gastronomyData from '../../archivos_data/gastronomia.json';
 import { Mouse, ChefHat } from 'lucide-react';
 import { DishExpandedModal } from '../section-gastronomia/section-platillos/DishExpandedModal';
 import { LazyImage } from '../section-gastronomia/section-platillos/LazyImage';
-
-interface Dish {
-  name: string;
-  chef: string;
-  greeting: string;
-  address: string;
-  owner: string;
-  suggestions: string[];
-  hours: string;
-  image: string;
-  lat: number;
-  lng: number;
-  phone?: string;
-}
+import { useTranslation } from '../../contexts/TranslationContext'; 
+import { usePlatillosData, type Dish } from '@/hooks/usePlatillosData';
 
 export function PlatillosSection() {
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
   const [preloadedImages, setPreloadedImages] = useState<Set<string>>(new Set());
   const [focusedIndex, setFocusedIndex] = useState<number | null>(null);
+  const { t } = useTranslation(); // ← AGREGAR HOOK
+  const gastronomyData = usePlatillosData();///RECUERDA CAMBIAR
 
   const backgroundPatternClass = "bg-orange-50/60 bg-[url('/images/cultura/Fondo-gastronomia--2.svg')] bg-cover bg-center bg-no-repeat";
 
   // Preload de imágenes
+  // Preload de imágenes - MODIFICADO para usar gastronomyData
   useEffect(() => {
     const preloadImages = async () => {
       const newPreloaded = new Set(preloadedImages);
       
-      for (const dish of gastronomyData as Dish[]) {
+      for (const dish of gastronomyData) {
         if (!newPreloaded.has(dish.image)) {
           const img = new Image();
           img.src = dish.image;
@@ -45,9 +35,10 @@ export function PlatillosSection() {
     };
 
     preloadImages();
-  }, []);
+  }, [gastronomyData]);
 
   // Manejo de teclado
+  // Manejo de teclado - MODIFICADO para usar gastronomyData
   const handleKeyDown = useCallback((event: KeyboardEvent) => {
     if (event.key === 'Escape' && activeIndex !== null) {
       setActiveIndex(null);
@@ -84,7 +75,7 @@ export function PlatillosSection() {
       const element = document.getElementById(`dish-card-${newIndex}`);
       element?.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
     }
-  }, [activeIndex, focusedIndex]);
+  }, [activeIndex, focusedIndex, gastronomyData]); // ← AGREGAR DEPENDENCIA
 
   useEffect(() => {
     document.addEventListener('keydown', handleKeyDown);
@@ -139,7 +130,7 @@ export function PlatillosSection() {
         {/* Header */}
         <div className="text-center mb-16">
           <h2 className="text-4xl md:text-5xl font-extrabold font-serif text-white mb-6 drop-shadow-lg">
-            Sabores de San Juan Tahitic
+            {t('platillos.title')} {/* ← TRADUCIBLE */}
           </h2>
           
           <div className="flex flex-col items-center gap-4 mb-12">
@@ -150,7 +141,7 @@ export function PlatillosSection() {
               className="flex items-center gap-3 text-lg text-gray-800 bg-white/90 backdrop-blur-sm px-6 py-3 rounded-full shadow-lg border border-orange-200"
             >
               <Mouse className="w-5 h-5 text-orange-600" />
-              <span className="font-medium font-serif">Haz clic en cualquier platillo para descubrir su historia</span>
+              <span className="font-medium font-serif">{t('platillos.clickInstruction')}</span> {/* ← TRADUCIBLE */}
             </motion.div>
             
             <motion.div
@@ -160,27 +151,26 @@ export function PlatillosSection() {
               className="bg-black/70 p-6 rounded-2xl backdrop-blur-sm max-w-2xl"
             >
               <p className="text-white text-base md:text-lg leading-relaxed drop-shadow-lg">
-                Explora nuestra rica tradición culinaria. Cada platillo cuenta una historia única 
-                de sabores, ingredientes locales y técnicas ancestrales que han pasado de generación en generación.
+                {t('platillos.description')} {/* ← TRADUCIBLE */}
               </p>
             </motion.div>
           </div>
         </div>
 
-        {/* Modal Expansivo */}
-        <AnimatePresence>
-          {activeIndex !== null && (
-            <DishExpandedModal
-              dish={gastronomyData[activeIndex] as Dish}
-              isOpen={true}
-              onClose={handleClose}
-              onNext={handleNext}
-              onPrevious={handlePrevious}
-              currentIndex={activeIndex}
-              totalDishes={gastronomyData.length}
-            />
-          )}
-        </AnimatePresence>
+        {/* Modal Expansivo - MODIFICADO */}
+      <AnimatePresence>
+        {activeIndex !== null && (
+          <DishExpandedModal
+            dish={gastronomyData[activeIndex]}
+            isOpen={true}
+            onClose={handleClose}
+            onNext={handleNext}
+            onPrevious={handlePrevious}
+            currentIndex={activeIndex}
+            totalDishes={gastronomyData.length}
+          />
+        )}
+      </AnimatePresence>
 
         {/* Grid de platillos */}
         <motion.div
@@ -191,7 +181,7 @@ export function PlatillosSection() {
           role="grid"
           aria-label="Grid de platillos gastronómicos"
         >
-          {(gastronomyData as Dish[]).map((dish, index) => (
+           {gastronomyData.map((dish, index) => (
             <motion.div
               key={index}
               id={`dish-card-${index}`}
@@ -207,7 +197,7 @@ export function PlatillosSection() {
               whileTap={{ scale: 0.98 }}
               transition={{ type: "spring", stiffness: 400, damping: 25 }}
               role="gridcell"
-              aria-label={`${dish.name} por ${dish.chef}. Haz clic o presiona Enter para expandir`}
+              aria-label={`${dish.name} por ${dish.chef}. ${t('platillos.ariaLabel')}`} 
               tabIndex={0}
             >
               <LazyImage
@@ -229,13 +219,13 @@ export function PlatillosSection() {
                   </p>
                   <div className="mt-3 flex items-center gap-2 text-white/80 text-xs animate-bounce">
                     <Mouse className="w-3 h-3" />
-                    <span>Haz clic para más información</span>
+                    <span>{t('platillos.clickForInfo')}</span> {/* ← TRADUCIBLE */}
                   </div>
                 </motion.div>
               </div>
 
               <div className="md:hidden absolute top-4 right-4 bg-orange-500 text-white text-xs font-bold font-serif px-2 py-1 rounded-full animate-pulse">
-                TOCA
+                {t('platillos.tap')} {/* ← TRADUCIBLE */}
               </div>
 
               {focusedIndex === index && (
@@ -253,17 +243,17 @@ export function PlatillosSection() {
               exit={{ opacity: 0 }}
               className="text-center mt-8 text-white text-sm drop-shadow-lg"
             >
-              <p>Explora otros platillos cerrando este primero</p>
+              <p>{t('platillos.exploreOthers')}</p> {/* ← TRADUCIBLE */}
             </motion.div>
           )}
         </AnimatePresence>
       </div>
 
-      <div className="sr-only" aria-live="polite" aria-atomic="true">
-        {activeIndex !== null 
-          ? `Tarjeta ${(gastronomyData[activeIndex] as Dish).name} expandida. Usa las flechas izquierda y derecha para navegar o ESC para cerrar.`
-          : 'Vista de grid de platillos. Usa tab para navegar entre las tarjetas y las flechas para moverte.'}
-      </div>
+     <div className="sr-only" aria-live="polite" aria-atomic="true">
+      {activeIndex !== null 
+        ? `${(gastronomyData[activeIndex] as Dish).name} ${t('platillos.screenReader.expanded')}` // ← CORREGIDO
+        : t('platillos.screenReader.gridView')}
+    </div>
     </section>
   );
 }

@@ -3,9 +3,9 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../..
 import { ImageWithFallback } from '../../components/figma/ImageWithFallback';
 import { Users, Sparkles, MapPin, Calendar, Star, Download, Play, Pause, Video, Eye, RefreshCw } from 'lucide-react';
 import { motion } from 'framer-motion';
-import calendarData from '../../archivos_data/eventosTahitic.json';
+import { useCalendarData } from '../../hooks/useCalendarData.ts';
 import { CongratsModal } from '../../cultura/section/CongratsModal.tsx';
-
+import { useTranslation } from '../../contexts/TranslationContext.tsx';
 
 // Interfaces para TypeScript
 interface Event {
@@ -23,11 +23,29 @@ interface CalendarData {
   events: Event[];
 }
 
-// Hook para detección de dispositivo
-const useDeviceDetection = () => {
+export function CalendarSection() {
+  const { t } = useTranslation();
+  const { calendarData, loading, error } = useCalendarData();
+
+  // ↓↓↓ TODOS LOS HOOKS DEBEN IR PRIMERO ↓↓↓
+  const [activeEvent, setActiveEvent] = useState<number | null>(null);
+  const [isPlaying, setIsPlaying] = useState(false);
+  const [visitorCount, setVisitorCount] = useState(0);
+  const [collectedStamps, setCollectedStamps] = useState<string[]>([]);
+  const [loadingVideos, setLoadingVideos] = useState<{[key: number]: boolean}>({});
+  const [imageErrors, setImageErrors] = useState<{[key: string]: boolean}>({});
+  const [videoErrors, setVideoErrors] = useState<{[key: number]: boolean}>({});
+  const [highlightedIndex, setHighlightedIndex] = useState<number | null>(null);
+  const [showCongrats, setShowCongrats] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
   const [isTablet, setIsTablet] = useState(false);
+  
+  const videoRefs = useRef<{[key: number]: HTMLVideoElement | null}>({});
+  const eventCardRefs = useRef<(HTMLDivElement | null)[]>([]);
 
+  const events = calendarData?.events || [];
+
+  // Mover la lógica de detección de dispositivo aquí
   useEffect(() => {
     const checkDevice = () => {
       const width = window.innerWidth;
@@ -39,27 +57,6 @@ const useDeviceDetection = () => {
     window.addEventListener('resize', checkDevice);
     return () => window.removeEventListener('resize', checkDevice);
   }, []);
-
-  return { isMobile, isTablet };
-};
-
-export function CalendarSection() {
-  const [activeEvent, setActiveEvent] = useState<number | null>(null);
-  const [isPlaying, setIsPlaying] = useState(false);
-  const [visitorCount, setVisitorCount] = useState(0);
-  const [collectedStamps, setCollectedStamps] = useState<string[]>([]);
-  const [loadingVideos, setLoadingVideos] = useState<{[key: number]: boolean}>({});
-  const [imageErrors, setImageErrors] = useState<{[key: string]: boolean}>({});
-  const [videoErrors, setVideoErrors] = useState<{[key: number]: boolean}>({});
-  
-  const videoRefs = useRef<{[key: number]: HTMLVideoElement | null}>({});
-  const eventCardRefs = useRef<(HTMLDivElement | null)[]>([]);
-  const { isMobile, isTablet } = useDeviceDetection();
-
-  const events = (calendarData as CalendarData).events;
-  const [highlightedIndex, setHighlightedIndex] = useState<number | null>(null);
-
-  
 
   // Cargar estado persistente desde localStorage
   useEffect(() => {
@@ -83,7 +80,7 @@ export function CalendarSection() {
         localStorage.setItem('tahitic-visitor-count', newCount.toString());
         return newCount;
       });
-    }, 5000); // Reducido a 5s para mejor performance
+    }, 5000);
     return () => clearInterval(interval);
   }, []);
 
@@ -97,7 +94,6 @@ export function CalendarSection() {
   const handleEventClick = useCallback((index: number, stamp: string) => {
     const target = eventCardRefs.current[index];
     if (target) {
-      // Scroll suave solo en desktop, instantáneo en móvil
       target.scrollIntoView({ 
         behavior: isMobile ? 'auto' : 'smooth', 
         block: isMobile ? 'start' : 'center' 
@@ -109,14 +105,6 @@ export function CalendarSection() {
 
     setActiveEvent(activeEvent === index ? null : index);
   }, [activeEvent, isMobile]);
-
-  // Manejo de teclado para accesibilidad
-  const handleKeyPress = (event: KeyboardEvent, index: number, stamp: string) => {
-    if (event.key === 'Enter' || event.key === ' ') {
-      event.preventDefault();
-      handleEventClick(index, stamp);
-    }
-  };
 
   const handleVideoPlay = useCallback((index: number) => {
     setIsPlaying(true);
@@ -152,9 +140,45 @@ export function CalendarSection() {
     setLoadingVideos(prev => ({ ...prev, [index]: false }));
   }, []);
 
-  const allVisited = collectedStamps.length === events.length;
-  const [showCongrats, setShowCongrats] = useState(false);
+  useEffect(() => {
+  // Solo mostrar si hay stamps y se completó la colección
+  if (collectedStamps.length > 0 && collectedStamps.length === events.length) {
+    setShowCongrats(true);
+  }
+}, [collectedStamps.length, events.length]);
 
+  // ↑↑↑ TODOS LOS HOOKS TERMINAN AQUÍ ↑↑↑
+
+  // ↓↓↓ AHORA SÍ PUEDES HACER RETURN TEMPRANO ↓↓↓
+  if (loading) {
+    return (
+      <section className="min-h-screen flex items-center justify-center bg-gray-100">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-orange-500 mx-auto mb-4"></div>
+          <p className="text-gray-600">Cargando eventos...</p>
+        </div>
+      </section>
+    );
+  }
+
+  if (error) {
+    return (
+      <section className="min-h-screen flex items-center justify-center bg-gray-100">
+        <div className="text-center">
+          <p className="text-red-500 mb-4">{error}</p>
+          <button 
+            onClick={() => window.location.reload()}
+            className="bg-orange-500 text-white px-6 py-2 rounded-lg hover:bg-orange-600"
+          >
+            Reintentar
+          </button>
+        </div>
+      </section>
+    );
+  }
+  // ↑↑↑ FIN DE RETURN TEMPRANO ↑↑↑
+
+  // ... resto de funciones que NO son hooks
   const handleStickersClick = () => {
     const pdfUrl = '/videos/calendario/STICKER San Juan Tahitic.pdf';
     window.open(pdfUrl, '_blank');
@@ -175,12 +199,31 @@ export function CalendarSection() {
     return text;
   };
 
-  useEffect(() => {
-    if (allVisited) {
-      setShowCongrats(true);
-    }
-  }, [allVisited]);
+  // Función para traducir categorías
+  const translateCategory = (category: string): string => {
+    const categoryMap: { [key: string]: string } = {
+      'Cultural': t('calendar.categoryCultural'),
+      'Religioso': t('calendar.categoryReligious'),
+      'Ceremonial': t('calendar.categoryCeremonial'),
+      'Feria': t('calendar.categoryFair'),
+      'Naturaleza': t('calendar.categoryNature'),
+      'Agricultura': t('calendar.categoryAgriculture'),
+      'Astronomía': t('calendar.categoryAstronomy'),
+      'Galaxias': t('calendar.categoryGalaxies'),
+      'Tlamantli': t('calendar.categoryCultural'),
+    };
+    return categoryMap[category] || category;
+  };
 
+  // Manejo de teclado para accesibilidad
+  const handleKeyPress = (event: KeyboardEvent, index: number, stamp: string) => {
+    if (event.key === 'Enter' || event.key === ' ') {
+      event.preventDefault();
+      handleEventClick(index, stamp);
+    }
+  };
+
+  const allVisited = collectedStamps.length === events.length;
 
   return (
     <motion.section 
@@ -189,7 +232,7 @@ export function CalendarSection() {
       aria-labelledby="cultura-title"
       initial={{ opacity: 0, scale: 0.98 }}
       animate={{ opacity: 1, scale: 1 }}
-      transition={{ duration: 0.8, ease: "easeOut" }} // <-- animación suave
+      transition={{ duration: 0.8, ease: "easeOut" }}
     >
 
       {/* Modal de felicitación */}
@@ -210,22 +253,21 @@ export function CalendarSection() {
           <div className="inline-flex items-center space-x-2 bg-orange-100 px-4 py-2 rounded-full mb-4 shadow-lg max-w-xs sm:max-w-none mx-auto">
             <Sparkles className="h-4 w-4 sm:h-5 sm:w-5 text-orange-600" aria-hidden="true" />
             <span className="text-orange-800 font-semibold text-sm sm:text-base">
-              {visitorCount}+ visitantes este mes
+              {visitorCount}+ {t('calendar.visitors')}
             </span>
           </div>
           <h1
             id="cultura-title"
             className="text-2xl sm:text-4xl lg:text-5xl font-bold mb-4 px-2 text-white drop-shadow-[0_2px_6px_rgba(0,0,0,0.8)]"
           >
-            Vive la Magia de{' '}
+            {t('calendar.titlePart1')}{' '}
             <span className="bg-gradient-to-r from-orange-400 to-amber-400 bg-clip-text text-transparent drop-shadow-[0_2px_6px_rgba(0,0,0,0.8)]">
-              San Juan Tahitic
+              {t('calendar.titlePart2')}
             </span>
           </h1>
           <p className="text-base sm:text-2xl text-white max-w-2xl mx-auto leading-relaxed px-2 drop-shadow-[0_2px_6px_rgba(0,0,0,0.8)]">
-            No solo leas sobre nuestra cultura - <strong className="font-semibold">vívela, siéntela y llévatela contigo</strong>.
+            {t('calendar.subtitle')}
           </p>
-
         </div>
 
         {/* Botón de reset optimizado */}
@@ -233,12 +275,13 @@ export function CalendarSection() {
           <button
             onClick={resetProgress}
             className="inline-flex items-center gap-2 px-4 py-2 sm:px-5 sm:py-3 text-sm sm:text-base font-semibold text-gray-700 bg-white/80 backdrop-blur-sm border border-gray-300 rounded-lg shadow-md hover:bg-white hover:text-gray-900 hover:shadow-xl transform hover:-translate-y-0.5 transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-offset-1 focus:ring-orange-500"
-            aria-label="Reiniciar progreso de experiencias"
+            aria-label={t('calendar.resetAria')}
           >
             <RefreshCw className="h-4 w-4 sm:h-5 sm:w-5" />
-            Reiniciar progreso
+            {t('calendar.resetProgress')}
           </button>
         </div>
+
         {/* Pasaporte Cultural RESPONSIVE */}
         <div 
           className="bg-white/80 backdrop-blur-lg rounded-xl sm:rounded-2xl p-4 sm:p-6 mb-8 border-2 border-orange-200 shadow-lg mx-2 sm:mx-0"
@@ -248,10 +291,10 @@ export function CalendarSection() {
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-4 gap-2">
             <h2 id="pasaporte-title" className="text-xl sm:text-2xl lg:text-3xl font-extrabold text-gray-900 flex items-center justify-center sm:justify-start">
               <MapPin className="h-5 w-5 sm:h-6 sm:w-6 mr-2 text-orange-600 animate-pulse" aria-hidden="true" />
-              Tu Ruta de Experiencias
+              {t('calendar.routeTitle')}
             </h2>
             <span className="text-xs sm:text-sm text-gray-600 text-center sm:text-right" aria-live="polite">
-              {collectedStamps.length}/{events.length} completadas
+              {collectedStamps.length}/{events.length} {t('calendar.completed')}
             </span>
           </div>
 
@@ -259,7 +302,7 @@ export function CalendarSection() {
           <div className="flex items-center p-3 bg-amber-50 border border-amber-300 rounded-lg mb-4 text-center sm:text-left">
             <Star className="h-4 w-4 sm:h-5 sm:w-5 text-amber-500 fill-amber-300 mr-2 flex-shrink-0" aria-hidden="true" />
             <p className="text-gray-700 font-semibold text-sm sm:text-base">
-              ¡Completa todas para desbloquear stickers!
+              {t('calendar.rewardMessage')}
             </p>
           </div>
           
@@ -281,7 +324,7 @@ export function CalendarSection() {
                   } flex items-center justify-center transition-all duration-300 cursor-pointer hover:scale-105 active:scale-95 shadow-sm`}
                   onClick={() => handleEventClick(index, event.stamp)}
                   onKeyPress={(e) => handleKeyPress(e, index, event.stamp)}
-                  aria-label={`${event.title}. ${collectedStamps.includes(event.stamp) ? 'Completada' : 'Pendiente'}`}
+                  aria-label={`${event.title}. ${collectedStamps.includes(event.stamp) ? t('calendar.completedAria') : t('calendar.eventAria')}`}
                   aria-expanded={activeEvent === index}
                   aria-controls={`event-details-${index}`}
                 >
@@ -310,16 +353,16 @@ export function CalendarSection() {
             <button
               onClick={handleStickersClick}
               className="w-full bg-gradient-to-r from-orange-500 to-amber-500 text-white py-3 rounded-lg font-semibold hover:shadow-xl transform hover:-translate-y-0.5 transition-all duration-300 flex items-center justify-center mt-3 focus:ring-2 focus:ring-offset-1 focus:ring-orange-500 text-sm sm:text-base"
-              aria-label="Descargar plantilla de stickers de San Juan Tahitic"
+              aria-label={t('calendar.downloadAria')} 
             >
               <Download className="h-4 w-4 sm:h-5 sm:w-5 mr-2" aria-hidden="true" />
-              ¡Descargar Stickers!
+              {t('calendar.downloadStickers')}
             </button>
           )}
 
           {!allVisited && (
             <p className="text-xs sm:text-sm text-gray-600 mt-2 text-center px-2" aria-live="polite">
-              Toca cada evento para completar tu ruta. Progreso: {collectedStamps.length} de {events.length}.
+              {t('calendar.progressMessage').replace('{current}', collectedStamps.length.toString()).replace('{total}', events.length.toString())}
             </p>
           )}
         </div>
@@ -370,7 +413,7 @@ export function CalendarSection() {
                     )}
                   </div>
                 </div>
-                <div className="flex-1 relative min-w-0"> {/* min-w-0 previene overflow */}
+                <div className="flex-1 relative min-w-0">
                   <div className="flex items-start justify-between">
                     <CardTitle 
                       id={`event-title-${index}`}
@@ -381,7 +424,7 @@ export function CalendarSection() {
                     {collectedStamps.includes(event.stamp) && (
                       <Star 
                         className="h-4 w-4 sm:h-5 sm:w-5 text-amber-500 fill-current ml-2 flex-shrink-0 mt-1" 
-                        aria-label="Experiencia completada"
+                        aria-label={t('calendar.completedAria')} 
                       />
                     )}
                   </div>
@@ -393,7 +436,7 @@ export function CalendarSection() {
                   </CardDescription>
                   
                   <span className="mt-1 inline-block text-xs font-semibold text-orange-600 bg-orange-100 px-2 py-1 rounded-full">
-                    {event.category}
+                    {translateCategory(event.category)}
                   </span>
                 </div>
               </CardHeader>
@@ -412,7 +455,7 @@ export function CalendarSection() {
                       tabIndex={-1}
                     >
                       <Eye className="h-3 w-3 sm:h-4 sm:w-4 mr-1 sm:mr-2" aria-hidden="true" />
-                      {isMobile ? 'Ver Video' : 'Ver Experiencia'}
+                      {isMobile ? t('calendar.viewVideo') : t('calendar.viewExperience')}
                     </button>
                   </div>
                 )}
@@ -425,7 +468,7 @@ export function CalendarSection() {
                         <div className="absolute inset-0 flex items-center justify-center bg-gray-900">
                           <div className="text-white text-center">
                             <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-white mx-auto mb-1"></div>
-                            <p className="text-xs">Cargando...</p>
+                            <p className="text-xs">{t('calendar.loading')}</p>
                           </div>
                         </div>
                       )}
@@ -434,7 +477,7 @@ export function CalendarSection() {
                         <div className="absolute inset-0 flex items-center justify-center bg-gray-900 p-2">
                           <div className="text-white text-center">
                             <Video className="h-8 w-8 sm:h-10 sm:w-10 mx-auto mb-1 text-gray-400" />
-                            <p className="text-sm">Video no disponible</p>
+                            <p className="text-sm">{t('calendar.videoUnavailable')}</p>
                           </div>
                         </div>
                       ) : (
@@ -443,7 +486,7 @@ export function CalendarSection() {
                           src={activeEvent === index ? event.videoPreview : ''}
                           className="w-full h-full object-cover"
                           controls
-                          autoPlay={!isMobile} // Autoplay solo en desktop
+                          autoPlay={!isMobile}
                           onPlay={() => handleVideoPlay(index)}
                           onPause={handleVideoPause}
                           onError={() => handleVideoError(index)}
@@ -459,7 +502,7 @@ export function CalendarSection() {
                 {/* Lista de detalles optimizada */}
                 <div className="space-y-2">
                   <p className="text-sm font-semibold text-gray-800 border-b border-orange-200 pb-1 mb-1">
-                    Actividades:
+                    {t('calendar.activities')}:
                   </p>
                   {event.details.map((detail, idx) => (
                     <div 

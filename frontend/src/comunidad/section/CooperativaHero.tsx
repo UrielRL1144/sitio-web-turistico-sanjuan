@@ -1,5 +1,6 @@
 // src/sections/CooperativaHero.tsx
 import { motion } from 'framer-motion';
+import { useNavigate } from "react-router-dom"; 
 import { 
   ShoppingBag, 
   HeartHandshake, 
@@ -8,9 +9,11 @@ import {
   ArrowDown,
   Leaf,
   Award,
-  Shield
+  Shield,
+  ArrowBigLeft
 } from 'lucide-react';
 import { useState, useEffect } from 'react';
+import { useTranslation } from '../../contexts/TranslationContext'; // ← AGREGAR IMPORT
 
 const floatingIcons = [
   { icon: Leaf, delay: 0 },
@@ -25,6 +28,8 @@ interface CooperativaHeroProps {
 
 export function CooperativaHero({ onDiscoverClick }: CooperativaHeroProps) {
   const [currentIcon, setCurrentIcon] = useState(0);
+  const navigate = useNavigate();
+  const { t } = useTranslation(); // ← AGREGAR HOOK
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -34,18 +39,24 @@ export function CooperativaHero({ onDiscoverClick }: CooperativaHeroProps) {
   }, []);
 
   return (
-    <section className="relative min-h-screen bg-gradient-to-br from-emerald-50 via-teal-50 to-green-50 overflow-hidden">
-      {/* Fondos decorativos */}
+    <section
+      className="relative min-h-screen overflow-hidden bg-[url('images/comunidad/Fondo-cooperativa.svg')] bg-no-repeat bg-center bg-cover"
+    >
+      {/* Capa translúcida */}
+      <div className="absolute inset-0 bg-emerald-50/50 backdrop-blur-[2px]"></div>
+
+      {/* Fondos decorativos animados */}
       <div className="absolute inset-0">
-        <div className="absolute top-10 left-10 w-72 h-72 bg-emerald-200/20 rounded-full blur-3xl animate-pulse"></div>
-        <div className="absolute bottom-20 right-20 w-96 h-96 bg-teal-300/15 rounded-full blur-3xl animate-pulse delay-1000"></div>
-        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-80 h-80 bg-green-200/10 rounded-full blur-3xl animate-pulse delay-500"></div>
+        <div className="absolute top-10 left-10 w-72 h-72 bg-emerald-200/30 rounded-full blur-3xl animate-pulse"></div>
+        <div className="absolute bottom-20 right-20 w-96 h-96 bg-teal-300/25 rounded-full blur-3xl animate-pulse delay-1000"></div>
+        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-80 h-80 bg-green-200/20 rounded-full blur-3xl animate-pulse delay-500"></div>
       </div>
 
-      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 min-h-screen flex items-center">
+      {/* Contenido principal */}
+      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 min-h-screen flex items-center z-10">
         <div className="grid lg:grid-cols-2 gap-12 items-center w-full py-20">
           
-          {/* Contenido Principal */}
+          {/* Contenido textual */}
           <motion.div
             className="text-center lg:text-left"
             initial={{ opacity: 0, y: 30 }}
@@ -60,23 +71,23 @@ export function CooperativaHero({ onDiscoverClick }: CooperativaHeroProps) {
               transition={{ delay: 0.2, duration: 0.5 }}
             >
               <Sparkles className="h-4 w-4 text-emerald-600 mr-2" />
-              <span className="text-sm font-medium text-emerald-700">
-                Cooperativa Comunitaria
+              <span className="text-sm font-medium font-serif text-emerald-700">
+                {t('cooperativesection.communityCooperative')} {/* ← TRADUCIBLE */}
               </span>
             </motion.div>
 
             {/* Título principal */}
             <motion.h1
-              className="text-4xl sm:text-5xl lg:text-6xl font-bold text-slate-900 mb-6"
+              className="text-4xl sm:text-5xl lg:text-6xl font-bold font-serif text-slate-900 mb-6"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.3, duration: 0.7 }}
             >
               <span className="bg-gradient-to-r from-emerald-600 to-teal-600 bg-clip-text text-transparent">
-                Sabores y Saberes
+                {t('cooperativesection.flavorsAndKnowledge')} {/* ← TRADUCIBLE */}
               </span>
               <br />
-              <span className="text-slate-800">de Nuestra Tierra</span>
+              <span className="text-slate-800">{t('cooperativesection.ofOurLand')}</span> {/* ← TRADUCIBLE */}
             </motion.h1>
 
             {/* Descripción */}
@@ -86,9 +97,7 @@ export function CooperativaHero({ onDiscoverClick }: CooperativaHeroProps) {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.5, duration: 0.7 }}
             >
-              Descubre la riqueza auténtica de San Juan Tahitic. 
-              Productos cultivados con amor, técnicas ancestrales y 
-              el compromiso de una comunidad unida por el bien común.
+              {t('cooperative.description')} {/* ← TRADUCIBLE */}
             </motion.p>
 
             {/* Estadísticas */}
@@ -99,16 +108,16 @@ export function CooperativaHero({ onDiscoverClick }: CooperativaHeroProps) {
               transition={{ delay: 0.7, duration: 0.7 }}
             >
               <div className="text-center lg:text-left">
-                <div className="text-2xl font-bold text-emerald-600">50+</div>
-                <div className="text-sm text-slate-500">Productos Únicos</div>
+                <div className="text-2xl font-bold font-serif text-emerald-600">50+</div>
+                <div className="text-sm text-slate-500">{t('cooperativesection.uniqueProducts')}</div> {/* ← TRADUCIBLE */}
               </div>
               <div className="text-center lg:text-left">
-                <div className="text-2xl font-bold text-teal-600">30+</div>
-                <div className="text-sm text-slate-500">Años de Tradición</div>
+                <div className="text-2xl font-bold font-serif text-teal-600">30+</div>
+                <div className="text-sm text-slate-500">{t('cooperativesection.yearsOfTradition')}</div> {/* ← TRADUCIBLE */}
               </div>
               <div className="text-center lg:text-left col-span-2 sm:col-span-1">
-                <div className="text-2xl font-bold text-green-600">100%</div>
-                <div className="text-sm text-slate-500">Orgánico y Natural</div>
+                <div className="text-2xl font-bold font-serif text-green-600">100%</div>
+                <div className="text-sm text-slate-500">{t('cooperativesection.organicAndNatural')}</div> {/* ← TRADUCIBLE */}
               </div>
             </motion.div>
 
@@ -119,9 +128,17 @@ export function CooperativaHero({ onDiscoverClick }: CooperativaHeroProps) {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.9, duration: 0.7 }}
             >
-              <button  onClick={onDiscoverClick} className="bg-gradient-to-r from-emerald-500 to-teal-600 text-white px-8 py-4 rounded-2xl font-bold hover:shadow-xl transition-all duration-300 hover:scale-105 flex items-center justify-center">
+              <button  
+                onClick={() => navigate(-1)}
+                className="bg-gradient-to-r from-emerald-500 to-teal-900 text-white px-8 py-4 rounded-2xl font-bold font-serif hover:shadow-xl transition-all duration-300 hover:scale-105 flex items-center justify-center">
+                <ArrowBigLeft className="h-5 w-5 mr-2" />
+                {t('cooperativesection.back')} {/* ← TRADUCIBLE */}
+              </button>
+              <button  
+                onClick={onDiscoverClick} 
+                className="bg-gradient-to-r from-emerald-500 to-teal-600 text-white px-8 py-4 rounded-2xl font-bold font-serif hover:shadow-xl transition-all duration-900 hover:scale-105 flex items-center justify-center animate-bounce">
                 <ShoppingBag className="h-5 w-5 mr-2" />
-                Explorar Productos
+                {t('cooperativesection.exploreProducts')} {/* ← TRADUCIBLE */}
               </button>
             </motion.div>
           </motion.div>
@@ -144,15 +161,12 @@ export function CooperativaHero({ onDiscoverClick }: CooperativaHeroProps) {
               <div className="bg-gradient-to-br from-emerald-500 to-teal-600 p-6 rounded-2xl mb-6">
                 <ShoppingBag className="h-16 w-16 text-white mx-auto" />
               </div>
-              
-              <h3 className="text-2xl font-bold text-slate-900 text-center mb-4">
-                Economía Solidaria
+              <h3 className="text-2xl font-bold font-serif text-slate-900 text-center mb-4">
+                {t('cooperativesection.solidarityEconomy')} {/* ← TRADUCIBLE */}
               </h3>
-              
               <p className="text-slate-600 text-center mb-6 leading-relaxed">
-                Cada compra apoya el desarrollo sostenible de nuestra comunidad y preserva tradiciones centenarias.
+                {t('cooperativesection.solidarityDescription')} {/* ← TRADUCIBLE */}
               </p>
-              
               <div className="flex justify-center space-x-4">
                 {floatingIcons.map((item, index) => (
                   <motion.div
@@ -192,7 +206,6 @@ export function CooperativaHero({ onDiscoverClick }: CooperativaHeroProps) {
             >
               <HeartHandshake className="h-8 w-8 text-emerald-600" />
             </motion.div>
-
             <motion.div
               className="absolute -bottom-4 -right-4 bg-teal-100/80 backdrop-blur-sm p-4 rounded-2xl shadow-lg border border-teal-200"
               animate={{
@@ -222,9 +235,11 @@ export function CooperativaHero({ onDiscoverClick }: CooperativaHeroProps) {
         <motion.div
           animate={{ y: [0, 10, 0] }}
           transition={{ duration: 2, repeat: Infinity }}
-          className="flex flex-col items-center text-emerald-600"
+          className="flex flex-col items-center text-emerald-600 animate-bounce"
         >
-          <span className="text-sm font-medium mb-2">Descubre más</span>
+          <span className="text-sm font-medium font-serif mb-2">
+            {t('cooperativesection.discoverMore')} {/* ← TRADUCIBLE */}
+          </span>
           <ArrowDown className="h-5 w-5" />
         </motion.div>
       </motion.div>

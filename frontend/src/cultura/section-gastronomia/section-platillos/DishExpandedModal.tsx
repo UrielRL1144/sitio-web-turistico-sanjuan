@@ -1,8 +1,9 @@
 // components/DishExpandedModal.tsx
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion } from 'framer-motion';
 import { ArrowLeft, MapPin, ChefHat, Clock, Utensils, X, Maximize2, Minimize2, ZoomIn, ZoomOut } from 'lucide-react';
 import { LazyImage } from './LazyImage';
 import { useState, useCallback, useEffect } from 'react';
+import { useTranslation } from '../../../contexts/TranslationContext'; // ← AGREGAR IMPORT
 
 interface Dish {
   name: string;
@@ -42,6 +43,7 @@ export function DishExpandedModal({
   const [imagePosition, setImagePosition] = useState({ x: 0, y: 0 });
   const [isDragging, setIsDragging] = useState(false);
   const [dragStart, setDragStart] = useState({ x: 0, y: 0 });
+  const { t } = useTranslation(); // ← AGREGAR HOOK
 
   const generateMapsUrl = (lat: number, lng: number): string => {
     return `https://www.google.com/maps/search/?api=1&query=${lat},${lng}`;
@@ -160,7 +162,7 @@ export function DishExpandedModal({
         className="fixed inset-0 bg-black z-50"
         role="dialog"
         aria-modal="true"
-        aria-label={`Vista de pantalla completa: ${dish.name}`}
+        aria-label={`${t('platillos.modal.fullscreenView')} ${dish.name}`}
       >
         {/* Controles superiores simplificados */}
         <div className={`absolute top-4 z-10 w-full px-4 ${isMobile ? 'flex justify-between' : 'flex justify-end'}`}>
@@ -169,7 +171,9 @@ export function DishExpandedModal({
           {isMobile && (
             <div className="bg-black/70 text-white px-3 py-2 rounded-lg backdrop-blur-sm max-w-[60%]">
               <h3 className="font-bold text-sm truncate">{dish.name}</h3>
-              <p className="text-xs text-gray-300 truncate">por {dish.chef}</p>
+              <p className="text-xs text-gray-300 truncate">
+                {t('platillos.modal.by')} {dish.chef} {/* ← TRADUCIBLE */}
+              </p>
             </div>
           )}
 
@@ -179,21 +183,21 @@ export function DishExpandedModal({
               <button
                 onClick={handleZoomOut}
                 className="bg-white/20 backdrop-blur-sm text-white p-2 rounded-lg hover:bg-white/30 transition-colors focus:outline-none focus:ring-2 focus:ring-white"
-                aria-label="Alejar"
+                aria-label={t('platillos.modal.zoomOut')} // ← TRADUCIBLE
               >
                 <ZoomOut className="w-4 h-4" />
               </button>
               <button
                 onClick={handleResetTransform}
                 className="bg-white/20 backdrop-blur-sm text-white p-2 rounded-lg hover:bg-white/30 transition-colors focus:outline-none focus:ring-2 focus:ring-white"
-                aria-label="Restablecer zoom"
+                aria-label={t('platillos.modal.resetZoom')} // ← TRADUCIBLE
               >
                 <span className="text-xs font-bold">100%</span>
               </button>
               <button
                 onClick={handleZoomIn}
                 className="bg-white/20 backdrop-blur-sm text-white p-2 rounded-lg hover:bg-white/30 transition-colors focus:outline-none focus:ring-2 focus:ring-white"
-                aria-label="Acercar"
+                aria-label={t('platillos.modal.zoomIn')} // ← TRADUCIBLE
               >
                 <ZoomIn className="w-4 h-4" />
               </button>
@@ -207,14 +211,14 @@ export function DishExpandedModal({
                 <button
                   onClick={onPrevious}
                   className="bg-white/20 backdrop-blur-sm text-white p-2 rounded-lg hover:bg-white/30 transition-colors focus:outline-none focus:ring-2 focus:ring-white"
-                  aria-label="Platillo anterior"
+                  aria-label={t('platillos.modal.previousDish')} // ← TRADUCIBLE
                 >
                   <ArrowLeft className="w-4 h-4" />
                 </button>
                 <button
                   onClick={onNext}
                   className="bg-white/20 backdrop-blur-sm text-white p-2 rounded-lg hover:bg-white/30 transition-colors focus:outline-none focus:ring-2 focus:ring-white"
-                  aria-label="Siguiente platillo"
+                  aria-label={t('platillos.modal.nextDish')} // ← TRADUCIBLE
                 >
                   <ArrowLeft className="w-4 h-4 rotate-180" />
                 </button>
@@ -223,7 +227,7 @@ export function DishExpandedModal({
             <button
               onClick={handleExitFullscreen}
               className="bg-white/20 backdrop-blur-sm text-white p-2 rounded-lg hover:bg-white/30 transition-colors focus:outline-none focus:ring-2 focus:ring-white"
-              aria-label="Salir de pantalla completa"
+              aria-label={t('platillos.modal.exitFullscreen')} // ← TRADUCIBLE
             >
               <Minimize2 className="w-4 h-4" />
             </button>
@@ -267,7 +271,7 @@ export function DishExpandedModal({
             <button
               onClick={onPrevious}
               className="bg-white/20 backdrop-blur-sm text-white p-3 rounded-full hover:bg-white/30 transition-colors focus:outline-none focus:ring-2 focus:ring-white"
-              aria-label="Platillo anterior"
+              aria-label={t('platillos.modal.previousDish')} // ← TRADUCIBLE
             >
               <ArrowLeft className="w-5 h-5" />
             </button>
@@ -279,7 +283,7 @@ export function DishExpandedModal({
             <button
               onClick={onNext}
               className="bg-white/20 backdrop-blur-sm text-white p-3 rounded-full hover:bg-white/30 transition-colors focus:outline-none focus:ring-2 focus:ring-white"
-              aria-label="Siguiente platillo"
+              aria-label={t('platillos.modal.nextDish')} // ← TRADUCIBLE
             >
               <ArrowLeft className="w-5 h-5 rotate-180" />
             </button>
@@ -314,7 +318,7 @@ export function DishExpandedModal({
           onClick={onClose}
           onKeyDown={handleButtonKeyDown}
           className="absolute top-4 right-4 z-10 bg-white/90 backdrop-blur-sm text-gray-800 p-2 rounded-full hover:bg-white transition-colors shadow-lg focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2"
-          aria-label="Cerrar modal"
+          aria-label={t('platillos.modal.closeModal')} // ← TRADUCIBLE
         >
           <X className="w-5 h-5" />
         </button>
@@ -323,7 +327,7 @@ export function DishExpandedModal({
         <button
           onClick={handleFullscreen}
           className="absolute top-4 right-16 z-10 bg-white/90 backdrop-blur-sm text-gray-800 p-2 rounded-full hover:bg-white transition-colors shadow-lg focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2"
-          aria-label="Ver en pantalla completa"
+          aria-label={t('platillos.modal.fullscreen')} // ← TRADUCIBLE
         >
           <Maximize2 className="w-5 h-5" />
         </button>
@@ -357,11 +361,11 @@ export function DishExpandedModal({
                 <div>
                   <h4 className="font-bold font-serif text-orange-600 flex items-center gap-2 mb-1">
                     <MapPin className="w-4 h-4" aria-hidden="true" /> 
-                    Ubicación
+                    {t('platillos.modal.location')} {/* ← TRADUCIBLE */}
                   </h4>
-                  <p><strong>Dirección:</strong> {dish.address}</p>
-                  <p><strong>Propietario:</strong> {dish.owner}</p>
-                  <p><strong>Teléfono:</strong> {dish.phone || 'No disponible'}</p>
+                  <p><strong>{t('platillos.modal.address')}</strong> {dish.address}</p> {/* ← TRADUCIBLE */}
+                  <p><strong>{t('platillos.modal.owner')}</strong> {dish.owner}</p> {/* ← TRADUCIBLE */}
+                  <p><strong>{t('platillos.modal.phone')}</strong> {dish.phone || t('platillos.modal.phoneNotAvailable')}</p> {/* ← TRADUCIBLE */}
                   
                   <motion.a
                     href={generateMapsUrl(dish.lat, dish.lng)}
@@ -370,19 +374,19 @@ export function DishExpandedModal({
                     whileHover={{ scale: 1.03 }}
                     whileTap={{ scale: 0.97 }}
                     className="mt-3 inline-flex items-center gap-2 bg-green-500 hover:bg-green-600 text-white font-semibold font-serif py-2 px-4 rounded-full transition-colors shadow-md focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2"
-                    aria-label={`Ver ubicación de ${dish.name} en Google Maps`}
+                    aria-label={`${t('platillos.modal.viewOnMaps')} ${dish.name}`} // ← TRADUCIBLE
                   >
                     <MapPin className="w-5 h-5" /> 
-                    Abrir en Google Maps
+                    {t('platillos.modal.viewOnMaps')} {/* ← TRADUCIBLE */}
                   </motion.a>
                 </div>
 
                 <div>
                   <h4 className="font-bold font-serif text-orange-600 flex items-center gap-2 mb-1">
                     <Utensils className="w-4 h-4" aria-hidden="true" /> 
-                    Sugerencias
+                    {t('platillos.modal.suggestions')} {/* ← TRADUCIBLE */}
                   </h4>
-                  <div role="list" aria-label="Sugerencias del platillo" className="flex flex-wrap gap-2">
+                  <div role="list" aria-label={t('platillos.modal.suggestions')} className="flex flex-wrap gap-2">
                     {dish.suggestions.map((suggestion, index) => (
                       <span 
                         key={index} 
@@ -401,7 +405,7 @@ export function DishExpandedModal({
             <div className="mt-6 pt-4 border-t border-gray-200">
               <h4 className="font-bold font-serif text-orange-600 flex items-center gap-2 mb-1">
                 <Clock className="w-4 h-4" aria-hidden="true" /> 
-                Horario de Atención
+                {t('platillos.modal.openingHours')} {/* ← TRADUCIBLE */}
               </h4>
               <p className="text-2xl lg:text-3xl font-extrabold font-serif text-green-700 mb-4">{dish.hours}</p>
 
@@ -411,14 +415,14 @@ export function DishExpandedModal({
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
                 className="w-full bg-orange-600 hover:bg-orange-700 text-white font-semibold font-serif py-3 rounded-full shadow-lg flex items-center justify-center gap-2 transition-colors focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2"
-                aria-label="Cerrar detalles y regresar a la vista de grid"
+                aria-label={t('platillos.modal.backToGallery')} // ← TRADUCIBLE
               >
                 <ArrowLeft className="w-5 h-5" aria-hidden="true" /> 
-                Regresar a la galería
+                {t('platillos.modal.backToGallery')} {/* ← TRADUCIBLE */}
               </motion.button>
 
               <div className="mt-3 text-center text-sm text-gray-500" aria-hidden="true">
-                Presiona ESC para cerrar • ← → para navegar entre platillos
+                {t('platillos.modal.keyboardShortcuts')} {/* ← TRADUCIBLE */}
               </div>
             </div>
           </div>

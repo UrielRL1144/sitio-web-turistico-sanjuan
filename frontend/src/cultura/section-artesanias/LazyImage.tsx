@@ -1,6 +1,7 @@
 // LazyImage.tsx
 import { useState, useEffect } from 'react';
 import type { LazyImageProps } from './types';
+import { useTranslation } from '../../contexts/TranslationContext'; // ← AGREGAR IMPORT
 
 export const LazyImage: React.FC<LazyImageProps> = ({ 
   src, 
@@ -11,6 +12,7 @@ export const LazyImage: React.FC<LazyImageProps> = ({
   const [imageLoaded, setImageLoaded] = useState(false);
   const [imageSrc, setImageSrc] = useState('');
   const [hasError, setHasError] = useState(false);
+  const { t } = useTranslation(); // ← AGREGAR HOOK
 
   useEffect(() => {
     const img = new Image();
@@ -40,7 +42,7 @@ export const LazyImage: React.FC<LazyImageProps> = ({
           <div className="w-8 h-8 mx-auto mb-2 bg-gray-300 rounded-full flex items-center justify-center">
             <span className="text-xs">⚠️</span>
           </div>
-          <span className="text-sm">Imagen no disponible</span>
+          <span className="text-sm">{t('crafts.imageNotAvailable')}</span> {/* ← TRADUCIBLE */}
         </div>
       </div>
     );
@@ -50,7 +52,7 @@ export const LazyImage: React.FC<LazyImageProps> = ({
     <div className={`relative ${className}`}>
       {!imageLoaded && (
         <div className="absolute inset-0 bg-gray-200 animate-pulse flex items-center justify-center rounded-2xl">
-          <div className="text-gray-400">Cargando artesanía...</div>
+          <div className="text-gray-400">{t('crafts.loadingCraft')}</div> {/* ← TRADUCIBLE */}
         </div>
       )}
       <img

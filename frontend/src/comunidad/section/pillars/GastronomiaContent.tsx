@@ -11,128 +11,145 @@ import {
   ChevronLeft,
   ChevronRight
 } from 'lucide-react';
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react'; // ← AGREGAR useMemo
+import { useTranslation } from '../../../contexts/TranslationContext'; // ← AGREGAR IMPORT
 
 // --- Imágenes del Carrusel Gastronómico ---
-const carouselImages = [
-  {
-    url: '/images/comunidad//valores-comunidad/ganaderia.jpg',
-    title: 'Cosecha del Maíz Criollo',
-    description: 'Nuestro maíz ancestral, base de la alimentación comunitaria'
-  },
-  {
-    url: '/images/gastronomia-2.jpg',
-    title: 'Mercado Orgánico Comunitario',
-    description: 'Productos frescos directamente de las huertas familiares'
-  },
-  {
-    url: '/images/gastronomia-3.jpg',
-    title: 'Preparación de Mole de Caderas',
-    description: 'Plato ceremonial que preserva nuestras tradiciones'
-  },
-  {
-    url: '/images/gastronomia-4.jpg',
-    title: 'Café de Altura Orgánico',
-    description: 'Cultivado en las laderas de nuestras montañas'
-  },
-  {
-    url: '/images/gastronomia-5.jpg',
-    title: 'Tamales de Frijol',
-    description: 'Sabores que han pasado de generación en generación'
-  }
-];
+const useCarouselImages = () => {
+  const { t } = useTranslation();
+  
+  return [
+    {
+      url: '/images/comunidad//valores-comunidad/ganaderia.jpg',
+      title: t('gastronomymodal.carousel.cornHarvest'), // ← TRADUCIBLE
+      description: t('gastronomymodal.carousel.cornDescription') // ← TRADUCIBLE
+    },
+    {
+      url: '/images/gastronomia-2.jpg',
+      title: t('gastronomymodal.carousel.organicMarket'), // ← TRADUCIBLE
+      description: t('gastronomymodal.carousel.marketDescription') // ← TRADUCIBLE
+    },
+    {
+      url: '/images/gastronomia-3.jpg',
+      title: t('gastronomymodal.carousel.molePreparation'), // ← TRADUCIBLE
+      description: t('gastronomymodal.carousel.moleDescription') // ← TRADUCIBLE
+    },
+    {
+      url: '/images/gastronomia-4.jpg',
+      title: t('gastronomymodal.carousel.organicCoffee'), // ← TRADUCIBLE
+      description: t('gastronomymodal.carousel.coffeeDescription') // ← TRADUCIBLE
+    },
+    {
+      url: '/images/gastronomia-5.jpg',
+      title: t('gastronomymodal.carousel.beanTamales'), // ← TRADUCIBLE
+      description: t('gastronomymodal.carousel.tamalesDescription') // ← TRADUCIBLE
+    }
+  ];
+};
 
 // --- Datos de Productos Agrícolas ---
-const productosData = [
-  {
-    nombre: 'Maíz Criollo',
-    icon: Wheat,
-    descripcion: 'Variedades ancestrales de maíz que conservan su sabor y propiedades nutricionales únicas, cultivadas mediante el sistema milpa.',
-    temporada: 'Junio - Noviembre',
-    caracteristicas: ['4 variedades nativas', 'Libre de transgénicos', 'Alto valor nutricional', 'Resistente a sequías'],
-    color: 'from-amber-400 to-orange-500'
-  },
-  {
-    nombre: 'Frijol Negro',
-    icon: Sprout,
-    descripcion: 'Cultivado en las laderas de la montaña, nuestro frijol es reconocido por su textura cremosa y sabor profundo característico.',
-    temporada: 'Agosto - Diciembre',
-    caracteristicas: ['Tipo negro criollo', 'Alto en proteínas', 'Cultivo de rotación', 'Secado al sol natural'],
-    color: 'from-purple-600 to-indigo-700'
-  },
-  {
-    nombre: 'Café de Altura',
-    icon: Coffee,
-    descripcion: 'Café orgánico cultivado a más de 1,200 msnm, con notas achocolatadas y aroma intenso. Proceso de beneficiado húmedo tradicional.',
-    temporada: 'Octubre - Marzo',
-    caracteristicas: ['Tipo arábiga', 'Secado en patios', 'Tostado artesanal', 'Embalaje tradicional'],
-    color: 'from-yellow-700 to-amber-800'
-  },
-  {
-    nombre: 'Hierbas Medicinales',
-    icon: Trees,
-    descripcion: 'Sabiduría ancestral en el uso de hierbas como manzanilla, árnica y yerbabuena, cultivadas en huertos familiares.',
-    temporada: 'Todo el año',
-    caracteristicas: ['20 variedades', 'Secado natural', 'Uso medicinal', 'Preparaciones ancestrales'],
-    color: 'from-green-500 to-emerald-600'
-  }
-];
+const useProductosData = () => {
+  const { t } = useTranslation();
+  
+  return [
+    {
+      nombre: t('gastronomymodal.products.0.name'), // ← TRADUCIBLE
+      icon: Wheat,
+      descripcion: t('gastronomymodal.products.0.description'), // ← TRADUCIBLE
+      temporada: t('gastronomymodal.products.0.season'), // ← TRADUCIBLE
+      caracteristicas: t('gastronomymodal.products.0.characteristics') as unknown as string[], // ← TRADUCIBLE
+      color: 'from-amber-400 to-orange-500'
+    },
+    {
+      nombre: t('gastronomymodal.products.1.name'), // ← TRADUCIBLE
+      icon: Sprout,
+      descripcion: t('gastronomymodal.products.1.description'), // ← TRADUCIBLE
+      temporada: t('gastronomymodal.products.1.season'), // ← TRADUCIBLE
+      caracteristicas: t('gastronomymodal.products.1.characteristics') as unknown as string[], // ← TRADUCIBLE
+      color: 'from-purple-600 to-indigo-700'
+    },
+    {
+      nombre: t('gastronomymodal.products.2.name'), // ← TRADUCIBLE
+      icon: Coffee,
+      descripcion: t('gastronomymodal.products.2.description'), // ← TRADUCIBLE
+      temporada: t('gastronomymodal.products.2.season'), // ← TRADUCIBLE
+      caracteristicas: t('gastronomymodal.products.2.characteristics') as unknown as string[], // ← TRADUCIBLE
+      color: 'from-yellow-700 to-amber-800'
+    },
+    {
+      nombre: t('gastronomymodal.products.3.name'), // ← TRADUCIBLE
+      icon: Trees,
+      descripcion: t('gastronomymodal.products.3.description'), // ← TRADUCIBLE
+      temporada: t('gastronomymodal.products.3.season'), // ← TRADUCIBLE
+      caracteristicas: t('gastronomymodal.products.3.characteristics') as unknown as string[], // ← TRADUCIBLE
+      color: 'from-green-500 to-emerald-600'
+    }
+  ];
+};
 
 // --- Datos de Platos Típicos ---
-const platosData = [
-  {
-    nombre: 'Mole de Caderas',
-    descripcion: 'Plato ceremonial preparado con chivo, especias y chocolate. Patrimonio gastronómico de la región que se prepara en festividades importantes.',
-    ingredientes: ['Chivo', 'Chiles mulatos', 'Chocolate ancestral', 'Ajonjolí', 'Especias locales'],
-    temporada: 'Octubre',
-    icon: ChefHat,
-    preparacion: 'Cocción lenta de 8 horas'
-  },
-  {
-    nombre: 'Tamales de Frijol',
-    descripcion: 'Tamales envueltos en hoja de maíz, rellenos de frijol negro y hierbas de la región. Alimento básico en celebraciones familiares.',
-    ingredientes: ['Maíz nixtamalizado', 'Frijol negro', 'Hoja de maíz', 'Epazote', 'Sal de tierra'],
-    temporada: 'Todo el año',
-    icon: Utensils,
-    preparacion: 'Cocido al vapor por 2 horas'
-  },
-  {
-    nombre: 'Atole de Maíz Blanco',
-    descripcion: 'Bebida caliente preparada con maíz blanco molido, canela y piloncillo. Consuelo tradicional en temporadas de frío.',
-    ingredientes: ['Maíz blanco', 'Canela de vara', 'Piloncillo', 'Agua purificada'],
-    temporada: 'Temporada de frío',
-    icon: Coffee,
-    preparacion: 'Molido en metate y cocido lentamente'
-  }
-];
+const usePlatosData = () => {
+  const { t } = useTranslation();
+  
+  return [
+    {
+      nombre: t('gastronomymodal.dishes.0.name'), // ← TRADUCIBLE
+      descripcion: t('gastronomymodal.dishes.0.description'), // ← TRADUCIBLE
+      ingredientes: t('gastronomymodal.dishes.0.ingredients') as unknown as string[], // ← TRADUCIBLE
+      temporada: 'Octubre',
+      icon: ChefHat,
+      preparacion: t('gastronomymodal.dishes.0.preparation') // ← TRADUCIBLE
+    },
+    {
+      nombre: t('gastronomymodal.dishes.1.name'), // ← TRADUCIBLE
+      descripcion: t('gastronomymodal.dishes.1.description'), // ← TRADUCIBLE
+      ingredientes: t('gastronomymodal.dishes.1.ingredients') as unknown as string[], // ← TRADUCIBLE
+      temporada: 'Todo el año',
+      icon: Utensils,
+      preparacion: t('gastronomymodal.dishes.1.preparation') // ← TRADUCIBLE
+    },
+    {
+      nombre: t('gastronomymodal.dishes.2.name'), // ← TRADUCIBLE
+      descripcion: t('gastronomymodal.dishes.2.description'), // ← TRADUCIBLE
+      ingredientes: t('gastronomymodal.dishes.2.ingredients') as unknown as string[], // ← TRADUCIBLE
+      temporada: 'Temporada de frío',
+      icon: Coffee,
+      preparacion: t('gastronomymodal.dishes.2.preparation') // ← TRADUCIBLE
+    }
+  ];
+};
 
 // --- Saberes Ancestrales ---
-const saberesData = [
-  {
-    titulo: 'Sistema Milpa',
-    descripcion: 'Cultivo intercalado de maíz, frijol y calabaza que enriquece el suelo y asegura diversidad alimentaria.',
-    icon: Sprout,
-    color: 'bg-green-100 text-green-700'
-  },
-  {
-    titulo: 'Nixtamalización',
-    descripcion: 'Proceso ancestral de cocer el maíz con cal para mejorar su valor nutricional y sabor.',
-    icon: Utensils,
-    color: 'bg-amber-100 text-amber-700'
-  },
-  {
-    titulo: 'Conservación Natural',
-    descripcion: 'Técnicas de secado al sol y almacenamiento en trojes que preservan los granos todo el año.',
-    icon: Trees,
-    color: 'bg-orange-100 text-orange-700'
-  },
-  {
-    titulo: 'Medicina Herbolaria',
-    descripcion: 'Uso tradicional de plantas medicinales para el cuidado de la salud familiar y comunitaria.',
-    icon: ChefHat,
-    color: 'bg-emerald-100 text-emerald-700'
-  }
-];
+const useSaberesData = () => {
+  const { t } = useTranslation();
+  
+  return [
+    {
+      titulo: t('gastronomymodal.knowledge.0.title'), // ← TRADUCIBLE
+      descripcion: t('gastronomymodal.knowledge.0.description'), // ← TRADUCIBLE
+      icon: Sprout,
+      color: 'bg-green-100 text-green-700'
+    },
+    {
+      titulo: t('gastronomymodal.knowledge.1.title'), // ← TRADUCIBLE
+      descripcion: t('gastronomymodal.knowledge.1.description'), // ← TRADUCIBLE
+      icon: Utensils,
+      color: 'bg-amber-100 text-amber-700'
+    },
+    {
+      titulo: t('gastronomymodal.knowledge.2.title'), // ← TRADUCIBLE
+      descripcion: t('gastronomymodal.knowledge.2.description'), // ← TRADUCIBLE
+      icon: Trees,
+      color: 'bg-orange-100 text-orange-700'
+    },
+    {
+      titulo: t('gastronomymodal.knowledge.3.title'), // ← TRADUCIBLE
+      descripcion: t('gastronomymodal.knowledge.3.description'), // ← TRADUCIBLE
+      icon: ChefHat,
+      color: 'bg-emerald-100 text-emerald-700'
+    }
+  ];
+};
 
 const cardVariants: Variants = {
   hidden: { opacity: 0, y: 20 },
@@ -161,6 +178,8 @@ interface GastronomiaContentProps {
 function ImageCarousel() {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isAutoPlaying, setIsAutoPlaying] = useState(true);
+  const { t, language } = useTranslation(); // ← AGREGAR HOOK
+  const carouselImages = useMemo(() => useCarouselImages(), [t, language]); // ← USAR useMemo
 
   const nextSlide = () => {
     setCurrentIndex((prev) => (prev + 1) % carouselImages.length);
@@ -183,7 +202,7 @@ function ImageCarousel() {
     }, 5000);
 
     return () => clearInterval(interval);
-  }, [isAutoPlaying]);
+  }, [isAutoPlaying, carouselImages.length]); // ← AGREGAR DEPENDENCIA
 
   return (
     <motion.div 
@@ -210,7 +229,7 @@ function ImageCarousel() {
           <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent flex items-end">
             <div className="p-8 text-white w-full">
               <motion.h3 
-                className="text-2xl sm:text-3xl font-bold mb-2"
+                className="text-2xl sm:text-3xl font-bold font-serif mb-2"
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.3 }}
@@ -229,7 +248,7 @@ function ImageCarousel() {
           </div>
         </div>
       </motion.div>
-
+      
       {/* Botones de Navegación */}
       <button
         onClick={prevSlide}
@@ -237,14 +256,13 @@ function ImageCarousel() {
       >
         <ChevronLeft className="h-6 w-6 text-white group-hover:scale-110 transition-transform" />
       </button>
-
       <button
         onClick={nextSlide}
         className="absolute right-4 top-1/2 transform -translate-y-1/2 bg-white/20 hover:bg-white/30 backdrop-blur-sm rounded-full p-3 transition-all duration-300 group"
       >
         <ChevronRight className="h-6 w-6 text-white group-hover:scale-110 transition-transform" />
       </button>
-
+      
       {/* Indicadores */}
       <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex space-x-3">
         {carouselImages.map((_, index) => (
@@ -259,7 +277,7 @@ function ImageCarousel() {
           />
         ))}
       </div>
-
+      
       {/* Contador */}
       <div className="absolute top-4 right-4 bg-black/50 backdrop-blur-sm rounded-full px-3 py-1 text-sm text-white">
         {currentIndex + 1} / {carouselImages.length}
@@ -269,6 +287,13 @@ function ImageCarousel() {
 }
 
 export function GastronomiaContent({ onBack }: GastronomiaContentProps) {
+  const { t, language } = useTranslation(); // ← AGREGAR HOOK
+  
+  // USAR useMemo PARA TODOS LOS DATOS
+  const productosData = useMemo(() => useProductosData(), [t, language]);
+  const platosData = useMemo(() => usePlatosData(), [t, language]);
+  const saberesData = useMemo(() => useSaberesData(), [t, language]);
+
   return (
     <section className="w-full bg-gradient-to-b from-amber-50 to-orange-50 py-16 sm:py-24">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -280,17 +305,20 @@ export function GastronomiaContent({ onBack }: GastronomiaContentProps) {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
         >
-          <h1 className="text-4xl sm:text-5xl font-bold text-slate-900 mb-4">
-            Gastronomía: <span className="bg-gradient-to-r from-amber-500 to-orange-600 bg-clip-text text-transparent">Sabores Ancestrales</span>
+          <h1 className="text-4xl sm:text-5xl font-bold font-serif text-slate-900 mb-4">
+            {t('gastronomymodal.title')}{' '} {/* ← TRADUCIBLE */}
+            <span className="bg-gradient-to-r from-amber-500 to-orange-600 bg-clip-text text-transparent">
+              {t('gastronomymodal.subtitle')} {/* ← TRADUCIBLE */}
+            </span>
           </h1>
           <p className="text-lg text-slate-600 max-w-3xl mx-auto">
-            Del campo a la mesa: preservando nuestra soberanía alimentaria y sabores tradicionales en San Juan Tahitic
+            {t('gastronomymodal.description')} {/* ← TRADUCIBLE */}
           </p>
         </motion.div>
 
         {/* --- Carrusel de Imágenes --- */}
         <ImageCarousel />
-
+        
         {/* --- Hero Section Informativa --- */}
         <motion.div
           className="bg-gradient-to-r from-amber-500 to-orange-600 rounded-3xl p-8 md:p-12 text-white mb-16 shadow-2xl"
@@ -301,24 +329,18 @@ export function GastronomiaContent({ onBack }: GastronomiaContentProps) {
         >
           <div className="grid md:grid-cols-2 gap-8 items-center">
             <div>
-              <h2 className="text-3xl md:text-4xl font-bold mb-4">
-                Raíces que Alimentan
+              <h2 className="text-3xl md:text-4xl font-bold font-serif mb-4">
+                {t('gastronomymodal.heroTitle')} {/* ← TRADUCIBLE */}
               </h2>
               <p className="text-amber-100 text-lg leading-relaxed mb-6">
-                En San Juan Tahitic, la tierra no solo nos da sustento, sino identidad. 
-                Nuestra agricultura de milpa y cocina tradicional son el legado vivo de generaciones 
-                que han sabido convivir en armonía con la naturaleza, preservando saberes ancestrales.
+                {t('gastronomymodal.heroDescription')} {/* ← TRADUCIBLE */}
               </p>
               <div className="flex flex-wrap gap-4">
-                <div className="bg-white/20 rounded-lg px-4 py-2 backdrop-blur-sm">
-                  <span className="font-semibold">Agricultura Orgánica</span>
-                </div>
-                <div className="bg-white/20 rounded-lg px-4 py-2 backdrop-blur-sm">
-                  <span className="font-semibold">Cocina Ancestral</span>
-                </div>
-                <div className="bg-white/20 rounded-lg px-4 py-2 backdrop-blur-sm">
-                  <span className="font-semibold">Soberanía Alimentaria</span>
-                </div>
+                {(t('gastronomymodal.heroTags') as unknown as string[]).map((tag, index) => ( // ← TRADUCIBLE
+                  <div key={index} className="bg-white/20 rounded-lg px-4 py-2 backdrop-blur-sm">
+                    <span className="font-semibold font-serif">{tag}</span>
+                  </div>
+                ))}
               </div>
             </div>
             <div className="flex justify-center">
@@ -338,13 +360,15 @@ export function GastronomiaContent({ onBack }: GastronomiaContentProps) {
             transition={{ duration: 0.8 }}
             viewport={{ once: true }}
           >
-            <h3 className="text-3xl font-bold text-slate-900 mb-4">Nuestros Productos</h3>
+            <h3 className="text-3xl font-bold font-serif text-slate-900 mb-4">
+              {t('gastronomymodal.ourProducts')} {/* ← TRADUCIBLE */}
+            </h3>
             <p className="text-lg text-slate-600 max-w-2xl mx-auto">
-              Cultivados con técnicas sostenibles que respetan los ciclos de la tierra y preservan nuestra biodiversidad
+              {t('gastronomymodal.productsDescription')} {/* ← TRADUCIBLE */}
             </p>
             <div className="w-24 h-1 bg-gradient-to-r from-amber-500 to-orange-600 mx-auto rounded-full mt-4"></div>
           </motion.div>
-
+          
           <motion.div
             className="grid md:grid-cols-2 lg:grid-cols-4 gap-6"
             variants={staggerContainer}
@@ -354,7 +378,7 @@ export function GastronomiaContent({ onBack }: GastronomiaContentProps) {
           >
             {productosData.map((producto, index) => (
               <motion.div
-                key={producto.nombre}
+                key={`product-${index}`} // ← KEY ESTABLE
                 variants={cardVariants}
                 className="bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-xl transition-all duration-300 border border-amber-100"
               >
@@ -365,19 +389,19 @@ export function GastronomiaContent({ onBack }: GastronomiaContentProps) {
                       <producto.icon className="h-8 w-8 text-white" />
                     </div>
                   </div>
-                  <h4 className="font-bold text-xl text-center">{producto.nombre}</h4>
+                  <h4 className="font-bold font-serif text-xl text-center">{producto.nombre}</h4>
                   <p className="text-amber-100 text-sm text-center mt-1">
                     {producto.temporada}
                   </p>
                 </div>
-                
                 <div className="p-6">
                   <p className="text-slate-700 leading-relaxed mb-4 text-sm">
                     {producto.descripcion}
                   </p>
-
                   <div className="bg-amber-50 rounded-xl p-4">
-                    <h5 className="font-semibold text-amber-800 mb-2 text-sm">Características:</h5>
+                    <h5 className="font-semibold font-serif text-amber-800 mb-2 text-sm">
+                      {t('gastronomymodal.characteristics')} {/* ← TRADUCIBLE */}
+                    </h5>
                     <ul className="text-slate-700 space-y-1 text-sm">
                       {producto.caracteristicas.map((caracteristica, idx) => (
                         <li key={idx} className="flex items-center">
@@ -393,7 +417,8 @@ export function GastronomiaContent({ onBack }: GastronomiaContentProps) {
           </motion.div>
         </div>
 
-        {/* --- Platos Típicos --- */}
+        {/* Continuará en la siguiente parte... */}
+                {/* --- Platos Típicos --- */}
         <div className="mb-20">
           <motion.div
             className="text-center mb-12"
@@ -402,13 +427,15 @@ export function GastronomiaContent({ onBack }: GastronomiaContentProps) {
             transition={{ duration: 0.8 }}
             viewport={{ once: true }}
           >
-            <h3 className="text-3xl font-bold text-slate-900 mb-4">Sabores de la Tierra</h3>
+            <h3 className="text-3xl font-bold font-serif text-slate-900 mb-4">
+              {t('gastronomymodal.flavorsOfTheLand')} {/* ← TRADUCIBLE */}
+            </h3>
             <p className="text-lg text-slate-600 max-w-2xl mx-auto">
-              Recetas que han pasado de generación en generación, conservando nuestra identidad culinaria
+              {t('gastronomymodal.flavorsDescription')} {/* ← TRADUCIBLE */}
             </p>
             <div className="w-24 h-1 bg-gradient-to-r from-amber-500 to-orange-600 mx-auto rounded-full mt-4"></div>
           </motion.div>
-
+          
           <motion.div
             className="grid md:grid-cols-3 gap-6"
             variants={staggerContainer}
@@ -418,22 +445,23 @@ export function GastronomiaContent({ onBack }: GastronomiaContentProps) {
           >
             {platosData.map((plato, index) => (
               <motion.div
-                key={plato.nombre}
+                key={`dish-${index}`} // ← KEY ESTABLE
                 variants={cardVariants}
                 className="bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-xl transition-all duration-300 border border-amber-100"
               >
                 <div className="bg-gradient-to-r from-amber-400 to-orange-500 p-6 text-white">
                   <div className="flex items-center justify-center">
                     <plato.icon className="h-8 w-8 mr-3" />
-                    <h4 className="text-xl font-bold">{plato.nombre}</h4>
+                    <h4 className="text-xl font-bold font-serif">{plato.nombre}</h4>
                   </div>
                   <p className="text-amber-100 text-sm text-center mt-2">{plato.temporada}</p>
                 </div>
                 <div className="p-6">
                   <p className="text-slate-700 mb-4 leading-relaxed text-sm">{plato.descripcion}</p>
-                  
                   <div className="mb-4">
-                    <h5 className="font-semibold text-slate-800 mb-2 text-sm">Ingredientes principales:</h5>
+                    <h5 className="font-semibold font-serif text-slate-800 mb-2 text-sm">
+                      {t('gastronomymodal.mainIngredients')} {/* ← TRADUCIBLE */}
+                    </h5>
                     <div className="flex flex-wrap gap-1">
                       {plato.ingredientes.map((ingrediente) => (
                         <span 
@@ -445,9 +473,8 @@ export function GastronomiaContent({ onBack }: GastronomiaContentProps) {
                       ))}
                     </div>
                   </div>
-                  
                   <div className="bg-amber-50 rounded-lg p-3 text-center">
-                    <p className="text-amber-700 text-sm font-medium">
+                    <p className="text-amber-700 text-sm font-medium font-serif">
                       {plato.preparacion}
                     </p>
                   </div>
@@ -466,13 +493,15 @@ export function GastronomiaContent({ onBack }: GastronomiaContentProps) {
             transition={{ duration: 0.8 }}
             viewport={{ once: true }}
           >
-            <h3 className="text-3xl font-bold text-slate-900 mb-4">Saberes Ancestrales</h3>
+            <h3 className="text-3xl font-bold font-serif text-slate-900 mb-4">
+              {t('gastronomymodal.ancestralKnowledge')} {/* ← TRADUCIBLE */}
+            </h3>
             <p className="text-lg text-slate-600 max-w-2xl mx-auto">
-              Conocimientos tradicionales que sustentan nuestra relación con la tierra y los alimentos
+              {t('gastronomymodal.knowledgeDescription')} {/* ← TRADUCIBLE */}
             </p>
             <div className="w-24 h-1 bg-gradient-to-r from-amber-500 to-orange-600 mx-auto rounded-full mt-4"></div>
           </motion.div>
-
+          
           <motion.div
             className="grid md:grid-cols-2 lg:grid-cols-4 gap-6"
             variants={staggerContainer}
@@ -482,14 +511,14 @@ export function GastronomiaContent({ onBack }: GastronomiaContentProps) {
           >
             {saberesData.map((saber, index) => (
               <motion.div
-                key={saber.titulo}
+                key={`knowledge-${index}`} // ← KEY ESTABLE
                 variants={cardVariants}
                 className="bg-white rounded-2xl shadow-lg p-6 text-center hover:shadow-xl transition-all duration-300 border border-amber-100"
               >
                 <div className={`p-3 rounded-xl ${saber.color} inline-flex mb-4`}>
                   <saber.icon className="h-6 w-6" />
                 </div>
-                <h4 className="font-bold text-slate-800 text-lg mb-3">{saber.titulo}</h4>
+                <h4 className="font-bold font-serif text-slate-800 text-lg mb-3">{saber.titulo}</h4>
                 <p className="text-slate-600 text-sm leading-relaxed">{saber.descripcion}</p>
               </motion.div>
             ))}
@@ -505,14 +534,16 @@ export function GastronomiaContent({ onBack }: GastronomiaContentProps) {
           viewport={{ once: true }}
         >
           <Sprout className="h-16 w-16 text-white mx-auto mb-4" />
-          <h3 className="text-3xl font-bold text-white mb-4">Patrimonio Gastronómico Vivo</h3>
+          <h3 className="text-3xl font-bold font-serif text-white mb-4">
+            {t('gastronomymodal.livingHeritage')} {/* ← TRADUCIBLE */}
+          </h3>
           <p className="text-amber-100 text-lg max-w-2xl mx-auto mb-6">
-            En San Juan Tahitic, cada alimento cuenta una historia, cada sabor preserva una memoria. 
-            Nuestra gastronomía es el testimonio vivo de la relación armónica entre nuestra comunidad 
-            y la tierra que nos sustenta.
+            {t('gastronomymodal.heritageDescription')} {/* ← TRADUCIBLE */}
           </p>
           <div className="bg-white/20 rounded-xl p-4 inline-flex backdrop-blur-sm">
-            <span className="text-white font-semibold">San Juan Tahitic - Sabores que Trascienden</span>
+            <span className="text-white font-semibold font-serif">
+              {t('gastronomymodal.heritageTag')} {/* ← TRADUCIBLE */}
+            </span>
           </div>
         </motion.div>
       </div>

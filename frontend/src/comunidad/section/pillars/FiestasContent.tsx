@@ -15,148 +15,35 @@ import {
   Palette,
   Drum
 } from 'lucide-react';
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
+import { useTranslation } from '../../../contexts/TranslationContext'; // ← AGREGAR IMPORT
 
 // --- Imágenes del Carrusel Festivo ---
 const carouselImages = [
   {
     url: '/images/comunidad/valores-comunidad/iglesia.webp',
-    title: 'Fiesta Patronal de San Juan',
-    description: 'Celebración en honor a nuestro santo patrón con procesiones y danzas tradicionales'
+    titleKey: 'festivities.carousel.patronalFestival' as const,
+    descriptionKey: 'festivities.carousel.patronalDescription' as const
   },
   {
     url: '/images/comunidad/valores-comunidad/maiz.jpg',
-    title: 'Danza de los Moros',
-    description: 'Colorida representación histórica que preserva nuestra memoria cultural'
+    titleKey: 'festivities.carousel.moorsDance' as const,
+    descriptionKey: 'festivities.carousel.moorsDescription' as const
   },
   {
     url: '/images/fiestas-3.jpg',
-    title: 'Día de Muertos',
-    description: 'Altares y ofrendas que honran a nuestros ancestros'
+    titleKey: 'festivities.carousel.dayOfTheDead' as const,
+    descriptionKey: 'festivities.carousel.dayOfTheDeadDescription' as const
   },
   {
     url: '/images/fiestas-4.jpg',
-    title: 'Carnaval Tradicional',
-    description: 'Máscaras, música y alegría en la celebración comunitaria'
+    titleKey: 'festivities.carousel.traditionalCarnival' as const,
+    descriptionKey: 'festivities.carousel.carnivalDescription' as const
   },
   {
     url: '/images/fiestas-5.jpg',
-    title: 'Semana Santa',
-    description: 'Tradiciones religiosas que unen a la comunidad'
-  }
-];
-
-// --- Datos de Festividades Principales ---
-const festividadesData = [
-  {
-    nombre: 'Fiesta Patronal de San Juan',
-    fecha: '24 de Junio',
-    descripcion: 'Celebración en honor a nuestro santo patrón con misas, procesiones y festejos comunitarios que duran tres días. La comunidad se une para honrar las tradiciones heredadas de nuestros antepasados.',
-    actividades: ['Procesión religiosa', 'Danza de los Moros', 'Fuegos artificiales', 'Feria gastronómica', 'Jaripeo tradicional'],
-    duracion: '3 días',
-    color: 'from-blue-500 to-cyan-600',
-    icon: Star,
-    participantes: 'Toda la comunidad',
-    elementoDestacado: 'Procesión con el santo patrón'
-  },
-  {
-    nombre: 'Día de Muertos',
-    fecha: '1-2 de Noviembre',
-    descripcion: 'Honramos a nuestros ancestros con altares familiares, ofrendas y veladas en el panteón comunal. Una tradición que refleja nuestra relación con el ciclo de la vida y la muerte.',
-    actividades: ['Altares familiares', 'Velada en panteón', 'Caminata de catrinas', 'Lectura de calaveritas', 'Cena comunitaria'],
-    duracion: '2 días',
-    color: 'from-purple-500 to-pink-600',
-    icon: Heart,
-    participantes: 'Familias completas',
-    elementoDestacado: 'Altares con flor de cempasúchil'
-  },
-  {
-    nombre: 'Carnaval Tradicional',
-    fecha: 'Febrero/Marzo',
-    descripcion: 'Celebración previa a la cuaresma con comparsas, máscaras artesanales y bailes tradicionales que llenan de color las calles del pueblo.',
-    actividades: ['Comparsas', 'Baile de máscaras', 'Elección de rey feo', 'Juegos tradicionales', 'Concierto de bandas'],
-    duracion: '4 días',
-    color: 'from-rose-500 to-red-600',
-    icon: PartyPopper,
-    participantes: 'Jóvenes y adultos',
-    elementoDestacado: 'Máscaras artesanales'
-  },
-  {
-    nombre: 'Semana Santa',
-    fecha: 'Marzo/Abril',
-    descripcion: 'Representaciones vivientes de la pasión de Cristo y tradiciones religiosas ancestrales que congregan a la comunidad en reflexión y fe.',
-    actividades: ['Vía crucis viviente', 'Procesión del silencio', 'Quema de judas', 'Vigilia pascual', 'Dramatizaciones'],
-    duracion: '7 días',
-    color: 'from-violet-500 to-purple-600',
-    icon: Users,
-    participantes: 'Comunidad religiosa',
-    elementoDestacado: 'Vía crucis viviente'
-  }
-];
-
-// --- Danzas y Expresiones Culturales ---
-const danzasData = [
-  {
-    nombre: 'Danza de los Moros',
-    descripcion: 'Representación histórica de la lucha entre moros y cristianos, con trajes coloridos bordados a mano y música de viento tradicional.',
-    origen: 'Siglo XVI - Tradición colonial',
-    participantes: '40 danzantes + músicos',
-    temporada: 'Fiestas patronales y principales',
-    icon: Drum,
-    vestimenta: 'Trajes bordados con lentejuelas',
-    significado: 'Encuentro cultural y religioso'
-  },
-  {
-    nombre: 'Son de la Malinche',
-    descripcion: 'Danza ceremonial que narra encuentros culturales con movimientos elegantes, considerada patrimonio cultural inmaterial.',
-    origen: 'Época colonial - Raíces prehispánicas',
-    participantes: '20 danzantes especializados',
-    temporada: 'Festividades importantes',
-    icon: Music,
-    vestimenta: 'Huipiles y enredos tradicionales',
-    significado: 'Fusión cultural y identidad'
-  },
-  {
-    nombre: 'Los Chinelos',
-    descripcion: 'Danza alegre con saltos característicos y máscaras de bigotes grandes, símbolo de alegría y crítica social festiva.',
-    origen: 'Siglo XIX - Tradición morelense',
-    participantes: 'Participación abierta comunitaria',
-    temporada: 'Carnaval y fiestas populares',
-    icon: PartyPopper,
-    vestimenta: 'Túnica y máscara de bigotón',
-    significado: 'Celebración y sátira social'
-  }
-];
-
-// --- Patrimonio Cultural Inmaterial ---
-const patrimonioData = [
-  {
-    titulo: 'Música de Viento Tradicional',
-    descripcion: 'Bandas comunitarias que preservan el repertorio musical ancestral para festividades.',
-    icon: Music,
-    color: 'from-blue-500 to-cyan-500',
-    estado: 'Tradición activa'
-  },
-  {
-    titulo: 'Artesanía Festiva',
-    descripcion: 'Elaboración de máscaras, trajes y adornos utilizando técnicas heredadas generacionalmente.',
-    icon: Palette,
-    color: 'from-purple-500 to-pink-500',
-    estado: 'En preservación'
-  },
-  {
-    titulo: 'Gastronomía Ceremonial',
-    descripcion: 'Preparación de alimentos especiales para cada festividad según recetas ancestrales.',
-    icon: Heart,
-    color: 'from-rose-500 to-red-500',
-    estado: 'Tradición viva'
-  },
-  {
-    titulo: 'Oralidad y Narrativa',
-    descripcion: 'Transmisión de historias, leyendas y conocimientos a través de la tradición oral.',
-    icon: Users,
-    color: 'from-violet-500 to-purple-500',
-    estado: 'En documentación'
+    titleKey: 'festivities.carousel.holyWeek' as const,
+    descriptionKey: 'festivities.carousel.holyWeekDescription' as const
   }
 ];
 
@@ -187,6 +74,7 @@ interface FiestasContentProps {
 function ImageCarousel() {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isAutoPlaying, setIsAutoPlaying] = useState(true);
+  const { t } = useTranslation(); // ← AGREGAR HOOK
 
   const nextSlide = () => {
     setCurrentIndex((prev) => (prev + 1) % carouselImages.length);
@@ -233,12 +121,12 @@ function ImageCarousel() {
           <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent flex items-end">
             <div className="p-8 text-white w-full">
               <motion.h3 
-                className="text-2xl sm:text-3xl font-bold mb-2"
+                className="text-2xl sm:text-3xl font-bold font-serif mb-2"
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.3 }}
               >
-                {carouselImages[currentIndex].title}
+                {t(carouselImages[currentIndex].titleKey)} {/* ← TRADUCIBLE */}
               </motion.h3>
               <motion.p 
                 className="text-lg text-rose-100 max-w-2xl"
@@ -246,7 +134,7 @@ function ImageCarousel() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.5 }}
               >
-                {carouselImages[currentIndex].description}
+                {t(carouselImages[currentIndex].descriptionKey)} {/* ← TRADUCIBLE */}
               </motion.p>
             </div>
           </div>
@@ -289,6 +177,122 @@ function ImageCarousel() {
 }
 
 export function FiestasContent({ onBack }: FiestasContentProps) {
+  const { t, language } = useTranslation(); // ← AGREGAR HOOK
+
+  // --- Datos de Festividades Principales CON useMemo ---
+  const festividadesData = useMemo(() => [
+    {
+      nombre: t('festivities.festivals.0.name'),
+      fecha: t('festivities.festivals.0.date'),
+      descripcion: t('festivities.festivals.0.description'),
+      actividades: t('festivities.festivals.0.activities') as unknown as string[],
+      duracion: t('festivities.festivals.0.duration'),
+      color: 'from-blue-500 to-cyan-600',
+      icon: Star,
+      participantes: t('festivities.festivals.0.participants'),
+      elementoDestacado: t('festivities.festivals.0.highlight')
+    },
+    {
+      nombre: t('festivities.festivals.1.name'),
+      fecha: t('festivities.festivals.1.date'),
+      descripcion: t('festivities.festivals.1.description'),
+      actividades: t('festivities.festivals.1.activities') as unknown as string[],
+      duracion: t('festivities.festivals.1.duration'),
+      color: 'from-purple-500 to-pink-600',
+      icon: Heart,
+      participantes: t('festivities.festivals.1.participants'),
+      elementoDestacado: t('festivities.festivals.1.highlight')
+    },
+    {
+      nombre: t('festivities.festivals.2.name'),
+      fecha: t('festivities.festivals.2.date'),
+      descripcion: t('festivities.festivals.2.description'),
+      actividades: t('festivities.festivals.2.activities') as unknown as string[],
+      duracion: t('festivities.festivals.2.duration'),
+      color: 'from-rose-500 to-red-600',
+      icon: PartyPopper,
+      participantes: t('festivities.festivals.2.participants'),
+      elementoDestacado: t('festivities.festivals.2.highlight')
+    },
+    {
+      nombre: t('festivities.festivals.3.name'),
+      fecha: t('festivities.festivals.3.date'),
+      descripcion: t('festivities.festivals.3.description'),
+      actividades: t('festivities.festivals.3.activities') as unknown as string[],
+      duracion: t('festivities.festivals.3.duration'),
+      color: 'from-violet-500 to-purple-600',
+      icon: Users,
+      participantes: t('festivities.festivals.3.participants'),
+      elementoDestacado: t('festivities.festivals.3.highlight')
+    }
+  ], [t, language]);
+
+  // --- Danzas y Expresiones Culturales CON useMemo ---
+  const danzasData = useMemo(() => [
+    {
+      nombre: t('festivities.dances.0.name'),
+      descripcion: t('festivities.dances.0.description'),
+      origen: t('festivities.dances.0.origin'),
+      participantes: t('festivities.dances.0.participants'),
+      temporada: t('festivities.dances.0.season'),
+      icon: Drum,
+      vestimenta: t('festivities.dances.0.clothing'),
+      significado: t('festivities.dances.0.meaning')
+    },
+    {
+      nombre: t('festivities.dances.1.name'),
+      descripcion: t('festivities.dances.1.description'),
+      origen: t('festivities.dances.1.origin'),
+      participantes: t('festivities.dances.1.participants'),
+      temporada: t('festivities.dances.1.season'),
+      icon: Music,
+      vestimenta: t('festivities.dances.1.clothing'),
+      significado: t('festivities.dances.1.meaning')
+    },
+    {
+      nombre: t('festivities.dances.2.name'),
+      descripcion: t('festivities.dances.2.description'),
+      origen: t('festivities.dances.2.origin'),
+      participantes: t('festivities.dances.2.participants'),
+      temporada: t('festivities.dances.2.season'),
+      icon: PartyPopper,
+      vestimenta: t('festivities.dances.2.clothing'),
+      significado: t('festivities.dances.2.meaning')
+    }
+  ], [t, language]);
+
+  // --- Patrimonio Cultural Inmaterial CON useMemo ---
+  const patrimonioData = useMemo(() => [
+    {
+      titulo: t('festivities.heritage.0.title'),
+      descripcion: t('festivities.heritage.0.description'),
+      icon: Music,
+      color: 'from-blue-500 to-cyan-500',
+      estado: t('festivities.heritage.0.status')
+    },
+    {
+      titulo: t('festivities.heritage.1.title'),
+      descripcion: t('festivities.heritage.1.description'),
+      icon: Palette,
+      color: 'from-purple-500 to-pink-500',
+      estado: t('festivities.heritage.1.status')
+    },
+    {
+      titulo: t('festivities.heritage.2.title'),
+      descripcion: t('festivities.heritage.2.description'),
+      icon: Heart,
+      color: 'from-rose-500 to-red-500',
+      estado: t('festivities.heritage.2.status')
+    },
+    {
+      titulo: t('festivities.heritage.3.title'),
+      descripcion: t('festivities.heritage.3.description'),
+      icon: Users,
+      color: 'from-violet-500 to-purple-500',
+      estado: t('festivities.heritage.3.status')
+    }
+  ], [t, language]);
+
   return (
     <section className="w-full bg-gradient-to-b from-rose-50 to-pink-50 py-16 sm:py-24">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -306,11 +310,14 @@ export function FiestasContent({ onBack }: FiestasContentProps) {
               <PartyPopper className="h-12 w-12 text-rose-600" />
             </div>
           </div>
-          <h1 className="text-4xl sm:text-5xl font-bold text-slate-900 mb-4">
-            Fiestas y <span className="bg-gradient-to-r from-rose-500 to-pink-600 bg-clip-text text-transparent">Tradiciones</span>
+          <h1 className="text-4xl sm:text-5xl font-bold font-serif text-slate-900 mb-4">
+            {t('festivities.title')}{' '} {/* ← TRADUCIBLE */}
+            <span className="bg-gradient-to-r from-rose-500 to-pink-600 bg-clip-text text-transparent">
+              {t('festivities.title').split(' ')[1]} {/* ← TRADUCIBLE */}
+            </span>
           </h1>
           <p className="text-lg text-slate-600 max-w-3xl mx-auto">
-            El corazón cultural de San Juan Tahitic late al ritmo de nuestras celebraciones ancestrales
+            {t('festivities.subtitle')} {/* ← TRADUCIBLE */}
           </p>
         </motion.div>
 
@@ -332,24 +339,22 @@ export function FiestasContent({ onBack }: FiestasContentProps) {
             <div>
               <div className="flex items-center mb-4">
                 <Sparkles className="h-8 w-8 text-rose-500 mr-3" />
-                <h2 className="text-3xl md:text-4xl font-bold text-slate-900">
-                  Celebrando Nuestra Identidad
+                <h2 className="text-3xl md:text-4xl font-bold font-serif text-slate-900">
+                  {t('festivities.celebratingOurIdentity')} {/* ← TRADUCIBLE */}
                 </h2>
               </div>
               <p className="text-slate-700 text-lg leading-relaxed mb-6">
-                Cada fiesta en San Juan Tahitic es un tejido vivo de historia, fe y comunidad. 
-                Nuestras tradiciones no solo se preservan, se viven con la misma pasión 
-                que hace cientos de años, creando memorias que trascienden generaciones.
+                {t('festivities.identityDescription')} {/* ← TRADUCIBLE */}
               </p>
               <div className="flex flex-wrap gap-3">
-                <div className="bg-rose-100 text-rose-800 rounded-full px-4 py-2 text-sm font-medium">
-                  Tradición Viva
+                <div className="bg-rose-100 text-rose-800 rounded-full px-4 py-2 text-sm font-medium font-serif">
+                  {t('festivities.livingTradition')} {/* ← TRADUCIBLE */}
                 </div>
-                <div className="bg-pink-100 text-pink-800 rounded-full px-4 py-2 text-sm font-medium">
-                  Unión Comunitaria
+                <div className="bg-pink-100 text-pink-800 rounded-full px-4 py-2 text-sm font-medium font-serif">
+                  {t('festivities.communityUnity')} {/* ← TRADUCIBLE */}
                 </div>
-                <div className="bg-rose-50 text-rose-700 rounded-full px-4 py-2 text-sm font-medium">
-                  Herencia Cultural
+                <div className="bg-rose-50 text-rose-700 rounded-full px-4 py-2 text-sm font-medium font-serif">
+                  {t('festivities.culturalHeritage')} {/* ← TRADUCIBLE */}
                 </div>
               </div>
             </div>
@@ -375,9 +380,11 @@ export function FiestasContent({ onBack }: FiestasContentProps) {
             transition={{ duration: 0.8 }}
             viewport={{ once: true }}
           >
-            <h3 className="text-3xl font-bold text-slate-900 mb-4">Calendario Festivo Anual</h3>
+            <h3 className="text-3xl font-bold font-serif text-slate-900 mb-4">
+              {t('festivities.annualFestiveCalendar')} {/* ← TRADUCIBLE */}
+            </h3>
             <p className="text-lg text-slate-600 max-w-2xl mx-auto">
-              Eventos que marcan el ritmo de nuestra vida comunitaria a lo largo del año
+              {t('festivities.calendarDescription')} {/* ← TRADUCIBLE */}
             </p>
             <div className="w-24 h-1 bg-gradient-to-r from-rose-500 to-pink-600 mx-auto rounded-full mt-4"></div>
           </motion.div>
@@ -391,7 +398,7 @@ export function FiestasContent({ onBack }: FiestasContentProps) {
           >
             {festividadesData.map((festividad, index) => (
               <motion.div
-                key={festividad.nombre}
+                key={`festival-${index}`}
                 variants={cardVariants}
                 className="bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-xl transition-all duration-300 border border-rose-100 group"
               >
@@ -400,11 +407,11 @@ export function FiestasContent({ onBack }: FiestasContentProps) {
                   <div className="relative z-10">
                     <div className="flex items-center justify-between mb-3">
                       <festividad.icon className="h-8 w-8 text-white" />
-                      <span className="bg-white/20 backdrop-blur-sm rounded-full px-3 py-1 text-sm font-medium">
+                      <span className="bg-white/20 backdrop-blur-sm rounded-full px-3 py-1 text-sm font-medium font-serif">
                         {festividad.duracion}
                       </span>
                     </div>
-                    <h4 className="font-bold text-xl mb-2">{festividad.nombre}</h4>
+                    <h4 className="font-bold font-serif text-xl mb-2">{festividad.nombre}</h4>
                     <p className="text-white/90 text-sm">{festividad.fecha}</p>
                   </div>
                 </div>
@@ -415,7 +422,9 @@ export function FiestasContent({ onBack }: FiestasContentProps) {
                   </p>
 
                   <div className="mb-4">
-                    <h5 className="font-semibold text-slate-800 mb-2 text-sm">Actividades destacadas:</h5>
+                    <h5 className="font-semibold font-serif text-slate-800 mb-2 text-sm">
+                      {t('festivities.labels.highlightedActivities')}: {/* ← TRADUCIBLE */}
+                    </h5>
                     <div className="space-y-1">
                       {festividad.actividades.slice(0, 3).map((actividad, idx) => (
                         <div key={idx} className="flex items-center text-slate-600 text-sm">
@@ -427,7 +436,7 @@ export function FiestasContent({ onBack }: FiestasContentProps) {
                   </div>
 
                   <div className="bg-rose-50 rounded-lg p-3">
-                    <p className="text-rose-700 text-sm font-medium text-center">
+                    <p className="text-rose-700 text-sm font-medium font-serif text-center">
                       {festividad.elementoDestacado}
                     </p>
                   </div>
@@ -446,9 +455,11 @@ export function FiestasContent({ onBack }: FiestasContentProps) {
             transition={{ duration: 0.8 }}
             viewport={{ once: true }}
           >
-            <h3 className="text-3xl font-bold text-slate-900 mb-4">Expresiones Dancísticas</h3>
+            <h3 className="text-3xl font-bold font-serif text-slate-900 mb-4">
+              {t('festivities.danceExpressions')} {/* ← TRADUCIBLE */}
+            </h3>
             <p className="text-lg text-slate-600 max-w-2xl mx-auto">
-              El movimiento que cuenta nuestra historia y preserva nuestra memoria colectiva
+              {t('festivities.danceDescription')} {/* ← TRADUCIBLE */}
             </p>
             <div className="w-24 h-1 bg-gradient-to-r from-rose-500 to-pink-600 mx-auto rounded-full mt-4"></div>
           </motion.div>
@@ -462,18 +473,18 @@ export function FiestasContent({ onBack }: FiestasContentProps) {
           >
             {danzasData.map((danza, index) => (
               <motion.div
-                key={danza.nombre}
+                key={`dance-${index}`}
                 variants={cardVariants}
                 className="bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-xl transition-all duration-300 border border-rose-100 group"
               >
                 <div className="bg-gradient-to-r from-rose-400 to-pink-500 p-6 text-white">
                   <div className="flex items-center justify-between">
                     <danza.icon className="h-8 w-8 text-white" />
-                    <span className="bg-white/20 backdrop-blur-sm rounded-full px-2 py-1 text-xs font-medium">
+                    <span className="bg-white/20 backdrop-blur-sm rounded-full px-2 py-1 text-xs font-medium font-serif">
                       {danza.temporada}
                     </span>
                   </div>
-                  <h4 className="font-bold text-xl mt-3">{danza.nombre}</h4>
+                  <h4 className="font-bold font-serif text-xl mt-3">{danza.nombre}</h4>
                 </div>
                 
                 <div className="p-6">
@@ -484,7 +495,7 @@ export function FiestasContent({ onBack }: FiestasContentProps) {
                   <div className="space-y-3 mb-4">
                     <div className="flex items-center text-slate-600 text-sm">
                       <Clock className="h-4 w-4 mr-2 text-rose-500" />
-                      <span><strong>Origen:</strong> {danza.origen}</span>
+                      <span><strong>{t('festivities.labels.origin')}:</strong> {danza.origen}</span> {/* ← TRADUCIBLE */}
                     </div>
                     <div className="flex items-center text-slate-600 text-sm">
                       <Users className="h-4 w-4 mr-2 text-rose-500" />
@@ -492,13 +503,13 @@ export function FiestasContent({ onBack }: FiestasContentProps) {
                     </div>
                     <div className="flex items-center text-slate-600 text-sm">
                       <Palette className="h-4 w-4 mr-2 text-rose-500" />
-                      <span><strong>Vestimenta:</strong> {danza.vestimenta}</span>
+                      <span><strong>{t('festivities.labels.clothing')}:</strong> {danza.vestimenta}</span> {/* ← TRADUCIBLE */}
                     </div>
                   </div>
 
                   <div className="bg-rose-50 rounded-lg p-3">
                     <p className="text-rose-700 text-sm text-center">
-                      <strong>Significado:</strong> {danza.significado}
+                      <strong>{t('festivities.labels.meaning')}:</strong> {danza.significado} {/* ← TRADUCIBLE */}
                     </p>
                   </div>
                 </div>
@@ -516,9 +527,11 @@ export function FiestasContent({ onBack }: FiestasContentProps) {
             transition={{ duration: 0.8 }}
             viewport={{ once: true }}
           >
-            <h3 className="text-3xl font-bold text-slate-900 mb-4">Patrimonio Cultural Inmaterial</h3>
+            <h3 className="text-3xl font-bold font-serif text-slate-900 mb-4">
+              {t('festivities.culturalHeritage')} {/* ← TRADUCIBLE */}
+            </h3>
             <p className="text-lg text-slate-600 max-w-2xl mx-auto">
-              Saberes y expresiones que definen nuestra identidad como comunidad
+              {t('festivities.heritageDescription')} {/* ← TRADUCIBLE */}
             </p>
             <div className="w-24 h-1 bg-gradient-to-r from-rose-500 to-pink-600 mx-auto rounded-full mt-4"></div>
           </motion.div>
@@ -532,16 +545,16 @@ export function FiestasContent({ onBack }: FiestasContentProps) {
           >
             {patrimonioData.map((item, index) => (
               <motion.div
-                key={item.titulo}
+                key={`heritage-${index}`}
                 variants={cardVariants}
                 className="bg-white rounded-2xl shadow-lg p-6 text-center hover:shadow-xl transition-all duration-300 border border-rose-100 group hover:scale-105"
               >
                 <div className={`bg-gradient-to-r ${item.color} p-4 rounded-xl inline-flex mb-4 group-hover:scale-110 transition-transform`}>
                   <item.icon className="h-6 w-6 text-white" />
                 </div>
-                <h4 className="font-bold text-slate-800 text-lg mb-3">{item.titulo}</h4>
+                <h4 className="font-bold font-serif text-slate-800 text-lg mb-3">{item.titulo}</h4>
                 <p className="text-slate-600 text-sm leading-relaxed mb-3">{item.descripcion}</p>
-                <span className="bg-rose-100 text-rose-700 px-3 py-1 rounded-full text-xs font-medium">
+                <span className="bg-rose-100 text-rose-700 px-3 py-1 rounded-full text-xs font-medium font-serif">
                   {item.estado}
                 </span>
               </motion.div>
@@ -564,14 +577,16 @@ export function FiestasContent({ onBack }: FiestasContentProps) {
             <div className="bg-white/20 backdrop-blur-sm rounded-full p-4 inline-flex mb-6">
               <Sparkles className="h-12 w-12 text-white" />
             </div>
-            <h3 className="text-3xl font-bold text-white mb-4">Memoria que se Hace Fiesta</h3>
+            <h3 className="text-3xl font-bold font-serif text-white mb-4">
+              {t('festivities.memoryBecomesCelebration')} {/* ← TRADUCIBLE */}
+            </h3>
             <p className="text-rose-100 text-lg max-w-2xl mx-auto mb-6">
-              En San Juan Tahitic, cada celebración es un capítulo vivo de nuestra historia compartida. 
-              Las tradiciones que hoy preservamos son el legado que entregaremos a las futuras generaciones, 
-              manteniendo viva la llama de nuestra identidad cultural.
+              {t('festivities.finalDescription')} {/* ← TRADUCIBLE */}
             </p>
             <div className="bg-white/20 rounded-xl p-4 inline-flex backdrop-blur-sm">
-              <span className="text-white font-semibold">San Juan Tahitic - Donde la Tradición Vive</span>
+              <span className="text-white font-semibold font-serif">
+                {t('festivities.whereTraditionLives')} {/* ← TRADUCIBLE */}
+              </span>
             </div>
           </div>
         </motion.div>

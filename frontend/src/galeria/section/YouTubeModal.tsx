@@ -2,6 +2,7 @@
 import { Dialog, DialogContent } from '../../components/ui/dialog';
 import { X, ExternalLink } from 'lucide-react';
 import { motion } from 'framer-motion';
+import { useTranslation } from '../../contexts/TranslationContext'; // ← AGREGAR IMPORT
 
 interface YouTubeModalProps {
   isOpen: boolean;
@@ -10,6 +11,7 @@ interface YouTubeModalProps {
 }
 
 export function YouTubeModal({ isOpen, onClose, videoId }: YouTubeModalProps) {
+  const { t } = useTranslation(); // ← AGREGAR HOOK
   const youtubeUrl = `https://www.youtube.com/embed/${videoId}?autoplay=1&rel=0&modestbranding=1&playsinline=1`;
 
   return (
@@ -25,6 +27,7 @@ export function YouTubeModal({ isOpen, onClose, videoId }: YouTubeModalProps) {
           <button
             onClick={onClose}
             className="absolute top-4 right-4 z-50 bg-black/80 text-white p-3 rounded-full hover:bg-red-600 transition-all duration-200 backdrop-blur-sm border border-white/20"
+            aria-label={t('gallery.modal.close')} // ← TRADUCIBLE
           >
             <X className="h-5 w-5" />
           </button>
@@ -37,7 +40,7 @@ export function YouTubeModal({ isOpen, onClose, videoId }: YouTubeModalProps) {
             className="absolute top-4 left-4 z-50 bg-black/80 text-white px-4 py-2 rounded-full hover:bg-red-600 transition-all duration-200 backdrop-blur-sm border border-white/20 flex items-center gap-2 text-sm"
           >
             <ExternalLink className="h-4 w-4" />
-            Ver en YouTube
+            {t('gallery.youtubeModal.watchOnYouTube')} {/* ← TRADUCIBLE */}
           </a>
 
           {/* Video de YouTube - SIN ESPACIOS */}
@@ -48,7 +51,7 @@ export function YouTubeModal({ isOpen, onClose, videoId }: YouTubeModalProps) {
                 className="w-full h-full"
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                 allowFullScreen
-                title="Video de la comunidad de San Juan Tahitic"
+                title={t('gallery.youtubeModal.videoTitle')}
                 style={{ border: 'none' }}
               />
             </div>

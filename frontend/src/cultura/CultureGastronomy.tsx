@@ -3,67 +3,19 @@ import { ImageWithFallback } from '../components/figma/ImageWithFallback';
 import { Utensils, Leaf, Star, Calendar, Sparkles, Heart, MousePointer2, ArrowDown, Cookie } from 'lucide-react';
 import { useState, useRef, useEffect } from 'react';
 import { motion } from 'framer-motion';
-
-type Dish = {
-  name: string;
-  description: string;
-  image: string;
-  video: string;
-  origin?: string;
-  ingredients?: string[];
-  spiceLevel?: 'Suave' | 'Medio' | 'Picante';
-  festival?: string;
-};
-
-const dishes: Dish[] = [
-  {
-    name: "Mole Poblano",
-    description: "Receta ancestral con mezcla de chiles, especias y cacao, una joya de la gastronomía regional.",
-    image: "/images/cultura/gastronomia/Comedor.webp",
-    video: "/images/cultura/videos/gastronomia/Mole-poblano_720p.mp4",
-    origin: "San Juan Tahitic",
-    ingredients: ["Chiles secos", "Cacao", "Especias", "Semillas", "Tortilla"],
-    spiceLevel: "Medio",
-    festival: "Fiestas patronales de mayo",
-  },
-  {
-    name: "Tamales de Hoja",
-    description: "Suave masa de maíz rellena y envuelta en hojas de plátano, cocidos al vapor para un sabor único.",
-    image: "/images/cultura/gastronomia/tamales-hoja.jpg",
-    video: "/images/cultura/videos/gastronomia/Tamales_optimizado.mp4",
-    origin: "Comunidad local",
-    ingredients: ["Maíz", "Relleno tradicional", "Hojas de plátano", "Salsa"],
-    spiceLevel: "Suave",
-    festival: "Ferias gastronómicas",
-  },
-  {
-    name: "Atole de Maíz Morado",
-    description: "Bebida caliente tradicional elaborada con maíz local, perfecta para acompañar las mañanas frías.",
-    image: "/images/cultura/gastronomia/atole.jpg",
-    video: "/images/cultura/videos/gastronomia/atole_optimizado.mp4",
-    origin: "Región Sierra Norte",
-    ingredients: ["Maíz morado", "Agua", "Piloncillo", "Canela"],
-    spiceLevel: "Suave",
-    festival: "Mañanitas y eventos matutinos",
-  },
-  {
-    name: "Pan Artesanal",
-    description: "Delicioso pan horneado en leña con recetas ancestrales que han pasado de generación en generación.",
-    image: "/images/cultura/gastronomia/pan.jpg",
-    video: "/images/cultura/videos/gastronomia/atole_optimizado.mp4",
-    origin: "Hornos tradicionales",
-    ingredients: ["Harina", "Levadura", "Piloncillo", "Especias"],
-    spiceLevel: "Suave",
-    festival: "Ferias anuales y festividades",
-  },
-];
+import { useTranslation } from '../contexts/TranslationContext';
+import { useGastronomiaData } from '../hooks/useGastronomiaData'; // ← NUEVO IMPORT
+import { Link } from 'react-router-dom';
 
 export function CultureGastronomySection() {
+  const { t } = useTranslation();
+  const { dishesData } = useGastronomiaData(); // ← NUEVO HOOK
+
   const highlights = [
-    { icon: Utensils, number: "50+", label: "Recetas Tradicionales", color: "text-amber-600" },
-    { icon: Leaf, number: "100%", label: "Ingredientes Locales", color: "text-orange-600" },
-    { icon: Calendar, number: "3", label: "Ferias Anuales", color: "text-rose-600" },
-    { icon: Heart, number: "100%", label: "Sabor y Tradición", color: "text-red-600" }
+    { icon: Utensils, number: "50+", label: t('gastronomy.highlights.traditionalRecipes'), color: "text-amber-600" },
+    { icon: Leaf, number: "100%", label: t('gastronomy.highlights.localIngredients'), color: "text-orange-600" },
+    { icon: Calendar, number: "3", label: t('gastronomy.highlights.annualFairs'), color: "text-rose-600" },
+    { icon: Heart, number: "100%", label: t('gastronomy.highlights.flavorTradition'), color: "text-red-600" }
   ];
 
   const videoRefs = useRef<(HTMLVideoElement | null)[]>([]);
@@ -123,42 +75,40 @@ export function CultureGastronomySection() {
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
         <div className="text-center mb-20">
-        {/* 🔹 Sello decorativo superior */}
-        <div className="flex justify-center mb-8">
-          <div className="flex items-center space-x-2 bg-gradient-to-r from-orange-100/80 to-amber-100/80 backdrop-blur-md px-4 py-2 rounded-full shadow-md shadow-amber-800/10">
-            <Utensils className="h-5 w-5 text-orange-600" />
-            <span className="text-orange-800 font-medium font-serif">
-              Sabores Ancestrales
-            </span>
+          {/* 🔹 Sello decorativo superior */}
+          <div className="flex justify-center mb-8">
+            <div className="flex items-center space-x-2 bg-gradient-to-r from-orange-100/80 to-amber-100/80 backdrop-blur-md px-4 py-2 rounded-full shadow-md shadow-amber-800/10">
+              <Utensils className="h-5 w-5 text-orange-600" />
+              <span className="text-orange-800 font-medium font-serif">
+                {t('gastronomy.ancestralFlavors')}
+              </span>
+            </div>
+          </div>
+
+          {/* 🔹 Bloque translúcido principal */}
+          <div className="inline-block bg-white/70 backdrop-blur-md rounded-3xl px-8 py-10 shadow-xl shadow-amber-900/20 max-w-5xl mx-auto">
+            <h2 className="text-5xl lg:text-6xl font-bold font-serif text-gray-900 mb-6">
+              {t('gastronomy.journey')}{' '}
+              <span className="bg-gradient-to-r from-orange-600 via-amber-500 to-red-600 bg-clip-text text-transparent">
+                {t('gastronomy.gastronomic')}
+              </span>
+            </h2>
+            <p className="text-xl text-gray-800 leading-relaxed max-w-3xl mx-auto">
+              {t('gastronomy.description')}
+            </p>
           </div>
         </div>
 
-        {/* 🔹 Bloque translúcido principal */}
-        <div className="inline-block bg-white/70 backdrop-blur-md rounded-3xl px-8 py-10 shadow-xl shadow-amber-900/20 max-w-5xl mx-auto">
-          <h2 className="text-5xl lg:text-6xl font-bold font-serif text-gray-900 mb-6">
-            Un viaje{' '}
-            <span className="bg-gradient-to-r from-orange-600 via-amber-500 to-red-600 bg-clip-text text-transparent">
-              gastronómico
-            </span>
-          </h2>
-          <p className="text-xl text-gray-800 leading-relaxed max-w-3xl mx-auto">
-            Descubre los sabores de nuestra tierra, donde cada platillo narra una historia de herencia,
-            tradición e ingredientes cultivados con amor.
-          </p>
-        </div>
-      </div>
-
-        {/* Grid de tarjetas (altura aumentada y responsiva) */}
+        {/* Grid de tarjetas - AHORA USA dishesData */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-10">
-          {dishes.map((dish, idx) => (
+          {dishesData.map((dish, idx) => (
             <Card
-              key={idx}
+              key={dish.id}
               className="group h-full hover:shadow-culture transition-all duration-500 transform hover:-translate-y-2 border-0 bg-white/90 backdrop-blur-sm overflow-hidden"
               onMouseEnter={() => handleMouseEnter(idx)}
               onMouseLeave={handleMouseLeave}
             >
               <div className="relative overflow-hidden rounded-t-2xl">
-                {/* Imagen más alta en desktop; controlado por breakpoints */}
                 <ImageWithFallback
                   src={dish.image}
                   alt={dish.name}
@@ -167,7 +117,6 @@ export function CultureGastronomySection() {
                   }`}
                 />
 
-                {/* Video con mismas alturas para solapar suavemente */}
                 <video
                   ref={el => {videoRefs.current[idx] = el}}
                   data-index={idx}
@@ -181,16 +130,13 @@ export function CultureGastronomySection() {
                   preload="none"
                 />
 
-                {/* Overlay decorativo y gradiente */}
                 <div className="absolute inset-0 bg-gradient-to-t from-orange-900/40 to-transparent rounded-t-2xl"></div>
                 <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-white/10 to-transparent rounded-t-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
 
-                {/* Badge de estrella */}
                 <div className="absolute top-4 right-4 bg-white/95 backdrop-blur-sm px-3 py-1 rounded-full shadow-xl">
                   <Star className="h-4 w-4 text-orange-700" />
                 </div>
 
-                {/* Indicador de hover solo desktop (se oculta al hacer hover y cuando el video está activo) */}
                 <div
                   className={`hidden md:flex items-center gap-2 absolute bottom-3 left-1/2 -translate-x-1/2 
                               bg-white/40 backdrop-blur-sm px-3 py-1.5 rounded-md shadow-md
@@ -199,7 +145,7 @@ export function CultureGastronomySection() {
                   aria-hidden="true"
                 >
                   <MousePointer2 className="h-4 w-4 text-orange-700" />
-                  <span>Pasa el mouse para ver el video</span>
+                  <span>{t('gastronomy.hoverVideo')}</span>
                 </div>
               </div>
 
@@ -212,13 +158,12 @@ export function CultureGastronomySection() {
                   {dish.description}
                 </CardDescription>
 
-                {/* Ficha informativa breve del platillo */}
                 <div className="mt-4 grid grid-cols-1 gap-2 text-sm">
                   {dish.origin && (
                     <div className="flex items-start gap-2">
                       <Sparkles className="h-4 w-4 text-amber-600 mt-0.5" />
                       <p className="text-gray-700">
-                        <span className="font-semibold font-serif">Origen:</span> {dish.origin}
+                        <span className="font-semibold font-serif">{t('gastronomy.origin')}</span> {dish.origin}
                       </p>
                     </div>
                   )}
@@ -226,7 +171,7 @@ export function CultureGastronomySection() {
                     <div className="flex items-start gap-2">
                       <Leaf className="h-4 w-4 text-green-600 mt-0.5" />
                       <p className="text-gray-700">
-                        <span className="font-semibold font-serif">Ingredientes:</span> {dish.ingredients.slice(0, 4).join(', ')}
+                        <span className="font-semibold font-serif">{t('gastronomy.ingredients')}</span> {dish.ingredients.slice(0, 4).join(', ')}
                         {dish.ingredients.length > 4 ? '…' : ''}
                       </p>
                     </div>
@@ -235,7 +180,7 @@ export function CultureGastronomySection() {
                     <div className="flex items-start gap-2">
                       <Utensils className="h-4 w-4 text-orange-600 mt-0.5" />
                       <p className="text-gray-700">
-                        <span className="font-semibold font-serif">Picor:</span> {dish.spiceLevel}
+                        <span className="font-semibold font-serif">{t('gastronomy.spiceLevel')}</span> {dish.spiceLevel}
                       </p>
                     </div>
                   )}
@@ -243,7 +188,7 @@ export function CultureGastronomySection() {
                     <div className="flex items-start gap-2">
                       <Calendar className="h-4 w-4 text-rose-600 mt-0.5" />
                       <p className="text-gray-700">
-                        <span className="font-semibold font-serif">Temporada/Festividad:</span> {dish.festival}
+                        <span className="font-semibold font-serif">{t('gastronomy.seasonFestivity')}</span> {dish.festival}
                       </p>
                     </div>
                   )}
@@ -275,34 +220,36 @@ export function CultureGastronomySection() {
 
         {/* Call to action */}
         <div className="text-center mt-20 relative">
-        {/* Efecto de resplandor animado detrás del botón */}
-        <motion.div
-          className="absolute inset-0 flex justify-center"
-          animate={{ opacity: [0.4, 0.8, 0.4], scale: [1, 1.05, 1] }}
-          transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+          <motion.div
+            className="absolute inset-0 flex justify-center"
+            animate={{ opacity: [0.4, 0.8, 0.4], scale: [1, 1.05, 1] }}
+            transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+          >
+            <div className="w-64 h-16 bg-gradient-to-r from-orange-400/30 via-amber-300/20 to-orange-400/30 rounded-full blur-3xl"></div>
+          </motion.div>
+
+         <motion.div
+          className="relative z-10 flex flex-col sm:flex-row gap-6 justify-center"
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, delay: 0.2 }}
+          viewport={{ once: true }}
         >
-          <div className="w-64 h-16 bg-gradient-to-r from-orange-400/30 via-amber-300/20 to-orange-400/30 rounded-full blur-3xl"></div>
+          <Link
+            to="/section-gastronomia"
+            className="relative inline-flex items-center gap-3 bg-gradient-to-r from-orange-500 to-amber-600 text-white text-lg font-semibold font-serif px-10 py-4 rounded-full shadow-lg transition-all duration-800 animate-bounce hover:scale-105 hover:shadow-2xl"
+          >
+            {t('gastronomy.exploreOurCuisine')}
+            <motion.span
+              animate={{ y: [0, -6, 0] }}
+              transition={{ duration: 1.2, repeat: Infinity, ease: 'easeInOut' }}
+            >
+              <Cookie className="w-6 h-6" />
+            </motion.span>
+          </Link>
         </motion.div>
 
-        {/* Botón principal */}
-        <motion.a
-          href="/section-gastronomia"
-          whileHover={{
-            scale: 1.08,
-            boxShadow: "0 0 25px rgba(255, 140, 0, 0.6)",
-          }}
-          whileTap={{ scale: 0.95 }}
-          className="relative inline-flex items-center gap-3 bg-gradient-to-r from-orange-500 to-amber-600 text-white text-lg font-semibold font-serif px-10 py-4 rounded-full shadow-lg transition-all duration-800 animate-bounce"
-        >
-          Explora nuestra cocina
-          <motion.span
-            animate={{ y: [0, -6, 0] }}
-            transition={{ duration: 1.2, repeat: Infinity, ease: 'easeInOut' }}
-          >
-            <Cookie className="w-6 h-6" />
-          </motion.span>
-        </motion.a>
-      </div>
+        </div>
       </div>
     </section>
   );

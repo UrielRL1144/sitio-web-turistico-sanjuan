@@ -1,22 +1,25 @@
 import { MapPin, Phone, Mail, Facebook, Instagram, Twitter } from 'lucide-react';
 import { AuthButton } from './AuthButton'; 
 import { Link } from 'react-router-dom';
+import { useTranslation } from './contexts/TranslationContext'; // ← AGREGAR IMPORT
 
 export function Footer() {
+  const { t } = useTranslation(); // ← AGREGAR HOOK
+
   const quickLinks = [
-    { href: '/', label: 'Inicio' },
-    { href: '/turismo', label: 'Atractivos Turísticos' },
-    { href: '/cultura', label: 'Cultura' },
-    { href: '/comunidad', label: 'Comunidad' },
-    { href: '/galeria', label: 'Galería' },
-    { href: '/contacto', label: 'Contacto' },
+    { href: '/', label: t('footer.home') },
+    { href: '/turismo', label: t('footer.attractions') },
+    { href: '/cultura', label: t('footer.culture') },
+    { href: '/comunidad', label: t('footer.community') },
+    { href: '/galeria', label: t('footer.gallery') },
+    { href: '/contacto', label: t('footer.contact') },
   ];
 
   const services = [
-    'Gastronomía regional',
-    'Artesanías',
-    'Transporte',
-    'Eventos culturales'
+    t('footer.regionalGastronomy'),
+    t('footer.handicrafts'),
+    t('footer.transportation'),
+    t('footer.culturalEvents')
   ];
 
   return (
@@ -30,13 +33,12 @@ export function Footer() {
               <span className="text-3xl font-bold font-serif text-white tracking-wide">San Juan Tahitic</span>
             </div>
             <p className="text-gray-400 mb-8 max-w-md leading-relaxed">
-              Un destino que combina belleza natural, riqueza cultural y calidez humana.
-              Explora todo lo que nuestra comunidad tiene para ofrecerte.
+              {t('footer.description')}
             </p>
             <div className="space-y-4">
               <div className="flex items-center space-x-3">
                 <MapPin className="h-5 w-5 text-indigo-400" />
-                <span className="text-gray-400">San Juan Tahitic, Región Central</span>
+                <span className="text-gray-400">{t('footer.address')}</span>
               </div>
               <div className="flex items-center space-x-3">
                 <Phone className="h-5 w-5 text-indigo-400" />
@@ -51,7 +53,9 @@ export function Footer() {
 
           {/* Enlaces Rápidos */}
           <div>
-            <h3 className="text-xl font-semibold font-serif mb-6 text-white">Explora</h3>
+            <h3 className="text-xl font-semibold font-serif mb-6 text-white">
+              {t('footer.explore')}
+            </h3>
             <ul className="space-y-4">
               {quickLinks.map((link, index) => (
                 <li key={index}>
@@ -68,7 +72,9 @@ export function Footer() {
 
           {/* Servicios */}
           <div>
-            <h3 className="text-xl font-semibold font-serif mb-6 text-white">Servicios Clave</h3>
+            <h3 className="text-xl font-semibold font-serif mb-6 text-white">
+              {t('footer.keyServices')}
+            </h3>
             <ul className="space-y-4">
               {services.map((service, index) => (
                 <li key={index} className="text-gray-400 font-serif text-lg">
@@ -83,32 +89,27 @@ export function Footer() {
         <div className="border-t border-gray-800 mt-12 pt-12">
             <div className="flex flex-col md:flex-row justify-between items-center">
                 <div className="flex space-x-6 mb-6 md:mb-0">
-                    
-                    {/* Enlace de Facebook */}
                     <a 
-                        href="https://www.facebook.com/share/16Pi8HTdzA/" // <-- ¡Añade tu URL aquí!
+                        href="https://www.facebook.com/share/16Pi8HTdzA/"
                         target="_blank" 
                         rel="noopener noreferrer"
                         className="text-gray-400 hover:text-indigo-400 transition-colors duration-300 transform hover:scale-110"
                     >
                         <Facebook className="h-7 w-7" />
                     </a>
-                    
-                    {/* Enlace de Instagram */}
                     <a 
-                        href="https://www.instagram.com/zacapoaxtlamagica?igsh=MXFmcmFlNGlqcGxrMA==" // <-- ¡Añade tu URL aquí!
+                        href="https://www.instagram.com/zacapoaxtlamagica?igsh=MXFmcmFlNGlqcGxrMA=="
                         target="_blank" 
                         rel="noopener noreferrer"
                         className="text-gray-400 hover:text-indigo-400 transition-colors duration-300 transform hover:scale-110"
                     >
                         <Instagram className="h-7 w-7" />
                     </a>
-                    
                 </div>
 
                 <div className="text-gray-500 font-serif text-sm text-center md:text-right">
-                    <p>&copy; 2025 San Juan Tahitic. Todos los derechos reservados.</p>
-                    <p className="mt-1">Desarrollado con ❤️ para nuestra comunidad</p>
+                    <p>{t('footer.rights')}</p>
+                    <p className="mt-1">{t('footer.developed')}</p>
                 </div>
             </div>
         </div>

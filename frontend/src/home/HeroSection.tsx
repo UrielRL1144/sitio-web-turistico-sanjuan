@@ -3,6 +3,8 @@ import { ArrowDown, MapPin, Sparkles, Sun, Languages, Coins, Calendar } from 'lu
 import { type FC, useEffect, useMemo, useState, lazy, Suspense, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { AnimatedTitleFallback } from '../animations/AnimatedTitle';
+import { useTranslation } from '../contexts/TranslationContext'; // ← IMPORTAR EL HOOK
+import type { TranslationKey } from '@/i18n/types';
 
 // Lazy loading para componentes pesados
 const AnimatedLetterTitle = lazy(() => 
@@ -23,13 +25,13 @@ const MobileFallback: FC = () => (
  * HeroSection: Sección principal de bienvenida - Optimizado para Móviles
  */
 export const HeroSection: FC<HeroSectionProps> = ({ onDiscoverClick, onDiscoverCardClick }) => {
+  const { t } = useTranslation(); // ← USAR EL HOOK AQUÍ
   const [visible, setVisible] = useState(true);
   const [isVideoLoaded, setIsVideoLoaded] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
   const [reduceMotion, setReduceMotion] = useState(false);
   const [clima, setClima] = useState<string>("Cargando...");
   const [climaError, setClimaError] = useState<string | null>(null);
-
 
   const scrollTo = (id: string): void => {
     const element = document.querySelector<HTMLElement>(id);
@@ -82,7 +84,6 @@ export const HeroSection: FC<HeroSectionProps> = ({ onDiscoverClick, onDiscoverC
       })
       .catch((err) => setClimaError(err.message));
   }, []);
-
 
   // Ciclo de fade optimizado para móviles
   useEffect(() => {
@@ -173,16 +174,17 @@ export const HeroSection: FC<HeroSectionProps> = ({ onDiscoverClick, onDiscoverC
             >
               <Suspense fallback={<MobileFallback />}>
                 <MainContent 
-                  scrollToTourism={onDiscoverClick} // Usamos la nueva prop aquí
+                  scrollToTourism={onDiscoverClick}
                   scrollToContact={onDiscoverCardClick} 
                   isVideoLoaded={isVideoLoaded}
                   isMobile={isMobile}
                   reduceMotion={reduceMotion}
                   clima={clima}
                   climaError={climaError}
+                  t={t} // ← PASAR LA FUNCIÓN t COMO PROP
                 />
               </Suspense>
-              <ScrollIndicator isMobile={isMobile} reduceMotion={reduceMotion} />
+              <ScrollIndicator isMobile={isMobile} reduceMotion={reduceMotion} t={t} /> {/* ← PASAR t */}
             </motion.div>
           )}
         </AnimatePresence>
@@ -190,6 +192,7 @@ export const HeroSection: FC<HeroSectionProps> = ({ onDiscoverClick, onDiscoverC
     </section>
   );
 };
+
 /**
  * Capa de fondo optimizada para móviles
  */
@@ -201,7 +204,7 @@ interface BackgroundLayerProps {
 
 interface HeroSectionProps {
   onDiscoverClick: () => void;
-  onDiscoverCardClick: () => void; // Nueva prop
+  onDiscoverCardClick: () => void;
 }
 
 const BackgroundLayer: FC<BackgroundLayerProps> = ({ onVideoLoad, isVideoLoaded, isMobile }) => {
@@ -217,7 +220,7 @@ const BackgroundLayer: FC<BackgroundLayerProps> = ({ onVideoLoad, isVideoLoaded,
     <div className="absolute inset-0 z-0">
       {/* Video optimizado para móviles */}
       <video
-        autoPlay={!isMobile} // En móviles, no autoplay o condicional
+        autoPlay={!isMobile}
         loop
         muted
         playsInline
@@ -287,6 +290,7 @@ interface MainContentProps {
   reduceMotion: boolean;
   clima: string;
   climaError: string | null;
+   t: (key: TranslationKey) => string; // ✅ CORRECTO
 }
 
 const MainContent: FC<MainContentProps> = ({ 
@@ -296,16 +300,19 @@ const MainContent: FC<MainContentProps> = ({
   isMobile,
   reduceMotion,
   clima,
-  climaError 
+  climaError,
+  t // ← RECIBIR t COMO PROP
 }) => (
   <div className={`relative z-10 text-center max-w-4xl mx-auto px-4 py-8 sm:py-20 flex flex-col items-center transition-opacity duration-1000 ${isVideoLoaded ? 'opacity-100' : 'opacity-0'}`}>
     
-    {/* Badge superior optimizado para móviles */}
+    {/* Badge superior optimizado para móviles - AHORA TRADUCIBLE */}
     <div className={`inline-flex items-center space-x-2 bg-white/25 backdrop-blur-md px-3 sm:px-4 py-1 sm:py-2 rounded-md mb-10 sm:mb-12 border border-white/30 shadow-xl ${
       reduceMotion ? '' : 'animate-fade-in-down'
     }`}>
       <MapPin className="h-4 w-4 sm:h-5 sm:w-5 text-green-900" aria-hidden="true" />
-      <span className="text-black font-medium font-serif text-sm sm:text-base">Región Central</span>
+      <span className="text-black font-medium font-serif text-sm sm:text-base">
+        {t('hero.region')} {/* ← TEXTO TRADUCIBLE */}
+      </span>
       <Sparkles className="h-3 w-3 sm:h-4 sm:w-4 text-blue-800 animate-pulse" aria-hidden="true" />
     </div>
 
@@ -322,15 +329,31 @@ const MainContent: FC<MainContentProps> = ({
     </Suspense>
     </div>
 
-    {/* Datos rápidos optimizados para móviles */}
+    {/* Datos rápidos optimizados para móviles - AHORA TRADUCIBLES */}
     <div className={`grid grid-cols-2 sm:grid-cols-4 gap-2 sm:gap-4 max-w-4xl w-full mx-auto mb-12 sm:mb-14 ${
       reduceMotion ? '' : 'animate-fade-in-up'
     }`}>
       {[
-        { label: "Clima", value: climaError ? "Error" : clima, icon: <Sun className="h-4 w-4 sm:h-5 sm:w-5 text-yellow-800" aria-hidden="true" /> },
-        { label: "Idioma", value: "Español", icon: <Languages className="h-4 w-4 sm:h-5 sm:w-5 text-black" aria-hidden="true" /> },
-        { label: "Moneda", value: "MXN", icon: <Coins className="h-4 w-4 sm:h-5 sm:w-5 text-emerald-500" aria-hidden="true" /> },
-        { label: "Temporada", value: "Mar-Oct", icon: <Calendar className="h-4 w-4 sm:h-5 sm:w-5 text-pink-500" aria-hidden="true" /> }
+        { 
+          label: t('hero.weather'), // ← TRADUCIBLE
+          value: climaError ? t('hero.error') : clima, // ← TRADUCIBLE
+          icon: <Sun className="h-4 w-4 sm:h-5 sm:w-5 text-yellow-800" aria-hidden="true" /> 
+        },
+        { 
+          label: t('hero.language'), // ← TRADUCIBLE
+          value: t('hero.spanish'), // ← TRADUCIBLE
+          icon: <Languages className="h-4 w-4 sm:h-5 sm:w-5 text-black" aria-hidden="true" /> 
+        },
+        { 
+          label: t('hero.currency'), // ← TRADUCIBLE
+          value: "MXN", 
+          icon: <Coins className="h-4 w-4 sm:h-5 sm:w-5 text-emerald-500" aria-hidden="true" /> 
+        },
+        { 
+          label: t('hero.season'), // ← TRADUCIBLE
+          value: t('hero.seasonMonths'), // ← TRADUCIBLE
+          icon: <Calendar className="h-4 w-4 sm:h-5 sm:w-5 text-pink-500" aria-hidden="true" /> 
+        }
       ].map((info, index) => (
         <div
           key={index}
@@ -344,7 +367,7 @@ const MainContent: FC<MainContentProps> = ({
       ))}
     </div>
 
-    {/* Botones optimizados para móviles */}
+    {/* Botones optimizados para móviles - AHORA TRADUCIBLES */}
     <div className={`flex flex-col sm:flex-row gap-3 sm:gap-6 justify-center items-center w-full ${
       reduceMotion ? '' : 'animate-fade-in-up'
     }`}>
@@ -352,14 +375,14 @@ const MainContent: FC<MainContentProps> = ({
         size={isMobile ? "default" : "lg"}
         onClick={scrollToTourism}
         className="group relative w-full sm:w-auto overflow-hidden rounded-full border-0 bg-gradient-to-r from-green-500 to-emerald-600 px-6 py-3 text-base font-semibold font-serif text-white shadow-lg transition-all duration-300 hover:scale-105 hover:shadow-xl sm:px-10 sm:py-4 sm:text-lg"
-        aria-label="Descubre más sobre el turismo en San Juan Tahitic"
+        aria-label={t('hero.discoverAria')} // ← ARIA LABEL TRADUCIBLE
       >
         <div className="absolute -inset-0.5 rounded-full bg-gradient-to-r from-blue-700 via-cyan-500 to-green-800 opacity-0 transition-opacity duration-500 group-hover:opacity-75" />
         {/* Efecto de brillo */}
         <span className="absolute inset-0 h-full w-full -translate-x-full transform bg-white opacity-20 transition-transform duration-700 ease-in-out group-hover:translate-x-full group-hover:duration-1000" />
         
         <span className="relative z-10 flex items-center justify-center">
-          Descubre San Juan Tahitic
+          {t('hero.discoverButton')} {/* ← TEXTO DEL BOTÓN TRADUCIBLE */}
           <ArrowDown className="ml-2 h-5 w-5 transition-transform duration-300 ease-in-out group-hover:translate-y-1" aria-hidden="true" />
         </span>
       </Button>
@@ -369,7 +392,7 @@ const MainContent: FC<MainContentProps> = ({
         size={isMobile ? "default" : "lg"}
         onClick={scrollToContact}
         className="group relative w-full sm:w-auto rounded-full border-2 border-transparent bg-white/10 px-6 py-3 text-base font-semibold font-serif text-white shadow-lg backdrop-blur-md transition-all duration-300 hover:scale-105 hover:shadow-xl sm:px-10 sm:py-4 sm:text-lg"
-        aria-label="Comienza tu aventura en San Juan Tahitic"
+        aria-label={t('hero.adventureAria')} // ← ARIA LABEL TRADUCIBLE
       >
         {/* Contenedor del borde Aurora */}
         <div className="absolute -inset-0.5 rounded-full bg-gradient-to-r from-amber-400 via-rose-500 to-green-400 opacity-0 transition-opacity duration-500 group-hover:opacity-75" />
@@ -378,7 +401,7 @@ const MainContent: FC<MainContentProps> = ({
         <div className="absolute -inset-0.5 rounded-full bg-gradient-to-r from-amber-400 via-rose-500 to-green-400 opacity-0 blur-lg transition-opacity duration-500 group-hover:animate-spin-slow group-hover:opacity-50" />
 
         <span className="relative z-10 flex items-center justify-center">
-          Empieza tu aventura
+          {t('hero.adventureButton')} {/* ← TEXTO DEL BOTÓN TRADUCIBLE */}
           <Sparkles className="ml-2 h-5 w-5 transform transition-transform duration-500 ease-in-out group-hover:rotate-12 group-hover:scale-125" aria-hidden="true" />
         </span>
       </Button>
@@ -389,13 +412,19 @@ const MainContent: FC<MainContentProps> = ({
 /**
  * Indicador de scroll optimizado para móviles
  */
-const ScrollIndicator: FC<{ isMobile: boolean; reduceMotion: boolean }> = ({ isMobile, reduceMotion }) => (
+interface ScrollIndicatorProps {
+  isMobile: boolean;
+  reduceMotion: boolean;
+  t: (key: TranslationKey) => string; // ✅ CORRECTO
+}
+
+const ScrollIndicator: FC<ScrollIndicatorProps> = ({ isMobile, reduceMotion, t }) => (
   <div className={`absolute bottom-4 sm:bottom-8 left-1/2 transform -translate-x-1/2 ${
     reduceMotion ? '' : 'animate-fade-in'
   }`}>
     <div className="flex flex-col items-center space-y-6 sm:space-y-4">
       <div className="text-white/60 text-xs sm:text-sm font-medium font-serif animate-pulse">
-        {isMobile ? 'Desliza' : 'Descubre más'}
+        {isMobile ? t('hero.scrollMobile') : t('hero.scrollDesktop')} {/* ← TEXTO TRADUCIBLE */}
       </div>
       <div className="relative">
         <div className={`relative bg-white/30 backdrop-blur-sm rounded-full border border-white/40 shadow-lg ${

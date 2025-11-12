@@ -2,6 +2,7 @@ import { motion } from "framer-motion";
 import { Mountain, Utensils, Users, Sun } from "lucide-react";
 import { type FC, type JSX } from "react";
 import { forwardRef } from 'react';
+import { useTranslation } from '../contexts/TranslationContext'; // ← AGREGAR IMPORT
 // 💡 Aquí importarías tus nuevas animaciones
 import FishAnimation from "../animations/FishAnimation";
 import CasseroleAnimation from "../animations/CasseroleAnimation";
@@ -26,82 +27,55 @@ interface StatsBlockProps {
   align: "left" | "right" | "center";
 }
 
-const sections: HighlightSectionProps[] = [
+// MODIFICAR: Hacer sections una función que reciba t
+const getSections = (t: (key: any) => string): HighlightSectionProps[] => [
   {
-    title: "Naturaleza",
-    text: "Paisajes montañosos, ríos y cascadas que invitan a la aventura y el descanso. Explora senderos únicos y conecta con la biodiversidad de nuestra región en experiencias inolvidables.",
+    title: t('highlights.natureTitle'),
+    text: t('highlights.natureText'),
     image: "/images/home/Monte_virgen.jpg",
-    icon: (
-            <Mountain
-              className="h-10 w-10 text-white"
-              role="img"
-              aria-label="Icono de montaña representando naturaleza"
-            />
-          ),
+    icon: <Mountain className="h-10 w-10 text-white" role="img" aria-label="Icono de montaña representando naturaleza" />,
     gradient: "from-blue-900/30 to-black/60",
     align: "center",
-    stats:[
-      {value: "150+",
-        label: "Lugares turísticos"
-      },
+    stats: [
+      {value: "150+", label: t('highlights.touristPlaces')},
     ],
     backgroundAnimation: <FishAnimation count={10} />,
   },
   {
-    title: "Gastronomía",
-    text: "Delicias locales que mezclan tradición y sabor auténtico en cada platillo. Descubre sabores ancestrales en mercados locales y restaurantes con cocina tradicional innovadora.",
+    title: t('highlights.gastronomyTitle'),
+    text: t('highlights.gastronomyText'),
     image: "/images/home/gastronomia.jpg",
-    icon:( 
-            <Utensils 
-            className="h-10 w-10 text-white"
-            role="img"
-            aria-label="Icono de comida representando gastronomía"
-          />
-        ),
+    icon: <Utensils className="h-10 w-10 text-white" role="img" aria-label="Icono de comida representando gastronomía" />,
     gradient: "from-amber-900/80 to-black/60",
     align: "left",
-    stats:[
-      {value: "20+", label:"Platillos típicos"},
+    stats: [
+      {value: "20+", label: t('highlights.typicalDishes')},
     ],
     backgroundAnimation: <CasseroleAnimation count={20}/>,
   },
   {
-    title: "Comunidad",
-    text: "Personas cálidas y hospitalarias que te hacen sentir como en casa. Participa en actividades comunitarias y conoce historias de vida que enriquecerán tu experiencia cultural.",
+    title: t('highlights.communityTitle'),
+    text: t('highlights.communityText'),
     image: "/images/home/Comunidad.jpg",
-    icon: (<Users 
-              className="h-10 w-10 text-white"
-              role="img"
-              aria-label="Icono de personas representando la comunidad" 
-              />
-            ),
+    icon: <Users className="h-10 w-10 text-white" role="img" aria-label="Icono de personas representando la comunidad" />,
     gradient: "from-cyan-900/80 to-black/60",
     align: "right",
-    stats:[
-      {value: "2500+",
-        label: "Habitantes"
-      },
+    stats: [
+      {value: "2500+", label: t('highlights.inhabitants')},
     ],
     backgroundAnimation: <CommunityAnimation count={20} />,
   },
   {
-    title: "Tradiciones",
-    text: "Fiestas, danzas y artesanías que preservan la riqueza cultural de la región. Vive festivales únicos y aprende técnicas artesanales transmitidas por generaciones.",
+    title: t('highlights.traditionsTitle'),
+    text: t('highlights.traditionsText'),
     image: "/images/home/Tradiciones.jpg",
-    icon: (<Sun 
-              className="h-10 w-10 text-white"
-              role="img"
-              aria-label="Icono de voladores representando tradiciones"
-              />
-            ),
+    icon: <Sun className="h-10 w-10 text-white" role="img" aria-label="Icono de voladores representando tradiciones" />,
     gradient: "from-pink-900/80 to-black/60",
     align: "center",
-    stats:[
-      {value: "400+",
-        label: "Años de historia"
-      },
+    stats: [
+      {value: "400+", label: t('highlights.yearsHistory')},
     ],
-  backgroundAnimation: <TraditionsAnimation count={8} />,
+    backgroundAnimation: <TraditionsAnimation count={8} />,
   },
 ];
 
@@ -214,10 +188,11 @@ const HighlightSection: FC<HighlightSectionProps> = ({
    3. Componente principal
 =========================== */
 export const HeroHighlightsSection = forwardRef<HTMLDivElement>((props, ref) => {
+  const { t } = useTranslation(); // ← AGREGAR HOOK AQUÍ
+  
   return (
-    // 3. Adjuntamos la 'ref' directamente al div principal de la sección
     <div ref={ref} className="w-full">
-      {sections.map((section, index) => (
+      {getSections(t).map((section, index) => ( // ← USAR getSections(t)
         <HighlightSection
           key={index}
           title={section.title}
@@ -234,5 +209,4 @@ export const HeroHighlightsSection = forwardRef<HTMLDivElement>((props, ref) => 
   );
 });
 
-// Buena práctica: Añadir un displayName para facilitar la depuración en las DevTools de React
 HeroHighlightsSection.displayName = 'HeroHighlightsSection';
