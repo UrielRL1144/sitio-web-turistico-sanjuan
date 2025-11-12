@@ -1,4 +1,6 @@
 // types.ts
+import { useTranslation } from '../../contexts/TranslationContext'; // ← AGREGAR IMPORT
+
 export interface Artisan {
   name: string;
   experience: string;
@@ -32,7 +34,18 @@ export interface LazyImageProps {
 
 export type FilterType = 'todos' | 'textiles' | 'ceramica' | 'madera';
 
-// Constantes para categorías
+// Constantes para categorías - MODIFICADO PARA USAR TRADUCCIONES
+export const useCategoryNames = () => {
+  const { t } = useTranslation();
+  
+  return {
+    textiles: t('crafts.categories.textiles'), // ← TRADUCIBLE
+    ceramica: t('crafts.categories.ceramica'), // ← TRADUCIBLE
+    madera: t('crafts.categories.madera'), // ← TRADUCIBLE
+    todos: t('crafts.categories.todos') // ← TRADUCIBLE
+  };
+};
+
 export const categoryIcons = {
   textiles: 'Scissors',
   ceramica: 'Palette',
@@ -45,6 +58,7 @@ export const categoryColors = {
   madera: 'bg-emerald-100 text-emerald-800 border-emerald-200'
 } as const;
 
+// Mantenemos esta constante para compatibilidad, pero ahora usaremos useCategoryNames()
 export const categoryNames = {
   textiles: 'Textiles Tradicionales',
   ceramica: 'Cerámica Artesanal',

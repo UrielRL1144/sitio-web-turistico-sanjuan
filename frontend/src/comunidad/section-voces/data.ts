@@ -8,6 +8,7 @@ import {
   Handshake,
   Star
 } from 'lucide-react';
+import { useTranslation } from '../../contexts/TranslationContext'; // ← AGREGAR IMPORT
 
 export interface Testimonio {
   id: number;
@@ -22,6 +23,63 @@ export interface Testimonio {
   detalles: string;
   tagline: string;
 }
+
+// Hook para obtener testimonios traducidos - NUEVO
+export const useTestimoniosData = (): Testimonio[] => {
+  const { t } = useTranslation();
+  
+  const testimoniosTraducidos = t('voices.testimonials') as unknown as Array<{
+    id: number;
+    nombre: string;
+    rol: string;
+    testimonio: string;
+    detalles: string;
+    tagline: string;
+  }>;
+
+  // Mapear los datos traducidos con la estructura completa
+  return testimoniosTraducidos.map(testimonio => {
+    // Asignar iconos y colores basados en el ID (puedes ajustar esta lógica)
+    const iconData = getIconAndColor(testimonio.id);
+    
+    return {
+      ...testimonio,
+      imagen: getImagePath(testimonio.id),
+      ...iconData
+    };
+  });
+};
+
+// Función auxiliar para asignar iconos y colores - NUEVO
+const getIconAndColor = (id: number) => {
+  const iconMap = {
+    1: { icon: BookOpen, color: "from-teal-500 to-cyan-600", bgColor: "bg-teal-50", borderColor: "border-teal-200" },
+    2: { icon: Sprout, color: "from-blue-500 to-sky-600", bgColor: "bg-blue-50", borderColor: "border-blue-200" },
+    3: { icon: Users, color: "from-sky-500 to-blue-600", bgColor: "bg-sky-50", borderColor: "border-sky-200" },
+    4: { icon: Music, color: "from-cyan-500 to-teal-600", bgColor: "bg-cyan-50", borderColor: "border-cyan-200" },
+    5: { icon: Heart, color: "from-teal-600 to-cyan-700", bgColor: "bg-teal-50", borderColor: "border-teal-200" },
+    6: { icon: Handshake, color: "from-blue-600 to-sky-700", bgColor: "bg-blue-50", borderColor: "border-blue-200" },
+    7: { icon: Star, color: "from-sky-600 to-blue-700", bgColor: "bg-sky-50", borderColor: "border-sky-200" }
+  };
+
+  return iconMap[id as keyof typeof iconMap] || iconMap[1];
+};
+
+// Función auxiliar para rutas de imágenes - NUEVO
+const getImagePath = (id: number) => {
+  const imageMap = {
+    1: "/images/comunidad/testimonios/artesana.webp",
+    2: "/images/comunidad/testimonios/jose.webp",
+    3: "/images/comunidad/testimonios/joven.webp",
+    4: "/images/comunidad/testimonios/musico.jpg",
+    5: "/images/comunidad/testimonios/cocinera.png",
+    6: "/images/comunidad/testimonios/coordinador.jpg",
+    7: "/images/comunidad/testimonios/maestra.jpg"
+  };
+
+  return imageMap[id as keyof typeof imageMap] || "/images/comunidad/testimonios/default.webp";
+};
+
 
 export const testimoniosData: Testimonio[] = [
   {
@@ -115,5 +173,5 @@ export const testimoniosData: Testimonio[] = [
     detalles: "25 años formando nuevas generaciones",
     tagline: "Guía entre tradición y futuro"
   }
-  // ... resto de testimonios
+  // ... resto de testimonio
 ];

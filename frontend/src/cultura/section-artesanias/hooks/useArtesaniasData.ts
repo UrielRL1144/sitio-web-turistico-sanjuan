@@ -1,15 +1,32 @@
 // hooks/useArtesaniasData.ts - versión mejorada
 import { useState, useMemo, useCallback } from 'react';
 import type{ ArtisanCraft, FilterType } from '../types';
-import artesaniasData from '../../../archivos_data/artesanias.json';
+import { useTranslation } from '../../../contexts/TranslationContext'; // ← AGREGAR IMPORT
+
+// Importar todos los archivos JSON por idioma
+import artesaniasEs from '../../../archivos_data/artesanias.es.json';
+import artesaniasEn from '../../../archivos_data/artesanias.en.json'; // ← CREAR ESTE ARCHIVO
+import artesaniasNah from '../../../archivos_data/artesanias.nah.json'; // ← CREAR ESTE ARCHIVO
 
 export const useArtesaniasData = (scrollToTop?: () => void) => {
   const [filter, setFilter] = useState<FilterType>('todos');
   const [activeCraft, setActiveCraft] = useState<number | null>(null);
   const [showAll, setShowAll] = useState(false);
+  const { language } = useTranslation(); // ← AGREGAR HOOK
 
-  // Casting seguro de datos
-  const craftsData: ArtisanCraft[] = (artesaniasData as any).artesanias;
+  // Seleccionar datos según el idioma - MODIFICADO
+  const craftsData: ArtisanCraft[] = useMemo(() => {
+    switch (language) {
+      case 'es':
+        return (artesaniasEs as any).artesanias;
+      case 'en':
+        return (artesaniasEn as any).artesanias;
+      case 'nah':
+        return (artesaniasNah as any).artesanias;
+      default:
+        return (artesaniasEs as any).artesanias;
+    }
+  }, [language]); // ← RECARGAR CUANDO CAMBIE EL IDIOMA
 
   // Filtrar artesanías de forma memoizada
   const filteredCrafts = useMemo(() => {
