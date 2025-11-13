@@ -1,5 +1,5 @@
 Listado de rutas de carpetas para el volumen Windows
-El número de serie del volumen es AC6A-8FA2
+El nï¿½mero de serie del volumen es AC6A-8FA2
 C:.
 |   estructura.txt
 |   
@@ -30768,9 +30768,9 @@ C:.
     |   |   |   |   
     |   |   |   \---cards
     |   |   |           Cabanas.webp
-    |   |   |           cabañas2.webp
-    |   |   |           Cabañas3.jpg
-    |   |   |           Cabañas4.jpg
+    |   |   |           cabaï¿½as2.webp
+    |   |   |           Cabaï¿½as3.jpg
+    |   |   |           Cabaï¿½as4.jpg
     |   |   |           Cascada-enamorados.webp
     |   |   |           Comedor.webp
     |   |   |           Danza.webp
