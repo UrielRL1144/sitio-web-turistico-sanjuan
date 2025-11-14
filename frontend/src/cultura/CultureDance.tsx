@@ -1,24 +1,33 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ChevronLeft, ChevronRight, Sparkles, Feather, Music, Sunrise, Shirt, Leaf, Footprints, Heart, Wind, BookOpen } from 'lucide-react';
+import { ChevronLeft, ChevronRight, Sparkles } from 'lucide-react';
 import { useWindowSize } from '../../src/hooks/useWindowSize';
-// Importamos los nuevos subcomponentes
 import { DanceCard } from './section-dance/DanceCard'; 
 import { CTACard } from './section-dance/CTACard';
 import { useTranslation } from '../contexts/TranslationContext';
-import { useDancesData } from '../hooks/useDancesData'; // ← NUEVO IMPORT
+import { useDancesData } from '../hooks/useDancesData';
+import type { Dance } from '../i18n/types';
 
-
-// --- Mapeo de Iconos (Se mantiene) ---
+// --- Mapeo de Iconos ---
 const iconMap = {
-  Shirt, Feather, Music, Sunrise, Leaf, Footprints, Heart, Wind, BookOpen
+  Shirt: Shirt, 
+  Feather: Feather, 
+  Music: Music, 
+  Sunrise: Sunrise, 
+  Leaf: Leaf, 
+  Footprints: Footprints, 
+  Heart: Heart, 
+  Wind: Wind, 
+  BookOpen: BookOpen
 };
 
-// --- Componente Principal ---
+// Necesitamos importar los iconos
+import { Feather, Music, Sunrise, Shirt, Leaf, Footprints, Heart, Wind, BookOpen } from 'lucide-react';
+
 export function CultureDance() {
   const [activeIndex, setActiveIndex] = useState(0);
   const [expandedIndex, setExpandedIndex] = useState<number | null>(null);
-  const { dances } = useDancesData(); // ← USAR HOOK EN LUGAR DE IMPORT DIRECT0
+  const { dances } = useDancesData(); // ← SOLO dances, sin isLoading
   const { t } = useTranslation();
   const { width } = useWindowSize();
   const isMobile = width ? width < 768 : false;
@@ -53,11 +62,10 @@ export function CultureDance() {
 
   return (
     <section id="danzas" className="py-16 sm:py-24 relative overflow-hidden min-h-screen flex flex-col justify-center bg-[url('images/cultura/Fondo-danzas.svg')] bg-no-repeat bg-center bg-cover">
-      {/* capa translúcida para oscurecer o aclarar */}
       <div className="absolute inset-0 bg-black/10"></div>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
         
-        {/* --- Encabezado --- */}
+        {/* Encabezado */}
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="text-center mb-12 md:mb-16">
             <div className="inline-flex items-center space-x-2 bg-gradient-to-r from-orange-100 to-amber-100 px-4 py-2 rounded-full mb-6">
                 <Sparkles className="h-5 w-5 text-orange-600" />
@@ -72,16 +80,13 @@ export function CultureDance() {
             </span>
           </h2>
           <p className="text-xl text-gray-700 max-w-4xl mx-auto leading-relaxed">
-            {t('dance.description')}{' '}
-            <span className="bg-gradient-to-r from-red-700 via-fuchsia-600 via-40% to-emerald-700 bg-clip-text text-transparent font-black tracking-tight text-2xl">
-              {t('dance.sanJuanTahitic')}
-            </span>
+            {t('dance.description')}
           </p>
         </motion.div>
         
         <div className="relative h-[550px] md:h-[600px] flex items-center justify-center">
           
-          {/* --- Botones de Navegación --- */}
+          {/* Botones de Navegación */}
           <AnimatePresence>
             {expandedIndex === null && (
               <>
@@ -107,27 +112,24 @@ export function CultureDance() {
             )}
           </AnimatePresence>
           
-          {/* --- Contenedor del Carrusel --- */}
+          {/* Contenedor del Carrusel */}
           <div className="relative w-full h-full max-w-sm md:max-w-4xl">
             
-            {dances.map((dance, index) => {
-              return (
-                <DanceCard
-                  key={dance.id}
-                  dance={dance}
-                  index={index}
-                  activeIndex={activeIndex}
-                  expandedIndex={expandedIndex}
-                  setExpandedIndex={setExpandedIndex}
-                  setActiveIndex={setActiveIndex}
-                  iconMap={iconMap}
-                  isMobile={isMobile}
-                  totalItems={totalItems}
-                />
-              );
-            })}
+            {dances.map((dance: any, index: number) => (
+              <DanceCard
+                key={dance.id}
+                dance={dance}
+                index={index}
+                activeIndex={activeIndex}
+                expandedIndex={expandedIndex}
+                setExpandedIndex={setExpandedIndex}
+                setActiveIndex={setActiveIndex}
+                iconMap={iconMap}
+                isMobile={isMobile}
+                totalItems={totalItems}
+              />
+            ))}
 
-            {/* --- CTA: La nueva tarjeta de invitación (Componente separado) --- */}
             <CTACard
               index={ctaCardIndex}
               activeIndex={activeIndex}

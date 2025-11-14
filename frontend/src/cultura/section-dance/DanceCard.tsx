@@ -116,15 +116,19 @@ export const DanceCard: React.FC<DanceCardProps> = ({
   const scale = 1 - Math.abs(position) * 0.2;
   const opacity = isActive || isExpanded ? 1 : (isMobile ? 0 : 1 - Math.abs(position) * 0.4);
 
-  const handleClick = () => {
-    if (isExpanded) {
-      setExpandedIndex(null);
-    } else if (isActive) {
-      setExpandedIndex(index);
-    } else {
-      setActiveIndex(index);
-    }
-  };
+  const handleClick = (e: React.MouseEvent) => {
+  e.preventDefault();    // ← PREVIENE LA RECARGA
+  e.stopPropagation();  // ← EVITA PROPAGACIÓN
+
+  
+  if (isExpanded) {
+    setExpandedIndex(null);
+  } else if (isActive) {
+    setExpandedIndex(index);
+  } else {
+    setActiveIndex(index);
+  }
+};
 
   return (
     <motion.div
@@ -140,7 +144,7 @@ export const DanceCard: React.FC<DanceCardProps> = ({
         zIndex: isExpanded ? 10 : (index === activeIndex ? 5 : (index === activeIndex + 1 || index === activeIndex - 1 ? 4 : 1)) 
       }}
       transition={{ type: 'spring', stiffness: 200, damping: 25 }}
-      onClick={handleClick}
+      onClick={(e) => handleClick(e)}  // ← PASA EL EVENTO EXPLÍCITAMENTE
       role="button"
       tabIndex={isActive ? 0 : -1}
       aria-expanded={isExpanded}

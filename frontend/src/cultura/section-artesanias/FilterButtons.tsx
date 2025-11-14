@@ -42,12 +42,18 @@ export const FilterButtons: React.FC<FilterButtonsProps> = ({
       {translatedFilterOptions.map(({ key, label, icon: IconComponent }) => (
         <button
           key={key}
-          onClick={() => onFilterChange(key)}
+          onClick={(e) => {
+            console.log('🔄 FilterButtons click - Previniendo recarga');
+            e.preventDefault();
+            e.stopPropagation(); // ← SOLO ESTA LÍNEA
+            onFilterChange(key);
+          }}
           className={`px-6 py-3 rounded-full font-semibold font-serif transition-all duration-300 flex items-center gap-2 ${
             currentFilter === key 
               ? 'bg-amber-600 text-white shadow-lg' 
               : 'bg-white text-gray-700 shadow-md hover:shadow-lg'
           }`}
+          type="button" // ← ESTO ES CRÍTICO
         >
           {IconComponent && <IconComponent className="w-4 h-4" />}
           {label}

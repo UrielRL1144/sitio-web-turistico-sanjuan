@@ -1,7 +1,6 @@
 // CultureArtesanias.tsx
 import { motion } from 'framer-motion';
 import { ChevronDown, ChevronUp, Hand, Star } from 'lucide-react';
-
 // Hooks y componentes modulares
 import { useArtesaniasData } from '../cultura/section-artesanias/hooks/useArtesaniasData';
 import { useKeyboardNavigation } from '../cultura/section-artesanias/hooks/useKeyboardNavigation';
@@ -10,8 +9,9 @@ import { ArtesaniaCard } from '../cultura/section-artesanias/ArtesaniaCard';
 import { ArtesaniaModal } from '../cultura/section-artesanias/ArtesaniaModal';
 import { FilterButtons } from '../cultura/section-artesanias/FilterButtons';
 import { TooltipInformativo } from '../cultura/section-artesanias/TooltipInformativo';
-import { useCategoryNames } from './section-artesanias/types';
+import { useCategoryNames } from '../cultura/section-artesanias/types';
 import { useTranslation } from '../contexts/TranslationContext'; // ← AGREGAR IMPORT
+import { useEffect } from 'react';
 
 export function CultureArtesanias() {
   const {
@@ -28,6 +28,7 @@ export function CultureArtesanias() {
     setActiveCraft
   } = useArtesaniasData();
 
+
   const isFirstVisit = useFirstVisit('artesanias-first-visit');
   const { t } = useTranslation(); // ← AGREGAR HOOK
   const categoryNames = useCategoryNames(); // ← AGREGAR ESTO
@@ -39,7 +40,6 @@ export function CultureArtesanias() {
     handleCloseModal,
     setActiveCraft
   );
-
   const backgroundPatternClass = "py-24 relative overflow-hidden bg-[url('images/cultura/Fondo-artesanias.svg')] bg-no-repeat bg-center bg-cover";
 
   const activeCraftData = activeCraft 
@@ -63,12 +63,10 @@ export function CultureArtesanias() {
         }
       }
     }
-    
     setTimeout(() => {
       toggleShowAll();
     }, 300);
   };
-
   return (
     <section 
       id="section-artesanias-locales"
@@ -79,7 +77,6 @@ export function CultureArtesanias() {
       <div className="absolute inset-0 bg-black/10"></div>
       {/* Tooltip informativo para primera visita */}
       <TooltipInformativo isFirstVisit={isFirstVisit} />
-      
       <div className="max-w-7xl mx-auto px-2">
         {/* Header con título e instrucciones */}
         <div className="text-center mb-16">
@@ -95,7 +92,6 @@ export function CultureArtesanias() {
                 {t('crafts.localCrafts')}{' '} {/* ← TRADUCIBLE */}
               </span>
             </motion.h2>
-
             <motion.p
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
@@ -126,7 +122,6 @@ export function CultureArtesanias() {
             />
           </div>
         </div>
-
         {/* Modal para artesanía expandida */}
         {activeCraftData && (
           <ArtesaniaModal
@@ -136,7 +131,6 @@ export function CultureArtesanias() {
             onNavigate={setActiveCraft}
           />
         )}
-
         {/* Grid de Artesanías */}
         <motion.div
           layout
@@ -152,7 +146,6 @@ export function CultureArtesanias() {
             />
           ))}
         </motion.div>
-
         {/* Botón "Ver Más" / "Ver Menos" con scroll automático */}
         {filteredCrafts.length > 6 && (
           <motion.div
@@ -220,7 +213,6 @@ export function CultureArtesanias() {
                 : `${t('crafts.moreToDiscover')} ${filteredCrafts.length - 6} ${t('crafts.moreToDiscover')}`
               }
             </motion.p>
-
             {/* Indicador de scroll cuando se muestran todas */}
             {showAll && (
               <motion.div
@@ -235,7 +227,6 @@ export function CultureArtesanias() {
             )}
           </motion.div>
         )}
-
         {/* Contador de artesanías visibles */}
         <motion.div
           initial={{ opacity: 0 }}
@@ -244,7 +235,6 @@ export function CultureArtesanias() {
         >
           {filter !== 'todos' && ` en ${categoryNames[filter]}`}
         </motion.div>
-
         {/* Mensaje cuando no hay resultados */}
         {filteredCrafts.length === 0 && (
           <motion.div
@@ -263,7 +253,6 @@ export function CultureArtesanias() {
             </button>
           </motion.div>
         )}
-
         {/* Sección de llamado a la acción */}
         <div className="flex justify-center py-16">
           <motion.div
@@ -282,7 +271,6 @@ export function CultureArtesanias() {
               transition={{ duration: 1.2, ease: "easeInOut" }}
               className="absolute inset-0 w-full h-full bg-white opacity-10 transform -skew-x-12 pointer-events-none"
             />
-
             {/* Contenido narrativo con enfoque artesanal */}
             <h2 className="relative z-20 text-2xl font-extrabold font-serif mb-4 tracking-tight">
               {t('crafts.visitUs')} {/* ← TRADUCIBLE */}
@@ -290,7 +278,6 @@ export function CultureArtesanias() {
             <p className="relative z-20 text-lg text-orange-100 mb-6">
               {t('crafts.visitDescription')} {/* ← TRADUCIBLE */}
             </p>
-
             {/* Icono animado como guiño visual */}
             <motion.div
               className="relative z-20 inline-block"
