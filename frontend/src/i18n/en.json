@@ -216,35 +216,35 @@
       {
         "nahuatl": "Cualli tonalli",
         "translation": "Good day",
-        "audio": "/audio/nahuatl/cualli-tonalli.mp3"
+        "audio": "https://res.cloudinary.com/dinsl266g/video/upload/v1763079074/cualli-tonalli_mduals.mp3" 
       },
       {
         "nahuatl": "Tlazohcamati",
         "translation": "Thank you",
-        "audio": "/audio/nahuatl/tlazohcamati.mp3"
+        "audio": "https://res.cloudinary.com/dinsl266g/video/upload/v1763079068/tlazohcamati_uxksqv.mp3"
       },
       {
         "nahuatl": "Nochipa",
         "translation": "Always",
-        "audio": "/audio/nahuatl/nochipa.mp3"
+        "audio": "https://res.cloudinary.com/dinsl266g/video/upload/v1763079067/nochipa_jrbdkm.mp3"
       },
       {
         "nahuatl": "Tlen mochi",
         "translation": "Everything",
-        "audio": "/audio/nahuatl/tlen-mochi.mp3"
+        "audio": "https://res.cloudinary.com/dinsl266g/video/upload/v1763079072/tlen-mochi_zwsdgx.mp3"
       },
       {
         "nahuatl": "Kualualtsi",
         "translation": "Beautiful",
-        "audio": "/audio/nahuatl/Kualualtsi.mp3"
+        "audio": "https://res.cloudinary.com/dinsl266g/video/upload/v1763079077/Kualualtsi_vr44x3.mp3"
       },
       {
         "nahuatl": "sankentsi nimitsitas",
         "translation": "See you later",
-        "audio": "/audio/nahuatl/sankentsi nimitsitas.mp3"
+        "audio": "https://res.cloudinary.com/dinsl266g/video/upload/v1763079067/sankentsi_nimitsitas_h8xmjf.mp3"
       }
     ]
-  },
+  }, 
   "crafts": {
   "localCrafts": "Local Crafts",
   "description": "Unique creations made by local artisans using techniques passed down from generation to generation.",
@@ -542,6 +542,7 @@
 },
 "present": {
   "sanJuanToday": "San Juan Tahitic Today",
+  "closeModal": "Cerrar modal",
   "ourVibrant": "Our",
   "community": "Vibrant Community",
   "description": "Discover how we live today: a community that honors its heritage while actively building its future with hope and unity.",
@@ -830,8 +831,9 @@
   "celebratingOurIdentity": "Celebrating Our Identity",
   "identityDescription": "Every festivity in San Juan Tahitic is a living fabric of history, faith, and community. Our traditions are not only preserved — they are lived with the same passion as centuries ago, creating memories that transcend generations.",
   "livingTradition": "Living Tradition",
+  "culturalHeritage": "Herencia cultural",
   "communityUnity": "Community Unity",
-  "culturalHeritage": "Cultural Heritage",
+  "culturalHeritagee": "Cultural Heritage",
   "annualFestiveCalendar": "Annual Festive Calendar",
   "calendarDescription": "Events that mark the rhythm of our community life throughout the year",
   "danceExpressions": "Dance Expressions",

@@ -212,14 +212,14 @@
   "description": "Xikmati in yejyectli uan in tlachicahuac tlen totlahtolli, ika tlatolmej tlen mopanoltihqueh ika miyac xihuitl ipan toaltepetl tlen yejyectzin",
   "sanJuanTahitic": "San Juan Tahitic",
   "listen": "Xiknaki",
-  "exploreMore": "Ximotlatlauhqui okachi",
+  "exploreMore": "Ximotlatlauhqui okachi", 
   "phrases": [
-    { "nahuatl": "Cualli tonalli", "translation": "Cualli tonalli (Buen día)", "audio": "/audio/nahuatl/cualli-tonalli.mp3" },
-    { "nahuatl": "Tlazohcamati", "translation": "Tlazohcamati (Gracias)", "audio": "/audio/nahuatl/tlazohcamati.mp3" },
-    { "nahuatl": "Nochipa", "translation": "Nochipa (Siempre)", "audio": "/audio/nahuatl/nochipa.mp3" },
-    { "nahuatl": "Tlen mochi", "translation": "Tlen mochi (Todo)", "audio": "/audio/nahuatl/tlen-mochi.mp3" },
-    { "nahuatl": "Kualualtsi", "translation": "Kualualtsi (Hermoso)", "audio": "/audio/nahuatl/Kualualtsi.mp3" },
-    { "nahuatl": "Sankentsi nimitsitas", "translation": "Sankentsi nimitsitas (Hasta luego)", "audio": "/audio/nahuatl/sankentsi-nimitsitas.mp3" }
+    { "nahuatl": "Cualli tonalli", "translation": "Cualli tonalli (Buen día)", "audio": "https://res.cloudinary.com/dinsl266g/video/upload/v1763079074/cualli-tonalli_mduals.mp3" },
+    { "nahuatl": "Tlazohcamati", "translation": "Tlazohcamati (Gracias)", "audio": "https://res.cloudinary.com/dinsl266g/video/upload/v1763079068/tlazohcamati_uxksqv.mp3" },
+    { "nahuatl": "Nochipa", "translation": "Nochipa (Siempre)", "audio": "https://res.cloudinary.com/dinsl266g/video/upload/v1763079067/nochipa_jrbdkm.mp3" },
+    { "nahuatl": "Tlen mochi", "translation": "Tlen mochi (Todo)", "audio": "https://res.cloudinary.com/dinsl266g/video/upload/v1763079072/tlen-mochi_zwsdgx.mp3" },
+    { "nahuatl": "Kualualtsi", "translation": "Kualualtsi (Hermoso)", "audio": "https://res.cloudinary.com/dinsl266g/video/upload/v1763079077/Kualualtsi_vr44x3.mp3" },
+    { "nahuatl": "Sankentsi nimitsitas", "translation": "Sankentsi nimitsitas (Hasta luego)", "audio": "https://res.cloudinary.com/dinsl266g/video/upload/v1763079067/sankentsi_nimitsitas_h8xmjf.mp3" }
   ]
 },
 "crafts": {
@@ -519,6 +519,7 @@
 },
 "present": {
   "sanJuanToday": "Axkan San Juan Tahitic",
+  "closeModal": "Cerrar modal",
   "ourVibrant": "Totlaca",
   "community": "tlen yolkamej",
   "description": "Xikmatis kenijki tianij axkan: se kalpoli tlen kimapialia itlamachtilistli huan kimijmatis itlaneltokalis ika nemilistli huan se tlayekanilistli tlen ika kuali tlamantli.",
@@ -808,8 +809,9 @@
   "celebratingOurIdentity": "Tipaqui ica totlahtolixmatiliztli",
   "identityDescription": "Nochi ilhuitl ipan San Juan Tahitic itech tlatskaj neltokayotl, tlamantli tlatemikilistli huan tlayekilistli. Totradiciones amo san tlatzontekonilotl, tlapowah ika tlen totatahua huan totlasojtla, tlamantli kuali tlatlahtol ixiptla itech tonemilis.",
   "livingTradition": "Totradición yolilistli",
+  "culturalHeritage": "Herencia cultural",
   "communityUnity": "Tlasojtla tlaneltokayotl",
-  "culturalHeritage": "Totlahtolixmatiliztli",
+  "culturalHeritagee": "Totlahtolixmatiliztli",
   "annualFestiveCalendar": "Ilhuitl ipan xiwitl",
   "calendarDescription": "Tlamantli tlen tlatskaj tonemilis ipan xiwitl",
   "danceExpressions": "Tlanetzkayome tlen tlanetzka",
@@ -1206,6 +1208,11 @@
 "controls": {
   "previousTestimonial": "Tlamantli tlen nochi",
   "nextTestimonial": "Tlamantli tlen ojtok"
+},
+"closing": {
+  "title": "In toton huehuehtlahtolmej",
+  "subtitle": "Cada tlahcuilolli quipāca in tekitl ipan achto wan axcan. Iuan tlatepanitasej, in totlajtolwan quichijchihuaj in timoikneltilis.",
+  "description": "San Juan Tahitic amo san se lugar… se yancuic tlahcuilolli, tlen totlacamej quipohualiaj."
 }
 },
 "contact": {

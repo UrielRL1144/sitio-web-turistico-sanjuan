@@ -216,32 +216,32 @@
       {
         "nahuatl": "Cualli tonalli",
         "translation": "Buen día",
-        "audio": "/audio/nahuatl/cualli-tonalli.mp3"
+        "audio": "https://res.cloudinary.com/dinsl266g/video/upload/v1763079074/cualli-tonalli_mduals.mp3"
       },
       {
         "nahuatl": "Tlazohcamati",
         "translation": "Gracias",
-        "audio": "/audio/nahuatl/tlazohcamati.mp3"
+        "audio": "https://res.cloudinary.com/dinsl266g/video/upload/v1763079068/tlazohcamati_uxksqv.mp3"
       },
       {
         "nahuatl": "Nochipa",
         "translation": "Siempre",
-        "audio": "/audio/nahuatl/nochipa.mp3"
+        "audio": "https://res.cloudinary.com/dinsl266g/video/upload/v1763079067/nochipa_jrbdkm.mp3"
       },
       {
         "nahuatl": "Tlen mochi",
         "translation": "Todo",
-        "audio": "/audio/nahuatl/tlen-mochi.mp3"
+        "audio": "https://res.cloudinary.com/dinsl266g/video/upload/v1763079072/tlen-mochi_zwsdgx.mp3"
       },
       {
         "nahuatl": "Kualualtsi",
         "translation": "Hermoso",
-        "audio": "/audio/nahuatl/Kualualtsi.mp3"
+        "audio": "https://res.cloudinary.com/dinsl266g/video/upload/v1763079077/Kualualtsi_vr44x3.mp3"
       },
       {
         "nahuatl": "sankentsi nimitsitas",
         "translation": "Hasta luego",
-        "audio": "/audio/nahuatl/sankentsi nimitsitas.mp3"
+        "audio": "https://res.cloudinary.com/dinsl266g/video/upload/v1763079067/sankentsi_nimitsitas_h8xmjf.mp3"
       }
     ]
   },
@@ -325,10 +325,10 @@
       "annualFairs": "Ferias Anuales",
       "flavorTradition": "Sabor y Tradición"
     }
-  },
+  }, 
   "gastronomysection": {
     "flavorsOfTahitic": "Sabores de Tahitic",
-    "mexicanGastronomy": "Gastronomía Mexicana",
+    "mexicanGastronomy": "Gastronomía",
     "description": "Descubre los platillos típicos, ingredientes locales y recetas que dan sabor a San Juan Tahitic. Una experiencia culinaria que conecta con nuestras raíces.",
     "back": "Regresar",
     "exploreGastronomy": "Explora la gastronomía"
@@ -542,6 +542,7 @@
   },
   "present": {
     "sanJuanToday": "San Juan Tahitic hoy",
+    "closeModal": "Cerrar modal",
     "ourVibrant": "Nuestra comunidad",
     "community": "vibrante",
     "description": "Descubre cómo vivimos hoy: una comunidad que honra su herencia mientras construye activamente su futuro con esperanza y unidad.",
@@ -1231,6 +1232,10 @@
       "generations": "generaciones",
       "description": "La voz de cada habitante guarda una parte de nuestra identidad. Escucha, siente y conecta con quienes mantienen viva la cultura de San Juan Tahitic."
     },
+    "controls": {
+    "previousTestimonial": "Testimonio anterior",
+    "nextTestimonial": "Siguiente testimonio"
+  },
     "closing": {
       "title": "La voz de nuestra gente",
       "subtitle": "Cada historia es un puente entre el pasado y el presente. Al compartir sus voces, nuestras comunidades fortalecen su identidad.",
