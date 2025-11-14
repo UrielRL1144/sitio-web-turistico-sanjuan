@@ -21,27 +21,22 @@ const useCarouselImages = () => {
   
   return [
     {
-      url: '/images/comunidad/valores-comunidad/caminos-rurales.jpg',
+      url: 'https://res.cloudinary.com/dinsl266g/image/upload/v1763117549/caminos-rurales_rjmkr2.jpg',
       title: t('tequio.carousel.collectiveWorkRoads'), // ← TRADUCIBLE
       description: t('tequio.carousel.roadsDescription') // ← TRADUCIBLE
     },
     {
-      url: '/images/comunidad/valores-comunidad/rurales.jpg',
+      url: 'https://res.cloudinary.com/dinsl266g/image/upload/v1763117549/rurales_wast1n.jpg',
       title: t('tequio.carousel.communityReforestation'), // ← TRADUCIBLE
       description: t('tequio.carousel.reforestationDescription') // ← TRADUCIBLE
     },
     {
-      url: '/images/tequio-comunitario-3.jpg',
-      title: t('tequio.carousel.schoolMaintenance'), // ← TRADUCIBLE
-      description: t('tequio.carousel.schoolDescription') // ← TRADUCIBLE
-    },
-    {
-      url: '/images/tequio-comunitario-4.jpg',
+      url: 'https://res.cloudinary.com/dinsl266g/image/upload/v1763074242/Puente_fwky8r.jpg',
       title: t('tequio.carousel.springCleaning'), // ← TRADUCIBLE
       description: t('tequio.carousel.springDescription') // ← TRADUCIBLE
     },
     {
-      url: '/images/tequio-comunitario-5.jpg',
+      url: 'https://res.cloudinary.com/dinsl266g/image/upload/v1763073856/dansz_psbbaj.jpg',
       title: t('tequio.carousel.tequioCelebration'), // ← TRADUCIBLE
       description: t('tequio.carousel.celebrationDescription') // ← TRADUCIBLE
     }

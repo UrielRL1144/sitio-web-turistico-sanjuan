@@ -21,27 +21,27 @@ import { useTranslation } from '../../../contexts/TranslationContext'; // ← AG
 // --- Imágenes del Carrusel Festivo ---
 const carouselImages = [
   {
-    url: '/images/comunidad/valores-comunidad/iglesia.webp',
+    url: 'https://res.cloudinary.com/dinsl266g/image/upload/v1763073856/dansz_psbbaj.jpg',
     titleKey: 'festivities.carousel.patronalFestival' as const,
     descriptionKey: 'festivities.carousel.patronalDescription' as const
   },
   {
-    url: '/images/comunidad/valores-comunidad/maiz.jpg',
+    url: 'https://res.cloudinary.com/dinsl266g/image/upload/v1763093406/Captura_de_pantalla_395_uoumxl.png',
     titleKey: 'festivities.carousel.moorsDance' as const,
     descriptionKey: 'festivities.carousel.moorsDescription' as const
   },
   {
-    url: '/images/fiestas-3.jpg',
+    url: 'https://res.cloudinary.com/dinsl266g/image/upload/v1763066439/culture-fallback_tajxm4.webp',
     titleKey: 'festivities.carousel.dayOfTheDead' as const,
     descriptionKey: 'festivities.carousel.dayOfTheDeadDescription' as const
   },
   {
-    url: '/images/fiestas-4.jpg',
+    url: 'https://res.cloudinary.com/dinsl266g/image/upload/v1763072851/Tradiciones_h6vn7b.jpg',
     titleKey: 'festivities.carousel.traditionalCarnival' as const,
     descriptionKey: 'festivities.carousel.carnivalDescription' as const
   },
   {
-    url: '/images/fiestas-5.jpg',
+    url: 'https://res.cloudinary.com/dinsl266g/image/upload/v1763052576/hero-home-image_anavv1.png',
     titleKey: 'festivities.carousel.holyWeek' as const,
     descriptionKey: 'festivities.carousel.holyWeekDescription' as const
   }

@@ -25,29 +25,19 @@ const useCarouselImages = () => {
   
   return [
     {
-      url: '/images/educacion-1.jpg',
+      url: 'https://res.cloudinary.com/dinsl266g/image/upload/v1763116534/Escuelas_o9s56l.jpg',
       title: t('education.carousel.learningCommunity'),
       description: t('education.carousel.learningCommunityDesc')
     },
     {
-      url: '/images/educacion-2.jpg',
+      url: 'https://res.cloudinary.com/dinsl266g/image/upload/v1763116534/Escuelas_o9s56l.jpg',
       title: t('education.carousel.educationalFacilities'),
       description: t('education.carousel.educationalFacilitiesDesc')
     },
     {
-      url: '/images/educacion-3.jpg',
+      url: 'https://res.cloudinary.com/dinsl266g/image/upload/v1763116534/Escuelas_o9s56l.jpg',
       title: t('education.carousel.practicalActivities'),
       description: t('education.carousel.practicalActivitiesDesc')
-    },
-    {
-      url: '/images/educacion-4.jpg',
-      title: t('education.carousel.academicCelebrations'),
-      description: t('education.carousel.academicCelebrationsDesc')
-    },
-    {
-      url: '/images/educacion-5.jpg',
-      title: t('education.carousel.educationalTechnology'),
-      description: t('education.carousel.educationalTechnologyDesc')
     }
   ];
 };

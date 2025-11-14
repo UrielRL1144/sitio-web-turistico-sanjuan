@@ -45,7 +45,7 @@ export function ContactSection() {
     <section id="contacto" className="relative py-20 overflow-hidden bg-gray-50">
       {/* 🔹 Fondo con imagen y gradiente (solo mitad superior) */}
       <div
-        className="absolute inset-0 bg-[url('images/Exploracion.svg')]
+        className="absolute inset-0 bg-[url('https://res.cloudinary.com/dinsl266g/image/upload/v1763072851/Tradiciones_h6vn7b.jpg')]
                    bg-cover bg-center opacity-85"
         style={{
           clipPath: 'polygon(0 0, 100% 0, 100% 50%, 0 100%)',
@@ -93,7 +93,7 @@ export function ContactSection() {
               </h4>
               <div className="bg-white/90 p-6 rounded-lg shadow-md backdrop-blur-sm">
                 <ImageWithFallback
-                  src="https://images.unsplash.com/photo-1511593358241-7eea1f3c84e5?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+                  src="https://res.cloudinary.com/dinsl266g/image/upload/v1763052576/hero-home-image_anavv1.png"
                   alt="Mapa de ubicación de San Juan Tahitic"
                   className="w-full h-48 object-cover rounded-lg mb-4"
                 />

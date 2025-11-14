@@ -36,28 +36,28 @@ export function UpcomingAttractionsSection() {
       { label: t('attractions.project.features.4.label'), value: t('attractions.project.features.4.value'), icon: Users },
       { label: t('attractions.project.features.5.label'), value: t('attractions.project.features.5.value'), icon: TreePine },
     ],
-    constructionImages: [
-      {
-        url: "/images/home/cards/Cabanas.webp",
-        title: t('attractions.project.constructionImages.0.title'),
-        description: t('attractions.project.constructionImages.0.description')
-      },
-      {
-        url: "/images/home/cards/cabañas2.webp",
-        title: t('attractions.project.constructionImages.1.title'),
-        description: t('attractions.project.constructionImages.1.description')
-      },
-      {
-        url: "/images/home/cards/Cabañas3.jpg",
-        title: t('attractions.project.constructionImages.2.title'),
-        description: t('attractions.project.constructionImages.2.description')
-      },
-      {
-        url: "/images/home/cards/Cabañas4.jpg",
-        title: t('attractions.project.constructionImages.3.title'),
-        description: t('attractions.project.constructionImages.3.description')
-      }
-    ],
+   constructionImages: [
+  {
+    url: "https://res.cloudinary.com/dinsl266g/image/upload/f_auto,q_auto,w_800/v1763062499/Cabanas_gjdkib.webp",
+    title: t('attractions.project.constructionImages.0.title'),
+    description: t('attractions.project.constructionImages.0.description')
+  },
+  {
+    url: "https://res.cloudinary.com/dinsl266g/image/upload/f_auto,q_auto,w_800/v1763072851/IMG-20251113-WA0008_qe5joq.jpg",
+    title: t('attractions.project.constructionImages.1.title'),
+    description: t('attractions.project.constructionImages.1.description')
+  },
+  {
+    url: "https://res.cloudinary.com/dinsl266g/image/upload/f_auto,q_auto,w_800/v1763074242/Puente_fwky8r.jpg",
+    title: t('attractions.project.constructionImages.2.title'),
+    description: t('attractions.project.constructionImages.2.description')
+  },
+  {
+    url: "https://res.cloudinary.com/dinsl266g/image/upload/f_auto,q_auto,w_800/v1763115688/cabanias_sywdlm.jpg",
+    title: t('attractions.project.constructionImages.3.title'),
+    description: t('attractions.project.constructionImages.3.description')
+  }
+],
     timeline: [
       { phase: t('attractions.project.timeline.0.phase'), progress: 100, date: t('attractions.project.timeline.0.date') },
       { phase: t('attractions.project.timeline.1.phase'), progress: 100, date: t('attractions.project.timeline.1.date') },
@@ -274,33 +274,36 @@ export function UpcomingAttractionsSection() {
       </motion.div>
 
       {/* Modal de galería */}
-      {showGallery && (
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          className="fixed inset-0 bg-black/90 z-50 flex items-center justify-center p-4"
-          onClick={() => setShowGallery(false)}
-        >
-          <motion.div
-            initial={{ scale: 0.8, opacity: 0 }}
-            animate={{ scale: 1, opacity: 1 }}
-            className="relative max-w-4xl max-h-full"
-            onClick={(e) => e.stopPropagation()}
-          >
-            <img
-              src={projectData.constructionImages[selectedImage].url}
-              alt={projectData.constructionImages[selectedImage].title}
-              className="max-w-full max-h-full object-contain rounded-lg"
-            />
-            <button
-              onClick={() => setShowGallery(false)}
-              className="absolute top-4 right-4 bg-white/20 backdrop-blur-sm text-white p-2 rounded-full hover:bg-white/30 transition-all"
-            >
-              <ArrowRight className="h-5 w-5 rotate-45" />
-            </button>
-          </motion.div>
-        </motion.div>
-      )}
+      {/* Modal de galería OPTIMIZADO */}
+{showGallery && (
+  <motion.div
+    initial={{ opacity: 0 }}
+    animate={{ opacity: 1 }}
+    className="fixed inset-0 bg-black/90 z-50 flex items-center justify-center p-4"
+    onClick={() => setShowGallery(false)}
+  >
+    <motion.div
+      initial={{ scale: 0.8, opacity: 0 }}
+      animate={{ scale: 1, opacity: 1 }}
+      className="relative max-w-4xl max-h-full"
+      onClick={(e) => e.stopPropagation()}
+    >
+      <img
+        src={projectData.constructionImages[selectedImage].url}
+        alt={projectData.constructionImages[selectedImage].title}
+        className="max-w-full max-h-full object-contain rounded-lg"
+        loading="eager"
+        decoding="sync"
+      />
+      <button
+        onClick={() => setShowGallery(false)}
+        className="absolute top-4 right-4 bg-white/20 backdrop-blur-sm text-white p-2 rounded-full hover:bg-white/30 transition-all"
+      >
+        <ArrowRight className="h-5 w-5 rotate-45" />
+      </button>
+    </motion.div>
+  </motion.div>
+)}
 
       {/* Impacto en la comunidad */}
       <motion.div

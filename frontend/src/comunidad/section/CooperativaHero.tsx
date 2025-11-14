@@ -40,7 +40,13 @@ export function CooperativaHero({ onDiscoverClick }: CooperativaHeroProps) {
 
   return (
     <section
-      className="relative min-h-screen overflow-hidden bg-[url('images/comunidad/Fondo-cooperativa.svg')] bg-no-repeat bg-center bg-cover"
+      className="py-24 relative overflow-hidden"
+      style={{
+        backgroundImage: "url('https://res.cloudinary.com/dinsl266g/image/upload/v1763113272/Fondo-cooperativa_j6jccz.svg')",
+        backgroundRepeat: "no-repeat",
+        backgroundPosition: "center",
+        backgroundSize: "cover"
+      }}
     >
       {/* Capa translúcida */}
       <div className="absolute inset-0 bg-emerald-50/50 backdrop-blur-[2px]"></div>

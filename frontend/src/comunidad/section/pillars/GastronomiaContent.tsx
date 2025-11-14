@@ -20,27 +20,27 @@ const useCarouselImages = () => {
   
   return [
     {
-      url: '/images/comunidad//valores-comunidad/ganaderia.jpg',
+      url: 'https://res.cloudinary.com/dinsl266g/image/upload/v1763111724/jose_qkrpbz.webp',
       title: t('gastronomymodal.carousel.cornHarvest'), // ← TRADUCIBLE
       description: t('gastronomymodal.carousel.cornDescription') // ← TRADUCIBLE
     },
     {
-      url: '/images/gastronomia-2.jpg',
+      url: 'https://res.cloudinary.com/dinsl266g/image/upload/v1763117180/chayoteste_p2vzuf.jpg',
       title: t('gastronomymodal.carousel.organicMarket'), // ← TRADUCIBLE
       description: t('gastronomymodal.carousel.marketDescription') // ← TRADUCIBLE
     },
     {
-      url: '/images/gastronomia-3.jpg',
+      url: 'https://res.cloudinary.com/dinsl266g/image/upload/v1763061074/gastronomia_knugxq.jpg',
       title: t('gastronomymodal.carousel.molePreparation'), // ← TRADUCIBLE
       description: t('gastronomymodal.carousel.moleDescription') // ← TRADUCIBLE
     },
     {
-      url: '/images/gastronomia-4.jpg',
+      url: 'https://res.cloudinary.com/dinsl266g/image/upload/v1763114055/cafe-planta_q7jx3x.jpg',
       title: t('gastronomymodal.carousel.organicCoffee'), // ← TRADUCIBLE
       description: t('gastronomymodal.carousel.coffeeDescription') // ← TRADUCIBLE
     },
     {
-      url: '/images/gastronomia-5.jpg',
+      url: 'https://res.cloudinary.com/dinsl266g/image/upload/v1763082284/tamales-hoja_ycmxku.avif',
       title: t('gastronomymodal.carousel.beanTamales'), // ← TRADUCIBLE
       description: t('gastronomymodal.carousel.tamalesDescription') // ← TRADUCIBLE
     }

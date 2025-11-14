@@ -9,7 +9,7 @@ export interface GalleryImage {
   description: string;
   date: string;
   location: string;
-  photographer: string;
+  photographer: string; 
 }
 export function useGallery(images: GalleryImage[]) {
   const { language } = useTranslation(); // ← AGREGAR HOOK

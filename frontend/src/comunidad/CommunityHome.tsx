@@ -13,6 +13,7 @@ export function CommunityHome() {
       className="relative w-full h-screen overflow-hidden"
     >
       {/* Video de fondo representativo de la comunidad */}
+            {/* Video de fondo con Cloudinary - OPTIMIZADO */}
       <div className="absolute inset-0 z-0">
         <video
           autoPlay
@@ -20,12 +21,15 @@ export function CommunityHome() {
           loop
           playsInline
           preload="auto"
-          poster="/videos/Comunidad/poster-hero.webp"
+          poster="https://res.cloudinary.com/dinsl266g/image/upload/f_auto,q_auto,w_1920/v1763067116/poster-hero_xsde4t.webp"
           className="w-full h-full object-cover"
         >
-          {/* Proporciona videos optimizados para la comunidad */}
-          <source src="/videos/Comunidad/output-hero.webm" type="video/webm" />
-          <source src="/videos/Comunidad/output-hero.mp4" type="video/mp4" />
+          {/* ✅ SOLO una fuente - Cloudinary optimiza automáticamente */}
+          <source 
+            src="https://res.cloudinary.com/dinsl266g/video/upload/f_auto,q_70,w_1920/v1763067192/Hero-com_ix9wg0.mp4" 
+            type="video/mp4" 
+          />
+          {/* Fallback para navegadores antiguos */}
           Tu navegador no soporta la reproducción de video.
         </video>
 

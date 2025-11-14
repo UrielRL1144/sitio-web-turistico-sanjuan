@@ -118,7 +118,13 @@ export function ServiciosSection() {
   return (
     <section
     id="servicios"
-    className="relative bg-[url('images/comunidad/Fondo-cooperativa2.svg')] bg-no-repeat bg-center bg-cover overflow-hidden"
+    className="py-24 relative overflow-hidden"
+      style={{
+        backgroundImage: "url('https://res.cloudinary.com/dinsl266g/image/upload/v1763111232/Fondo-comunidad_nqg0wj.svg')",
+        backgroundRepeat: "no-repeat",
+        backgroundPosition: "center",
+        backgroundSize: "cover"
+      }}
   >
   {/* capa translúcida para oscurecer o aclarar */}
       <div className="absolute inset-0 bg-black/10"></div>

@@ -125,7 +125,7 @@ export function VibrantPresentSection() {
       <div
         className="absolute inset-0 bg-cover bg-center opacity-40"
         style={{
-          backgroundImage: "url('/images/comunidad/Fondo-avance-comunitario.svg')",
+          backgroundImage: "url('https://res.cloudinary.com/dinsl266g/image/upload/v1763114788/Fondos-numericos_wvaraf.svg')",
         }}
       ></div>
       
@@ -269,7 +269,7 @@ export function VibrantPresentSection() {
             <div
               className="absolute inset-0 bg-cover bg-center opacity-20"
               style={{
-                backgroundImage: "url('/images/comunidad/Fondos-numericos.svg')",
+                backgroundImage: "url('https://res.cloudinary.com/dinsl266g/image/upload/v1763114788/Fondos-numericos_wvaraf.svg')",
               }}
             ></div>
 

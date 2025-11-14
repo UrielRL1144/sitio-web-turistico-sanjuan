@@ -83,7 +83,7 @@ export function GalleryGeneralSection() {
       {/* Fondo con imagen SVG */}
       <div 
         className="absolute inset-0 bg-cover bg-center"
-        style={{ backgroundImage: 'url(/images/galeria/fondo-galeria.svg)' }}
+        style={{ backgroundImage: 'url(https://res.cloudinary.com/dinsl266g/image/upload/v1763074398/fondo-galeria_urye7x.svg)' }}
       />
 
       {/* Overlay para mejor legibilidad */}

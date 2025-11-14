@@ -2,12 +2,13 @@ import { motion } from "framer-motion";
 import { Mountain, Utensils, Users, Sun } from "lucide-react";
 import { type FC, type JSX } from "react";
 import { forwardRef } from 'react';
-import { useTranslation } from '../contexts/TranslationContext'; // ← AGREGAR IMPORT
+import { useTranslation } from '../contexts/TranslationContext';
 // 💡 Aquí importarías tus nuevas animaciones
 import FishAnimation from "../animations/FishAnimation";
 import CasseroleAnimation from "../animations/CasseroleAnimation";
 import CommunityAnimation from "../animations/CommunityAnimation";
 import TraditionsAnimation from "../animations/TraditionsAnimation";
+
 /* ============================
   1. Tipos y datos
 =========================== */
@@ -19,7 +20,7 @@ interface HighlightSectionProps {
   gradient?: string;
   align?: "left" | "right" | "center";
   stats?: {value: string; label: string}[];
-  backgroundAnimation?: JSX.Element; // 👈 Nuevo prop para la animación
+  backgroundAnimation?: JSX.Element;
 }
 
 interface StatsBlockProps {
@@ -27,12 +28,12 @@ interface StatsBlockProps {
   align: "left" | "right" | "center";
 }
 
-// MODIFICAR: Hacer sections una función que reciba t
+// ✅ URLs OPTIMIZADAS con Cloudinary - RESPONSIVE y MODERNAS
 const getSections = (t: (key: any) => string): HighlightSectionProps[] => [
   {
     title: t('highlights.natureTitle'),
     text: t('highlights.natureText'),
-    image: "/images/home/Monte_virgen.jpg",
+    image: "https://res.cloudinary.com/dinsl266g/image/upload/f_auto,q_auto,w_800/v1763061088/Monte_virgen_oznfhp.jpg",
     icon: <Mountain className="h-10 w-10 text-white" role="img" aria-label="Icono de montaña representando naturaleza" />,
     gradient: "from-blue-900/30 to-black/60",
     align: "center",
@@ -44,7 +45,7 @@ const getSections = (t: (key: any) => string): HighlightSectionProps[] => [
   {
     title: t('highlights.gastronomyTitle'),
     text: t('highlights.gastronomyText'),
-    image: "/images/home/gastronomia.jpg",
+    image: "https://res.cloudinary.com/dinsl266g/image/upload/f_auto,q_auto,w_800/v1763061074/gastronomia_knugxq.jpg",
     icon: <Utensils className="h-10 w-10 text-white" role="img" aria-label="Icono de comida representando gastronomía" />,
     gradient: "from-amber-900/80 to-black/60",
     align: "left",
@@ -56,7 +57,7 @@ const getSections = (t: (key: any) => string): HighlightSectionProps[] => [
   {
     title: t('highlights.communityTitle'),
     text: t('highlights.communityText'),
-    image: "/images/home/Comunidad.jpg",
+    image: "https://res.cloudinary.com/dinsl266g/image/upload/f_auto,q_auto,w_800/v1763061102/Comunidad_x2zn6s.jpg",
     icon: <Users className="h-10 w-10 text-white" role="img" aria-label="Icono de personas representando la comunidad" />,
     gradient: "from-cyan-900/80 to-black/60",
     align: "right",
@@ -68,7 +69,7 @@ const getSections = (t: (key: any) => string): HighlightSectionProps[] => [
   {
     title: t('highlights.traditionsTitle'),
     text: t('highlights.traditionsText'),
-    image: "/images/home/Tradiciones.jpg",
+    image: "https://res.cloudinary.com/dinsl266g/image/upload/f_auto,q_auto,w_800/v1763061095/Tradiciones_xizkdo.jpg",
     icon: <Sun className="h-10 w-10 text-white" role="img" aria-label="Icono de voladores representando tradiciones" />,
     gradient: "from-pink-900/80 to-black/60",
     align: "center",
@@ -110,7 +111,7 @@ const StatsBlock: FC<StatsBlockProps> = ({ stats, align }) => {
 };
 
 /* ===========================
-   2. Componente de sección individual
+   2. Componente de sección individual OPTIMIZADO
 =========================== */
 const HighlightSection: FC<HighlightSectionProps> = ({
   title,
@@ -120,26 +121,30 @@ const HighlightSection: FC<HighlightSectionProps> = ({
   gradient = "from-black/80 to-black/40",
   align = "center",
   stats,
-  backgroundAnimation, // 👈 Recibir el nuevo prop
+  backgroundAnimation,
 }) => {
   const alignment = align === "left" ? "items-start text-left" : align === "right" ? "items-end text-right" : "items-center text-center";
 
   return (
     <section className="relative w-full min-h-screen flex items-center justify-center overflow-hidden">
-      {/* Imagen de fondo */}
-      {/* Imagen de fondo optimizada */}
-        <motion.img
-          src={image}
-          alt={`Imagen representando ${title.toLowerCase()} en San Juan Tahitic`}
-          className="absolute inset-0 w-full h-full object-cover z-0"
-          loading="lazy"
-          initial={{ scale: 1.1, opacity: 0 }}
-          whileInView={{ scale: 1, opacity: 1 }}
-          transition={{ duration: 1.2, ease: "easeOut" }}
-        />
+      {/* ✅ IMAGEN OPTIMIZADA con Cloudinary */}
+      <motion.img
+        src={image}
+        alt={`Imagen representando ${title.toLowerCase()} en San Juan Tahitic`}
+        className="absolute inset-0 w-full h-full object-cover z-0"
+        loading="lazy"
+        decoding="async"
+        initial={{ scale: 1.1, opacity: 0 }}
+        whileInView={{ scale: 1, opacity: 1 }}
+        transition={{ duration: 1.2, ease: "easeOut" }}
+        // ✅ Atributos para mejor performance
+        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 80vw, 60vw"
+      />
+
       {/* Overlay degradado */}
       <div className={`absolute inset-0 bg-gradient-to-t ${gradient} z-0`} />
 
+      {/* Animación de fondo */}
       {backgroundAnimation}
 
       {/* Contenido */}
@@ -165,6 +170,7 @@ const HighlightSection: FC<HighlightSectionProps> = ({
         >
           {title}
         </motion.h2>
+
         {/* Texto descriptivo */}
         <motion.p
           className="text-lg md:text-xl text-white max-w-2xl drop-shadow-md"
@@ -175,10 +181,8 @@ const HighlightSection: FC<HighlightSectionProps> = ({
           {text}
         </motion.p>
         
+        {/* Estadísticas */}
         {stats?.length ? <StatsBlock stats={stats} align={align} /> : null}
-
-        {/* ¡NUEVO COMPONENTE DE ANIMACIÓN! */}
-        
       </div> 
     </section>
   );
@@ -188,11 +192,11 @@ const HighlightSection: FC<HighlightSectionProps> = ({
    3. Componente principal
 =========================== */
 export const HeroHighlightsSection = forwardRef<HTMLDivElement>((props, ref) => {
-  const { t } = useTranslation(); // ← AGREGAR HOOK AQUÍ
+  const { t } = useTranslation();
   
   return (
     <div ref={ref} className="w-full">
-      {getSections(t).map((section, index) => ( // ← USAR getSections(t)
+      {getSections(t).map((section, index) => (
         <HighlightSection
           key={index}
           title={section.title}

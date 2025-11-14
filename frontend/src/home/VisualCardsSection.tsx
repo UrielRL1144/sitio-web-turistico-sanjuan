@@ -29,42 +29,45 @@ interface VisualCardsSectionProps {
 /* =============================
    Datos optimizados - AHORA CON TRADUCCIONES
 ============================= */
+/* =============================
+   Datos optimizados - AHORA CON CLOUDINARY Y TRADUCCIONES
+============================= */
 const getCardsData = (t: (key: any) => string): CardData[] => [
   {
     title: t('cards.adelaRestaurant.title'),
     description: t('cards.adelaRestaurant.description'),
-    image: "/images/home/cards/Comedor.webp",
+    image: "https://res.cloudinary.com/dinsl266g/image/upload/f_auto,q_auto,w_600/v1763062497/Comedor_hfora9.webp",
     link: "/section-gastronomia",
     priority: true
   },
   {
     title: t('cards.loversWaterfall.title'),
     description: t('cards.loversWaterfall.description'),
-    image: "/images/home/cards/Cascada-enamorados.webp",
+    image: "https://res.cloudinary.com/dinsl266g/image/upload/f_auto,q_auto,w_600/v1763062497/Cascada-enamorados_p0xiib.webp",
     link: "/turismo",
   },
   {
     title: t('cards.cabins.title'),
     description: t('cards.cabins.description'),
-    image: "/images/home/cards/Cabanas.webp",
+    image: "https://res.cloudinary.com/dinsl266g/image/upload/f_auto,q_auto,w_600/v1763062499/Cabanas_gjdkib.webp",
     link: "/comunidad#atracciones-proximas",
   },
   {
     title: t('cards.viewpoints.title'),
     description: t('cards.viewpoints.description'),
-    image: "/images/home/cards/mirador.webp",
+    image: "https://res.cloudinary.com/dinsl266g/image/upload/f_auto,q_auto,w_600/v1763062498/mirador_obezxk.webp",
     link: "/galeria",
   },
   {
     title: t('cards.dances.title'),
     description: t('cards.dances.description'),
-    image: "/images/home/cards/Danza.webp",
+    image: "https://res.cloudinary.com/dinsl266g/image/upload/f_auto,q_auto,w_600/v1763062498/Danza_q46o3h.webp",
     link: "/cultura#danzas",
   },
   {
     title: t('cards.rivers.title'),
     description: t('cards.rivers.description'),
-    image: "/images/home/cards/Rios.webp",
+    image: "https://res.cloudinary.com/dinsl266g/image/upload/f_auto,q_auto,w_600/v1763062498/Rios_uwkmkq.webp",
     link: "/turismo",
   },
 ];
@@ -270,21 +273,22 @@ const VisualCard = ({ card, index, shouldReduceMotion, isMobile }: VisualCardPro
       role="article"
       aria-label={`${t('cards.goToCard')} ${card.title}`} // ← TRADUCIBLE
     >
-      {/* Imagen optimizada */}
-      <motion.div 
-        style={shouldReduceMotion ? undefined : { y }} 
-        className="absolute inset-0 w-full h-full"
-      >
-        <img
-          src={card.image}
-          alt={card.title}
-          width={400}
-          height={450}
-          className="w-full h-full object-cover object-center transition-transform duration-500 group-hover:scale-105"
-          loading={card.priority ? "eager" : "lazy"}
-          decoding="async"
-        />
-      </motion.div>
+      {/* Imagen optimizada con Cloudinary */}
+    <motion.div 
+      style={shouldReduceMotion ? undefined : { y }} 
+      className="absolute inset-0 w-full h-full"
+    >
+      <img
+        src={card.image}
+        alt={card.title}
+        width={600}  // ✅ Actualizado para coincidir con w_600
+        height={450}
+        className="w-full h-full object-cover object-center transition-transform duration-500 group-hover:scale-105"
+        loading={card.priority ? "eager" : "lazy"}
+        decoding="async"
+        sizes="(max-width: 768px) 90vw, (max-width: 1024px) 45vw, 400px" // ✅ Responsive
+      />
+    </motion.div>
 
       {/* Overlay optimizado */}
       <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent transition-all duration-500 group-hover:from-black/90 group-hover:via-black/50" />

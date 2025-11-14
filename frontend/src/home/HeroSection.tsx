@@ -118,14 +118,14 @@ export const HeroSection: FC<HeroSectionProps> = ({ onDiscoverClick, onDiscoverC
   }, []);
 
   // Preload crítico optimizado para móviles
-  useEffect(() => {
+  /* useEffect(() => {
     const preloadImage = new Image();
     preloadImage.src = isMobile ? '/images/san_juan-mobile-optimized.jpg' : '/images/san_juan-poster.jpg';
     
     if ('fonts' in document) {
       document.fonts.load('1em Inter');
     }
-  }, [isMobile]);
+  }, [isMobile]);*/
 
   return (
     <section 
@@ -139,17 +139,6 @@ export const HeroSection: FC<HeroSectionProps> = ({ onDiscoverClick, onDiscoverC
         perspective: '1000px'
       }}
     >
-      {/* Meta tags para SEO y accesibilidad del video */}
-      <head>
-        <meta name="description" content="Descubre San Juan Tahitic - Destino turístico con clima templado húmedo, ubicado en la Región Central" />
-        <meta property="og:video" content="/videos/san_juan-optimized.mp4" />
-        <meta property="og:video:type" content="video/mp4" />
-        <meta property="og:video:width" content="1920" />
-        <meta property="og:video:height" content="1080" />
-        <link rel="preload" href={isMobile ? "/videos/san_juan-mobile.mp4" : "/videos/san_juan-optimized.mp4"} as="video" type="video/mp4" />
-        <link rel="preload" href={isMobile ? "/images/san_juan-mobile-optimized.jpg" : "/images/san_juan-poster.jpg"} as="image" />
-      </head>
-
       {/* Fondo optimizado para móviles */}
       <BackgroundLayer 
         onVideoLoad={() => setIsVideoLoaded(true)}
@@ -207,25 +196,52 @@ interface HeroSectionProps {
   onDiscoverCardClick: () => void;
 }
 
+/**
+ * Capa de fondo optimizada con Cloudinary - URLs DIRECTAS
+ */
 const BackgroundLayer: FC<BackgroundLayerProps> = ({ onVideoLoad, isVideoLoaded, isMobile }) => {
   const [videoError, setVideoError] = useState(false);
+  const [imageLoaded, setImageLoaded] = useState(false);
+
+  // ✅ URLs DIRECTAS de Cloudinary - COPIAR TUS URLs EXACTAS AQUÍ
+  const videoUrl = "https://res.cloudinary.com/dinsl266g/video/upload/v1763052085/hero-home-video.mp4_nn6ztj.mp4";
+  const imageUrl = "https://res.cloudinary.com/dinsl266g/image/upload/v1763052576/hero-home-image_anavv1.png";
 
   const handleVideoError = useCallback(() => {
-    console.warn('Video failed to load, using image fallback');
+    console.warn('❌ Video de Cloudinary falló, usando imagen de respaldo');
     setVideoError(true);
+    // Asegurarnos de marcar como cargado incluso si falla el video
+    if (imageLoaded) {
+      onVideoLoad();
+    }
+  }, [onVideoLoad, imageLoaded]);
+
+  const handleVideoLoad = useCallback(() => {
+    console.log('✅ Video de Cloudinary cargado correctamente');
+    setVideoError(false);
     onVideoLoad();
   }, [onVideoLoad]);
 
+  const handleImageLoad = useCallback(() => {
+    console.log('✅ Imagen de Cloudinary cargada correctamente');
+    setImageLoaded(true);
+    // Si el video ya falló, marcar como cargado
+    if (videoError) {
+      onVideoLoad();
+    }
+  }, [onVideoLoad, videoError]);
+
   return (
     <div className="absolute inset-0 z-0">
-      {/* Video optimizado para móviles */}
+      {/* Video optimizado con Cloudinary */}
       <video
+        key="cloudinary-hero-video"
         autoPlay={!isMobile}
         loop
         muted
         playsInline
         preload={isMobile ? "metadata" : "auto"}
-        poster={isMobile ? "/images/san_juan-poster.webp" : "/images/san_juan-mobile-optimized.webp"}
+        poster={imageUrl}
         className={`
           absolute inset-0 w-full h-full min-h-screen object-cover bg-black
           ${isMobile ? 'object-center' : 'object-[60%_center] xl:object-[55%_bottom]'}
@@ -234,32 +250,25 @@ const BackgroundLayer: FC<BackgroundLayerProps> = ({ onVideoLoad, isVideoLoaded,
           ${videoError ? 'hidden' : ''}
         `}
         aria-label="Paisajes de San Juan Tahitic"
-        onLoadedData={onVideoLoad}
-        onCanPlayThrough={onVideoLoad}
+        onLoadedData={handleVideoLoad}
+        onCanPlayThrough={handleVideoLoad}
         onError={handleVideoError}
       >
-        {/* Videos optimizados para diferentes dispositivos */}
-        <source 
-          src={isMobile ? "/videos/san_juan-mobile.webm" : "/videos/san_juan-optimized.webm"} 
-          type="video/webm" 
-        />
-        <source 
-          src={isMobile ? "/videos/san_juan-mobile.mp4" : "/videos/san_juan-optimized.mp4"} 
-          type="video/mp4" 
-        />
+        {/* ✅ SOLO una fuente - URL directa de Cloudinary */}
+        <source src={videoUrl} type="video/mp4" />
         
         {/* Fallback para navegadores antiguos */}
         <track kind="captions" src="/videos/captions.vtt" srcLang="es" label="Español" default />
       </video>
 
-      {/* Fallback de imagen si video falla o en móviles con datos limitados */}
-      {(videoError || isMobile) && (
+      {/* ✅ Fallback de imagen SOLO si video falla */}
+      {videoError && (
         <img 
-          src={isMobile ? "/images/san_juan-mobile-optimized.jpg" : "/images/san_juan-poster.jpg"} 
+          src={imageUrl}
           alt="Paisajes de San Juan Tahitic"
           className="absolute inset-0 w-full h-full object-cover"
           loading="eager"
-          onLoad={onVideoLoad}
+          onLoad={handleImageLoad}
         />
       )}
 
@@ -271,7 +280,7 @@ const BackgroundLayer: FC<BackgroundLayerProps> = ({ onVideoLoad, isVideoLoaded,
       {!isVideoLoaded && !videoError && (
         <div className="absolute inset-0 bg-gray-900 flex items-center justify-center">
           <div className="text-white text-lg animate-pulse">
-            {isMobile ? 'Cargando...' : 'Cargando experiencia...'}
+            {isMobile ? 'Cargando desde la nube...' : 'Cargando experiencia...'}
           </div>
         </div>
       )}

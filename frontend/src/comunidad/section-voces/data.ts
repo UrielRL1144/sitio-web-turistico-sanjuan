@@ -8,7 +8,7 @@ import {
   Handshake,
   Star
 } from 'lucide-react';
-import { useTranslation } from '../../contexts/TranslationContext'; // ← AGREGAR IMPORT
+import { useTranslation } from '../../contexts/TranslationContext';
 
 export interface Testimonio {
   id: number;
@@ -24,33 +24,23 @@ export interface Testimonio {
   tagline: string;
 }
 
-// Hook para obtener testimonios traducidos - NUEVO
-export const useTestimoniosData = (): Testimonio[] => {
-  const { t } = useTranslation();
-  
-  const testimoniosTraducidos = t('voices.testimonials') as unknown as Array<{
-    id: number;
-    nombre: string;
-    rol: string;
-    testimonio: string;
-    detalles: string;
-    tagline: string;
-  }>;
-
-  // Mapear los datos traducidos con la estructura completa
-  return testimoniosTraducidos.map(testimonio => {
-    // Asignar iconos y colores basados en el ID (puedes ajustar esta lógica)
-    const iconData = getIconAndColor(testimonio.id);
-    
-    return {
-      ...testimonio,
-      imagen: getImagePath(testimonio.id),
-      ...iconData
-    };
-  });
+// ✅ URLs OPTIMIZADAS de Cloudinary
+const CLOUDINARY_IMAGES = {
+  1: "https://res.cloudinary.com/dinsl266g/image/upload/f_auto,q_auto,w_400/v1763111723/artesana_n5sxwf.webp",
+  2: "https://res.cloudinary.com/dinsl266g/image/upload/f_auto,q_auto,w_400/v1763111724/jose_qkrpbz.webp",
+  3: "https://res.cloudinary.com/dinsl266g/image/upload/f_auto,q_auto,w_400/v1763111724/joven_tqwssy.webp",
+  4: "https://res.cloudinary.com/dinsl266g/image/upload/f_auto,q_auto,w_400/v1763111723/musico_e6iava.jpg",
+  5: "https://res.cloudinary.com/dinsl266g/image/upload/f_auto,q_auto,w_400/v1763111724/cocinera_ob3u0z.png",
+  6: "https://res.cloudinary.com/dinsl266g/image/upload/f_auto,q_auto,w_400/v1763111724/coordinador_f8hxwx.jpg",
+  7: "https://res.cloudinary.com/dinsl266g/image/upload/f_auto,q_auto,w_400/v1763111724/maestra_nuixxo.jpg"
 };
 
-// Función auxiliar para asignar iconos y colores - NUEVO
+// ✅ Función auxiliar para rutas de imágenes - ACTUALIZADA con Cloudinary
+const getImagePath = (id: number) => {
+  return CLOUDINARY_IMAGES[id as keyof typeof CLOUDINARY_IMAGES] || CLOUDINARY_IMAGES[1];
+};
+
+// ✅ Función auxiliar para asignar iconos y colores (MANTENIDA)
 const getIconAndColor = (id: number) => {
   const iconMap = {
     1: { icon: BookOpen, color: "from-teal-500 to-cyan-600", bgColor: "bg-teal-50", borderColor: "border-teal-200" },
@@ -65,29 +55,41 @@ const getIconAndColor = (id: number) => {
   return iconMap[id as keyof typeof iconMap] || iconMap[1];
 };
 
-// Función auxiliar para rutas de imágenes - NUEVO
-const getImagePath = (id: number) => {
-  const imageMap = {
-    1: "/images/comunidad/testimonios/artesana.webp",
-    2: "/images/comunidad/testimonios/jose.webp",
-    3: "/images/comunidad/testimonios/joven.webp",
-    4: "/images/comunidad/testimonios/musico.jpg",
-    5: "/images/comunidad/testimonios/cocinera.png",
-    6: "/images/comunidad/testimonios/coordinador.jpg",
-    7: "/images/comunidad/testimonios/maestra.jpg"
-  };
+// ✅ Hook para obtener testimonios traducidos - ACTUALIZADO con Cloudinary
+export const useTestimoniosData = (): Testimonio[] => {
+  const { t } = useTranslation();
+  
+  const testimoniosTraducidos = t('voices.testimonials') as unknown as Array<{
+    id: number;
+    nombre: string;
+    rol: string;
+    testimonio: string;
+    detalles: string;
+    tagline: string;
+  }>;
 
-  return imageMap[id as keyof typeof imageMap] || "/images/comunidad/testimonios/default.webp";
+  // ✅ Mapear los datos traducidos con Cloudinary
+  return testimoniosTraducidos.map(testimonio => {
+    const iconData = getIconAndColor(testimonio.id);
+    
+    return {
+      ...testimonio,
+      imagen: getImagePath(testimonio.id), // ✅ Ahora usa Cloudinary
+      ...iconData
+    };
+  });
 };
 
-
+// ✅ Datos estáticos de respaldo (OPCIONAL - para compatibilidad)
+// Si algún componente todavía usa estos datos directamente, seguirán funcionando
+// pero con las imágenes de Cloudinary
 export const testimoniosData: Testimonio[] = [
   {
     id: 1,
     nombre: "Doña Rosa Mendoza",
     rol: "Artesana Textil",
     testimonio: "Mis manos no solo tejen hilos, tejen los sueños y las historias...",
-    imagen: "/images/comunidad/testimonios/artesana.webp",
+    imagen: CLOUDINARY_IMAGES[1], // ✅ Cloudinary
     icon: BookOpen,
     color: "from-teal-500 to-cyan-600",
     bgColor: "bg-teal-50",
@@ -100,7 +102,7 @@ export const testimoniosData: Testimonio[] = [
     nombre: "Don Javier Hernández",
     rol: "Agricultor",
     testimonio: "Esta tierra no es un recurso, es nuestra madre...",
-    imagen: "/images/comunidad/testimonios/jose.webp",
+    imagen: CLOUDINARY_IMAGES[2], // ✅ Cloudinary
     icon: Sprout,
     color: "from-blue-500 to-sky-600",
     bgColor: "bg-blue-50",
@@ -113,7 +115,7 @@ export const testimoniosData: Testimonio[] = [
     nombre: "Ana López",
     rol: "Joven Líder",
     testimonio: "Cargamos con el orgullo de nuestro pasado, pero nuestros pies caminan hacia el futuro. Nuestro sueño es tender un puente para que el mundo conozca nuestra cultura..",
-    imagen: "/images/comunidad/testimonios/joven.webp",
+    imagen: CLOUDINARY_IMAGES[3], // ✅ Cloudinary
     icon: Users,
     color: "from-sky-500 to-blue-600",
     bgColor: "bg-sky-50",
@@ -126,7 +128,7 @@ export const testimoniosData: Testimonio[] = [
     nombre: "Maestro Carlos Ruiz",
     rol: "Músico Tradicional",
     testimonio: "Cada nota de nuestra música cuenta la historia de nuestras montañas y ríos. No solo tocamos instrumentos, mantenemos viva la voz de nuestros ancestros a través de las melodías que nos heredaron.",
-    imagen: "/images/comunidad/testimonios/musico.jpg",
+    imagen: CLOUDINARY_IMAGES[4], // ✅ Cloudinary
     icon: Music,
     color: "from-cyan-500 to-teal-600",
     bgColor: "bg-cyan-50",
@@ -139,7 +141,7 @@ export const testimoniosData: Testimonio[] = [
     nombre: "Doña Elena Martínez",
     rol: "Cocinera Tradicional",
     testimonio: "En mi cocina, los sabores son cartas de amor a nuestra tierra. Cada platillo cuenta una historia de siembras, cosechas y las manos que hicieron posible este milagro diario.",
-    imagen: "/images/comunidad/testimonios/cocinera.png",
+    imagen: CLOUDINARY_IMAGES[5], // ✅ Cloudinary
     icon: Heart,
     color: "from-teal-600 to-cyan-700",
     bgColor: "bg-teal-50",
@@ -152,7 +154,7 @@ export const testimoniosData: Testimonio[] = [
     nombre: "Don Miguel Torres",
     rol: "Coordinador de Tequios",
     testimonio: "El tequio nos recuerda que somos más fuertes juntos. Cuando trabajamos hombro con hombro, no solo construimos caminos o escuelas, tejemos la confianza que nos hace una verdadera comunidad.",
-    imagen: "/images/comunidad/testimonios/coordinador.jpg",
+    imagen: CLOUDINARY_IMAGES[6], // ✅ Cloudinary
     icon: Handshake,
     color: "from-blue-600 to-sky-700",
     bgColor: "bg-blue-50",
@@ -165,7 +167,7 @@ export const testimoniosData: Testimonio[] = [
     nombre: "Profesora Sofia Reyes",
     rol: "Educadora Comunitaria",
     testimonio: "Enseñar aquí no es solo transmitir conocimientos, es ayudar a nuestros niños a encontrar el equilibrio entre el orgullo de sus raíces y las oportunidades del mundo moderno.",
-    imagen: "/images/comunidad/testimonios/maestra.jpg",
+    imagen: CLOUDINARY_IMAGES[7], // ✅ Cloudinary
     icon: Star,
     color: "from-sky-600 to-blue-700",
     bgColor: "bg-sky-50",
@@ -173,5 +175,4 @@ export const testimoniosData: Testimonio[] = [
     detalles: "25 años formando nuevas generaciones",
     tagline: "Guía entre tradición y futuro"
   }
-  // ... resto de testimonio
 ];

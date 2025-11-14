@@ -10,40 +10,40 @@ import { useTranslation } from '../contexts/TranslationContext'; // ← AGREGAR 
 export function CooperativaSection() {
   const { t } = useTranslation(); // ← AGREGAR HOOK
 
-  const productos = [
-    {
-      icon: Coffee,
-      title: t('cooperative.products.coffee.title'), // ← TRADUCIBLE
-      description: t('cooperative.products.coffee.description'), // ← TRADUCIBLE
-      image: "/images/comunidad/cafe-coperariva.jpeg",
-      gradient: "from-amber-400 to-orange-600",
-      accent: "text-amber-600"
-    },
-    {
-      icon: Wine,
-      title: t('cooperative.products.punch.title'), // ← TRADUCIBLE
-      description: t('cooperative.products.punch.description'), // ← TRADUCIBLE
-      image: "/images/comunidad/licores.jpeg",
-      gradient: "from-purple-400 to-pink-600",
-      accent: "text-purple-600"
-    },
-    {
-      icon: Leaf,
-      title: t('cooperative.products.soaps.title'), // ← TRADUCIBLE
-      description: t('cooperative.products.soaps.description'), // ← TRADUCIBLE
-      image: "/images/comunidad/jabones.jpeg",
-      gradient: "from-green-400 to-emerald-600",
-      accent: "text-green-600"
-    },
-    {
-      icon: Droplet,
-      title: t('cooperative.products.juices.title'), // ← TRADUCIBLE
-      description: t('cooperative.products.juices.description'), // ← TRADUCIBLE
-      image: "/images/comunidad/jugo-fruta.jpeg",
-      gradient: "from-red-400 to-orange-600",
-      accent: "text-red-600"
-    }
-  ];
+const productos = [
+  {
+    icon: Coffee,
+    title: t('cooperative.products.coffee.title'),
+    description: t('cooperative.products.coffee.description'),
+    image: "https://res.cloudinary.com/dinsl266g/image/upload/f_auto,q_auto,w_400/v1763112532/cafe-coperariva_on9kzm.jpg",
+    gradient: "from-amber-400 to-orange-600",
+    accent: "text-amber-600"
+  },
+  {
+    icon: Wine,
+    title: t('cooperative.products.punch.title'),
+    description: t('cooperative.products.punch.description'),
+    image: "https://res.cloudinary.com/dinsl266g/image/upload/f_auto,q_auto,w_400/v1763112532/licores_pyndrs.jpg",
+    gradient: "from-purple-400 to-pink-600",
+    accent: "text-purple-600"
+  },
+  {
+    icon: Leaf,
+    title: t('cooperative.products.soaps.title'),
+    description: t('cooperative.products.soaps.description'),
+    image: "https://res.cloudinary.com/dinsl266g/image/upload/f_auto,q_auto,w_400/v1763112532/jabones_ul1wyl.jpg",
+    gradient: "from-green-400 to-emerald-600",
+    accent: "text-green-600"
+  },
+  {
+    icon: Droplet,
+    title: t('cooperative.products.juices.title'),
+    description: t('cooperative.products.juices.description'),
+    image: "https://res.cloudinary.com/dinsl266g/image/upload/f_auto,q_auto,w_400/v1763072850/IMG-20251113-WA0005_f3sq5h.jpg",
+    gradient: "from-red-400 to-orange-600",
+    accent: "text-red-600"
+  }
+];
 
   const impacto = [
     { 
@@ -84,10 +84,16 @@ export function CooperativaSection() {
   return (
     <section
       id="cooperativa"
-      className="py-24 relative overflow-hidden bg-[url('images/comunidad/Fondo-comunidad-cooperativa.svg')] bg-no-repeat bg-center bg-cover"
+      className="py-24 relative overflow-hidden"
+      style={{
+        backgroundImage: "url('https://res.cloudinary.com/dinsl266g/image/upload/v1763111232/Fondo-comunidad_nqg0wj.svg')",
+        backgroundRepeat: "no-repeat",
+        backgroundPosition: "center",
+        backgroundSize: "cover"
+      }}
     >
       {/* Capa translúcida para mejorar legibilidad */}
-      <div className="absolute inset-0 bg-white/10 backdrop-blur-[2px]"></div>
+      <div className="absolute inset-0 bg-white/70 backdrop-blur-[2px]"></div>
 
       {/* Fondos decorativos animados */}
       <motion.div

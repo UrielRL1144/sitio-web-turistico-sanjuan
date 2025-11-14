@@ -77,7 +77,7 @@ export function RootsSection() {
       id="raices" 
       className="relative w-full py-20 sm:py-32 overflow-hidden"
       style={{
-        backgroundImage: 'url(/images/comunidad/linea-tiempo/roots-background.webp)',
+        backgroundImage: 'url(https://res.cloudinary.com/dinsl266g/image/upload/v1763117912/roots-background_afnbrt.webp)',
         backgroundSize: 'cover',
         backgroundPosition: 'center',
         backgroundAttachment: 'fixed',

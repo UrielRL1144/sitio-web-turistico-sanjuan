@@ -15,7 +15,7 @@ export const AdventureActivities = forwardRef<HTMLDivElement>((props, ref) => {
       icon: Mountain,
       title: t('tourism.mountainTrails'), // ← TRADUCIBLE
       description: t('tourism.mountainTrailsDescription'), // ← TRADUCIBLE
-      image: "images/Exploracion.jpg",
+      image: "https://res.cloudinary.com/dinsl266g/image/upload/v1763072850/IMG-20251113-WA0003_dtpnpk.jpg",
       gradient: "from-emerald-400 to-green-600",
       shadow: "shadow-nature"
     },
@@ -31,7 +31,7 @@ export const AdventureActivities = forwardRef<HTMLDivElement>((props, ref) => {
       icon: Waves,
       title: t('tourism.riversWaterfalls'), // ← TRADUCIBLE
       description: t('tourism.riversWaterfallsDescription'), // ← TRADUCIBLE
-      image: "images/Cascada.jpg",
+      image: "https://res.cloudinary.com/dinsl266g/image/upload/v1763072850/IMG-20251113-WA0006_snt6gk.jpg",
       gradient: "from-cyan-400 to-blue-600",
       shadow: "shadow-nature"
     },
@@ -39,7 +39,7 @@ export const AdventureActivities = forwardRef<HTMLDivElement>((props, ref) => {
       icon: Camera,
       title: t('tourism.panoramicViewpoints'), // ← TRADUCIBLE
       description: t('tourism.panoramicViewpointsDescription'), // ← TRADUCIBLE
-      image: "images/puente.jpeg",
+      image: "https://res.cloudinary.com/dinsl266g/image/upload/v1763072850/IMG-20251113-WA0004_jq7cro.jpg",
       gradient: "from-amber-400 to-orange-600",
       shadow: "shadow-nature"
     }
@@ -56,7 +56,7 @@ export const AdventureActivities = forwardRef<HTMLDivElement>((props, ref) => {
     <section
       ref={ref}
       id="turismo"
-      className="py-24 relative overflow-hidden bg-[url('images/Turismo/Fondo-turistico.svg')] bg-no-repeat bg-center bg-cover"
+      className="py-24 relative overflow-hidden bg-[url('https://res.cloudinary.com/dinsl266g/image/upload/v1763062498/mirador_obezxk.webp')] bg-no-repeat bg-center bg-cover"
     >
       {/* capa translúcida para oscurecer o aclarar */}
       <div className="absolute inset-0 bg-black/10"></div>
@@ -184,7 +184,7 @@ export const AdventureActivities = forwardRef<HTMLDivElement>((props, ref) => {
             <div className="relative">
               <div className="absolute inset-0 bg-gradient-to-br from-green-400/20 to-emerald-600/20 rounded-2xl blur-2xl transform rotate-3"></div>
               <ImageWithFallback
-                src="images/Cascada.jpg"
+                src="https://res.cloudinary.com/dinsl266g/image/upload/v1763072850/IMG-20251113-WA0003_dtpnpk.jpg"
                 alt="Ecoturismo en San Juan Tahitic"
                 className="relative w-full h-80 object-cover rounded-2xl shadow-2xl transform hover:rotate-1 transition-transform duration-500"
               />

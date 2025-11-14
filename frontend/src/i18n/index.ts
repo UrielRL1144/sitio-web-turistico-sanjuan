@@ -4,7 +4,6 @@ import type { Translations, Language, TranslationKey } from './types';
 import esTranslations from './es.json';
 import enTranslations from './en.json';
 import nahTranslations from './nah.json';
-
 export const translations: Record<Language, Translations> = {
   es: esTranslations,
   en: enTranslations,

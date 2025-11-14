@@ -6,7 +6,7 @@ import {
   Clock, MapPin, Users, Book, Play, Calendar, 
   Quote, ArrowRight, Star, X, Volume2, VolumeX,
   Maximize2, Minimize2, Pause,
-  ArrowLeft
+  ArrowLeft 
 } from 'lucide-react';
 // Importar todos los archivos JSON
 import historiasDataEs from '../../archivos_data/atractivos-turisticos.json';
@@ -113,7 +113,7 @@ export function ExploradorAtractivosTuristicos() {
       <div className="absolute inset-0">
         <div 
           className="absolute inset-0 bg-cover bg-center bg-no-repeat"
-          style={{ backgroundImage: 'url("/images/Turismo/puente.jpeg")' }}
+          style={{ backgroundImage: 'url("https://res.cloudinary.com/dinsl266g/image/upload/v1763076653/Viejo_zoi3ur.jpg")' }}
         ></div>
         <div className="absolute inset-0 bg-gradient-to-b from-white/80 via-white/10 to-transparent"></div>
       </div>
