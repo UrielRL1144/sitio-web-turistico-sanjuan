@@ -14,7 +14,7 @@
         "experience": "45 years of experience",
         "location": "San Juan Tahitic Centro"
       },
-      "image": "/images/cultura/artesanias/tapiz-lana.png",
+      "image": "https://res.cloudinary.com/dinsl266g/image/upload/v1763081121/tapiz-lana_wzsryi.png",
       "story": "This technique was taught by my grandmother when I was 8 years old. Each symbol in the tapestry represents elements of our nature and ancestral beliefs. The colors are obtained from flowers that grow on the sacred hill."
     },
     {
@@ -31,7 +31,7 @@
         "experience": "35 years of experience",
         "location": "Valle de los Tejedores"
       },
-      "image": "/images/cultura/artesanias/tapiz-lana.png",
+      "image": "https://res.cloudinary.com/dinsl266g/image/upload/v1763081121/tapiz-lana_wzsryi.png", 
       "story": "The rebozo is more than a garment, it's the history of our women. Each pattern has a special meaning passed from mother to daughter. The designs represent the river, the mountains and the cycle of life."
     },
     {
@@ -48,7 +48,7 @@
         "experience": "28 years of experience",
         "location": "Cerro de las Tejedoras"
       },
-      "image": "/images/cultura/artesanias/tapiz-lana.png",
+      "image": "https://res.cloudinary.com/dinsl266g/image/upload/v1763081121/tapiz-lana_wzsryi.png",
       "story": "Each sash tells the story of who wears it. The symbols represent achievements, dreams and protections. My great-grandmother taught me that weaving is a conversation with ancestors, every stitch is a word."
     },
     {
@@ -65,7 +65,7 @@
         "experience": "40 years of experience",
         "location": "Barrio de los Bordadores"
       },
-      "image": "/images/cultura/artesanias/tapiz-lana.png",
+      "image": "https://res.cloudinary.com/dinsl266g/image/upload/v1763081121/tapiz-lana_wzsryi.png",
       "story": "This tablecloth represents the weddings of our community. Each embroidered flower symbolizes a wish of happiness for the couple. I learned the techniques from the wise women of the town when I was a child."
     },
     {
@@ -82,7 +82,7 @@
         "experience": "30 years of experience",
         "location": "Barrio de los Alfareros"
       },
-      "image": "/images/cultura/artesanias/vasija-barro.png",
+      "image": "https://res.cloudinary.com/dinsl266g/image/upload/v1763081113/vasija-barro_q5eyi2.png",
       "story": "The black clay from our region is unique in the world. We collect it during the rainy season and each piece carries the essence of our land. Polishing with stone gives it that characteristic shine."
     },
     {
@@ -99,7 +99,7 @@
         "experience": "3 generations",
         "location": "Zona Alfarera Tradicional"
       },
-      "image": "/images/cultura/artesanias/vasija-barro.png",
+      "image": "https://res.cloudinary.com/dinsl266g/image/upload/v1763081113/vasija-barro_q5eyi2.png",
       "story": "Our family has made these jugs for over 80 years. The design keeps water naturally cool thanks to the thickness of the clay. Each jug is personally tested before sale."
     },
     {
@@ -116,7 +116,7 @@
         "experience": "25 years of experience",
         "location": "Colonia de los Comaleros"
       },
-      "image": "/images/cultura/artesanias/vasija-barro.png",
+      "image": "https://res.cloudinary.com/dinsl266g/image/upload/v1763081113/vasija-barro_q5eyi2.png",
       "story": "The perfect comal should cook tortillas without burning them. This wisdom comes from my ancestors who discovered the exact clay mixture to achieve the ideal cooking point."
     },
     {
@@ -133,7 +133,7 @@
         "experience": "20 years of experience",
         "location": "Taller del Árbol Sagrado"
       },
-      "image": "/images/cultura/artesanias/vasija-barro.png",
+      "image": "https://res.cloudinary.com/dinsl266g/image/upload/v1763081113/vasija-barro_q5eyi2.png",
       "story": "Each tree of life tells a different story. Mine represents the legend of how our town was founded by the gods of corn and rain. It's my way of preserving our beliefs."
     },
     {
@@ -150,7 +150,7 @@
         "experience": "25 years of experience",
         "location": "Cerro del Artesano"
       },
-      "image": "/images/cultura/artesanias/mascara-ritual.png",
+      "image": "https://res.cloudinary.com/dinsl266g/image/upload/v1763081114/mascara-ritual_dugfna.png",
       "story": "Each mask tells a story of our ancestors. The symbols represent the connection between the earthly and spiritual worlds. I only use woods that fall naturally, I never cut living trees."
     },
     {
@@ -167,7 +167,7 @@
         "experience": "40 years of experience",
         "location": "Taller del Bosque"
       },
-      "image": "/images/cultura/artesanias/mascara-ritual.png",
+      "image": "https://res.cloudinary.com/dinsl266g/image/upload/v1763081114/mascara-ritual_dugfna.png",
       "story": "I create toys that last generations, like the ones my grandfather made for me. Each piece teaches about our culture and values. Children learn playing about the animals and plants of our region."
     },
     {
@@ -184,7 +184,7 @@
         "experience": "35 years of experience",
         "location": "Barrio de los Carpinteros"
       },
-      "image": "/images/cultura/artesanias/mascara-ritual.png",
+      "image": "https://res.cloudinary.com/dinsl266g/image/upload/v1763081114/mascara-ritual_dugfna.png",
       "story": "Each chest is like an open book. This one tells the story of how monarch butterflies guided our ancestors to these lands. The carving techniques I learned from the old masters of the town."
     },
     {
@@ -201,7 +201,7 @@
         "experience": "30 years of experience",
         "location": "Loma de los Músicos"
       },
-      "image": "/images/cultura/artesanias/mascara-ritual.png",
+      "image": "https://res.cloudinary.com/dinsl266g/image/upload/v1763081114/mascara-ritual_dugfna.png",
       "story": "Each flute has its own voice. I choose the wood according to the moon and season of the year. The sound it produces should imitate the forest birds and the wind in the mountains, as my grandfather taught me."
     }
   ]

@@ -14,7 +14,7 @@
         "experience": "45 años de experiencia",
         "location": "San Juan Tahitic Centro"
       },
-      "image": "/images/cultura/artesanias/tapiz-lana.png",
+      "image": "https://res.cloudinary.com/dinsl266g/image/upload/v1763081121/tapiz-lana_wzsryi.png", 
       "story": "Esta técnica fue enseñada por mi abuela cuando tenía 8 años. Cada símbolo en el tapiz representa elementos de nuestra naturaleza y creencias ancestrales. Los colores los obtenemos de flores que crecen en el cerro sagrado."
     },
     {
@@ -31,7 +31,7 @@
         "experience": "35 años de experiencia",
         "location": "Valle de los Tejedores"
       },
-      "image": "/images/cultura/artesanias/tapiz-lana.png",
+      "image": "https://res.cloudinary.com/dinsl266g/image/upload/v1763081121/tapiz-lana_wzsryi.png",
       "story": "El rebozo es más que una prenda, es la historia de nuestras mujeres. Cada patrón tiene un significado especial que se transmite de madre a hija. Los diseños representan el río, las montañas y el ciclo de la vida."
     },
     {
@@ -48,7 +48,7 @@
         "experience": "28 años de experiencia",
         "location": "Cerro de las Tejedoras"
       },
-      "image": "/images/cultura/artesanias/tapiz-lana.png",
+      "image": "https://res.cloudinary.com/dinsl266g/image/upload/v1763081121/tapiz-lana_wzsryi.png",
       "story": "Cada faja cuenta la historia de quien la porta. Los símbolos representan logros, sueños y protecciones. Mi bisabuela me enseñó que el tejido es una conversación con los ancestros, cada puntada es una palabra."
     },
     {
@@ -65,7 +65,7 @@
         "experience": "40 años de experiencia",
         "location": "Barrio de los Bordadores"
       },
-      "image": "/images/cultura/artesanias/tapiz-lana.png",
+      "image": "https://res.cloudinary.com/dinsl266g/image/upload/v1763081121/tapiz-lana_wzsryi.png",
       "story": "Este mantel representa las bodas de nuestra comunidad. Cada flor bordada simboliza un deseo de felicidad para la pareja. Las técnicas las aprendí de las mujeres sabias del pueblo cuando era niña."
     },
     {
@@ -82,7 +82,7 @@
         "experience": "30 años de experiencia",
         "location": "Barrio de los Alfareros"
       },
-      "image": "/images/cultura/artesanias/vasija-barro.png",
+      "image": "https://res.cloudinary.com/dinsl266g/image/upload/v1763081113/vasija-barro_q5eyi2.png",
       "story": "El barro negro de nuestra región es único en el mundo. Lo recolectamos en la temporada de lluvias y cada pieza lleva la esencia de nuestra tierra. El pulido con piedra le da ese brillo característico."
     },
     {
@@ -99,7 +99,7 @@
         "experience": "3 generaciones",
         "location": "Zona Alfarera Tradicional"
       },
-      "image": "/images/cultura/artesanias/vasija-barro.png",
+      "image": "https://res.cloudinary.com/dinsl266g/image/upload/v1763081113/vasija-barro_q5eyi2.png",
       "story": "Nuestra familia ha elaborado estas jarras por más de 80 años. El diseño mantiene el agua fresca naturalmente gracias al grosor del barro. Cada jarra es probada personalmente antes de la venta."
     },
     {
@@ -116,7 +116,7 @@
         "experience": "25 años de experiencia",
         "location": "Colonia de los Comaleros"
       },
-      "image": "/images/cultura/artesanias/vasija-barro.png",
+      "image": "https://res.cloudinary.com/dinsl266g/image/upload/v1763081113/vasija-barro_q5eyi2.png",
       "story": "El comal perfecto debe cocer las tortillas sin quemarlas. Esta sabiduría viene de mis antepasados que descubrieron la mezcla exacta de barros para lograr el punto ideal de cocción."
     },
     {
@@ -133,7 +133,7 @@
         "experience": "20 años de experiencia",
         "location": "Taller del Árbol Sagrado"
       },
-      "image": "/images/cultura/artesanias/vasija-barro.png",
+      "image": "https://res.cloudinary.com/dinsl266g/image/upload/v1763081113/vasija-barro_q5eyi2.png",
       "story": "Cada árbol de la vida cuenta una historia diferente. El mío representa la leyenda de cómo nuestro pueblo fue fundado por los dioses del maíz y la lluvia. Es mi manera de preservar nuestras creencias."
     },
     {
@@ -150,7 +150,7 @@
         "experience": "25 años de experiencia",
         "location": "Cerro del Artesano"
       },
-      "image": "/images/cultura/artesanias/mascara-ritual.png",
+      "image": "https://res.cloudinary.com/dinsl266g/image/upload/v1763081114/mascara-ritual_dugfna.png",
       "story": "Cada máscara cuenta una historia de nuestros antepasados. Los símbolos representan la conexión entre el mundo terrenal y el espiritual. Solo uso maderas que caen naturalmente, nunca corto árboles vivos."
     },
     {
@@ -167,7 +167,7 @@
         "experience": "40 años de experiencia",
         "location": "Taller del Bosque"
       },
-      "image": "/images/cultura/artesanias/mascara-ritual.png",
+      "image": "https://res.cloudinary.com/dinsl266g/image/upload/v1763081114/mascara-ritual_dugfna.png",
       "story": "Creo juguetes que duran generaciones, como los que mi abuelo me hizo a mí. Cada pieza enseña sobre nuestra cultura y valores. Los niños aprenden jugando sobre los animales y plantas de nuestra región."
     },
     {
@@ -184,7 +184,7 @@
         "experience": "35 años de experiencia",
         "location": "Barrio de los Carpinteros"
       },
-      "image": "/images/cultura/artesanias/mascara-ritual.png",
+      "image": "https://res.cloudinary.com/dinsl266g/image/upload/v1763081114/mascara-ritual_dugfna.png",
       "story": "Cada baúl es como un libro abierto. En este cuento la historia de cómo las mariposas monarca guiaron a nuestros ancestros hasta estas tierras. Las técnicas de tallado las aprendí de los viejos maestros del pueblo."
     },
     {
@@ -201,8 +201,8 @@
         "experience": "30 años de experiencia",
         "location": "Loma de los Músicos"
       },
-      "image": "/images/cultura/artesanias/mascara-ritual.png",
+      "image": "https://res.cloudinary.com/dinsl266g/image/upload/v1763081114/mascara-ritual_dugfna.png",
       "story": "Cada flauta tiene su propia voz. Elijo la madera según la luna y la estación del año. El sonido que produce debe imitar a los pájaros del bosque y el viento en las montañas, como me enseñó mi abuelo."
     }
   ]
-}
+} 

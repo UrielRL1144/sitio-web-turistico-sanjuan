@@ -5,9 +5,9 @@
       "nombre": "Cascada de los enamorados",
       "tipo": "sitio_natural",
       "epoca": "Época antigua",
-      "imagenPrincipal": "/images/Turismo/Cascada-enamorados.webp",
-      "videoDocumental": "/videos/Turismo/cascada_enamorados.mp4",
-      "thumbnailVideo": "/images/Turismo/Cascada-enamorados.webp",
+      "imagenPrincipal": "https://res.cloudinary.com/dinsl266g/image/upload/v1763062497/Cascada-enamorados_p0xiib.webp",
+      "videoDocumental": "https://res.cloudinary.com/dinsl266g/video/upload/v1763075703/cascada_enamorados_t2yctb.mp4",
+      "thumbnailVideo": "https://res.cloudinary.com/dinsl266g/image/upload/v1763072851/IMG-20251113-WA0007_vmbpfk.jpg",
       "duracionVideo": "2:45",
       "coordenadas": "17.2389,-96.1287",
 
@@ -48,13 +48,13 @@
 
       "galeriaHistorica": [
         {
-          "url": "/images/Turismo/Cascada-enamorados.webp",
+          "url": "https://res.cloudinary.com/dinsl266g/image/upload/v1763076134/Enamorados_antiguo_o2ti8b.png",
           "titulo": "Grabados Ancestrales",
           "epoca": "Periodo Preclásico",
           "descripcion": "Símbolos que representan constelaciones y ciclos agrícolas"
         },
         {
-          "url": "/images/Turismo/voladores.webp",
+          "url": "https://res.cloudinary.com/dinsl266g/image/upload/v1763076133/Enamorados_antiguo2_lim6rs.png",
           "titulo": "Ceremonia del Solsticio",
           "epoca": "1950",
           "descripcion": "Fotografía histórica de una ceremonia tradicional"
@@ -94,12 +94,12 @@
 
     {
       "id": 2,
-      "nombre": "El Árbol de los Susurros",
+      "nombre": "Monte virgen",
       "tipo": "sitio_natural",
       "epoca": "Siglo XIX",
-      "imagenPrincipal": "/images/Turismo/Cascada-enamorados.webp",
-      "videoDocumental": "/videos/san_juan-optimized1.mp4",
-      "thumbnailVideo": "/images/Monte_virgen.jpg",
+      "imagenPrincipal": "https://res.cloudinary.com/dinsl266g/image/upload/v1763072850/IMG-20251113-WA0004_jq7cro.jpg",
+      "videoDocumental": "https://res.cloudinary.com/dinsl266g/video/upload/v1763063459/san_juan-optimized1_e8zpxo.mp4",
+      "thumbnailVideo": "https://res.cloudinary.com/dinsl266g/image/upload/v1763061088/Monte_virgen_oznfhp.jpg",
       "duracionVideo": "2:45",
 
       "colores": {
@@ -134,7 +134,13 @@
 
       "galeriaHistorica": [
         {
-          "url": "/images/Turismo/Cascada-enamorados.webp",
+          "url": "https://res.cloudinary.com/dinsl266g/image/upload/v1763076655/Monte_virgen_antiguo_b50z1w.png",
+          "titulo": "El viejo ahuehuete",
+          "epoca": "Siglo XIX",
+          "descripcion": "Fotografía antigua del árbol en sus primeros años"
+        },
+        {
+          "url": "https://res.cloudinary.com/dinsl266g/image/upload/v1763076655/Monte_virgen_antiguoo2_arlwle.png",
           "titulo": "El viejo ahuehuete",
           "epoca": "Siglo XIX",
           "descripcion": "Fotografía antigua del árbol en sus primeros años"
@@ -169,12 +175,12 @@
 
     {
       "id": 3,
-      "nombre": "La Casa del Telar Ancestral",
+      "nombre": "Cañon de la Garganta",
       "tipo": "arquitectura_tradicional",
       "epoca": "Siglo XVIII",
-      "imagenPrincipal": "/images/historia/casa-telar.webp",
-      "videoDocumental": "/videos/san_juan-optimized.mp4",
-      "thumbnailVideo": "/images/Turismo/Tradiciones.jpg",
+      "imagenPrincipal": "https://res.cloudinary.com/dinsl266g/image/upload/v1763077038/IMG-20251113-WA0013_egkf7m.jpg",
+      "videoDocumental": "https://res.cloudinary.com/dinsl266g/video/upload/v1763077136/Garganta_cascada_bnxsca.mp4",
+      "thumbnailVideo": "https://res.cloudinary.com/dinsl266g/image/upload/v1763077038/IMG-20251113-WA0013_egkf7m.jpg",
       "duracionVideo": "2:45",
 
       "colores": {
@@ -214,7 +220,7 @@
 
       "galeriaHistorica": [
         {
-          "url": "/images/Turismo/Cascada-enamorados.webp",
+          "url": "https://res.cloudinary.com/dinsl266g/image/upload/v1763077249/Garganta_cascada_itq4j3.png",
           "titulo": "El viejo ahuehuete",
           "epoca": "Siglo XIX",
           "descripcion": "Fotografía antigua del árbol en sus primeros años"

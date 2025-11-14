@@ -1,7 +1,7 @@
 {
   "galleryImages": [
     {
-      "src": "/images/galeria/montanas-amanecer.jpg",
+      "src": "https://res.cloudinary.com/dinsl266g/image/upload/v1763072851/IMG-20251113-WA0007_vmbpfk.jpg",
       "alt": "Amanecer en la Sierra Madre",
       "category": "paisajes",
       "title": "Amanecer en la Sierra",
@@ -11,7 +11,7 @@
       "photographer": "Juan Martínez"
     },
     {
-      "src": "/images/galeria/Cascada.jpg",
+      "src": "https://res.cloudinary.com/dinsl266g/image/upload/v1763072850/IMG-20251113-WA0004_jq7cro.jpg",
       "alt": "Bosque de coníferas nativas",
       "category": "naturaleza",
       "title": "Bosque Ancestral",
@@ -21,7 +21,7 @@
       "photographer": "María González"
     },
     {
-      "src": "/images/galeria/san_juan-poster.webp",
+      "src": "https://res.cloudinary.com/dinsl266g/image/upload/v1763072850/IMG-20251113-WA0006_snt6gk.jpg",
       "alt": "Cascada cristalina en la montaña",
       "category": "naturaleza",
       "title": "Cascada Xochitl",
@@ -31,7 +31,7 @@
       "photographer": "Carlos Ruiz"
     },
     {
-      "src": "/images/galeria/poster-hero.webp",
+      "src": "https://res.cloudinary.com/dinsl266g/image/upload/v1763073766/morrales_wohiwy.jpg",
       "alt": "Tejidos tradicionales en telar",
       "category": "cultura",
       "title": "Telares de Tradición",
@@ -41,7 +41,7 @@
       "photographer": "Ana Torres"
     },
     {
-      "src": "/images/galeria/Dia-muertos.png",
+      "src": "https://res.cloudinary.com/dinsl266g/image/upload/v1763072851/IMG-20251113-WA0008_qe5joq.jpg",
       "alt": "Trabajo colectivo en el campo",
       "category": "comunidad",
       "title": "Tequio que Une",
@@ -51,7 +51,7 @@
       "photographer": "Pedro Hernández"
     },
     {
-      "src": "/images/galeria/puente.jpeg",
+      "src": "https://res.cloudinary.com/dinsl266g/image/upload/v1763073856/dansz_psbbaj.jpg",
       "alt": "Festival tradicional con danzas",
       "category": "tradiciones",
       "title": "Danzas del Sol",
@@ -61,17 +61,17 @@
       "photographer": "Laura Mendoza"
     },
     {
-      "src": "/images/galeria/Monte_virgen.jpg",
+      "src": "https://res.cloudinary.com/dinsl266g/image/upload/v1763074242/Puente_fwky8r.jpg",
       "alt": "Arquitectura vernácula local",
       "category": "cultura",
       "title": "Casas que Respiran",
       "description": "Espacios construidos con materiales de la tierra, diseñados con sabiduría ancestral",
       "date": "2024-03-05",
-      "location": "Barrio Antiguo",
+      "location": "Barrio Antiguo", 
       "photographer": "Roberto Díaz"
     },
     {
-      "src": "/images/galeria/punche.jpeg",
+      "src": "https://res.cloudinary.com/dinsl266g/image/upload/v1763073767/ninos_z8aczb.jpg",
       "alt": "Niños aprendiendo en la naturaleza",
       "category": "comunidad",
       "title": "Semillas del Mañana",
@@ -81,7 +81,7 @@
       "photographer": "Sofia Castro"
     },
     {
-      "src": "/images/galeria/maiz.jpg",
+      "src": "https://res.cloudinary.com/dinsl266g/image/upload/v1763062497/Comedor_hfora9.webp",
       "alt": "Preparación de comida tradicional",
       "category": "tradiciones",
       "title": "Sabores que Cuentan",
@@ -91,7 +91,7 @@
       "photographer": "Miguel Ángel"
     },
     {
-      "src": "/images/galeria/milpa.jpeg",
+      "src": "https://res.cloudinary.com/dinsl266g/image/upload/v1763073436/SanJuan-Noche_atm0mw.jpg",
       "alt": "Cielo estrellado sobre la comunidad",
       "category": "paisajes",
       "title": "Manto Estrellado",
@@ -101,24 +101,24 @@
       "photographer": "Elena Morales"
     },
     {
-      "src": "/images/galeria/licores.jpeg",
-      "alt": "Hierbas medicinales y curandera",
-      "category": "tradiciones",
+      "src": "https://res.cloudinary.com/dinsl266g/image/upload/v1763072850/IMG-20251113-WA0005_f3sq5h.jpg",
+      "alt": "Jugo Yektanesk",
+      "category": "Bebida artesanal",
       "title": "Sabiduría Verde",
-      "description": "Plantas que sanan, manos que curan, conocimiento que perdura",
+      "description": "Vive los sabores de nuestra comunidad",
       "date": "2024-02-25",
       "location": "Jardín de Medicinas",
       "photographer": "Isabel Ramírez"
     },
     {
-      "src": "/images/galeria/cultura1.jpg",
-      "alt": "Alfarería tradicional en barro",
+      "src": "https://res.cloudinary.com/dinsl266g/image/upload/v1763072850/IMG-20251113-WA0002_ynkm8x.jpg",
+      "alt": "Visitanos esteremos esperandote",
       "category": "cultura",
-      "title": "Barro con Alma",
-      "description": "Arcilla que se transforma en vasijas que guardan nuestra esencia",
+      "title": "Vive, siente",
+      "description": "Un pueblo que vale la pena conocer",
       "date": "2024-03-08",
-      "location": "Taller de Alfarería",
-      "photographer": "José Luis"
+      "location": "San Juan Tahitic",
+      "photographer": "Municipio de Zacapoaxtla"
     }
   ]
 }
