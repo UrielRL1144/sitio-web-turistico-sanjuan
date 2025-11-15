@@ -167,10 +167,10 @@ export function CultureSection() {
             <div className="relative">
               <div className="absolute inset-0 bg-gradient-to-br from-orange-400/20 to-amber-600/20 rounded-3xl blur-2xl transform -rotate-3"></div>
               <ImageWithFallback
-                src="/images/cultura/Comunidad.jpg"
-                alt="Artesanías tradicionales de San Juan Tahitic"
-                className="relative w-full h-full object-cover rounded-3xl shadow-2xl transform hover:rotate-1 transition-all duration-500"
-              />
+              src="https://res.cloudinary.com/dinsl266g/image/upload/f_auto,q_auto,w_800/v1763061102/Comunidad_x2zn6s.jpg"
+              alt="Artesanías tradicionales de San Juan Tahitic"
+              className="relative w-full h-full object-cover rounded-3xl shadow-2xl transform hover:rotate-1 transition-all duration-500"
+            />
               
               {/* Overlay decorativo */}
               <div className="absolute inset-0 bg-gradient-to-t from-orange-900/40 to-transparent rounded-3xl"></div>

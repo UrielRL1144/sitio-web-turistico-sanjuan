@@ -14,7 +14,7 @@ export function PlatillosSection() {
   const { t } = useTranslation(); // ← AGREGAR HOOK
   const gastronomyData = usePlatillosData();///RECUERDA CAMBIAR
 
-  const backgroundPatternClass = "bg-orange-50/60 bg-[url('/images/cultura/Fondo-gastronomia--2.svg')] bg-cover bg-center bg-no-repeat";
+  const backgroundPatternClass = "bg-orange-50/60 bg-[url('https://res.cloudinary.com/dinsl266g/image/upload/v1763084436/Fondo-gastronomia--2_rvukkb.svg')] bg-cover bg-center bg-no-repeat";
 
   // Preload de imágenes
   // Preload de imágenes - MODIFICADO para usar gastronomyData

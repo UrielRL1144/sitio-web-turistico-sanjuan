@@ -65,7 +65,7 @@ export function CultureLanguageSection() {
   };
 
   return (
-    <section id="idioma" className="py-24 relative overflow-hidden bg-[url('images/cultura/Fondo-lenguas.svg')] bg-no-repeat bg-center bg-cover">
+    <section id="idioma" className="py-24 relative overflow-hidden bg-[url('https://res.cloudinary.com/dinsl266g/image/upload/v1763080825/Fondo-artesanias_yehrjh.svg')] bg-no-repeat bg-center bg-cover">
       {/* capa translúcida para oscurecer o aclarar */}
       <div className="absolute inset-0 bg-black/10"></div>
 

@@ -40,7 +40,7 @@ export function CultureArtesanias() {
     handleCloseModal,
     setActiveCraft
   );
-  const backgroundPatternClass = "py-24 relative overflow-hidden bg-[url('images/cultura/Fondo-artesanias.svg')] bg-no-repeat bg-center bg-cover";
+  const backgroundPatternClass = "py-24 relative overflow-hidden bg-[url('https://res.cloudinary.com/dinsl266g/image/upload/v1763080825/Fondo-artesanias_yehrjh.svg')] bg-no-repeat bg-center bg-cover";
 
   const activeCraftData = activeCraft 
     ? craftsData.find(craft => craft.id === activeCraft)

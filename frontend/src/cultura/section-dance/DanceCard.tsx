@@ -1,6 +1,8 @@
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, ArrowUpRight, Plus } from 'lucide-react';
 import React from 'react';
+import { useState, useRef, useEffect } from 'react';
+import { Play, Pause } from 'lucide-react'; // ← Agregar estos imports
 import type{ Dance } from '../../i18n/types'; 
 import { useTranslation } from '../../contexts/TranslationContext'; // ← AGREGAR IMPORT
 
@@ -17,34 +19,24 @@ interface DanceCardProps {
   totalItems: number;
 }
 
-// Sub-componente para manejar el elemento multimedia (sin cambios)
-const MediaElement: React.FC<{ src: string, poster: string }> = ({ src, poster }) => (
-  <motion.div className="absolute inset-0">
-    <video 
-      src={src} 
-      poster={poster} 
-      autoPlay 
-      muted 
-      loop 
-      playsInline 
-      className="w-full h-full object-cover"
-    />
-    {/* Fondo oscuro más ligero para no opacar el overlay */}
-    <div className="absolute inset-0 bg-black/30 transition duration-300 group-hover:bg-black/40"></div>
-  </motion.div>
-);
+
 
 // --- NUEVO SUBCOMPONENTE: InteractiveOverlay ---
 interface InteractiveOverlayProps {
     isExpanded: boolean;
     isMobile: boolean;
+    isVideoPlaying: boolean;
 }
 
-const InteractiveOverlay: React.FC<InteractiveOverlayProps> = ({ isExpanded, isMobile }) => {
-  const { t } = useTranslation(); // ← AGREGAR HOOK
+const InteractiveOverlay: React.FC<InteractiveOverlayProps> = ({ 
+  isExpanded, 
+  isMobile,
+  isVideoPlaying // ← AGREGAR ESTE PARÁMETRO
+}) => {
+  const { t } = useTranslation();
 
-  // Si la tarjeta ya está expandida, no mostramos el overlay
-  if (isExpanded) return null;
+  // ✅ CONDICIÓN MEJORADA: No mostrar si expandido O si video reproduciéndose
+  if (isExpanded || isVideoPlaying) return null;
 
   // Variante de Framer Motion para el botón
   const buttonVariants = {
@@ -65,7 +57,7 @@ const InteractiveOverlay: React.FC<InteractiveOverlayProps> = ({ isExpanded, isM
         variants={buttonVariants}
         transition={{ type: 'spring', stiffness: 300, damping: 30 }}
         role="button"
-        aria-label={t('dance.tapToLearnMore')} // ← TRADUCIBLE
+        aria-label={t('dance.tapToLearnMore')}
       >
         <Plus size={20} className="h-5 w-5" />
       </motion.div>
@@ -86,7 +78,7 @@ const InteractiveOverlay: React.FC<InteractiveOverlayProps> = ({ isExpanded, isM
         aria-hidden="true"
       >
         <ArrowUpRight size={20} className="mr-2 h-5 w-5 animate-bounce" />
-        {t('dance.learnMore')} {/* ← TRADUCIBLE */}
+        {t('dance.learnMore')}
       </motion.div>
     </AnimatePresence>
   );
@@ -103,7 +95,12 @@ export const DanceCard: React.FC<DanceCardProps> = ({
   setActiveIndex,
   iconMap,
   isMobile,
+  totalItems,
 }) => {
+  // 🎥 ESTADOS NUEVOS PARA VIDEO
+  const [isVideoPlaying, setIsVideoPlaying] = useState(false);
+  const [isVideoLoaded, setIsVideoLoaded] = useState(false);
+  const videoRef = useRef<HTMLVideoElement>(null);
   const { t } = useTranslation(); // ← AGREGAR HOOK
 
   const isActive = index === activeIndex;
@@ -116,10 +113,21 @@ export const DanceCard: React.FC<DanceCardProps> = ({
   const scale = 1 - Math.abs(position) * 0.2;
   const opacity = isActive || isExpanded ? 1 : (isMobile ? 0 : 1 - Math.abs(position) * 0.4);
 
-  const handleClick = (e: React.MouseEvent) => {
-  e.preventDefault();    // ← PREVIENE LA RECARGA
-  e.stopPropagation();  // ← EVITA PROPAGACIÓN
-
+  // MODIFICAR la función handleClick existente
+const handleClick = (e: React.MouseEvent) => {
+  // 🎥 DETECCIÓN CRÍTICA: Si el click viene del botón de video, NO hacer nada más
+  const target = e.target as HTMLElement;
+  const isVideoButton = target.closest('button[aria-label*="video"]') || 
+                       target.closest('.video-control') ||
+                       target.closest('video');
+  
+  if (isVideoButton) {
+    // El click es para control de video - ya se manejó en toggleVideoPlayback
+    return;
+  }
+  
+  e.preventDefault();
+  e.stopPropagation();
   
   if (isExpanded) {
     setExpandedIndex(null);
@@ -129,6 +137,55 @@ export const DanceCard: React.FC<DanceCardProps> = ({
     setActiveIndex(index);
   }
 };
+
+// 🎥 FUNCIONES NUEVAS PARA CONTROL DE VIDEO
+const toggleVideoPlayback = (e: React.MouseEvent) => {
+  e.preventDefault();
+  e.stopPropagation();
+  
+  if (!videoRef.current) return;
+  
+  if (isVideoPlaying) {
+    videoRef.current.pause();
+    setIsVideoPlaying(false);
+  } else {
+    videoRef.current.play().catch(console.error);
+    setIsVideoPlaying(true);
+  }
+};
+
+const handleVideoLoad = () => {
+  setIsVideoLoaded(true);
+};
+
+// 🎥 EFECTO PARA PAUSAR VIDEO CUANDO NO ESTÁ ACTIVO
+useEffect(() => {
+  if ((!isActive && !isExpanded) && videoRef.current) {
+    videoRef.current.pause();
+    setIsVideoPlaying(false);
+  }
+}, [isActive, isExpanded]);
+
+// 🎥 AGREGAR después del useEffect existente
+useEffect(() => {
+  if (!videoRef.current || !('IntersectionObserver' in window)) return;
+
+  const observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting && videoRef.current && isVideoPlaying) {
+          // Si el video sale de la vista y está reproduciéndose, pausarlo
+          videoRef.current.pause();
+          setIsVideoPlaying(false);
+        }
+      });
+    },
+    { threshold: 0.3 } // 30% visible
+  );
+
+  observer.observe(videoRef.current);
+  return () => observer.disconnect();
+}, [isVideoPlaying]);
 
   return (
     <motion.div
@@ -152,10 +209,74 @@ export const DanceCard: React.FC<DanceCardProps> = ({
     >
       <div className="w-full h-full bg-black rounded-3xl overflow-hidden shadow-2xl transition-shadow duration-300 hover:shadow-orange-400/50 relative">
         
-        <MediaElement src={dance.video} poster={dance.image} />
+<div className="absolute inset-0 w-full h-full">
+  {/* Imagen de fondo (siempre visible) */}
+  <img
+    src={dance.image}
+    alt={dance.name}
+    className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-500 ${
+      isVideoPlaying ? 'opacity-0' : 'opacity-100'
+    }`}
+  />
+  
+  {/* Video con controles */}
+  <div className={`absolute inset-0 transition-opacity duration-500 ${
+    isVideoPlaying ? 'opacity-100' : 'opacity-0'
+  }`}>
+    <video
+      ref={videoRef}
+      src={dance.video}
+      className="w-full h-full object-cover video-control" // ← agregar clase
+      loop
+      muted
+      playsInline
+      preload="metadata"
+      onLoadedData={handleVideoLoad}
+      onClick={(e) => {
+        e.preventDefault();
+        e.stopPropagation();
+      }}
+      onPlay={() => setIsVideoPlaying(true)}
+      onPause={() => setIsVideoPlaying(false)}
+    />
+  </div>
+
+  {/* Overlay de controles de video */}
+<div className={`absolute inset-0 flex items-center justify-center transition-opacity duration-300 z-20 ${
+  isVideoPlaying ? 'opacity-0 hover:opacity-100' : 'opacity-100'
+}`}>
+  <button
+  onClick={toggleVideoPlayback}
+  className="video-control bg-white/90 backdrop-blur-sm rounded-full p-3 shadow-2xl transform transition-all duration-300 hover:scale-110 group z-30"
+  aria-label={isVideoPlaying ? "Pausar video" : "Reproducir video"}
+>
+    {isVideoPlaying ? (
+      <Pause className="w-6 h-6 text-gray-900" />
+    ) : (
+      <Play className="w-6 h-6 text-gray-900 ml-0.5" />
+    )}
+  </button>
+</div>
+
+  {/* Overlay para mejorar legibilidad (mantener existente) */}
+  <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent rounded-t-2xl"></div>
+  <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-white/10 to-transparent rounded-t-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+
+  {/* Indicador de video disponible */}
+  {!isVideoPlaying && (
+    <div className="absolute top-4 left-4 bg-black/70 text-white px-2 py-1 rounded-full text-xs font-medium backdrop-blur-sm flex items-center gap-1">
+      <Play className="w-3 h-3" />
+      <span>Video</span>
+    </div>
+  )}
+</div>
         
         {/* Llama al nuevo componente Overlay */}
-        <InteractiveOverlay isExpanded={isExpanded} isMobile={isMobile} /> 
+        <InteractiveOverlay 
+          isExpanded={isExpanded} 
+          isMobile={isMobile}
+          isVideoPlaying={isVideoPlaying} // ← AGREGAR ESTE PROP NUEVO
+        />
         
         {/* Contenido en la vista normal/base */}
         <div className="relative h-full flex flex-col justify-end p-6 sm:p-8 text-white">

@@ -11,7 +11,6 @@ import { ExpandedModal } from '../section-gastronomia/section-cocina/ExpandedMod
 import { useCocinasData } from '../../hooks/useCocinasData'; // ← AGREGAR IMPORT
 import { Wifi, Car, TreePine, Users, Utensils, BookOpen, ChefHat, Sparkles, Calendar } from 'lucide-react';
 import { useTranslation } from '../../contexts/TranslationContext';
-
 export function ViajeSensorialGastronomico() {
   // REEMPLAZAR todo el estado anterior con el hook
   const {

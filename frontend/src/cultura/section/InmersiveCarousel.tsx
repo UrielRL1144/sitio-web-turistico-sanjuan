@@ -21,7 +21,7 @@ export function InmersiveCarousel() {
     <section className="relative overflow-hidden mt-20">
       {/* Fondo animado */}
       <motion.div
-        className="absolute inset-0 bg-[url('/images/tahitic-montanas.webp')] bg-cover bg-center"
+        className="absolute inset-0 bg-[url('https://res.cloudinary.com/dinsl266g/image/upload/v1763061088/Monte_virgen_oznfhp.jpg')] bg-cover bg-center"
         initial={{ scale: 1.1 }}
         whileInView={{ scale: 1 }}
         transition={{ duration: 3, ease: "easeOut" }}

@@ -2,11 +2,11 @@ import { ArrowDown, ArrowLeft, ArrowRight, Sparkles, Utensils } from 'lucide-rea
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { useNavigate } from "react-router-dom"; 
-import { useTranslation } from '../../contexts/TranslationContext'; // ← AGREGAR IMPORT
+import { useTranslation } from '../../contexts/TranslationContext';
 
 export function GastronomySection() {
   const navigate = useNavigate();
-  const { t } = useTranslation(); // ← AGREGAR HOOK
+  const { t } = useTranslation();
   
   return (
     <section
@@ -14,7 +14,7 @@ export function GastronomySection() {
       aria-labelledby="culture-heading"
       className="relative w-full h-screen overflow-hidden"
     >
-      {/* Video de fondo en pantalla completa */}
+      {/* Video de fondo en pantalla completa CON CLOUDINARY */}
       <div className="absolute inset-0 z-0">
         <video
           autoPlay
@@ -22,21 +22,22 @@ export function GastronomySection() {
           loop
           playsInline
           preload="auto"
-          poster="/images/cultura/gastronomia/videos/video_bg_poster.webp"
+          poster="https://res.cloudinary.com/dinsl266g/image/upload/f_auto,q_auto,w_1920/v1763167588/video_bg_poster_kwpvy5.webp"
           className="w-full h-full object-cover"
         >
-          <source src="/images/cultura/gastronomia/videos/video_bg.webm" type="video/webm" />
-          <source src="/images/cultura/gastronomia/videos/video_bg.mp4" type="video/mp4" />
-
+          {/* ✅ SOLO una fuente - Cloudinary maneja formatos automáticamente */}
+          <source 
+            src="https://res.cloudinary.com/dinsl266g/video/upload/f_auto,q_auto/v1763167598/video-gastronomico_k5tnw3.mp4" 
+            type="video/mp4" 
+          />
+          
+          {/* Fallback para navegadores antiguos */}
           Tu navegador no soporta la reproducción de video.
         </video>
 
         {/* Overlay para mejorar legibilidad */}
         <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/50 to-black/30"></div>
       </div>
-
-      {/* Overlay para mejorar legibilidad */}
-      <div className="absolute inset-0 bg-gradient-to-b from-black/30 via-black/40 to-black/20"></div>
 
       {/* Contenido principal centrado */}
       <div className="relative z-20 flex flex-col items-center justify-center h-full max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -50,7 +51,7 @@ export function GastronomySection() {
           <div className="inline-flex items-center space-x-2 bg-gradient-to-r from-amber-100/80 to-lime-100/80 px-4 py-2 rounded-full mb-6 backdrop-blur-sm shadow-sm">
             <Utensils className="h-5 w-5 text-amber-700" aria-hidden="true" />
             <span className="text-lime-800 font-medium font-serif">
-              {t('gastronomysection.flavorsOfTahitic')} {/* ← TRADUCIBLE */}
+              {t('gastronomysection.flavorsOfTahitic')}
             </span>
           </div>
 
@@ -59,7 +60,7 @@ export function GastronomySection() {
             id="gastronomia-heading"
             className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold font-serif leading-tight text-white drop-shadow-[0_4px_6px_rgba(0,0,0,0.7)] text-center"
           >
-            {t('gastronomysection.mexicanGastronomy')}{' '} {/* ← TRADUCIBLE */}
+            {t('gastronomysection.mexicanGastronomy')}{' '}
             <span className="bg-gradient-to-r from-amber-500 via-red-500 to-lime-600 bg-clip-text text-transparent">
               Mexicana
             </span>
@@ -67,7 +68,7 @@ export function GastronomySection() {
 
           {/* Descripción */}
           <p className="mt-4 text-base sm:text-lg text-white text-center drop-shadow-[0_4px_6px_rgba(0,0,0,0.7)] max-w-3xl">
-            {t('gastronomysection.description')} {/* ← TRADUCIBLE */}
+            {t('gastronomysection.description')}
           </p>
         </motion.div>
 
@@ -86,7 +87,7 @@ export function GastronomySection() {
             whileTap={{ scale: 0.95 }}
           >
             <ArrowLeft className="h-5 w-5" />
-            {t('gastronomysection.back')} {/* ← TRADUCIBLE */}
+            {t('gastronomysection.back')}
           </motion.button>
           <motion.button
             onClick={() =>
@@ -99,7 +100,7 @@ export function GastronomySection() {
             whileTap={{ scale: 0.98 }}
             className="inline-flex items-center gap-2 bg-red-600 text-white font-semibold font-serif px-6 py-3 rounded-full shadow-lg hover:bg-red-700 transition-colors animate-bounce"
           >
-            {t('gastronomysection.exploreGastronomy')} {/* ← TRADUCIBLE */}
+            {t('gastronomysection.exploreGastronomy')}
             <ArrowDown className="h-5 w-5" />
           </motion.button>
         </motion.div>

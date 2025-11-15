@@ -228,7 +228,7 @@ export function CalendarSection() {
   return (
     <motion.section 
       id="cultura" 
-      className="bg-[url('/images/cultura/magica1.svg')] bg-cover bg-center bg-scroll min-h-screen py-16 px-6 relative"
+      className="bg-[url('https://res.cloudinary.com/dinsl266g/image/upload/v1763084436/Fondo-gastronomia--2_rvukkb.svg')] bg-cover bg-center bg-scroll min-h-screen py-16 px-6 relative"
       aria-labelledby="cultura-title"
       initial={{ opacity: 0, scale: 0.98 }}
       animate={{ opacity: 1, scale: 1 }}

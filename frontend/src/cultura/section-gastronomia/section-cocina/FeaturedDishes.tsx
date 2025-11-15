@@ -13,7 +13,7 @@ export function FeaturedDishes({ cocina, onExpandRestaurant }: FeaturedDishesPro
   return (
     <section 
       id="platillos-emblematicos" 
-      className="py-16 sm:py-20 lg:py-24 relative bg-[url('images/cultura/Fondo-gastronomia.svg')] bg-no-repeat bg-center bg-cover"
+      className="py-16 sm:py-20 lg:py-24 relative bg-[url('https://res.cloudinary.com/dinsl266g/image/upload/v1763083311/Fondo-gastronomia1_zqexyb.svg')] bg-no-repeat bg-center bg-cover"
     >
       {/* capa translúcida para oscurecer o aclarar */}
       <div className="absolute inset-0 bg-black/10"></div>

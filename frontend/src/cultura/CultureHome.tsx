@@ -2,10 +2,10 @@
 import { ArrowDown, ArrowRight, Sparkles } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
-import { useTranslation } from '../contexts/TranslationContext'; // ← AGREGAR IMPORT
+import { useTranslation } from '../contexts/TranslationContext';
 
 export function CultureHome() {
-  const { t } = useTranslation(); // ← AGREGAR HOOK
+  const { t } = useTranslation();
 
   return (
     <section
@@ -13,7 +13,7 @@ export function CultureHome() {
       aria-labelledby="culture-heading"
       className="relative w-full h-screen overflow-hidden"
     >
-      {/* Video de fondo en pantalla completa */}
+      {/* Video de fondo en pantalla completa CON CLOUDINARY */}
       <div className="absolute inset-0 z-0">
         <video
           autoPlay
@@ -21,13 +21,19 @@ export function CultureHome() {
           loop
           playsInline
           preload="auto"
-          poster="/images/cultura/videos/Inicio/culture-fallback.webp"
+          poster="https://res.cloudinary.com/dinsl266g/image/upload/f_auto,q_auto,w_1920/v1763066439/culture-fallback_tajxm4.webp"
           className="w-full h-full object-cover"
         >
-          <source src="/images/cultura/videos/Inicio/Negritos_optimizado_new.webm" type="video/webm" />
-          <source src="/images/cultura/videos/Inicio/Negritos_optimizado.mp4" type="video/mp4" />
+          {/* ✅ SOLO una fuente - Cloudinary maneja formatos automáticamente */}
+          <source 
+            src="https://res.cloudinary.com/dinsl266g/video/upload/f_auto,q_auto,w_1920/v1763066440/Negritos_optimizado_yhrkpl.mp4" 
+            type="video/mp4" 
+          />
           
-          Tu navegador no soporta la reproducción de video.
+          {/* ✅ Fallback accesible */}
+          <p className="text-white text-center p-8">
+            Tu navegador no soporta la reproducción de video.
+          </p>
         </video>
 
         {/* Overlay para mejorar legibilidad */}
@@ -46,7 +52,7 @@ export function CultureHome() {
           <div className="inline-flex items-center space-x-2 bg-gradient-to-r from-orange-100/80 to-amber-100/80 px-4 py-2 rounded-full mb-6 backdrop-blur-sm shadow-sm">
             <Sparkles className="h-5 w-5 text-orange-600" aria-hidden="true" />
             <span className="text-orange-800 font-medium font-serif">
-              {t('culture.heritageBadge')} {/* ← TRADUCIBLE */}
+              {t('culture.heritageBadge')}
             </span>
           </div>
 
@@ -55,15 +61,15 @@ export function CultureHome() {
             id="culture-heading"
             className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-extrabold font-serif leading-tight text-white drop-shadow-[0_4px_6px_rgba(0,0,0,0.8)]"
           >
-            {t('culture.titlePart1')}{' '} {/* ← TRADUCIBLE */}
+            {t('culture.titlePart1')}{' '}
             <span className="bg-gradient-to-r from-orange-400 via-amber-400 to-red-500 bg-clip-text text-transparent">
-              {t('culture.titlePart2')} {/* ← TRADUCIBLE */}
+              {t('culture.titlePart2')}
             </span>
           </h2>
 
           {/* Descripción */}
           <p className="text-lg sm:text-xl text-white drop-shadow-[0_4px_6px_rgba(0,0,0,0.8)]">
-            {t('culture.description')} {/* ← TRADUCIBLE */}
+            {t('culture.description')}
           </p>
         </motion.div>
 
@@ -86,14 +92,14 @@ export function CultureHome() {
             whileTap={{ scale: 0.98 }}
             className="inline-flex items-center gap-2 bg-orange-500 text-white font-medium font-serif px-6 py-3 rounded-full shadow-lg hover:bg-orange-600 transition-colors"
           >
-            {t('culture.exploreButton')} {/* ← TRADUCIBLE */}
+            {t('culture.exploreButton')}
             <ArrowDown className="h-5 w-5" />
           </motion.button>
           <Link
             to="/calendario-cultural"
             className="border-2 border-orange-500 text-orange-100 hover:bg-orange-500/20 px-8 py-4 rounded-full font-medium font-serif transition-all duration-300 transform hover:scale-105 text-center backdrop-blur-sm"
           >
-            {t('culture.calendarButton')} {/* ← TRADUCIBLE */}
+            {t('culture.calendarButton')}
           </Link>
         </motion.div>
       </div>

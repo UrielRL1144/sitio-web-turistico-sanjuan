@@ -15,7 +15,7 @@ export function CalendarPage() {
 
   
     return (
-      <div className="bg-[url('/images/home/cards/file.svg')] bg-cover bg-center min-h-screen py-16 px-6">
+      <div className="bg-[url('https://res.cloudinary.com/dinsl266g/image/upload/v1763076653/Viejo_zoi3ur.jpg')] bg-cover bg-center min-h-screen py-16 px-6">
         <div className="max-w-7xl mx-auto">
           {/* Breadcrumbs arriba */}
           <Breadcrumbs items={breadcrumbItems} />

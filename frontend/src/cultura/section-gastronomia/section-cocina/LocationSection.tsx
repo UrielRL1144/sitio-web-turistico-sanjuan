@@ -10,7 +10,7 @@ export function LocationSection({ cocina }: LocationSectionProps) {
   const { t } = useTranslation(); // ← AGREGAR HOOK
 
   return (
-    <section id="ubicacion" className="relative overflow-hidden py-12 sm:py-16 lg:py-20 xl:py-24 bg-[url('images/cultura/Fondo-gastronomia1.svg')] bg-no-repeat bg-center bg-cover"
+    <section id="ubicacion" className="relative overflow-hidden py-12 sm:py-16 lg:py-20 xl:py-24 bg-[url('https://res.cloudinary.com/dinsl266g/image/upload/v1763084436/Fondo-gastronomia--2_rvukkb.svg')] bg-no-repeat bg-center bg-cover"
 >
   {/* capa translúcida para oscurecer o aclarar */}
       <div className="absolute inset-0 bg-black/10"></div>
