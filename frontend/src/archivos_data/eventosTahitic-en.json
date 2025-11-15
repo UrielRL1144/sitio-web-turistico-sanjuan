@@ -1,124 +1,121 @@
 {
   "events": [
     {
-      "date": "October 24 to November 2",
-      "title": "Day of the Dead: Altars that Breathe Memories",
-      "description": "Walk among the scents of copal and marigold flowers as the altars illuminate the memory of the ancestors...",
+      "date": "June 24th",
+      "title": "Patron Saint Festival of San Juan Bautista",
+      "description": "Experience the most important celebration of the year in honor of the town's patron saint. The community dresses up for the occasion with music, dance, faith, and joy.",
       "details": [
-        "Community Altar Route",
-        "Pan de Muerto Workshop",
-        "Stories in Nahuatl",
-        "Evening with Traditional Music"
-      ],
-      "category": "Cultural",
-      "stamp": "dia-muertos",
-      "videoThumbnail": "/videos/calendario/imagenes/Dia-muertos.png",
-      "videoPreview": "/videos/calendario/videos/dia_de_muertos.mp4"
-    },
-    {
-      "date": "Holy Week (March–April)",
-      "title": "Holy Week: The Silence that Speaks with Faith",
-      "description": "Feel the weight of devotion in every step of the processions that cross the paths of Tahitic...",
-      "details": [
-        "Procession of Silence",
-        "Passion Play",
-        "Religious Crafts"
+        "Solemn Mass and Procession",
+        "Performance of the Huehues (Traditional Dancers)",
+        "Popular Fair with typical food (mole, tamales, carnitas)",
+        "Burning of the Castle and Fireworks",
+        "Brass Band Music"
       ],
       "category": "Religious",
+      "stamp": "dia-muertos",
+      "videoThumbnail": "https://res.cloudinary.com/dinsl266g/image/upload/v1763093406/Captura_de_pantalla_395_uoumxl.png",
+      "videoPreview": "https://res.cloudinary.com/dinsl266g/video/upload/v1763158536/diosito_lsd00h.mp4"
+    },
+    {
+      "date": "November 1st and 2nd",
+      "title": "Day of the Dead: Honoring Our Ancestors",
+      "description": "One of the deepest traditions where families welcome the souls of their deceased in an atmosphere of respect, memory, and color.",
+      "details": [
+        "Family Altars with Marigolds and Copal Incense",
+        "Vigil and Tomb Cleaning at the Cemetery",
+        "Paths of Flowers to guide the souls",
+        "Offering with traditional food, pan de muerto, and fruit"
+      ],
+      "category": "Cultural",
       "stamp": "semana-santa",
-      "videoThumbnail": "/videos/calendario/imagenes/semana-santa.png",
-      "videoPreview": "/videos/calendario/videos/cascada_enamorados.mp4"
+      "videoThumbnail": "https://res.cloudinary.com/dinsl266g/image/upload/v1763157739/Dia-muertos_eeqs7u.png",
+      "videoPreview": "https://res.cloudinary.com/dinsl266g/video/upload/v1763158449/diamuertos_jga3gu.mp4"
     },
     {
-      "date": "July 13",
-      "title": "Traditional Weddings: The Sacred Bond of the Sierra",
-      "description": "Witness an ancestral ritual where love is celebrated with dances, music, and community blessings...",
+      "date": "Holy Week (Variable dates, March-April)",
+      "title": "Holy Week: Devotion and Solemnity",
+      "description": "Lived with great religious fervor through processions and reenactments that commemorate the Passion of Christ.",
       "details": [
-        "Community Ceremony",
-        "Ceremonial Attire",
-        "Mountain Banquet"
+        "Procession of Silence (Good Friday)",
+        "Reenactment of the Via Crucis",
+        "Burning of Judas (Holy Saturday)"
       ],
-      "category": "Ceremonial",
+      "category": "Religious",
       "stamp": "bodas-tradicionales",
-      "videoThumbnail": "/videos/calendario/imagenes/bodas.png",
-      "videoPreview": "/videos/calendario/videos/dia_de_muertos.mp4"
+      "videoThumbnail": "https://res.cloudinary.com/dinsl266g/image/upload/v1763093401/Captura_de_pantalla_397_enyfqk.png",
+      "videoPreview": "https://res.cloudinary.com/dinsl266g/video/upload/v1763159458/prosesion_lyqsev.mp4"
     },
     {
-      "date": "April 23 to May 5",
-      "title": "Mountain Fair: Pride and Resistance in Zacapoaxtla",
-      "description": "Feel the rhythm of dancers, riders, and musicians who celebrate the victory of May 5th with mountain passion...",
+      "date": "May 5th",
+      "title": "Commemoration of the Battle of Puebla (Cinco de Mayo)",
+      "description": "A day of regional pride remembering the bravery of the Zacapoaxtla Battalion in the historic battle against the French army.",
       "details": [
-        "Dance of the Quetzales and Santiagos",
-        "Pulque Fair",
-        "Mountain Embroidery Workshop",
-        "Livestock Exhibition"
+        "Civic Ceremonies",
+        "Possible historical reenactments in Zacapoaxtla",
+        "Cultural and sporting events"
       ],
-      "category": "Fair",
+      "category": "Civic",
       "stamp": "feria-sierra",
-      "videoThumbnail": "/videos/calendario/imagenes/feria.png",
-      "videoPreview": "/videos/calendario/videos/cascada_enamorados.mp4"
+      "videoThumbnail": "https://res.cloudinary.com/dinsl266g/image/upload/v1763117549/rurales_wast1n.jpg",
+      "videoPreview": "https://res.cloudinary.com/dinsl266g/video/upload/v1763159581/mayo5_lklkbz.mp4"
     },
     {
-      "date": "All year (peak season: November–April)",
-      "title": "Lovers’ Waterfall: The Whisper of the Xochiateno River",
-      "description": "Feel the mist on your skin as you descend along trails that lead you to a hidden corner of the mountain...",
+      "date": "December 16th to 24th",
+      "title": "Christmas Posadas",
+      "description": "For nine nights, the community gathers to reenact the pilgrimage of Joseph and Mary, fostering unity and faith.",
       "details": [
-        "Guided Hiking",
-        "Nature Photography",
-        "Mountain Picnic"
+        "Singing of Litanies",
+        "Piñata Breaking",
+        "Distribution of Aguinaldos (little bags with candy and fruit)",
+        "Community gathering"
       ],
-      "category": "Nature",
+      "category": "Religious",
       "stamp": "cascada-enamorados",
-      "videoThumbnail": "/videos/calendario/imagenes/Cascada-enamorados.webp",
-      "videoPreview": "/videos/calendario/videos/dia_de_muertos.mp4"
+      "videoThumbnail": "https://res.cloudinary.com/dinsl266g/image/upload/v1763158203/Video-arbol_f8epwc.png",
+      "videoPreview": "https://res.cloudinary.com/dinsl266g/video/upload/v1763159581/mayo5_lklkbz.mp4"
     },
     {
-      "date": "March to Day of the Dead (March–November)",
-      "title": "From Seed to Altar: The Sacred Journey of Corn",
-      "description": "Feel the earth awaken with spring as the fields come to life and rituals honor every stage of cultivation...",
+      "date": "April-May (Planting) and September-November (Harvest)",
+      "title": "Agricultural Cycle of Corn: From Seed to Harvest",
+      "description": "Corn, the foundation of food and culture, dictates the rhythm of life with its planting and harvest cycles, intimately linked to the festivities.",
       "details": [
-        "March 12 – Reed Binding",
-        "March 21 – Spring Equinox",
-        "May 3 – Holy Cross Day",
-        "May 15 – Saint Isidore the Farmer",
-        "June to August – Rainy Season",
-        "September – Early Harvest",
-        "October to November – Main Harvest and Day of the Dead"
+        "April-May: Planting with the first rains",
+        "June-August: Growth and care of the cornfield",
+        "September-November: Main harvest",
+        "The harvested corn is offered on the Day of the Dead altars"
       ],
       "category": "Agriculture",
       "stamp": "ciclo-agricola",
-      "videoThumbnail": "/videos/calendario/imagenes/maiz.png",
-      "videoPreview": "/videos/calendario/videos/cascada_enamorados.mp4"
+      "videoThumbnail": "https://res.cloudinary.com/dinsl266g/image/upload/v1763081984/tamales-elote_sqzlvd.png",
+      "videoPreview": "https://res.cloudinary.com/dinsl266g/video/upload/v1763082083/Tamales_optimizado_kpw55d.mp4"
     },
     {
-      "date": "All year (focus on new and full moons)",
-      "title": "Moons and Stars: The Celestial Clock of the Farmer",
-      "description": "See how the elders read the sky to decide when to sow, water, or harvest, in an ancient dance between earth and cosmos...",
+      "date": "October to March",
+      "title": "Coffee Harvest",
+      "description": "The Sierra Norte of Puebla is a coffee-growing region. This season is a time of great activity for families dedicated to this crop.",
       "details": [
-        "New Moon – Plant roots and low-growing crops",
-        "Full Moon – Harvest and storage",
-        "Visible constellations: Orion and Pleiades",
-        "Community observation with youth"
+        "Picking the coffee beans",
+        "Processing (wet or dry milling)",
+        "Sale or storage of parchment coffee"
       ],
-      "category": "Astronomy",
+      "category": "Agriculture",
       "stamp": "lunas-estrellas",
-      "videoThumbnail": "/videos/calendario/imagenes/luna.png",
-      "videoPreview": "/videos/calendario/videos/dia_de_muertos.mp4"
+      "videoThumbnail": "https://res.cloudinary.com/dinsl266g/image/upload/v1763117181/cafe-maestra-pas_whnim5.jpg",
+      "videoPreview": "https://res.cloudinary.com/dinsl266g/video/upload/v1763158465/snapsave-app_1019300715782042_hd_p1xvqw.mp4"
     },
     {
-      "date": "All year (focus on new and full moons)",
-      "title": "Moons and Stars: The Celestial Clock of the Farmer",
-      "description": "See how the elders read the sky to decide when to sow, water, or harvest, in an ancient dance between earth and cosmos...",
+      "date": "December 24th and 25th",
+      "title": "Christmas in the Sierra",
+      "description": "Celebration of the birth of Christ that brings families together for a traditional dinner and acts of faith.",
       "details": [
-        "New Moon – Plant roots and low-growing crops",
-        "Full Moon – Harvest and storage",
-        "Visible constellations: Orion and Pleiades",
-        "Community observation with youth"
+        "Christmas Eve Dinner (Dec 24th)",
+        "Midnight Mass ('Misa de Gallo')",
+        "Family Celebration (Dec 25th)"
       ],
-      "category": "Galaxies",
+      "category": "Religious",
       "stamp": "estrellas-lunas",
-      "videoThumbnail": "/videos/calendario/imagenes/luna.png",
-      "videoPreview": "/videos/calendario/videos/dia_de_muertos.mp4"
+      "videoThumbnail": "https://res.cloudinary.com/dinsl266g/image/upload/v1763158203/Video-arbol_f8epwc.png",
+      "videoPreview": "https://res.cloudinary.com/dinsl266g/video/upload/v1763158465/snapsave-app_1019300715782042_hd_p1xvqw.mp4"
     }
   ]
 }

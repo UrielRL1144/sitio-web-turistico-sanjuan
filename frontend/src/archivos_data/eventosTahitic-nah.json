@@ -1,124 +1,121 @@
 {
   "events": [
     {
-      "date": "24 de octubre al 2 de noviembre",
-      "title": "Miccailhuitl: Altarmeh tlen quitemohuaj ilhuitl in tlacameh",
-      "description": "Xinehnemi campa onca poctli copal huan xochitl cempohualxochitl, campa quichihuaj inemilis in huehue tlacameh...",
+      "date": "24 junio",
+      "title": "Tlapehualiztli ipan in Totlazohtequiuh San Juan Bautista",
+      "description": "Ximocuicate ica iuhqui tlayahualoltin, cuicatl, netlayecoillis ihuan tlahuilli, tlen quimahuatiah in altepetl ipan in tlapehualiztli itechcopa in totlazohtequiuh.",
       "details": [
-        "Ohtli tlen Altarmeh tlen Altepetl",
-        "Tlamachtiloyan tlen Pan de Muerto",
-        "Tlatolmeh ipan Náhuatl",
-        "Yohualli ipan Cuicatl huan Netotiliztli"
+        "Misa ueyi ihuan procesion",
+        "Netlayecoillis huehuetque (tlacualtinanquis)",
+        "Tianquiztli ica tlaqualoni (mulli, tamalli, nacatl tlatlacui)",
+        "Tlatlatlaliztli teocalli ihuan tlequitl",
+        "Cuicatl ica tepozquiquiztli"
       ],
-      "category": "Tlanemilistli",
+      "category": "Teotlamanitiliztli",
       "stamp": "dia-muertos",
-      "videoThumbnail": "/videos/calendario/imagenes/Dia-muertos.png",
-      "videoPreview": "/videos/calendario/videos/dia_de_muertos.mp4"
+      "videoThumbnail": "https://res.cloudinary.com/dinsl266g/image/upload/v1763093406/Captura_de_pantalla_395_uoumxl.png",
+      "videoPreview": "https://res.cloudinary.com/dinsl266g/video/upload/v1763158536/diosito_lsd00h.mp4"
     },
     {
-      "date": "Semana Santa (marzo-abril)",
-      "title": "Semana Santa: In xochicayotl tlen nemilistli huan tlanelhuayotl",
-      "description": "Xiquitta in yolchicahuac tlen ipan nemi in tlacameh, ipan in ohtli tlen quiahuiya Tahitic...",
+      "date": "1 ihuan 2 noviembre",
+      "title": "Miccailhuitl: Timitsmiquilia in Totehuahuan",
+      "description": "Se itech in ueyi ilhuitl, campa in cencalli quimohuica in animas itechcopa in miquini.",
       "details": [
-        "Ohtli tlen Tlamantli Amocualoyan",
-        "Tlachihualiztli tlen Pasión",
-        "Amatl tlen Tlanelhuayotl"
+        "Tlalmaniloni cencaltin ica cempohualxochitl ihuan copalli",
+        "Tlachialistli ihuan nextlaliliztli panteon",
+        "Ohtli ica xochitl tlen quinextia in animas",
+        "Tlamanaloni ica tlaqualoni, miccailaxcalli ihuan xochicualli"
       ],
-      "category": "Tlanelhuayotl",
+      "category": "Cultura",
       "stamp": "semana-santa",
-      "videoThumbnail": "/videos/calendario/imagenes/semana-santa.png",
-      "videoPreview": "/videos/calendario/videos/cascada_enamorados.mp4"
+      "videoThumbnail": "https://res.cloudinary.com/dinsl266g/image/upload/v1763157739/Dia-muertos_eeqs7u.png",
+      "videoPreview": "https://res.cloudinary.com/dinsl266g/video/upload/v1763158449/diamuertos_jga3gu.mp4"
     },
     {
-      "date": "13 de julio",
-      "title": "Tlaixmatiliztli: In yancuic tlasojtlalistli ipan Tepetl",
-      "description": "Xiquitta in huehcauh tlamachiliztli campa quichihuaj in tlasojtlalistli ipan netotiliztli, cuicatl huan tlatlepanitalistli...",
+      "date": "Semana Santa (ilhui tonalli, marzo-abril)",
+      "title": "Semana Santa: Notlajsoyohuan ihuan Teoyotica",
+      "description": "Monextia ica ueyi teoyotica itechcopa in procesiones ihuan neixcuitiliztli in iuhquin miqui Jesucristo.",
       "details": [
-        "Tlamaniliztli tlen Altepetl",
-        "Tlaquentli tlen ilhuitl",
-        "Tlacualiztli tlen Tepetl"
+        "Procesion ica chichicaca (Viernes Santo)",
+        "Neixcuitiliztli in Cruz",
+        "Tlatlatlaliztli Judas (Sabado de Gloria)"
       ],
-      "category": "Ilhuitl",
+      "category": "Teotlamanitiliztli",
       "stamp": "bodas-tradicionales",
-      "videoThumbnail": "/videos/calendario/imagenes/bodas.png",
-      "videoPreview": "/videos/calendario/videos/dia_de_muertos.mp4"
+      "videoThumbnail": "https://res.cloudinary.com/dinsl266g/image/upload/v1763093401/Captura_de_pantalla_397_enyfqk.png",
+      "videoPreview": "https://res.cloudinary.com/dinsl266g/video/upload/v1763159458/prosesion_lyqsev.mp4"
     },
     {
-      "date": "23 de abril al 5 de mayo",
-      "title": "Feria tlen Tepetl: Yoltzin huan nemilistli ipan Zacapoaxtla",
-      "description": "Xiquitta in netotilqueh, in cahuayohuan huan cuicapiqueh tlen quetzaliliah in 5 de mayo ipan tepetl tlanelhuayotl...",
+      "date": "5 mayo",
+      "title": "Tlayahualoliztli in 5 Mayo",
+      "description": "Ilhuitl tlen quimahuatia in Zacapoaxtla, quimiguizque ica franceses.",
       "details": [
-        "Netotiliztli tlen Quetzales huan Santiagos",
-        "Feria tlen Pulque",
-        "Tlamachtiloyan tlen Bordado tlen Tepetl",
-        "Tlachihualiztli tlen Ganado"
+        "Tlayahualoliztli cívica",
+        "Neixcuitiliztli tlen historia",
+        "Tlayahualoliztli cultura ihuan deporte"
       ],
-      "category": "Feria",
+      "category": "Cívica",
       "stamp": "feria-sierra",
-      "videoThumbnail": "/videos/calendario/imagenes/feria.png",
-      "videoPreview": "/videos/calendario/videos/cascada_enamorados.mp4"
+      "videoThumbnail": "https://res.cloudinary.com/dinsl266g/image/upload/v1763117549/rurales_wast1n.jpg",
+      "videoPreview": "https://res.cloudinary.com/dinsl266g/video/upload/v1763159581/mayo5_lklkbz.mp4"
     },
     {
-      "date": "Todo el año (mayor afluencia: noviembre-abril)",
-      "title": "Atzatzin in Inemohuan: In Tlapitzalli tlen Atoyatl Xochiateno",
-      "description": "Ximoyolnequi quema atzintli mitzpolohua ipan in yol, quema titemohuaj ipan ohtli tlen mitzhuica campa tlachichinolli ipan tepetl...",
+      "date": "16 ihuan 24 diciembre",
+      "title": "Posadas",
+      "description": "Mochi intlahuac chaneque moquetza quemman quinextia in iuhquin huallauh José ihuan María.",
       "details": [
-        "Ohtli tlen Motlamachtiloyan",
-        "Tlachializtli tlen Tlaltikpaktli",
-        "Tlacualiztli ipan Tepetl"
+        "Cuicatl in litania",
+        "Tlatlatlaliztli piñata",
+        "Tlacualonis (aguinaldos)",
+        "Mochtililiztli"
       ],
-      "category": "Tlaltequitl",
+      "category": "Teotlamanitiliztli",
       "stamp": "cascada-enamorados",
-      "videoThumbnail": "/videos/calendario/imagenes/Cascada-enamorados.webp",
-      "videoPreview": "/videos/calendario/videos/dia_de_muertos.mp4"
+      "videoThumbnail": "https://res.cloudinary.com/dinsl266g/image/upload/v1763158203/Video-arbol_f8epwc.png",
+      "videoPreview": "https://res.cloudinary.com/dinsl266g/video/upload/v1763159581/mayo5_lklkbz.mp4"
     },
     {
-      "date": "Marzo a Día de Muertos (marzo-noviembre)",
-      "title": "Ipan Tlalpan huan Altar: In Nemilistli tlen Elotl",
-      "description": "Ximoyolpactihuan quema tlalli quichihua yolistli ipan xopan, huan in tlaltikpaktli mochihua tlen yolchicahuac ipan sesen metztli tlen elotlamachiliztli...",
+      "date": "Abril-Mayo (tlahcultoc) ihuan Septiembre-Noviembre (cosecha)",
+      "title": "Tlayahualoliztli in Centli: Tlahcultoc ihuan Cosecha",
+      "description": "In centli, tlen tlaqualli, quimahuatia in ilhuitl ihuan in cosecha.",
       "details": [
-        "12 de marzo – Tlatzotzontli tlen Carrizo",
-        "21 de marzo – Xopan Tlaixpoyohualiztli",
-        "3 de mayo – Ilhuitl tlen Santa Cruz",
-        "15 de mayo – San Isidro Labrador",
-        "Junio a agosto – Metztli tlen quiyahuitl",
-        "Septiembre – Tlamantli tlen ixiptla",
-        "Octubre a noviembre – Huei Tlamantli huan Miccailhuitl"
+        "Abril-Mayo: Tlahcultoc quemman uallauh quiyahuitl",
+        "Junio-Agosto: Ihchicauhtoc milpan",
+        "Septiembre-Noviembre: Ueyi cosecha",
+        "In centli tlen cosecha monextia ipan in Miccailhuitl"
       ],
-      "category": "Tlalnepantla (Agricultura)",
+      "category": "Milpan",
       "stamp": "ciclo-agricola",
-      "videoThumbnail": "/videos/calendario/imagenes/maiz.png",
-      "videoPreview": "/videos/calendario/videos/cascada_enamorados.mp4"
+      "videoThumbnail": "https://res.cloudinary.com/dinsl266g/image/upload/v1763081984/tamales-elote_sqzlvd.png",
+      "videoPreview": "https://res.cloudinary.com/dinsl266g/video/upload/v1763082083/Tamales_optimizado_kpw55d.mp4"
     },
     {
-      "date": "Todo el año (énfasis en lunas nuevas y llenas)",
-      "title": "Metztli huan Citlalinmeh: In Huei Horario tlen Tlalnamictli",
-      "description": "Xiquitta quen quiahuiya in huehue tlacameh tlaltikpaktli huan ilhuicatl, quema quimatij queniuh tlen tlatoca, tlaahuilia o tlamilhuia...",
+      "date": "Octubre ihuan Marzo",
+      "title": "Cosecha in Cafetl",
+      "description": "In Sierra Norte, mouchichihua cafe, ihuan in cencalli mocahua ica in cosecha.",
       "details": [
-        "Metztli Yancuic – Xochiyotl huan tlaltikpaktli tlen atzintli",
-        "Metztli Tlapololiztli – Tlamilhuiztli huan tlachihualiztli",
-        "Citlalinmeh tlen onca: Orión huan Pléyades",
-        "Tlachializtli tlen Altepetl iwan Telpocameh"
+        "Pizcah in cafetl",
+        "Mopachoa (beneficiado)",
+        "Monextia ica tianquiztli"
       ],
-      "category": "Ilhuicatl (Astronomía)",
+      "category": "Milpan",
       "stamp": "lunas-estrellas",
-      "videoThumbnail": "/videos/calendario/imagenes/luna.png",
-      "videoPreview": "/videos/calendario/videos/dia_de_muertos.mp4"
+      "videoThumbnail": "https://res.cloudinary.com/dinsl266g/image/upload/v1763117181/cafe-maestra-pas_whnim5.jpg",
+      "videoPreview": "https://res.cloudinary.com/dinsl266g/video/upload/v1763158465/snapsave-app_1019300715782042_hd_p1xvqw.mp4"
     },
     {
-      "date": "Todo el año (énfasis en lunas nuevas y llenas)",
-      "title": "Metztli huan Citlalinmeh: In Huei Horario tlen Tlalnamictli",
-      "description": "Xiquitta quen quiahuiya in huehue tlacameh tlaltikpaktli huan ilhuicatl, quema quimatij queniuh tlen tlatoca, tlaahuilia o tlamilhuia...",
+      "date": "24 ihuan 25 diciembre",
+      "title": "Navidad ipan in Sierra",
+      "description": "Tlayahualoliztli in iuhquin naci Jesucristo, ihuan in cencalli mocahua.",
       "details": [
-        "Metztli Yancuic – Xochiyotl huan tlaltikpaktli tlen atzintli",
-        "Metztli Tlapololiztli – Tlamilhuiztli huan tlachihualiztli",
-        "Citlalinmeh tlen onca: Orión huan Pléyades",
-        "Tlachializtli tlen Altepetl iwan Telpocameh"
+        "Cena ipan in 24 diciembre",
+        "Misa ueyi (Misa de Gallo)",
+        "Tlayahualoliztli cencaltin (25 diciembre)"
       ],
-      "category": "Citlalinmeh (Galaxias)",
+      "category": "Teotlamanitiliztli",
       "stamp": "estrellas-lunas",
-      "videoThumbnail": "/videos/calendario/imagenes/luna.png",
-      "videoPreview": "/videos/calendario/videos/dia_de_muertos.mp4"
+      "videoThumbnail": "https://res.cloudinary.com/dinsl266g/image/upload/v1763158203/Video-arbol_f8epwc.png",
+      "videoPreview": "https://res.cloudinary.com/dinsl266g/video/upload/v1763158465/snapsave-app_1019300715782042_hd_p1xvqw.mp4"
     }
   ]
 }

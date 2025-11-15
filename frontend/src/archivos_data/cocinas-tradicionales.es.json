@@ -6,14 +6,12 @@
       "tagline": "Donde los sabores abrazan el alma",
       "tipo": "familiar",
       "generaciones": 3,
-      "descripcionLarga": "Un espacio familiar donde la tradición se encuentra con la calidez de hogar. Por tres generaciones hemos preservado los sabores auténticos de nuestra tierra, ofreciendo una experiencia culinaria que trasciende el simple acto de comer para convertirse en un encuentro con nuestras raíces.",
-      "descripcionAmbiente": "Ambiente cálido y acogedor que evoca la cocina de la abuela, con muebles de madera rústica, ollas de barro y el aroma inconfundible de especias tostadas. Cada rincón cuenta una historia de familia y tradición.",
+      "descripcionLarga": "Un espacio familiar donde la tradición se encuentra con la calidez de hogar. Por tres generaciones hemos preservado los sabores auténticos de nuestra tierra.",
+      "descripcionAmbiente": "Ambiente cálido y acogedor que evoca la cocina de la abuela, con muebles de madera rústica y el aroma inconfundible de especias tostadas.",
       "imagenes": {
-        "principal": "/images/cultura/gastronomia/cocinas/kettles.webp",
-        "ambiente": "/images/cultura/gastronomia/cocinas/sushi.webp",
-        "detalle": "/images/cultura/gastronomia/cocinas/food.webp",
-        "cocinera": "/images/cultura/gastronomia/cocinas/kitchen.webp",
-        "fachada": "/images/cultura/gastronomia/cocinas/restaurant-exterior.webp"
+        "principal": "https://res.cloudinary.com/dinsl266g/image/upload/v1763084722/barbacoa_kfcqf6.png",
+        "ambiente": "https://res.cloudinary.com/dinsl266g/image/upload/v1763177402/cocina1_yi1hhd.png",
+        "detalle": "https://res.cloudinary.com/dinsl266g/image/upload/v1763177402/cocina1_yi1hhd.png"
       },
       "colores": {
         "primario": "#f59e0b",
@@ -21,8 +19,7 @@
         "acento": "#fbbf24"
       },
       "historia": {
-        "titulo": "Tres generaciones de amor en cada plato",
-        "contenido": "Desde 1985, nuestro fogón nunca se ha apagado. Mi abuela María inició este legado cuando decidió que los sabores de nuestra tierra merecían preservarse. Comenzó vendiendo tamales en el mercado local, y poco a poco, su sazón único conquistó los paladares de todo San Juan Tahitic. Hoy, mis hijas continúan la tradición, mezclando las técnicas ancestrales con un toque contemporáneo que mantiene viva nuestra herencia.",
+        "contenido": "Desde 1985, nuestro fogón nunca se ha apagado. Mi abuela María inició este legado cuando decidió que los sabores de nuestra tierra merecían preservarse. Comenzó vendiendo tamales en el mercado local, y poco a poco, su sazón único conquistó los paladares de todo San Juan Tahitic.",
         "fraseEmblematica": "Aquí no cocinamos con prisa, cocinamos con memoria"
       },
       "servicios": [
@@ -38,183 +35,72 @@
         "sabadoDomingo": "8:00 AM - 11:00 PM",
         "diasDescanso": "Martes"
       },
-      "galerias": [
-        {
-          "categoria": "platillos",
-          "fecha": "2024-01-15",
-          "titulo": "Especialidades de Invierno",
-          "imagenes": [
-            {
-              "url": "/images/cultura/gastronomia/cocinas/kettles.webp",
-              "titulo": "Mole de Caderas Ancestral",
-              "descripcion": "Preparado con 12 chiles tostados a leña"
-            },
-            {
-              "url": "/images/cultura/gastronomia/cocinas/sushi.webp",
-              "titulo": "Tamales de Frijol",
-              "descripcion": "Envueltos en hoja de maíz con hierbas de la región"
-            },
-            {
-              "url": "/images/cultura/gastronomia/cocinas/food.webp",
-              "titulo": "Barbacoa Tradicional",
-              "descripcion": "Cocción lenta de 8 horas en hoyo de tierra"
-            }
-          ]
-        },
-        {
-          "categoria": "eventos",
-          "fecha": "2024-02-10",
-          "titulo": "Fiesta Patronal 2024",
-          "imagenes": [
-            {
-              "url": "/images/cultura/gastronomia/cocinas/kitchen.webp",
-              "titulo": "Preparativos para la celebración",
-              "descripcion": "Decoración tradicional para la fiesta patronal"
-            },
-            {
-              "url": "/images/cultura/gastronomia/cocinas/cooking.webp",
-              "titulo": "Banquete Comunitario",
-              "descripcion": "Mesa compartida con platillos festivos"
-            }
-          ]
-        },
-        {
-          "categoria": "preparacion",
-          "fecha": "2024-03-05",
-          "titulo": "Proceso Artesanal",
-          "imagenes": [
-            {
-              "url": "/images/cultura/gastronomia/cocinas/curry.webp",
-              "titulo": "Molienda en Metate",
-              "descripcion": "Técnica tradicional para moler especias"
-            },
-            {
-              "url": "/images/cultura/gastronomia/cocinas/spices.webp",
-              "titulo": "Selección de Ingredientes",
-              "descripcion": "Hierbas y especias locales cuidadosamente elegidas"
-            }
-          ]
-        },
-        {
-          "categoria": "ambiente",
-          "fecha": "2024-03-20",
-          "titulo": "Nuestro Espacio",
-          "imagenes": [
-            {
-              "url": "/images/cultura/gastronomia/cocinas/restaurant-interior-1.webp",
-              "titulo": "Comedor Principal",
-              "descripcion": "Ambiente cálido con decoración tradicional"
-            },
-            {
-              "url": "/images/cultura/gastronomia/cocinas/restaurant-interior-2.webp",
-              "titulo": "Terraza Jardín",
-              "descripcion": "Espacio al aire libre rodeado de naturaleza"
-            }
-          ]
-        }
-      ],
-      "especialidades": [
-        {
-          "nombre": "Mole de Caderas Ancestral",
-          "descripcion": "Preparado con 12 chiles tostados a leña y chocolate de metate. Receta familiar que data de 1890, pasada por 4 generaciones. Cada ingrediente es seleccionado manualmente para garantizar autenticidad.",
-          "imagen": "/images/cultura/gastronomia/cocinas/kettles.webp",
-          "ingredientes": ["Chile mulato", "Cacao criollo", "Ajonjolí", "Ajo", "Cebolla", "Tortilla", "Clavo", "Canela", "Pimienta", "Ajonjolí", "Almendra", "Cacahuate"],
-          "historia": "Esta receta fue creada por mi bisabuela Elena en 1890 para celebrar las bodas de la comunidad. Originalmente se preparaba solo con ocasiones especiales, pero hoy la compartimos con todos nuestros visitantes.",
-          "precio": 180,
-          "tiempoPreparacion": "4 horas",
-          "esEmblema": true,
-          "recomendacion": "Nuestro platillo más solicitado. Ideal para compartir en familia."
-        },
-        {
-          "nombre": "Tamales de Frijol con Hoja Santa",
-          "descripcion": "Masa nixtamalizada rellena de frijol negro y envuelta en hoja de maíz con hierbas de la región. Textura suave y aroma único que evoca los desayunos tradicionales.",
-          "imagen": "/images/cultura/gastronomia/cocinas/sushi.webp",
-          "ingredientes": ["Maíz azul", "Frijol negro", "Hoja santa", "Epazote", "Chile ancho", "Aceite de maíz"],
-          "historia": "Platillo de origen prehispánico que las mujeres de la comunidad preparaban para las jornadas de trabajo en el campo. Hoy mantiene su esencia nutritiva y deliciosa.",
-          "precio": 45,
-          "tiempoPreparacion": "2 horas",
-          "esEmblema": false,
-          "recomendacion": "Perfecto para el desayuno, acompañado de atole."
-        },
-        {
-          "nombre": "Barbacoa de Res Tradicional",
-          "descripcion": "Carne de res cocida lentamente en hoyo de tierra durante 8 horas. Jugosa, tierna y con ese sabor ahumado inconfundible que solo la cocción ancestral puede dar.",
-          "imagen": "/images/cultura/gastronomia/cocinas/food.webp",
-          "ingredientes": ["Res local", "Maguey", "Hierbas de olor", "Chile guajillo", "Ajo", "Cebolla"],
-          "historia": "Técnica prehispánica adaptada que Don Elena perfeccionó tras años de experimentación. El maguey aporta un sabor único que no se consigue con otros métodos.",
-          "precio": 220,
-          "tiempoPreparacion": "8 horas",
-          "esEmblema": true,
-          "recomendacion": "Solo disponible los fines de semana. Se recomienda reservar."
-        },
-        {
-          "nombre": "Atole de Maíz Blanco",
-          "descripcion": "Bebida caliente preparada con maíz blanco molido, canela y piloncillo. Consistencia cremosa y aroma que reconforta el alma en las mañanas frías.",
-          "imagen": "/images/cultura/gastronomia/cocinas/kitchen.webp",
-          "ingredientes": ["Maíz blanco", "Canela", "Piloncillo", "Agua", "Vainilla"],
-          "historia": "Bebida que acompañaba a los niños camino a la escuela. Hoy sigue siendo el desayuno preferido de nuestras mañanas tahitic.",
-          "precio": 35,
-          "tiempoPreparacion": "1 hora",
-          "esEmblema": false,
-          "recomendacion": "Ideal para las mañanas frías de la región."
-        }
-      ],
-      "experiencia": {
-        "sonidoAmbiente": "/images/cultura/gastronomia/cocinas/sonido-sazon.mp3",
-        "aromaPrincipal": "Humo de leña y canela",
-        "momentoIdeal": "Mediodía, cuando el sol baña el comedor",
-        "vibra": "Familiar y Acogedora"
-      },
-      "ubicacion": {
-        "direccion": "Calle del Saber #15, San Juan Tahitic, Oaxaca",
-        "coordenadas": "17.2345,-96.1234",
-        "puntoReferencia": "Junto a la capilla antigua",
-        "instrucciones": "A 5 minutos caminando desde la plaza principal. La casa tiene una fachada amarilla con macetas de flores."
-      },
-      "contacto": {
-        "telefono": "+52 951 123 4567",
-        "whatsapp": "+52 951 123 4568",
-        "correo": "cocina.doña.elena@gmail.com",
-        "horario": "Martes a Domingo • 8:00 - 18:00",
-        "redesSociales": {
-          "facebook": "CocinaDeDoñaElena",
-          "instagram": "@cocinadoña_elena"
-        }
-      },
       "recomendaciones": [
         "Reserva con anticipación los fines de semana",
         "Prueba nuestro mole ancestral, es nuestro orgullo",
         "Pregunta por el platillo del día",
         "Visítanos en familia, tenemos espacio para grupos"
       ],
-      "premiosReconocimientos": [
-        "Premio al Sabor Tradicional 2023",
-        "Reconocimiento por Preservación Cultural 2022"
-      ]
+      "especialidades": [
+        {
+          "nombre": "Mole de Caderas",
+          "descripcion": "Preparado con 12 chiles tostados a leña y chocolate de metate. Receta familiar que data de 1890, pasada por 4 generaciones.",
+          "imagen": "https://res.cloudinary.com/dinsl266g/image/upload/v1763177403/mole-cadera_tfo3bj.png",
+          "precio": 180,
+          "esEmblema": true
+        },
+        {
+          "nombre": "Tamales de Frijol con Hoja Santa",
+          "descripcion": "Masa nixtamalizada rellena de frijol negro y envuelta en hoja de maíz con hierbas de la región.",
+          "imagen": "https://res.cloudinary.com/dinsl266g/image/upload/v1763082284/tamales-hoja_ycmxku.avif",
+          "precio": 45,
+          "esEmblema": false
+        },
+        {
+          "nombre": "Envueltos en salsa verde",
+          "descripcion": "Tortillas salidas del comal, directo a una salsa verde de los chiles de nuestro propio huerto.",
+          "imagen": "https://res.cloudinary.com/dinsl266g/image/upload/v1763177402/envueltos-verdes_ts586s.png",
+          "precio": 220,
+          "esEmblema": true
+        },
+        {
+          "nombre": "Atole de Maíz Blanco",
+          "descripcion": "Bebida caliente preparada con maíz blanco molido, canela y piloncillo. Consistencia cremosa y aroma reconfortante.",
+          "imagen": "https://res.cloudinary.com/dinsl266g/image/upload/v1763082293/atole_vadgnb.jpg",
+          "precio": 35,
+          "esEmblema": false
+        }
+      ],
+      "ubicacion": {
+        "direccion": "Calle del Saber #15, San Juan Tahitic, Oaxaca",
+        "coordenadas": "17.2345,-96.1234",
+        "puntoReferencia": "Junto a la capilla antigua"
+      },
+      "contacto": {
+        "telefono": "+52 951 123 4567",
+        "correo": "cocina.doña.elena@gmail.com"
+      }
     },
     {
       "id": 2,
       "nombre": "Fogón de los Abuelos",
       "tagline": "El tiempo detenido en cada bocado",
-      "tipo": "comunitario", 
+      "tipo": "comunitario",
       "generaciones": 4,
-      "descripcionLarga": "Un santuario culinario donde las técnicas prehispánicas se mantienen vivas. Bajo la sombra del ahuehuete centenario, Don José comparte el conocimiento ancestral del caldo de piedra, ofreciendo una experiencia que conecta a los comensales con las raíces más profundas de nuestra gastronomía.",
-      "descripcionAmbiente": "Espacio rústico al aire libre con mesas de tronco y fogones de piedra. El sonido del agua del río cercano y el crepitar de la leña crean una atmósfera mágica que transporta a épocas ancestrales.",
+      "descripcionLarga": "Un santuario culinario donde las técnicas prehispánicas se mantienen vivas. Bajo la sombra del ahuehuete centenario, Don José comparte el conocimiento ancestral.",
+      "descripcionAmbiente": "Espacio rústico al aire libre con mesas de tronco y fogones de piedra. El sonido del agua y el crepitar de la leña crean una atmósfera mágica.",
       "imagenes": {
-        "principal": "/images/cultura/gastronomia/cocinas/cooking.webp",
-        "ambiente": "/images/cultura/gastronomia/cocinas/curry.webp",
-        "detalle": "/images/cultura/gastronomia/cocinas/pasta.webp",
-        "cocinera": "/images/cultura/gastronomia/cocinas/spices.webp",
-        "fachada": "/images/cultura/gastronomia/cocinas/fogon-exterior.webp"
+        "principal": "https://res.cloudinary.com/dinsl266g/image/upload/v1763177402/platillo-huevo_lpvam4.png",
+        "ambiente": "https://res.cloudinary.com/dinsl266g/image/upload/v1763178020/cocina2_wx1e8j.png",
+        "detalle": "https://res.cloudinary.com/dinsl266g/image/upload/v1763177402/platillo-huevo_lpvam4.png"
       },
       "colores": {
         "primario": "#10b981",
-        "secundario": "#0d9488", 
+        "secundario": "#0d9488",
         "acento": "#34d399"
       },
       "historia": {
-        "titulo": "Donde las piedras cuentan historias",
-        "contenido": "Don José, a sus 78 años, mantiene viva la técnica prehispánica del caldo de piedra. Cada mañana selecciona las piedras volcánicas que darán sabor a sus caldos. Aprendió este arte de su abuelo, quien a su vez lo heredó de generaciones anteriores. Hoy, es uno de los últimos guardianes de esta tradición en todo el estado de Oaxaca.",
+        "contenido": "Don José, a sus 78 años, mantiene viva la técnica prehispánica del caldo de piedra. Cada mañana selecciona las piedras volcánicas que darán sabor a sus caldos. Aprendió este arte de su abuelo, quien a su vez lo heredó de generaciones anteriores.",
         "fraseEmblematica": "Nuestros ingredientes son cartas de amor a la tierra"
       },
       "servicios": [
@@ -230,143 +116,55 @@
         "sabadoDomingo": "6:00 AM - 9:00 PM",
         "diasDescanso": "Martes"
       },
-      "galerias": [
-        {
-          "categoria": "platillos",
-          "fecha": "2024-01-20",
-          "titulo": "Sabores del Fogón",
-          "imagenes": [
-            {
-              "url": "/images/cultura/gastronomia/cocinas/cooking.webp",
-              "titulo": "Caldo de Piedra Prehispánico",
-              "descripcion": "Cocido con piedras volcánicas al rojo vivo"
-            },
-            {
-              "url": "/images/cultura/gastronomia/cocinas/curry.webp",
-              "titulo": "Pozole Rojo Tradicional",
-              "descripcion": "Maíz cacahuazintle y cerdo de granja local"
-            }
-          ]
-        },
-        {
-          "categoria": "tecnicas",
-          "fecha": "2024-02-15",
-          "titulo": "Arte Culinario Ancestral",
-          "imagenes": [
-            {
-              "url": "/images/cultura/gastronomia/cocinas/pasta.webp",
-              "titulo": "Selección de Piedras Volcánicas",
-              "descripcion": "Proceso tradicional para elegir las mejores piedras"
-            },
-            {
-              "url": "/images/cultura/gastronomia/cocinas/spices.webp",
-              "titulo": "Hierbas Medicinales",
-              "descripcion": "Recolección de plantas para infusiones y platillos"
-            }
-          ]
-        },
-        {
-          "categoria": "ambiente",
-          "fecha": "2024-03-18",
-          "titulo": "Nuestro Santuario",
-          "imagenes": [
-            {
-              "url": "/images/cultura/gastronomia/cocinas/fogon-garden.webp",
-              "titulo": "Jardín de Hierbas",
-              "descripcion": "Donde cultivamos nuestras plantas medicinales"
-            },
-            {
-              "url": "/images/cultura/gastronomia/cocinas/fogon-fireplace.webp",
-              "titulo": "Área de Fogones",
-              "descripcion": "Espacio principal donde magia ocurre"
-            }
-          ]
-        }
-      ],
-      "especialidades": [
-        {
-          "nombre": "Caldo de Piedra Prehispánico",
-          "descripcion": "Cocido con piedras volcánicas al rojo vivo al estilo tradicional. Técnica ancestral que imparte un sabor mineral único y conserva todos los nutrientes de los ingredientes. Experiencia sensorial completa.",
-          "imagen": "/images/cultura/gastronomia/cocinas/cooking.webp",
-          "ingredientes": ["Piedra volcánica", "Pescado local", "Camarón de río", "Jitomate", "Cilantro", "Cebolla", "Chile", "Limón"],
-          "historia": "Técnica prehispánica que los antepasados usaban para cocinar sin utensilios de metal. Don José es uno de los últimos guardianes de este conocimiento en la región. Cada piedra es seleccionada por su composición mineral única.",
-          "precio": 160,
-          "tiempoPreparacion": "3 horas",
-          "esEmblema": true,
-          "recomendacion": "Vive la experiencia completa con la demostración de cocción."
-        },
-        {
-          "nombre": "Pozole Rojo Tradicional",
-          "descripcion": "Maíz cacahuazintle y cerdo de granja local cocidos lentamente. Sabor robusto y texturas que celebran la cocina mexicana auténtica. Perfecto balance de especias y tradición.",
-          "imagen": "/images/cultura/gastronomia/cocinas/curry.webp",
-          "ingredientes": ["Maíz cacahuazintle", "Cerdo local", "Chile guajillo", "Oregano", "Rábano", "Lechuga", "Cebolla", "Orégano"],
-          "historia": "Platillo festivo que se servía en las celebraciones importantes del pueblo. Hoy es nuestro emblema de hospitalidad y comunidad.",
-          "precio": 85,
-          "tiempoPreparacion": "5 horas",
-          "esEmblema": true,
-          "recomendacion": "Ideal para compartir. Acompaña con tostadas y crema."
-        },
-        {
-          "nombre": "Atole de Grano con Miel",
-          "descripcion": "Bebida ancestral preparada con maíz molido, canela y miel de abeja local. Endulzado naturalmente con miel de la región para un sabor auténtico y reconfortante.",
-          "imagen": "/images/cultura/gastronomia/cocinas/pasta.webp",
-          "ingredientes": ["Maíz criollo", "Miel local", "Canela", "Agua", "Anís"],
-          "historia": "Receta que la abuela de Don José creó para los niños del pueblo. La miel sustituyó al piloncillo original, creando una versión única de la bebida tradicional.",
-          "precio": 40,
-          "tiempoPreparacion": "1.5 horas",
-          "esEmblema": false,
-          "recomendacion": "Perfecto para empezar el día con energía."
-        },
-        {
-          "nombre": "Tlayudas con Asiento",
-          "descripcion": "Tortilla de maíz grande dorada con asiento de cerdo, frijol y quesillo. Crujiente por fuera, suave por dentro con los sabores esenciales de Oaxaca adaptados a ingredientes locales.",
-          "imagen": "/images/cultura/gastronomia/cocinas/spices.webp",
-          "ingredientes": ["Tortilla de maíz", "Asiento de cerdo", "Frijol refrito", "Quesillo", "Lechuga", "Aguacate", "Salsa"],
-          "historia": "Adaptación de la tlayuda oaxaqueña que Don José aprendió en sus viajes. Combinó técnicas tradicionales con ingredientes locales, creando una versión única.",
-          "precio": 75,
-          "tiempoPreparacion": "30 minutos",
-          "esEmblema": false,
-          "recomendacion": "Nuestra versión rápida pero igualmente deliciosa."
-        }
-      ],
-      "experiencia": {
-        "sonidoAmbiente": "/images/cultura/gastronomia/cocinas/sonido-fuego.mp3",
-        "aromaPrincipal": "Tierra mojada y humo de encino",
-        "momentoIdeal": "Atardecer, cuando la luz dorada entra por la ventana",
-        "vibra": "Ancestral y Espiritual"
-      },
-      "ubicacion": {
-        "direccion": "Plaza de la Tradición, San Juan Tahitic, Oaxaca", 
-        "coordenadas": "17.2350,-96.1240",
-        "puntoReferencia": "Bajo el ahuehuete centenario",
-        "instrucciones": "En el corazón de la plaza principal, bajo el árbol milenario. Se ve el humo del fogón desde lejos."
-      },
-      "contacto": {
-        "telefono": "+52 951 987 6543",
-        "whatsapp": "+52 951 987 6544",
-        "correo": "fogon.abuelos@gmail.com",
-        "horario": "Miércoles a Lunes • 7:00 - 20:00",
-        "redesSociales": {
-          "facebook": "FogonDeLosAbuelos",
-          "instagram": "@fogon_abuelos"
-        }
-      },
       "recomendaciones": [
         "Ven con tiempo para disfrutar la experiencia completa",
         "Pide la demostración del caldo de piedra",
         "Visita nuestro jardín de hierbas medicinales",
         "Perfecto para amantes de la cultura y tradición"
       ],
-      "premiosReconocimientos": [
-        "Guardian del Patrimonio Cultural 2024",
-        "Premio a la Innovación Ancestral 2023",
-        "Reconocimiento Nacional por Preservación Culinaria"
-      ]
+      "especialidades": [
+        {
+          "nombre": "Caldo de Pollo rojo",
+          "descripcion": "Cocido con piedras volcánicas al rojo vivo al estilo tradicional.",
+          "imagen": "https://res.cloudinary.com/dinsl266g/image/upload/v1763178025/caldopollo_qdd6uq.png",
+          "precio": 160,
+          "esEmblema": true
+        },
+        {
+          "nombre": "Pozole Rojo Tradicional",
+          "descripcion": "Maíz cacahuazintle y cerdo de granja local cocidos lentamente. Sabor robusto y texturas que celebran la cocina mexicana auténtica.",
+          "imagen": "https://res.cloudinary.com/dinsl266g/image/upload/v1763178023/pozole_rhszyt.png",
+          "precio": 85,
+          "esEmblema": true
+        },
+        {
+          "nombre": "Atole de Grano con Miel",
+          "descripcion": "Bebida ancestral preparada con maíz molido, canela y miel de abeja local. Endulzado naturalmente para sabor auténtico.",
+          "imagen": "https://res.cloudinary.com/dinsl266g/image/upload/v1763113747/miel-xochitl_vwwsxy.png",
+          "precio": 40,
+          "esEmblema": false
+        },
+        {
+          "nombre": "Tlayudas con Asiento",
+          "descripcion": "Tortilla de maíz grande dorada con asiento de cerdo, frijol y quesillo. Crujiente por fuera, suave por dentro.",
+          "imagen": "https://res.cloudinary.com/dinsl266g/image/upload/v1763084723/tlayudas_dp32xt.png",
+          "precio": 75,
+          "esEmblema": false
+        }
+      ],
+      "ubicacion": {
+        "direccion": "Plaza de la Tradición, San Juan Tahitic, Oaxaca",
+        "coordenadas": "17.2350,-96.1240",
+        "puntoReferencia": "Bajo el ahuehuete centenario"
+      },
+      "contacto": {
+        "telefono": "+52 951 987 6543",
+        "correo": "fogon.abuelos@gmail.com"
+      }
     }
   ],
   "configuracion": {
     "moneda": "MXN",
-    "zonaHoraria": "America/Mexico_City",
-    "idioma": "es"
+    "zonaHoraria": "America/Mexico_City"
   }
 }

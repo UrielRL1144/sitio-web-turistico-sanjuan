@@ -2,18 +2,16 @@
   "cocinas": [
     {
       "id": 1,
-      "nombre": "Doña Elena Tlaxcal",
-      "tagline": "Canin tlen tlacualli pachihui in yolotl",
-      "tipo": "familiar",
+      "nombre": "Doña Elena Icnacalli",
+      "tagline": "Canon tlen xitlaltik paneltok nemilistli",
+      "tipo": "cihuame",
       "generaciones": 3,
-      "descripcionLarga": "Cemanahuac tlen cenyeliztli ipan inin calli, canin in tlayacanilistli miqui ica in cenyeliztli tlen chantli. Ipan eyi nenepiltsin, tocontlaliah in cualli tlacualli tlen to tlalpan, tiquintlalilia ica tlen amo zan tlaqualtiliztli, zan ye tiquimittazque to yolcahuan",
-      "descripcionAmbiente": "Cemanahuac tlen tlapachohuiani huan coyolcahuiani, quipiya cuahuitl tlen ayahuitl, caxitl tlen comitl huan cualli tlen xoxoctic tlen tlapalli. Tlen tlamantli calli quipohua in tlahtolli tlen cenyeliztli huan tlayacanilistli",
+      "descripcionLarga": "Cihuame icnacalli, canon tlen huehueyotl mopanaltia tlacpac. Yeijquiza tlapialistli tictlapialia in tlacualcopa tlen toltiac.",
+      "descripcionAmbiente": "Tlapaltic ihuan cochipacac nemilistli, tlen quitlalia ijtik yolchikawak. Cuahuitl tlen ahuehuete ihuan popokatic tlen xoxoctic nacatl.",
       "imagenes": {
-        "principal": "/images/cultura/gastronomia/cocinas/kettles.webp",
-        "ambiente": "/images/cultura/gastronomia/cocinas/sushi.webp",
-        "detalle": "/images/cultura/gastronomia/cocinas/food.webp",
-        "cocinera": "/images/cultura/gastronomia/cocinas/kitchen.webp",
-        "fachada": "/images/cultura/gastronomia/cocinas/restaurant-exterior.webp"
+        "principal": "https://res.cloudinary.com/dinsl266g/image/upload/v1763084722/barbacoa_kfcqf6.png",
+        "ambiente": "https://res.cloudinary.com/dinsl266g/image/upload/v1763177402/cocina1_yi1hhd.png",
+        "detalle": "https://res.cloudinary.com/dinsl266g/image/upload/v1763177402/cocina1_yi1hhd.png"
       },
       "colores": {
         "primario": "#f59e0b",
@@ -21,352 +19,152 @@
         "acento": "#fbbf24"
       },
       "historia": {
-        "titulo": "Eyi nenepiltsin tlen tlazotlaliztli ipan tlen tlamantli tlaqualli",
-        "contenido": "Ipan 1985 xihuitl, amo tlapoliuh in to tlecuil. In nantli Maria opehualtih inin tlayacanilistli ipampa oquimatih tlen to tlalpan tlacualli quipiaz tlen mocuitlahuiz. Opehualtih ica tlanamaca tamal ipan tlanamacoyan, huan tlapo tlen cualli, in icuac tlen cualli oquimahmatih tlen mocua ipan nochi San Juan Tahitic. Axan, in noxihuan quicuitlahuiah in tlayacanilistli, quipohua in tlayacanilistli tlen huehcauh ica tlen yancuic tlen quichihchihua in to tlayacanilistli",
-        "fraseEmblematica": "Nican amo tictlacuah tica tlayahualoliztli, tictlacuah tica tlayacanilistli"
+        "contenido": "Ipampa 1985, aic tlakau in tocomal. No nana María peuhqui inin tlapialistli ijtik. Quipololtih tamalitl ica tiankistli, ihuan poco xihuitl, itlaqual ipan mjto. San Juan Tahitic.",
+        "fraseEmblematica": "Nikan aic tictlapia ica cochipaca, tictlapia ica tlamachilistli"
       },
       "servicios": [
-        "WiFi Mahtlactli",
-        "Tlacahuacaloyan",
-        "Xochitlah cuahuitl",
-        "Macehualtlahcuiloliztli",
-        "Tlacualli tlen cahuaz",
-        "Tlatemoliztli"
+        "WiFi Ma Moneki Tlapohualiztli",
+        "Nemachtiloyan",
+        "Xochitlalpan",
+        "Miachcahuan",
+        "Tlaqual tlen moneki",
+        "Tlapohualtiloni"
       ],
       "horarios": {
-        "lunesViernes": "9:00 YHC - 10:00 CHC",
-        "sabadoDomingo": "8:00 YHC - 11:00 CHC",
-        "diasDescanso": "Tlacatl"
+        "lunesViernes": "9:00 AM - 10:00 PM",
+        "sabadoDomingo": "8:00 AM - 11:00 PM",
+        "diasDescanso": "Tlacatililoni"
       },
-      "galerias": [
-        {
-          "categoria": "platillos",
-          "fecha": "2024-01-15",
-          "titulo": "Tlacualli tlen Ce Tonalco",
-          "imagenes": [
-            {
-              "url": "/images/cultura/gastronomia/cocinas/kettles.webp",
-              "titulo": "Mulli tlen Huehcauh",
-              "descripcion": "Tlen moneki ica mahtlactli omome chilli tlen tlatlacualo ipan cuahuitl"
-            },
-            {
-              "url": "/images/cultura/gastronomia/cocinas/sushi.webp",
-              "titulo": "Tamal tlen Etl",
-              "descripcion": "Tlen moneki ica elotl tlen xihuitl huan xihuitl tlen tlalpan"
-            },
-            {
-              "url": "/images/cultura/gastronomia/cocinas/food.webp",
-              "titulo": "Nacatl tlen Tlalcuahualoyan",
-              "descripcion": "Tlen chicahuac tlen chicueyi cahuil ipan tlalcuahualoyan"
-            }
-          ]
-        },
-        {
-          "categoria": "eventos",
-          "fecha": "2024-02-10",
-          "titulo": "Tlapohualiztli 2024",
-          "imagenes": [
-            {
-              "url": "/images/cultura/gastronomia/cocinas/kitchen.webp",
-              "titulo": "Tlen moneki ipan in tlapohualiztli",
-              "descripcion": "Tlayacanilistli tlen tlapohualiztli tlen huehcauh"
-            },
-            {
-              "url": "/images/cultura/gastronomia/cocinas/cooking.webp",
-              "titulo": "Tlaqualtiloyan tlen Cenyeliztli",
-              "descripcion": "Tlaqualtiloyan ica tlacualli tlen tlapohualiztli"
-            }
-          ]
-        },
-        {
-          "categoria": "preparacion",
-          "fecha": "2024-03-05",
-          "titulo": "Tlayacanilistli tlen Tlalticpac",
-          "imagenes": [
-            {
-              "url": "/images/cultura/gastronomia/cocinas/curry.webp",
-              "titulo": "Tlatlacualiztli ipan Metlatl",
-              "descripcion": "Tlayacanilistli tlen huehcauh tlen tlatlacualiztli"
-            },
-            {
-              "url": "/images/cultura/gastronomia/cocinas/spices.webp",
-              "titulo": "Tlen xihuitl huan tlapalli",
-              "descripcion": "Xihuitl huan tlapalli tlen tlalpan tlen cualli"
-            }
-          ]
-        },
-        {
-          "categoria": "ambiente",
-          "fecha": "2024-03-20",
-          "titulo": "To Cemanahuac",
-          "imagenes": [
-            {
-              "url": "/images/cultura/gastronomia/cocinas/restaurant-interior-1.webp",
-              "titulo": "Tlaqualtiloyan Tlapohualli",
-              "descripcion": "Cemanahuac tlen tlapachohuiani ica tlayacanilistli"
-            },
-            {
-              "url": "/images/cultura/gastronomia/cocinas/restaurant-interior-2.webp",
-              "titulo": "Xochitlah cuahuitl",
-              "descripcion": "Cemanahuac tlen tlalticpac ica nochi xihuitl"
-            }
-          ]
-        }
+      "recomendaciones": [
+        "Ximotalpia ipan tonaltin tlen iskui",
+        "Xiqualti tomulli tlen huehueyotl, tlen toconiuh",
+        "Tlaxtlanili tlen tlaqual tlen tonalli",
+        "Xihualican ica mjtzin, titlalia campa miec tlacatl"
       ],
       "especialidades": [
         {
-          "nombre": "Mulli tlen Huehcauh",
-          "descripcion": "Tlen moneki ica mahtlactli omome chilli tlen tlatlacualo ipan cuahuitl huan xocolatl tlen metlatl. Tlayacanilistli tlen cenyeliztli tlen ahcic 1890 xihuitl, tlen nahui nenepiltsin. Tlen tlamantli tlen moneki tlen cualli tlen mocuitlahuiz",
-          "imagen": "/images/cultura/gastronomia/cocinas/kettles.webp",
-          "ingredientes": ["Chilli mulato", "Cacahuatl tlen tlalpan", "Ajonjolí", "Xonacatl", "Cebolla", "Tlaxcalli", "Clavo", "Canela", "Pimienta", "Ajonjolí", "Almendra", "Cacahuatl"],
-          "historia": "Inin tlayacanilistli tlen nantli Elena oquichihchih 1890 xihuitl tlen tlapohualiztli tlen cenyeliztli. Achto zan tlen tlapohualiztli, axan tictlaliah ica nochi to tlacah",
+          "nombre": "Mulli tlen Caderas",
+          "descripcion": "Tlachihualiztli ica matlactli omome chilli, ihuan xocolatl tlen metlatl. Icnopilolli tlen 1890 xihuitl, ompa huehcauh.",
+          "imagen": "https://res.cloudinary.com/dinsl266g/image/upload/v1763177403/mole-cadera_tfo3bj.png",
           "precio": 180,
-          "tiempoPreparacion": "Nahui cahuil",
-          "esEmblema": true,
-          "recomendacion": "To tlaqualli tlen moneki. Cualli tlen cenyeliztli"
+          "esEmblema": true
         },
         {
-          "nombre": "Tamal tlen Etl ica Xihuitl",
-          "descripcion": "Tlaolli tlen nextamal tlen etl huan tlen moneki ica elotl tlen xihuitl tlen tlalpan. Tlen cualli huan tlen cualli tlen tlahtoa tlen tlaqualtiliztli tlen tonalco",
-          "imagen": "/images/cultura/gastronomia/cocinas/sushi.webp",
-          "ingredientes": ["Tlaolli tlen xoxoctic", "Etl tlen yayahuac", "Xihuitl tlen cualli", "Epazote", "Chilli ancho", "Aceite tlen tlaolli"],
-          "historia": "Tlaqualli tlen achto ipan tlalticpac tlen cihuatl tlen cenyeliztli oquichihchih tlen tequitl ipan milli. Axan quipiya inin cualli huan tlen cualli",
+          "nombre": "Tamalitl tlen Etl ihuan Hoja Santa",
+          "descripcion": "Tlaolli tlen nixtamal, ica etl yancuic, ihuan momana ica elotl tlapalli.",
+          "imagen": "https://res.cloudinary.com/dinsl266g/image/upload/v1763082284/tamales-hoja_ycmxku.avif",
           "precio": 45,
-          "tiempoPreparacion": "Ome cahuil",
-          "esEmblema": false,
-          "recomendacion": "Cualli tlen tonalco, ica atolli"
+          "esEmblema": false
         },
         {
-          "nombre": "Nacatl tlen Tlalcuahualoyan",
-          "descripcion": "Nacatl tlen cuahuitl tlen chicahuac tlen chicueyi cahuil ipan tlalcuahualoyan. Tlen iztac huan tlen cualli, huan inin cualli tlen tlatlacualo zan tlayacanilistli tlen huehcauh quichihchihua",
-          "imagen": "/images/cultura/gastronomia/cocinas/food.webp",
-          "ingredientes": ["Nacatl tlen tlalpan", "Maguey", "Xihuitl tlen cualli", "Chilli guajillo", "Xonacatl", "Cebolla"],
-          "historia": "Tlayacanilistli tlen achto tlen Don Elena oquichihchih ipan xihuitl tlen tlamachiliztli. In maguey quitlaliah tlen cualli tlen amo zan tlen oc tlamantli",
+          "nombre": "Tlaxcalchikahualotl tlen Chili Verde",
+          "descripcion": "Tlaxcalchikahualli tlen comal, ipan chili verde tlen tocalquemitl.",
+          "imagen": "https://res.cloudinary.com/dinsl266g/image/upload/v1763177402/envueltos-verdes_ts586s.png",
           "precio": 220,
-          "tiempoPreparacion": "Chicueyi cahuil",
-          "esEmblema": true,
-          "recomendacion": "Zan tlen tlapohualiztli. Cualli tlen tlatemoliztli"
+          "esEmblema": true
         },
         {
-          "nombre": "Atolli tlen Iztaquahuitl",
-          "descripcion": "Tlen iztac tlen tlaolli tlen tlatlacualo, canela huan tlen cualli. Tlen cualli huan tlen cualli tlen pachihui in yolotl ipan cecec tonalco",
-          "imagen": "/images/cultura/gastronomia/cocinas/kitchen.webp",
-          "ingredientes": ["Tlaolli tlen iztac", "Canela", "Tlen cualli", "Atl", "Vainilla"],
-          "historia": "Tlen iztac tlen conitih ipan conetl tlen calmecac. Axan zan ye cualli tlen tonalco tlen to tahitic",
+          "nombre": "Atolli tlen Iztaac Tlaolli",
+          "descripcion": "Chikahualiztli tlen tlaolli iztaac, canela ihuan tlen chikahualistli. Yectli ipan yolchikawak.",
+          "imagen": "https://res.cloudinary.com/dinsl266g/image/upload/v1763082293/atole_vadgnb.jpg",
           "precio": 35,
-          "tiempoPreparacion": "Ce cahuil",
-          "esEmblema": false,
-          "recomendacion": "Cualli tlen cecec tonalco tlen tlalpan"
+          "esEmblema": false
         }
       ],
-      "experiencia": {
-        "sonidoAmbiente": "/images/cultura/gastronomia/cocinas/sonido-sazon.mp3",
-        "aromaPrincipal": "Tletl tlen cuahuitl huan canela",
-        "momentoIdeal": "Tonalco, ipan inin tonatiuh tlen tlaqualtiloyan",
-        "vibra": "Cenyeliztli huan Tlapachohuiani"
-      },
       "ubicacion": {
-        "direccion": "Tlen cualli #15, San Juan Tahitic, Oaxaca",
+        "direccion": "Calle del Saber #15, San Juan Tahitic, Oaxaca",
         "coordenadas": "17.2345,-96.1234",
-        "puntoReferencia": "Tlen capilla tlen huehcauh",
-        "instrucciones": "Tlen macuil minuto tlen nehnemi tlen plaza tlapohualli. In calli quipiya tlen coztic ica xochitl"
+        "puntoReferencia": "Nepantla capilla huehue"
       },
       "contacto": {
         "telefono": "+52 951 123 4567",
-        "whatsapp": "+52 951 123 4568",
-        "correo": "cocina.doña.elena@gmail.com",
-        "horario": "Tlacatl tlen Tlapohualiztli • 8:00 - 18:00",
-        "redesSociales": {
-          "facebook": "CocinaDeDoñaElena",
-          "instagram": "@cocinadoña_elena"
-        }
-      },
-      "recomendaciones": [
-        "Tlatemoliztli tlen tlapohualiztli",
-        "Xicmocuili in to mulli tlen huehcauh, to tlayacanilistli",
-        "Tlatlani tlen tlaqualli tlen tonalli",
-        "Ximittaz ica cenyeliztli, tocontlaliah cemanahuac tlen macehualtlahcuiloliztli"
-      ],
-      "premiosReconocimientos": [
-        "Tlayacanilistli tlen Cualli 2023",
-        "Tlayacanilistli tlen Tlayacanilistli 2022"
-      ]
+        "correo": "cocina.doña.elena@gmail.com"
+      }
     },
     {
       "id": 2,
-      "nombre": "Tlecuil tlen Huehuetque",
-      "tagline": "In cahuil tlen mocuitlahuiz ipan tlen tlamantli tlaqualli",
-      "tipo": "comunitario", 
+      "nombre": "Huehue Tlecuil",
+      "tagline": "Tlanestli mocuepa ipan tlaqualiztli",
+      "tipo": "altepetl",
       "generaciones": 4,
-      "descripcionLarga": "Cemanahuac tlen tlayacanilistli tlen achto ipan canin tlayacanilistli tlen huehcauh miqui. Ipan ce cuahuitl tlen ahuehuete, Don Jose quitlaliah in tlamatiliztli tlen huehcauh tlen atolli tlen tetl, tlen quitlaliah tlen tlacah tlen quimittazque ica to yolcahuan tlen to tlacualli",
-      "descripcionAmbiente": "Cemanahuac tlen tlalticpac ica tlaqualtiloyan tlen cuahuitl huan tlecuil tlen tetl. In tlahtolli tlen atl huan tlen tletl tlen cuahuitl quichihchihua cemanahuac tlen tlayacanilistli tlen quitlaliah ipan cahuil tlen huehcauh",
+      "descripcionLarga": "Canon tlen tlaqualiztli tlen huehcauh, tlen aic miqui. Ipan ahuehuete, Don José quitlalilia in tlamachilistli.",
+      "descripcionAmbiente": "Campa tlaltikpak, ica cuahuitl momana, ihuan tlecuil tlen tetl. Patlanih tlen atl ihuan tlen tletl quichihua mjto.",
       "imagenes": {
-        "principal": "/images/cultura/gastronomia/cocinas/cooking.webp",
-        "ambiente": "/images/cultura/gastronomia/cocinas/curry.webp",
-        "detalle": "/images/cultura/gastronomia/cocinas/pasta.webp",
-        "cocinera": "/images/cultura/gastronomia/cocinas/spices.webp",
-        "fachada": "/images/cultura/gastronomia/cocinas/fogon-exterior.webp"
+        "principal": "https://res.cloudinary.com/dinsl266g/image/upload/v1763177402/platillo-huevo_lpvam4.png",
+        "ambiente": "https://res.cloudinary.com/dinsl266g/image/upload/v1763178020/cocina2_wx1e8j.png",
+        "detalle": "https://res.cloudinary.com/dinsl266g/image/upload/v1763177402/platillo-huevo_lpvam4.png"
       },
       "colores": {
         "primario": "#10b981",
-        "secundario": "#0d9488", 
+        "secundario": "#0d9488",
         "acento": "#34d399"
       },
       "historia": {
-        "titulo": "Canin tetl quipohua tlahtolli",
-        "contenido": "Don Jose, ipan 78 xihuitl, quichihchihua inin tlayacanilistli tlen achto tlen atolli tlen tetl. Tlen tlamantli tonalli oquitlaliah in tetl tlen tetl tlen quichihchihua in cualli tlen in atolli. Oquimati inin tlayacanilistli tlen itah, tlen zan ye oquitlalih tlen nenepiltsin tlen achto. Axan, zan ce tlen tlen tlamantli tlen quichihchihua inin tlayacanilistli ipan nochi Oaxaca",
-        "fraseEmblematica": "To tlen moneki zan tlahtolli tlen tlazotlaliztli tlen tlalpan"
+        "contenido": "Don José, 78 xihuitl, quipia in tlamachilistli tlen chilecotz. Miac tonaltin quipia tetl tlen tletl. Ita tlamachilistli ompa itahtli.",
+        "fraseEmblematica": "To tlaqual tlan tlahtol tlen tlaltikpak"
       },
       "servicios": [
-        "Cemanahuac tlen Tlalticpac",
-        "Tlacahuacaloyan",
-        "Tlayacanilistli tlen Tlacualli",
-        "Tlamachtiloyan tlen Tlacualli",
-        "Tlanamaca tlen Tlen Moneki",
-        "Tlapohualiztli tlen Tlamantli"
+        "Campa Tlaltikpak",
+        "Nemachtiloyan",
+        "Tlachihualiztli tlen Tlaqualiztli",
+        "Tlamachtiloyan",
+        "Tlapohualiztli tlen Tlaolli",
+        "Tlapohualtiloni"
       ],
       "horarios": {
-        "lunesViernes": "7:00 YHC - 8:00 CHC",
-        "sabadoDomingo": "6:00 YHC - 9:00 CHC",
-        "diasDescanso": "Tlacatl"
+        "lunesViernes": "7:00 AM - 8:00 PM",
+        "sabadoDomingo": "6:00 AM - 9:00 PM",
+        "diasDescanso": "Tlacatililoni"
       },
-      "galerias": [
-        {
-          "categoria": "platillos",
-          "fecha": "2024-01-20",
-          "titulo": "Tlacualli tlen Tlecuil",
-          "imagenes": [
-            {
-              "url": "/images/cultura/gastronomia/cocinas/cooking.webp",
-              "titulo": "Atolli tlen Tetl tlen Achto",
-              "descripcion": "Tlen tlatlacualo ica tetl tlen tetl tlen tletl"
-            },
-            {
-              "url": "/images/cultura/gastronomia/cocinas/curry.webp",
-              "titulo": "Pozole tlen Chichiltic",
-              "descripcion": "Tlaolli cacahuazintle huan pitzotl tlen tlalpan"
-            }
-          ]
-        },
-        {
-          "categoria": "tecnicas",
-          "fecha": "2024-02-15",
-          "titulo": "Tlayacanilistli tlen Tlacualli tlen Huehcauh",
-          "imagenes": [
-            {
-              "url": "/images/cultura/gastronomia/cocinas/pasta.webp",
-              "titulo": "Tlen tetl tlen tetl",
-              "descripcion": "Tlayacanilistli tlen huehcauh tlen tlen tetl tlen cualli"
-            },
-            {
-              "url": "/images/cultura/gastronomia/cocinas/spices.webp",
-              "titulo": "Xihuitl tlen Pahpatlac",
-              "descripcion": "Tlen xihuitl tlen pahpatlac tlen atolli huan tlacualli"
-            }
-          ]
-        },
-        {
-          "categoria": "ambiente",
-          "fecha": "2024-03-18",
-          "titulo": "To Cemanahuac tlen Tlayacanilistli",
-          "imagenes": [
-            {
-              "url": "/images/cultura/gastronomia/cocinas/fogon-garden.webp",
-              "titulo": "Xochitlah tlen Xihuitl",
-              "descripcion": "Canin ticchihoah to xihuitl tlen pahpatlac"
-            },
-            {
-              "url": "/images/cultura/gastronomia/cocinas/fogon-fireplace.webp",
-              "titulo": "Cemanahuac tlen Tlecuil",
-              "descripcion": "Cemanahuac tlapohualli canin tlayacanilistli miqui"
-            }
-          ]
-        }
+      "recomendaciones": [
+        "Xihualican ica cochipaca",
+        "Xitlaltili in chilecotz tlen tetl",
+        "Xitlachia to xochitlalpan",
+        "Yectli ipan tlen tlamachilistli"
       ],
       "especialidades": [
         {
-          "nombre": "Atolli tlen Tetl tlen Achto",
-          "descripcion": "Tlen tlatlacualo ica tetl tlen tetl tlen tletl tlen tlayacanilistli tlen huehcauh. Tlayacanilistli tlen achto tlen quitlaliah tlen cualli tlen tetl huan quichihchihua nochi tlen cualli tlen tlen moneki. Tlen tlamantli tlen tlayacanilistli",
-          "imagen": "/images/cultura/gastronomia/cocinas/cooking.webp",
-          "ingredientes": ["Tetl tlen tetl", "Michin tlen tlalpan", "Acociltin tlen atl", "Jitomate", "Cilantro", "Cebolla", "Chilli", "Limón"],
-          "historia": "Tlayacanilistli tlen achto tlen huehuetque oquichihchih tlen amo tlen tlatlacualiztli tlen tepoztli. Don Jose zan ce tlen tlen tlamantli tlen quichihchihua inin tlamatiliztli ipan tlalpan. Tlen tlamantli tetl tlen cualli tlen inin tlayacanilistli",
+          "nombre": "Chilecotz tlen Chichi",
+          "descripcion": "Tlachihualiztli ica tetl tlen tletl, tlen huehueyotl.",
+          "imagen": "https://res.cloudinary.com/dinsl266g/image/upload/v1763178025/caldopollo_qdd6uq.png",
           "precio": 160,
-          "tiempoPreparacion": "Eyi cahuil",
-          "esEmblema": true,
-          "recomendacion": "Ximittaz inin tlayacanilistli ica tlen tlatlacualiztli"
+          "esEmblema": true
         },
         {
-          "nombre": "Pozole tlen Chichiltic tlen Tlayacanilistli",
-          "descripcion": "Tlaolli cacahuazintle huan pitzotl tlen tlalpan tlen chicahuac tlen tlayahualoliztli. Tlen cualli huan tlen cualli tlen quitlaliah inin tlacualli tlen mexicayotl tlen cualli. Cualli tlen tlapohualiztli huan tlayacanilistli",
-          "imagen": "/images/cultura/gastronomia/cocinas/curry.webp",
-          "ingredientes": ["Tlaolli cacahuazintle", "Pitzotl tlen tlalpan", "Chilli guajillo", "Oregano", "Rábano", "Lechuga", "Cebolla", "Orégano"],
-          "historia": "Tlaqualli tlen tlapohualiztli tlen oquitlalih ipan tlapohualiztli tlen cualli tlen calli. Axan to tlayacanilistli tlen cenyeliztli huan cenyeliztli",
+          "nombre": "Pozole Chichic",
+          "descripcion": "Tlaolli cacahuazintle ihuan chichi, tlen mjto. Yectli ipan tlaqualiztli tlen Mexihco.",
+          "imagen": "https://res.cloudinary.com/dinsl266g/image/upload/v1763178023/pozole_rhszyt.png",
           "precio": 85,
-          "tiempoPreparacion": "Macuil cahuil",
-          "esEmblema": true,
-          "recomendacion": "Cualli tlen cenyeliztli. Xicmocuili ica tlaxcalli huan iztac"
+          "esEmblema": true
         },
         {
-          "nombre": "Atolli tlen Tlaolli ica Necutl",
-          "descripcion": "Tlen iztac tlen huehcauh tlen moneki ica tlaolli tlen tlatlacualo, canela huan necutil tlen pisietl. Tlen cualli tlen necutil tlen tlalpan tlen cualli tlen tlayacanilistli huan tlen cualli",
-          "imagen": "/images/cultura/gastronomia/cocinas/pasta.webp",
-          "ingredientes": ["Tlaolli tlen tlalpan", "Necutil tlen tlalpan", "Canela", "Atl", "Anís"],
-          "historia": "Tlayacanilistli tlen nantli tlen Don Jose oquichihchih tlen conetl tlen calli. In necutil oquichihchih tlen yancuic tlen inin tlen iztac, oquichihchih tlen yancuic tlen tlayacanilistli tlen huehcauh",
+          "nombre": "Atolli tlen Mihis",
+          "descripcion": "Chikahualiztli tlen huehcauh, ica tlaolli, canela ihuan mihis. Yectli ipan yolchikawak.",
+          "imagen": "https://res.cloudinary.com/dinsl266g/image/upload/v1763113747/miel-xochitl_vwwsxy.png",
           "precio": 40,
-          "tiempoPreparacion": "Ce cahuil huan macuilpohualli",
-          "esEmblema": false,
-          "recomendacion": "Cualli tlen pehualiztli tlen tonalli ica chicahualiztli"
+          "esEmblema": false
         },
         {
-          "nombre": "Tlayuda ica Nacatl",
-          "descripcion": "Tlaxcalli tlen tlaolli tlen hueyi tlen coztic ica nacatl tlen pitzotl, etl huan queso. Tlen tzitziqui ipan huac, tlen iztac ipan caltech huan tlen cualli tlen Oaxaca tlen moneki ica tlen moneki tlen tlalpan",
-          "imagen": "/images/cultura/gastronomia/cocinas/spices.webp",
-          "ingredientes": ["Tlaxcalli tlen tlaolli", "Nacatl tlen pitzotl", "Etl tlen tlatlacualo", "Queso", "Lechuga", "Aguacate", "Salsa"],
-          "historia": "Tlayacanilistli tlen tlayuda oaxaqueña tlen Don Jose oquimati ipan inin nehnemiliztli. Oquipohua tlayacanilistli tlen huehcauh ica tlen moneki tlen tlalpan, oquichihchih tlen yancuic tlen tlayacanilistli",
+          "nombre": "Tlayudas tlen Chichic",
+          "descripcion": "Tlaxcalchikahualli weyi, ica chichic nacatl, etl ihuan queso. Tlen chichic nacatl.",
+          "imagen": "https://res.cloudinary.com/dinsl266g/image/upload/v1763084723/tlayudas_dp32xt.png",
           "precio": 75,
-          "tiempoPreparacion": "Macuilpohualli minuto",
-          "esEmblema": false,
-          "recomendacion": "To yancuic tlen tlayahualoliztli zan ye cualli"
+          "esEmblema": false
         }
       ],
-      "experiencia": {
-        "sonidoAmbiente": "/images/cultura/gastronomia/cocinas/sonido-fuego.mp3",
-        "aromaPrincipal": "Tlalpan huan tletl tlen encino",
-        "momentoIdeal": "Tonalco, ipan inin tonatiuh tlen coztic tlen tlaqualtiloyan",
-        "vibra": "Huehcauh huan Tlayacanilistli"
-      },
       "ubicacion": {
-        "direccion": "Plaza tlen Tlayacanilistli, San Juan Tahitic, Oaxaca", 
+        "direccion": "Plaza de la Tradición, San Juan Tahitic, Oaxaca",
         "coordenadas": "17.2350,-96.1240",
-        "puntoReferencia": "Ipan ce cuahuitl tlen ahuehuete tlen mil xihuitl",
-        "instrucciones": "Ipan yolotl tlen plaza tlapohualli, ipan ce cuahuitl tlen mil xihuitl. Tiquittaz inin tletl tlen tlecuil tlen huehcauh"
+        "puntoReferencia": "Ipan ahuehuete huehue"
       },
       "contacto": {
         "telefono": "+52 951 987 6543",
-        "whatsapp": "+52 951 987 6544",
-        "correo": "fogon.abuelos@gmail.com",
-        "horario": "Tlacatl tlen Tlapohualiztli • 7:00 - 20:00",
-        "redesSociales": {
-          "facebook": "FogonDeLosAbuelos",
-          "instagram": "@fogon_abuelos"
-        }
-      },
-      "recomendaciones": [
-        "Xihuitz ica cahuil tlen ximittaz inin tlayacanilistli",
-        "Tlatlani tlen tlayacanilistli tlen atolli tlen tetl",
-        "Ximittaz to xochitlah tlen xihuitl tlen pahpatlac",
-        "Cualli tlen tlen quinequi tlen tlayacanilistli huan tlayacanilistli"
-      ],
-      "premiosReconocimientos": [
-        "Tlayacanilistli tlen Tlayacanilistli 2024",
-        "Tlayacanilistli tlen Yancuic Tlayacanilistli 2023",
-        "Tlayacanilistli tlen Tlayacanilistli tlen Tlacualli"
-      ]
+        "correo": "fogon.abuelos@gmail.com"
+      }
     }
   ],
   "configuracion": {
     "moneda": "MXN",
-    "zonaHoraria": "America/Mexico_City",
-    "idioma": "nah"
+    "zonaHoraria": "America/Mexico_City"
   }
 }

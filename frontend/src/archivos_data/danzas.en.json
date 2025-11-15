@@ -2,91 +2,91 @@
   "dances": [
     {
       "id": 1,
-      "name": "Jaguar Dance",
-      "description": "A ritual that symbolizes the strength and indomitable spirit of nature.",
-      "image": "/videos/calendario/imagenes/voladores.webp",
-      "video": "/videos/calendario/videos/voladores.mp4",
+      "name": "Dance of the Flyers",
+      "description": "Ancient ritual where dancers descend from a tall pole while spinning, symbolizing the connection between heaven and earth.",
+      "image": "https://res.cloudinary.com/dinsl266g/image/upload/v1763062498/Danza_q46o3h.webp",
+      "video": "https://res.cloudinary.com/dinsl266g/video/upload/v1763092619/voladores_c2yhvo.mp4",
       "details": {
-        "story": "Performed during patron saint festivals, this dance invokes the power of the jaguar, guardian of the jungle and symbol of power in pre-Hispanic cultures. Dancers mimic its movements with captivating energy.",
+        "story": "Originating from the Totonac region, this dance represents the four cardinal directions and the elements. Each flyer spins 13 times, totaling 52 spins, equivalent to a Mesoamerican calendar cycle.",
         "elements": [
-          { "icon": "Shirt", "title": "Attire", "text": "Carved wooden masks and costumes simulating jaguar skin." },
-          { "icon": "Music", "title": "Music", "text": "Drum and flute rhythms marking feline steps." },
-          { "icon": "Sunrise", "title": "Symbolism", "text": "Connection with earth, strength, and the cycle of life." }
+          { "icon": "Shirt", "title": "Attire", "text": "Colorful costumes with traditional embroidery and headdresses of sacred bird feathers." },
+          { "icon": "Music", "title": "Music", "text": "Reed flute and drum marking the ceremonial rhythm as the flyers descend." },
+          { "icon": "Sunrise", "title": "Symbolism", "text": "Cyclical renewal, prayer for rain and fertility for crops." }
         ]
       }
     },
     {
       "id": 2,
-      "name": "Feather Dance",
-      "description": "Dazzles with its ceremonial attire and elegant movements.",
-      "image": "/videos/calendario/imagenes/voladores.webp",
-      "video": "URL_A_TU_VIDEO_CORTO_2.mp4",
+      "name": "Dance of the Little Black Ones",
+      "description": "Dance expression combining African and indigenous elements, characterized by its energy and contagious rhythm.",
+      "image": "https://res.cloudinary.com/dinsl266g/image/upload/v1763066439/culture-fallback_tajxm4.webp",
+      "video": "https://res.cloudinary.com/dinsl266g/video/upload/v1763066440/Negritos_optimizado_yhrkpl.mp4",
       "details": {
-        "story": "Narrates the history of conquest from a local perspective. Despite its beauty, it's a dance with deep historical and cultural resistance meaning. The large feathered headdress is its most distinctive feature.",
+        "story": "This dance emerged during colonial times as a form of cultural resistance. Dancers with black masks represent the fusion of African traditions brought by slaves with pre-Hispanic rituals.",
         "elements": [
-          { "icon": "Feather", "title": "Attire", "text": "Impressive macaw feather headdresses and mirrors." },
-          { "icon": "Wind", "title": "Movement", "text": "Spins and jumps requiring great physical skill." },
-          { "icon": "BookOpen", "title": "Symbolism", "text": "Historical memory, duality, and cultural syncretism." }
+          { "icon": "Feather", "title": "Attire", "text": "Carved wooden masks, costumes with mirrors and bells that mark the rhythm." },
+          { "icon": "Wind", "title": "Movement", "text": "Energetic foot stomping and rapid spins demonstrating physical skill." },
+          { "icon": "BookOpen", "title": "Symbolism", "text": "Cultural syncretism, resistance and celebration of mestizo identity." }
         ]
       }
     },
     {
       "id": 3,
-      "name": "Deer Dance",
-      "description": "Honors the spiritual connection between humans and the animal world.",
-      "image": "URL_A_IMAGEN_DE_PORTADA_DEL_VIDEO_3.jpg",
-      "video": "URL_A_TU_VIDEO_CORTO_3.mp4",
+      "name": "Dance of the Santiago",
+      "description": "Theatrical representation dramatizing the battle between good and evil, with roots in evangelization.",
+      "image": "https://res.cloudinary.com/dinsl266g/image/upload/v1763111723/musico_e6iava.jpg",
+      "video": "https://res.cloudinary.com/dinsl266g/video/upload/v1763092773/payasos_iohcee.mp4",
       "details": {
-        "story": "This dance dramatizes the deer hunt, a sacred animal. It is a rite of gratitude to nature for its sustenance, showing respect for the life that is taken.",
+        "story": "The dance narrates the battle between Apostle James, representing Christianity, and characters symbolizing opposing forces. It's a manifestation of religious syncretism in the region.",
         "elements": [
-          { "icon": "Leaf", "title": "Attire", "text": "Headdresses simulating deer antlers and tenábari rattles." },
-          { "icon": "Footprints", "title": "Movement", "text": "Agile and stealthy steps imitating the animal in nature." },
-          { "icon": "Heart", "title": "Symbolism", "text": "Respect for nature, the cycle of life and death." }
+          { "icon": "Leaf", "title": "Attire", "text": "Cardboard and plaster armor, wooden swords and masks identifying each character." },
+          { "icon": "Footprints", "title": "Movement", "text": "Martial and choreographed, simulating battle scenes with ritual precision." },
+          { "icon": "Heart", "title": "Symbolism", "text": "Struggle between worldviews, faith and preservation of community traditions." }
         ]
       }
     },
     {
       "id": 4,
-      "name": "Deer Dance 1",
-      "description": "Honors the spiritual connection between humans and the animal world.",
-      "image": "URL_A_IMAGEN_DE_PORTADA_DEL_VIDEO_3.jpg",
-      "video": "URL_A_TU_VIDEO_CORTO_3.mp4",
+      "name": "Dance of the Michaels",
+      "description": "Ceremonial dance dedicated to Archangel Michael, protector against evil forces.",
+      "image": "https://res.cloudinary.com/dinsl266g/image/upload/v1763093401/Captura_de_pantalla_397_enyfqk.png",
+      "video": "https://res.cloudinary.com/dinsl266g/video/upload/v1763092965/danza-combi_ccnojt.mp4",
       "details": {
-        "story": "This dance dramatizes the deer hunt, a sacred animal. It is a rite of gratitude to nature for its sustenance, showing respect for the life that is taken.",
+        "story": "In San Juan Tahitic, this dance is performed during patron saint festivals. The Michaels, led by the Archangel, fight against devils and evil forces in a choreography full of symbolism.",
         "elements": [
-          { "icon": "Leaf", "title": "Attire", "text": "Headdresses simulating deer antlers and tenábari rattles." },
-          { "icon": "Footprints", "title": "Movement", "text": "Agile and stealthy steps imitating the animal in nature." },
-          { "icon": "Heart", "title": "Symbolism", "text": "Respect for nature, the cycle of life and death." }
+          { "icon": "Shirt", "title": "Attire", "text": "White tunics with red capes, angel masks and golden crowns." },
+          { "icon": "Music", "title": "Music", "text": "Violins and guitars accompanying songs in Nahuatl and Spanish." },
+          { "icon": "Sunrise", "title": "Symbolism", "text": "Spiritual protection, purification and community renewal." }
         ]
       }
     },
     {
       "id": 5,
-      "name": "Deer Dance 2",
-      "description": "Honors the spiritual connection between humans and the animal world.",
-      "image": "URL_A_IMAGEN_DE_PORTADA_DEL_VIDEO_3.jpg",
-      "video": "URL_A_TU_VIDEO_CORTO_3.mp4",
+      "name": "Dance of the Quetzals",
+      "description": "Spectacular dance where multicolored headdresses spin creating a hypnotic visual mosaic.",
+      "image": "https://res.cloudinary.com/dinsl266g/image/upload/v1763093406/Captura_de_pantalla_395_uoumxl.png",
+      "video": "https://res.cloudinary.com/dinsl266g/video/upload/v1763093376/Quetzales_uh32pv.mp4",
       "details": {
-        "story": "This dance dramatizes the deer hunt, a sacred animal. It is a rite of gratitude to nature for its sustenance, showing respect for the life that is taken.",
+        "story": "Inspired by the sacred bird of Mesoamerica, this dance honors the quetzal as a symbol of freedom and divine connection. The spins represent celestial movements and the rotation of the universe.",
         "elements": [
-          { "icon": "Leaf", "title": "Attire", "text": "Headdresses simulating deer antlers and tenábari rattles." },
-          { "icon": "Footprints", "title": "Movement", "text": "Agile and stealthy steps imitating the animal in nature." },
-          { "icon": "Heart", "title": "Symbolism", "text": "Respect for nature, the cycle of life and death." }
+          { "icon": "Feather", "title": "Attire", "text": "Circular headdresses with colored feathers that spin creating spectacular visual effects." },
+          { "icon": "Wind", "title": "Movement", "text": "Synchronized spins and complex steps requiring years of training." },
+          { "icon": "BookOpen", "title": "Symbolism", "text": "Mesoamerican worldview, cosmic cycles and relationship with nature." }
         ]
       }
     },
     {
       "id": 6,
-      "name": "Deer Dance 3",
-      "description": "Honors the spiritual connection between humans and the animal world.",
-      "image": "/videos/calendario/imagenes/maiz.png",
-      "video": "/videos/calendario/videos/cascada_enamorados.mp4",
+      "name": "Dance of the Bullfighters",
+      "description": "Festive representation of bullfighting adapted to local tradition with humor and satire.",
+      "image": "https://res.cloudinary.com/dinsl266g/image/upload/v1763093405/Captura_de_pantalla_396_nzxo3x.png",
+      "video": "https://res.cloudinary.com/dinsl266g/video/upload/v1763093179/toreros_dljzso.mp4",
       "details": {
-        "story": "This dance dramatizes the deer hunt, a sacred animal. It is a rite of gratitude to nature for its sustenance, showing respect for the life that is taken.",
+        "story": "This dance emerged as a humorous critique of Spanish bullfighting. Local 'bullfighters', with exaggerated movements, ridicule taurine solemnity while entertaining the community.",
         "elements": [
-          { "icon": "Leaf", "title": "Attire", "text": "Headdresses simulating deer antlers and tenábari rattles." },
-          { "icon": "Footprints", "title": "Movement", "text": "Agile and stealthy steps imitating the animal in nature." },
-          { "icon": "Heart", "title": "Symbolism", "text": "Respect for nature, the cycle of life and death." }
+          { "icon": "Leaf", "title": "Attire", "text": "Costumes inspired by bullfighters but with local elements, comic masks and colorful capes." },
+          { "icon": "Footprints", "title": "Movement", "text": "Buffoonish steps, theatrical falls and choreographed confrontations with the 'bull'." },
+          { "icon": "Heart", "title": "Symbolism", "text": "Social criticism, humor as resistance and cultural appropriation of external traditions." }
         ]
       }
     }

@@ -2,91 +2,91 @@
   "dances": [
     {
       "id": 1,
-      "name": "Danza del Tigre",
-      "description": "Un ritual que simboliza la fuerza y el espíritu indomable de la naturaleza.",
-      "image": "/videos/calendario/imagenes/voladores.webp",
-      "video": "/videos/calendario/videos/voladores.mp4",
+      "name": "Danza de los Voladores",
+      "description": "Ritual ancestral donde danzantes descienden desde un palo alto girando, simbolizando la conexión entre el cielo y la tierra.",
+      "image": "https://res.cloudinary.com/dinsl266g/image/upload/v1763062498/Danza_q46o3h.webp",
+      "video": "https://res.cloudinary.com/dinsl266g/video/upload/v1763092619/voladores_c2yhvo.mp4",
       "details": {
-        "story": "Realizada en festivales patronales, esta danza invoca el poder del jaguar, guardián de la selva y símbolo de poder en las culturas prehispánicas. Los danzantes imitan sus movimientos con una energía cautivadora.",
+        "story": "Originaria de la región totonaca, esta danza representa los cuatro puntos cardinales y los elementos. Cada volador gira 13 veces, sumando 52 en total, equivalente a un ciclo calendárico mesoamericano.",
         "elements": [
-          { "icon": "Shirt", "title": "Vestimenta", "text": "Máscaras de madera tallada y trajes que simulan la piel del jaguar." },
-          { "icon": "Music", "title": "Música", "text": "Ritmos de tambor y flauta que marcan los pasos felinos." },
-          { "icon": "Sunrise", "title": "Simbolismo", "text": "Conexión con la tierra, la fuerza y el ciclo de la vida." }
+          { "icon": "Shirt", "title": "Vestimenta", "text": "Trajes coloridos con bordados tradicionales y penachos de plumas que representan aves sagradas." },
+          { "icon": "Music", "title": "Música", "text": "Flauta de carrizo y tambor que marcan el ritmo ceremonial mientras descienden los voladores." },
+          { "icon": "Sunrise", "title": "Simbolismo", "text": "Renovación cíclica, petición de lluvia y fertilidad para las cosechas." }
         ]
       }
     },
     {
       "id": 2,
-      "name": "Danza de la Pluma",
-      "description": "Deslumbra con su vestimenta ceremonial y movimientos elegantes.",
-      "image": "/videos/calendario/imagenes/voladores.webp",
-      "video": "URL_A_TU_VIDEO_CORTO_2.mp4",
+      "name": "Danza de los Negritos",
+      "description": "Expresión dancística que combina elementos africanos e indígenas, caracterizada por su energía y ritmo contagioso.",
+      "image": "https://res.cloudinary.com/dinsl266g/image/upload/v1763066439/culture-fallback_tajxm4.webp",
+      "video": "https://res.cloudinary.com/dinsl266g/video/upload/v1763066440/Negritos_optimizado_yhrkpl.mp4",
       "details": {
-        "story": "Narra la historia de la conquista desde una perspectiva local. A pesar de su belleza, es una danza con una profunda carga histórica y de resistencia cultural. El enorme penacho de plumas es su rasgo más distintivo.",
+        "story": "Esta danza surge durante la colonia como forma de resistencia cultural. Los danzantes, con máscaras negras, representan la fusión de tradiciones africanas traídas por esclavos con rituales prehispánicos.",
         "elements": [
-          { "icon": "Feather", "title": "Vestimenta", "text": "Impresionantes penachos de plumas de guacamayo y espejos." },
-          { "icon": "Wind", "title": "Movimiento", "text": "Giros y saltos que requieren una gran destreza física." },
-          { "icon": "BookOpen", "title": "Simbolismo", "text": "Memoria histórica, dualidad y sincretismo cultural." }
+          { "icon": "Feather", "title": "Vestimenta", "text": "Máscaras de madera tallada, trajes con espejos y campanillas que marcan el compás." },
+          { "icon": "Wind", "title": "Movimiento", "text": "Zapateados enérgicos y giros rápidos que demuestran destreza física." },
+          { "icon": "BookOpen", "title": "Simbolismo", "text": "Sincretismo cultural, resistencia y celebración de la identidad mestiza." }
         ]
       }
     },
     {
       "id": 3,
-      "name": "Danza del Venado",
-      "description": "Honra la conexión espiritual entre el hombre y el mundo animal.",
-      "image": "URL_A_IMAGEN_DE_PORTADA_DEL_VIDEO_3.jpg",
-      "video": "URL_A_TU_VIDEO_CORTO_3.mp4",
+      "name": "Danza de los Santiago",
+      "description": "Representación teatral que dramatiza la lucha entre el bien y el mal, con raíces en la evangelización.",
+      "image": "https://res.cloudinary.com/dinsl266g/image/upload/v1763111723/musico_e6iava.jpg",
+      "video": "https://res.cloudinary.com/dinsl266g/video/upload/v1763092773/payasos_iohcee.mp4",
       "details": {
-        "story": "Esta danza dramatiza la cacería del venado, un animal sagrado. Es un rito de agradecimiento a la naturaleza por su sustento, mostrando respeto por la vida que se toma.",
+        "story": "La danza narra la batalla entre Santiago Apóstol, representando el cristianismo, y personajes que simbolizan fuerzas opuestas. Es una manifestación del sincretismo religioso en la región.",
         "elements": [
-          { "icon": "Leaf", "title": "Vestimenta", "text": "Tocados que simulan la cornamenta del venado y sonajas de tenábari." },
-          { "icon": "Footprints", "title": "Movimiento", "text": "Pasos ágiles y sigilosos que imitan al animal en la naturaleza." },
-          { "icon": "Heart", "title": "Simbolismo", "text": "Respeto por la naturaleza, el ciclo de la vida y la muerte." }
+          { "icon": "Leaf", "title": "Vestimenta", "text": "Armaduras de cartón y yeso, espadas de madera y máscaras que identifican a cada personaje." },
+          { "icon": "Footprints", "title": "Movimiento", "text": "Marciales y coreografiados, simulando escenas de batalla con precisión ritual." },
+          { "icon": "Heart", "title": "Simbolismo", "text": "Lucha entre cosmovisiones, fe y preservación de tradiciones comunitarias." }
         ]
       }
     },
     {
       "id": 4,
-      "name": "Danza del Venado 1",
-      "description": "Honra la conexión espiritual entre el hombre y el mundo animal.",
-      "image": "URL_A_IMAGEN_DE_PORTADA_DEL_VIDEO_3.jpg",
-      "video": "URL_A_TU_VIDEO_CORTO_3.mp4",
+      "name": "Danza de los Migueles",
+      "description": "Danza ceremonial dedicada al Arcángel Miguel, protector contra las fuerzas del mal.",
+      "image": "https://res.cloudinary.com/dinsl266g/image/upload/v1763093401/Captura_de_pantalla_397_enyfqk.png",
+      "video": "https://res.cloudinary.com/dinsl266g/video/upload/v1763092965/danza-combi_ccnojt.mp4",
       "details": {
-        "story": "Esta danza dramatiza la cacería del venado, un animal sagrado. Es un rito de agradecimiento a la naturaleza por su sustento, mostrando respeto por la vida que se toma.",
+        "story": "En San Juan Tahitic, esta danza se realiza durante las fiestas patronales. Los Migueles, liderados por el Arcángel, combaten contra diablos y fuerzas malignas en una coreografía llena de simbolismo.",
         "elements": [
-          { "icon": "Leaf", "title": "Vestimenta", "text": "Tocados que simulan la cornamenta del venado y sonajas de tenábari." },
-          { "icon": "Footprints", "title": "Movimiento", "text": "Pasos ágiles y sigilosos que imitan al animal en la naturaleza." },
-          { "icon": "Heart", "title": "Simbolismo", "text": "Respeto por la naturaleza, el ciclo de la vida y la muerte." }
+          { "icon": "Shirt", "title": "Vestimenta", "text": "Túnices blancas con capas rojas, máscaras de ángeles y coronas doradas." },
+          { "icon": "Music", "title": "Música", "text": "Violines y guitarras que acompañan los cantos en náhuatl y español." },
+          { "icon": "Sunrise", "title": "Simbolismo", "text": "Protección espiritual, purificación y renovación de la comunidad." }
         ]
       }
     },
     {
       "id": 5,
-      "name": "Danza del Venado 2",
-      "description": "Honra la conexión espiritual entre el hombre y el mundo animal.",
-      "image": "URL_A_IMAGEN_DE_PORTADA_DEL_VIDEO_3.jpg",
-      "video": "URL_A_TU_VIDEO_CORTO_3.mp4",
+      "name": "Danza de los Quetzales",
+      "description": "Espectacular danza donde los penachos multicolores giran creando un mosaico visual hipnótico.",
+      "image": "https://res.cloudinary.com/dinsl266g/image/upload/v1763093406/Captura_de_pantalla_395_uoumxl.png",
+      "video": "https://res.cloudinary.com/dinsl266g/video/upload/v1763093376/Quetzales_uh32pv.mp4",
       "details": {
-        "story": "Esta danza dramatiza la cacería del venado, un animal sagrado. Es un rito de agradecimiento a la naturaleza por su sustento, mostrando respeto por la vida que se toma.",
+        "story": "Inspirada en el ave sagrada de Mesoamérica, esta danza honra al quetzal como símbolo de libertad y conexión divina. Los giros representan los movimientos celestes y la rotación del universo.",
         "elements": [
-          { "icon": "Leaf", "title": "Vestimenta", "text": "Tocados que simulan la cornamenta del venado y sonajas de tenábari." },
-          { "icon": "Footprints", "title": "Movimiento", "text": "Pasos ágiles y sigilosos que imitan al animal en la naturaleza." },
-          { "icon": "Heart", "title": "Simbolismo", "text": "Respeto por la naturaleza, el ciclo de la vida y la muerte." }
+          { "icon": "Feather", "title": "Vestimenta", "text": "Penachos circulares con plumas de colores que giran creando efectos visuales espectaculares." },
+          { "icon": "Wind", "title": "Movimiento", "text": "Giros sincronizados y pasos complejos que requieren años de entrenamiento." },
+          { "icon": "BookOpen", "title": "Simbolismo", "text": "Cosmovisión mesoamericana, ciclos cósmicos y relación con la naturaleza." }
         ]
       }
     },
     {
       "id": 6,
-      "name": "Danza del Venado 3",
-      "description": "Honra la conexión espiritual entre el hombre y el mundo animal.",
-      "image": "/videos/calendario/imagenes/maiz.png",
-      "video": "/videos/calendario/videos/cascada_enamorados.mp4",
+      "name": "Danza de los Toreadores",
+      "description": "Representación festiva de la tauromaquia adaptada a la tradición local con humor y sátira.",
+      "image": "https://res.cloudinary.com/dinsl266g/image/upload/v1763093405/Captura_de_pantalla_396_nzxo3x.png",
+      "video": "https://res.cloudinary.com/dinsl266g/video/upload/v1763093179/toreros_dljzso.mp4",
       "details": {
-        "story": "Esta danza dramatiza la cacería del venado, un animal sagrado. Es un rito de agradecimiento a la naturaleza por su sustento, mostrando respeto por la vida que se toma.",
+        "story": "Esta danza surge como crítica humorística a las corridas de toros españolas. Los 'toreros' locales, con movimientos exagerados, ridiculizan la solemnidad taurina mientras entretienen a la comunidad.",
         "elements": [
-          { "icon": "Leaf", "title": "Vestimenta", "text": "Tocados que simulan la cornamenta del venado y sonajas de tenábari." },
-          { "icon": "Footprints", "title": "Movimiento", "text": "Pasos ágiles y sigilosos que imitan al animal en la naturaleza." },
-          { "icon": "Heart", "title": "Simbolismo", "text": "Respeto por la naturaleza, el ciclo de la vida y la muerte." }
+          { "icon": "Leaf", "title": "Vestimenta", "text": "Trajes inspirados en toreros pero con elementos locales, máscaras cómicas y capas coloridas." },
+          { "icon": "Footprints", "title": "Movimiento", "text": "Pasos bufonescos, caídas teatrales y enfrentamientos coreografiados con el 'toro'." },
+          { "icon": "Heart", "title": "Simbolismo", "text": "Crítica social, humor como resistencia y apropiación cultural de tradiciones externas." }
         ]
       }
     }
