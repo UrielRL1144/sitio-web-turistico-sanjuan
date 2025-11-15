@@ -1,13 +1,20 @@
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
-import path from 'path'; // 👈 Importa el módulo 'path'
+import path from 'path'; 
 
-// https://vitejs.dev/config/
 export default defineConfig({
   plugins: [react()],
   resolve: {
     alias: {
-      "@": path.resolve("./src/"), // 👈 Agrega esta configuración
+      "@": path.resolve(__dirname, "./src/"), // ← __dirname agregado
     },
   },
+  build: {
+    outDir: 'dist',
+    sourcemap: false,
+    chunkSizeWarningLimit: 1000,
+  },
+  server: {
+    port: 3000
+  }
 });
