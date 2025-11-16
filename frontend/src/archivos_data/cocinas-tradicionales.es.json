@@ -72,7 +72,7 @@
         }
       ],
       "ubicacion": {
-        "direccion": "Calle del Saber #15, San Juan Tahitic, Oaxaca",
+        "direccion": "Calle del Saber #15, San Juan Tahitic, Puebla",
         "coordenadas": "17.2345,-96.1234",
         "puntoReferencia": "Junto a la capilla antigua"
       },
@@ -154,7 +154,7 @@
       ],
       "ubicacion": {
         "direccion": "Plaza de la Tradición, San Juan Tahitic, Oaxaca",
-        "coordenadas": "17.2350,-96.1240",
+        "coordenadas": "17.2345,-96.1234",
         "puntoReferencia": "Bajo el ahuehuete centenario"
       },
       "contacto": {
