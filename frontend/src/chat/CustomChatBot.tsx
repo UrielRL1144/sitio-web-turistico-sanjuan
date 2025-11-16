@@ -14,6 +14,8 @@ interface Message {
   sender: "user" | "bot";
   text: string;
   quickReplies?: QuickReply[];
+  timestamp?: number;
+  id?: string;
 }
 
 interface CustomChatbotProps {
@@ -72,91 +74,101 @@ const navigationOptions: QuickReply[] = [
   }
 ];
 
+// Configuración del backend
+const BACKEND_URL = import.meta.env.VITE_CHATBOT_API_URL || "http://localhost:5000";
+// Agrega esto temporalmente en CustomChatBot.tsx para debug
 export const CustomChatbot: React.FC<CustomChatbotProps> = ({ onNavigate }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [messages, setMessages] = useState<Message[]>([
     {
       sender: "bot",
-      text: "🌿 **¡Bienvenido/a a San Juan Tahitic!** 🌄\n\n*Donde la naturaleza y la cultura se encuentran* ✨\n\nSoy tu guía virtual. ¿Te gustaría explorar alguna área específica de nuestro paraíso? \n\n Puedes hacer clic en algunos de nuetros siguientes botones directos a la sección de nuestro sitio web, o puedes preguntarnos con palabras claves para saber algo en particular es decir **Cascadas**, **Danzas**, **Cooperaiva**, *Subir foto*, lo que necesites ",
-      quickReplies: navigationOptions
+      text: "🌿 **¡Bienvenido/a a San Juan Tahitic!** 🌄\n\n*Donde la naturaleza y la cultura se encuentran* ✨\n\nSoy tu guía virtual. ¿Te gustaría explorar alguna área específica de nuestro paraíso? \n\nPuedes hacer clic en algunos de nuestros siguientes botones directos a la sección de nuestro sitio web, o puedes preguntarnos con palabras claves para saber algo en particular como **Cascadas**, **Danzas**, **Cooperativa**, lo que necesites.",
+      quickReplies: navigationOptions,
+      timestamp: Date.now(),
+      id: "welcome-1"
     },
   ]);
   const [input, setInput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [connectionError, setConnectionError] = useState(false);
   
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const messagesContainerRef = useRef<HTMLDivElement>(null);
   const lastMessageCountRef = useRef(messages.length);
+  const inputRef = useRef<HTMLInputElement>(null);
 
-  // Scroll inteligente - solo al final si el usuario ya estaba abajo
-  const scrollToBottom = (behavior: ScrollBehavior = "smooth") => {
-    if (messagesContainerRef.current) {
-      const container = messagesContainerRef.current;
-      const isNearBottom = container.scrollHeight - container.scrollTop - container.clientHeight < 100;
-      
-      if (isNearBottom) {
-        messagesEndRef.current?.scrollIntoView({ behavior });
-      }
+  // ======================
+  // 🔄 EFECTOS Y UTILIDADES
+  // ======================
+
+  // Focus en input cuando se abre el chat
+  useEffect(() => {
+    if (isOpen && inputRef.current) {
+      setTimeout(() => {
+        inputRef.current?.focus();
+      }, 300);
     }
-  };
+  }, [isOpen]);
 
-  // Efecto para scroll inteligente
-  // Efecto para scroll inteligente - VERSIÓN MÁS SIMPLE
-useEffect(() => {
-  const isNewMessage = messages.length > lastMessageCountRef.current;
-  
-  if (isNewMessage) {
-    setTimeout(() => {
-      if (messagesContainerRef.current) {
-        const container = messagesContainerRef.current;
-        const lastMessage = messages[messages.length - 1];
-        
-        if (lastMessage.sender === "user") {
-          // Usuario: scroll al final
-          container.scrollTop = container.scrollHeight;
-        } else {
-          // Bot: mantener posición actual O hacer scroll mínimo
-          // Esto hace que se vea el inicio del mensaje del bot
-          const currentPosition = container.scrollTop;
-          const newPosition = Math.min(
-            currentPosition + 100, // Solo baja 100px
-            container.scrollHeight - container.clientHeight
-          );
-          container.scrollTo({
-            top: newPosition,
-            behavior: "smooth"
-          });
-        }
-      }
-    }, 100);
+  // Scroll inteligente mejorado
+  useEffect(() => {
+    const isNewMessage = messages.length > lastMessageCountRef.current;
     
-    lastMessageCountRef.current = messages.length;
-  }
-}, [messages]);
+    if (isNewMessage) {
+      setTimeout(() => {
+        if (messagesContainerRef.current) {
+          const container = messagesContainerRef.current;
+          const lastMessage = messages[messages.length - 1];
+          
+          if (lastMessage.sender === "user") {
+            // Usuario: scroll al final inmediato
+            container.scrollTop = container.scrollHeight;
+          } else {
+            // Bot: scroll suave después de un delay para lectura
+            setTimeout(() => {
+              container.scrollTo({
+                top: container.scrollHeight,
+                behavior: "smooth"
+              });
+            }, 100);
+          }
+        }
+      }, 50);
+      
+      lastMessageCountRef.current = messages.length;
+    }
+  }, [messages]);
 
-  // Manejar las quick replies (botones de acción rápida)
-  const handleQuickReply = (reply: QuickReply) => {
+  // ======================
+  // 🎯 MANEJADORES PRINCIPALES
+  // ======================
+
+  const handleQuickReply = async (reply: QuickReply) => {
     if (reply.action === "navigate" && onNavigate) {
-      // Agregar mensaje del usuario (simulado)
-      setMessages(prev => [...prev, {
+      // Agregar mensaje del usuario
+      const userMessage: Message = {
         sender: "user",
-        text: reply.text
-      }]);
+        text: reply.text,
+        timestamp: Date.now(),
+        id: `user-${Date.now()}`
+      };
+      
+      setMessages(prev => [...prev, userMessage]);
       
       // Mensaje de confirmación del bot
-      const confirmationMessage = `¡Excelente elección! 🎯\n\nTe estoy llevando a **${reply.text.replace(/[^a-zA-ZáéíóúÁÉÍÓÚñÑ\s]/g, '')}**...\n\n*Navegando...* ✨`;
-      
-      setMessages(prev => [...prev, {
+      const confirmationMessage: Message = {
         sender: "bot",
-        text: confirmationMessage
-      }]);
+        text: `¡Excelente elección! 🎯\n\nTe estoy llevando a **${reply.text.replace(/[^a-zA-ZáéíóúÁÉÍÓÚñÑ\s]/g, '')}**...\n\n*Navegando...* ✨`,
+        timestamp: Date.now(),
+        id: `nav-${Date.now()}`
+      };
       
-      // Navegación después de un breve delay para que se vea el mensaje
+      setMessages(prev => [...prev, confirmationMessage]);
+      
+      // Navegación después de un breve delay
       setTimeout(() => {
         onNavigate(reply.target);
-        // Cerrar el chat después de navegar (opcional)
-        // setIsOpen(false);
-      }, 2000);
+      }, 1800);
       
     } else if (reply.action === "question") {
       // Para preguntas predefinidas
@@ -166,72 +178,136 @@ useEffect(() => {
   };
 
   const handleSend = async () => {
-    if (!input.trim() || isLoading) return;
+    const trimmedInput = input.trim();
+    if (!trimmedInput || isLoading) return;
 
-    const userMessage: Message = { sender: "user", text: input.trim() };
-    setMessages((prev) => [...prev, userMessage]);
+    // Crear mensaje de usuario
+    const userMessage: Message = { 
+      sender: "user", 
+      text: trimmedInput,
+      timestamp: Date.now(),
+      id: `user-${Date.now()}`
+    };
+    
+    setMessages(prev => [...prev, userMessage]);
     setInput("");
     setIsLoading(true);
+    setConnectionError(false);
+
+    // Timeout para evitar requests eternos
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 10000);
 
     try {
-      const response = await fetch("http://localhost:5000/api/message", {
+      const response = await fetch(`${BACKEND_URL}/api/message`, {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: { 
+          "Content-Type": "application/json",
+        },
         body: JSON.stringify({
-          message: input.trim(),
-          sessionId: "visitante123",
+          message: trimmedInput,
+          sessionId: `user-${Date.now()}`,
           languageCode: "es",
         }),
+        signal: controller.signal
       });
+
+      clearTimeout(timeoutId);
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
 
       const data = await response.json();
 
-      setMessages((prev) => [
-        ...prev,
-        { sender: "bot", text: data.reply },
-      ]);
+      const botMessage: Message = {
+        sender: "bot", 
+        text: data.reply,
+        timestamp: Date.now(),
+        id: `bot-${Date.now()}`
+      };
+
+      setMessages(prev => [...prev, botMessage]);
+
     } catch (error) {
       console.error("Error comunicando con backend:", error);
-      setMessages((prev) => [
-        ...prev,
-        { 
-          sender: "bot", 
-          text: "🌿 *Nuestros guías espirituales están descansando...*\n\nPor favor, intenta nuevamente en unos momentos mientras conectamos con la energía de la naturaleza." 
-        },
-      ]);
+      setConnectionError(true);
+      
+      const errorMessage: Message = {
+        sender: "bot", 
+        text: getErrorMessage(error),
+        timestamp: Date.now(),
+        id: `error-${Date.now()}`
+      };
+
+      setMessages(prev => [...prev, errorMessage]);
     } finally {
       setIsLoading(false);
     }
+  };
+
+  const getErrorMessage = (error: any): string => {
+    if (error.name === 'AbortError') {
+      return "⏰ **La consulta está tomando más tiempo de lo esperado...**\n\nPor favor, intenta nuevamente con una pregunta más específica o usa los botones de navegación.";
+    }
+    
+    if (error.message?.includes('Failed to fetch')) {
+      return "🌐 **No podemos conectarnos con nuestros guías en este momento...**\n\nParece que hay un problema de conexión. Por favor:\n\n• Verifica tu conexión a internet\n• Intenta recargar la página\n• Usa los botones de navegación para explorar";
+    }
+    
+    return "🌀 **La conexión con nuestros guías se ha interrumpido...**\n\nPor favor, intenta nuevamente en unos momentos. Mientras tanto, puedes explorar nuestras secciones usando los botones de arriba. 🌿";
+  };
+
+  const clearChat = () => {
+    setMessages([
+      {
+        sender: "bot",
+        text: "🌿 **¡Conversación reiniciada!** ✨\n\n¿En qué más puedo ayudarte? Puedes explorar nuestras secciones o hacerme cualquier pregunta.",
+        quickReplies: navigationOptions,
+        timestamp: Date.now(),
+        id: "welcome-restart"
+      }
+    ]);
   };
 
   // Sugerencias temáticas para preguntas específicas
   const quickSuggestions = [
     {
       text: "¿Qué cascadas recomiendan visitar?",
-      icon: "💧"
+      icon: "💧",
+      keywords: ["cascadas", "cataratas", "agua", "ríos"]
     },
     {
       text: "Horarios de danzas tradicionales",
-      icon: "🎭"
+      icon: "🎭",
+      keywords: ["danzas", "bailes", "tradicional", "cultural"]
     },
     {
       text: "Tours por reservas naturales",
-      icon: "🌳"
+      icon: "🌳",
+      keywords: ["tours", "reservas", "naturaleza", "excursiones"]
     },
     {
       text: "Cultura y tradiciones locales",
-      icon: "📜"
+      icon: "📜",
+      keywords: ["cultura", "tradiciones", "historia", "ancestral"]
     }
   ];
 
+  // Verificar si hay quick replies activas en el último mensaje
+  const hasActiveQuickReplies = messages.length > 0 && 
+    messages[messages.length - 1].sender === "bot" && 
+    messages[messages.length - 1].quickReplies;
+
   return (
     <>
-      {/* Botón flotante más pequeño */}
+      {/* Botón flotante mejorado */}
       <motion.button
         onClick={() => setIsOpen(!isOpen)}
-        className="fixed bottom-6 right-6 bg-gradient-to-br from-emerald-600 to-teal-700 hover:from-emerald-700 hover:to-teal-800 text-white p-4 rounded-full shadow-2xl transition-all z-50 flex items-center justify-center group border-2 border-emerald-400"
+        className="fixed bottom-6 right-6 bg-gradient-to-br from-emerald-600 to-teal-700 hover:from-emerald-700 hover:to-teal-800 text-white p-4 rounded-full shadow-2xl transition-all z-50 flex items-center justify-center group border-2 border-emerald-400 focus:outline-none focus:ring-2 focus:ring-emerald-300 focus:ring-offset-2"
         whileHover={{ scale: 1.1, rotate: 5 }}
         whileTap={{ scale: 0.95 }}
+        aria-label={isOpen ? "Cerrar chat" : "Abrir chat"}
         style={{
           background: "linear-gradient(135deg, #059669 0%, #0f766e 100%)",
           boxShadow: "0 8px 32px rgba(5, 150, 105, 0.3)"
@@ -242,8 +318,9 @@ useEffect(() => {
         ) : (
           <MessageCircle size={24} className="group-hover:scale-110 transition-transform" />
         )}
-        {/* Notificación pulsante */}
-        {!isOpen && (
+        
+        {/* Notificación pulsante cuando hay mensajes nuevos */}
+        {!isOpen && messages.length > 1 && (
           <motion.div
             className="absolute -top-1 -right-1 w-3 h-3 bg-amber-400 rounded-full border-2 border-white"
             animate={{ scale: [1, 1.2, 1] }}
@@ -252,7 +329,7 @@ useEffect(() => {
         )}
       </motion.button>
 
-      {/* Ventana del chat más ancha y adaptable */}
+      {/* Ventana del chat mejorada */}
       <AnimatePresence>
         {isOpen && (
           <motion.div
@@ -266,8 +343,10 @@ useEffect(() => {
               background: "linear-gradient(135deg, #ffffff 0%, #f0fdf4 100%)",
               boxShadow: "0 20px 60px rgba(5, 150, 105, 0.2)"
             }}
+            role="dialog"
+            aria-label="Chat de San Juan Tahitic"
           >
-            {/* Encabezado compacto */}
+            {/* Encabezado compacto con más controles */}
             <div 
               className="px-4 py-3 text-white font-semibold flex justify-between items-center relative overflow-hidden"
               style={{
@@ -288,30 +367,47 @@ useEffect(() => {
                 <div>
                   <span className="text-base block leading-tight">San Juan Tahitic</span>
                   <span className="text-xs font-normal opacity-90 flex items-center">
-                    <div className="w-1.5 h-1.5 bg-amber-400 rounded-full mr-1"></div>
-                    Guía de Navegación
+                    <div className={`w-1.5 h-1.5 rounded-full mr-1 ${
+                      connectionError ? 'bg-red-400' : 'bg-amber-400'
+                    }`}></div>
+                    {connectionError ? 'Reconectando...' : 'Guía de Navegación'}
                   </span>
                 </div>
               </div>
-              <button 
-                onClick={() => setIsOpen(false)}
-                className="hover:bg-white/20 p-1 rounded-full transition z-10"
-              >
-                <X size={18} />
-              </button>
+              
+              <div className="flex items-center space-x-1 z-10">
+                {/* Botón de limpiar chat */}
+                {messages.length > 2 && (
+                  <button 
+                    onClick={clearChat}
+                    className="hover:bg-white/20 p-1 rounded-full transition text-xs opacity-80 hover:opacity-100"
+                    aria-label="Limpiar conversación"
+                    title="Limpiar conversación"
+                  >
+                    🔄
+                  </button>
+                )}
+                
+                <button 
+                  onClick={() => setIsOpen(false)}
+                  className="hover:bg-white/20 p-1 rounded-full transition"
+                  aria-label="Cerrar chat"
+                >
+                  <X size={18} />
+                </button>
+              </div>
             </div>
 
-            {/* Área de mensajes más ancha */}
+            {/* Área de mensajes mejorada */}
             <div 
               ref={messagesContainerRef}
-              className="flex-1 overflow-y-auto p-4 space-y-3 bg-gradient-to-b from-emerald-50/50 to-teal-50/30"
+              className="flex-1 overflow-y-auto p-4 space-y-3 bg-gradient-to-b from-emerald-50/50 to-teal-50/30 scrollbar-thin scrollbar-thumb-emerald-200 scrollbar-track-transparent"
               style={{ 
                 maxHeight: "calc(100% - 120px)",
-                scrollBehavior: "smooth"
               }}
             >
-              {messages.map((msg, i) => (
-                <div key={i}>
+              {messages.map((msg) => (
+                <div key={msg.id || `msg-${msg.timestamp}`}>
                   <motion.div
                     initial={{ opacity: 0, y: 8 }}
                     animate={{ opacity: 1, y: 0 }}
@@ -321,20 +417,20 @@ useEffect(() => {
                     }`}
                   >
                     <div className={`flex ${msg.sender === "user" ? "flex-row-reverse" : "flex-row"} items-end space-x-2 max-w-[95%]`}>
-                      {/* Avatar más pequeño */}
+                      {/* Avatar */}
                       <div className={`flex-shrink-0 w-6 h-6 rounded-full flex items-center justify-center ${
                         msg.sender === "user" 
                           ? "bg-gradient-to-br from-blue-500 to-indigo-600 ml-1" 
                           : "bg-gradient-to-br from-emerald-500 to-teal-600 mr-1"
                       }`}>
                         {msg.sender === "user" ? (
-                          <span className="text-white text-[10px]">TÚ</span>
+                          <span className="text-white text-[10px] font-bold">TÚ</span>
                         ) : (
                           <Leaf size={12} className="text-white" />
                         )}
                       </div>
                       
-                      {/* Burbuja de mensaje más ancha */}
+                      {/* Burbuja de mensaje */}
                       <motion.div
                         className={`relative px-4 py-3 rounded-xl max-w-full min-w-[120px] ${
                           msg.sender === "user"
@@ -343,7 +439,7 @@ useEffect(() => {
                         }`}
                       >
                         <div
-                          className="whitespace-pre-wrap leading-relaxed text-sm"
+                          className="whitespace-pre-wrap leading-relaxed text-sm chatbot-message"
                           style={{ lineHeight: '1.5' }}
                           dangerouslySetInnerHTML={{
                             __html: msg.text
@@ -353,21 +449,22 @@ useEffect(() => {
                           }}
                         />
                         
-                        {/* Indicador de escritura solo cuando está cargando */}
-                        {isLoading && i === messages.length - 1 && msg.sender === "user" && (
-                          <motion.div 
-                            className="flex space-x-1 mt-2"
-                            initial={{ opacity: 0 }}
-                            animate={{ opacity: 1 }}
-                          >
-                            <span className="text-xs text-emerald-600 italic">Nuestro guía está respondiendo...</span>
-                          </motion.div>
+                        {/* Timestamp pequeño */}
+                        {msg.timestamp && (
+                          <div className={`text-xs mt-2 ${
+                            msg.sender === "user" ? 'text-blue-100' : 'text-gray-400'
+                          }`}>
+                            {new Date(msg.timestamp).toLocaleTimeString('es-ES', { 
+                              hour: '2-digit', 
+                              minute: '2-digit' 
+                            })}
+                          </div>
                         )}
                       </motion.div>
                     </div>
                   </motion.div>
 
-                  {/* Quick Replies (Botones de acción) */}
+                  {/* Quick Replies */}
                   {msg.quickReplies && msg.quickReplies.length > 0 && (
                     <motion.div
                       initial={{ opacity: 0, y: 10 }}
@@ -380,7 +477,7 @@ useEffect(() => {
                           <motion.button
                             key={index}
                             onClick={() => handleQuickReply(reply)}
-                            className="text-sm bg-stone-300 hover:bg-emerald-50 border border-emerald-200 text-emerald-800 px-4 py-3 rounded-full transition-all duration-200 text-left group hover:shadow-md hover:border-emerald-300 hover:scale-[1.02]"
+                            className="text-sm bg-white hover:bg-emerald-50 border border-emerald-200 text-emerald-800 px-4 py-3 rounded-xl transition-all duration-200 text-left group hover:shadow-md hover:border-emerald-300 hover:scale-[1.02] focus:outline-none focus:ring-2 focus:ring-emerald-200 focus:ring-offset-1"
                             whileHover={{ x: 3 }}
                             whileTap={{ scale: 0.98 }}
                           >
@@ -398,53 +495,85 @@ useEffect(() => {
                 </div>
               ))}
               
-              {/* Referencia para scroll automático */}
-              <div ref={messagesEndRef} />
-              
-              {/* Sugerencias rápidas para preguntas (solo si no hay quick replies activas) */}
-              {messages.length === 1 && !messages[0].quickReplies && (
+              {/* Indicador de escritura */}
+              {isLoading && (
                 <motion.div
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.5 }}
-                  className="mt-4"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  className="flex justify-start ml-10"
                 >
-                  <p className="text-xs text-emerald-700 mb-3 font-medium text-center">
-                    💫 También puedes preguntar sobre:
-                  </p>
-                  <div className="grid grid-cols-1 gap-2">
-                    {quickSuggestions.map((suggestion, index) => (
-                      <motion.button
-                        key={index}
-                        onClick={() => {
-                          setInput(suggestion.text);
-                          setTimeout(() => handleSend(), 100);
-                        }}
-                        className="text-sm bg-white hover:bg-emerald-50 border border-emerald-200 text-emerald-800 px-3 py-2.5 rounded-lg transition-all duration-200 text-left group hover:shadow-sm hover:border-emerald-300"
-                        whileHover={{ x: 3 }}
-                        whileTap={{ scale: 0.98 }}
-                      >
-                        <span className="mr-2">{suggestion.icon}</span>
-                        {suggestion.text}
-                      </motion.button>
-                    ))}
+                  <div className="flex items-center space-x-2 bg-white border border-emerald-100 rounded-xl px-4 py-3 shadow-sm">
+                    <div className="flex space-x-1">
+                      <motion.div
+                        className="w-2 h-2 bg-emerald-400 rounded-full"
+                        animate={{ scale: [1, 1.2, 1] }}
+                        transition={{ duration: 1, repeat: Infinity, delay: 0 }}
+                      />
+                      <motion.div
+                        className="w-2 h-2 bg-emerald-400 rounded-full"
+                        animate={{ scale: [1, 1.2, 1] }}
+                        transition={{ duration: 1, repeat: Infinity, delay: 0.2 }}
+                      />
+                      <motion.div
+                        className="w-2 h-2 bg-emerald-400 rounded-full"
+                        animate={{ scale: [1, 1.2, 1] }}
+                        transition={{ duration: 1, repeat: Infinity, delay: 0.4 }}
+                      />
+                    </div>
+                    <span className="text-xs text-emerald-600 italic">Nuestro guía está respondiendo...</span>
                   </div>
                 </motion.div>
               )}
+              
+              {/* Referencia para scroll automático */}
+              <div ref={messagesEndRef} />
             </div>
 
-            {/* Campo de entrada más ancho */}
+            {/* Sugerencias rápidas (solo si no hay quick replies activas) */}
+            {!hasActiveQuickReplies && messages.length > 0 && (
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 0.5 }}
+                className="px-4 pb-2 border-t border-emerald-100 pt-3 bg-white/50"
+              >
+                <p className="text-xs text-emerald-700 mb-2 font-medium">
+                  💫 También puedes preguntar sobre:
+                </p>
+                <div className="grid grid-cols-2 gap-2">
+                  {quickSuggestions.map((suggestion, index) => (
+                    <motion.button
+                      key={index}
+                      onClick={() => {
+                        setInput(suggestion.text);
+                        setTimeout(() => handleSend(), 100);
+                      }}
+                      className="text-xs bg-white hover:bg-emerald-50 border border-emerald-200 text-emerald-800 px-3 py-2 rounded-lg transition-all duration-200 text-left group hover:shadow-sm hover:border-emerald-300 focus:outline-none focus:ring-1 focus:ring-emerald-200"
+                      whileHover={{ y: -1 }}
+                      whileTap={{ scale: 0.98 }}
+                    >
+                      <span className="mr-1">{suggestion.icon}</span>
+                      {suggestion.text}
+                    </motion.button>
+                  ))}
+                </div>
+              </motion.div>
+            )}
+
+            {/* Campo de entrada mejorado */}
             <div className="p-3 border-t border-emerald-200 bg-white/80 backdrop-blur-sm">
               <div className="flex items-center space-x-2">
                 <div className="flex-1 relative">
                   <input
+                    ref={inputRef}
                     type="text"
-                    className="w-full border border-emerald-200 rounded-xl px-4 py-2.5 focus:outline-none focus:border-emerald-400 focus:ring-1 focus:ring-emerald-200 text-sm bg-white transition-all duration-200"
+                    className="w-full border border-emerald-200 rounded-xl px-4 py-2.5 focus:outline-none focus:border-emerald-400 focus:ring-2 focus:ring-emerald-200 text-sm bg-white transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
                     placeholder="Escribe tu mensaje o elige una sección arriba..."
                     value={input}
                     onChange={(e) => setInput(e.target.value)}
-                    onKeyDown={(e) => e.key === "Enter" && handleSend()}
+                    onKeyDown={(e) => e.key === "Enter" && !e.shiftKey && handleSend()}
                     disabled={isLoading}
+                    aria-label="Escribe tu mensaje"
                   />
                   {isLoading && (
                     <div className="absolute right-3 top-1/2 transform -translate-y-1/2">
@@ -462,15 +591,28 @@ useEffect(() => {
                 </div>
                 <motion.button
                   onClick={handleSend}
-                  className="bg-gradient-to-br from-emerald-500 to-teal-600 hover:from-emerald-600 hover:to-teal-700 text-white p-2.5 rounded-xl disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 flex-shrink-0"
+                  className="bg-gradient-to-br from-emerald-500 to-teal-600 hover:from-emerald-600 hover:to-teal-700 text-white p-2.5 rounded-xl disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 flex-shrink-0 focus:outline-none focus:ring-2 focus:ring-emerald-300 focus:ring-offset-2"
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
                   disabled={!input.trim() || isLoading}
                   style={{ width: '44px', height: '44px' }}
+                  aria-label="Enviar mensaje"
                 >
                   <Send size={16} />
                 </motion.button>
               </div>
+              
+              {/* Indicador de estado de conexión */}
+              {connectionError && (
+                <motion.div
+                  initial={{ opacity: 0, height: 0 }}
+                  animate={{ opacity: 1, height: 'auto' }}
+                  className="mt-2 text-xs text-amber-600 flex items-center"
+                >
+                  <div className="w-2 h-2 bg-amber-400 rounded-full mr-2"></div>
+                  Reconectando con el servidor...
+                </motion.div>
+              )}
             </div>
           </motion.div>
         )}
