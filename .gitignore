@@ -107,3 +107,39 @@ jspm_packages/
 
 # TernJS port file
 .tern-port
+
+# ==========================================
+# CREDENCIALES Y CONFIGURACIONES SENSIBLAS
+# ==========================================
+
+# Credenciales de servicios (Dialogflow, etc.)
+*-key.json
+*credentials*
+*service-account*
+*private-key*
+
+# Configuraciones específicas del proyecto
+config/
+secrets/
+
+# Archivos de backup
+*.backup
+*.bak
+
+# Archivos temporales
+*.tmp
+*.temp
+
+# Específico para Dialogflow
+dialogflow-key.json
+backend/server/dialogflow-key.json
+
+# Archivos de entorno con claves privadas
+.env.local
+.env.*.local
+*.env.local
+
+# Google Maps y otras APIs
+*-key.json
+*credentials*
+*private-key*
