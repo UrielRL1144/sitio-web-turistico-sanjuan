@@ -53,7 +53,7 @@ Para replicar el entorno de desarrollo localmente, sigue estos pasos:
 
 1.  **Clona este repositorio:**
     ```bash
-    git clone [https://github.com/UrielRL1144/san-juan-tahitic-web.git](https://github.com/UrielRL1144/san-juan-tahitic-web.git)
+    git clone [https://github.com/UrielRL1144/san-juan-tahitic-web.git](https://github.com/UrielRL1144/sitio-web-turistico-sanjuan.git)
     ```
 
 2.  **Instala las dependencias:**
