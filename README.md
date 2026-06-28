@@ -60,3 +60,6 @@ src/
 ├── hooks/            # Lógica personalizada de React
 ├── pages/            # Vistas principales (Inicio, Cultura, Turismo)
 └── styles/           # Configuraciones globales de Tailwind y CSS
+
+<img width="1365" height="689" alt="Captura de pantalla 2026-03-20 093622" src="https://github.com/user-attachments/assets/ad47a4b6-41f0-4513-b1be-95cb6a9df2a0" />
+
